@@ -1,0 +1,13 @@
+# Common
+.vscode
+.DS_Store
+
+# Environments
+.env
+.venv
+
+# mypy
+.mypy_cache/
+
+# ruff
+.ruff_cache

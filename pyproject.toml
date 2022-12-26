@@ -1,0 +1,59 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "pub-analyzer"
+version = "0.1.0"
+description = "Pub Analyzer is a text user interface (TUI), written in python, to generate reports on article publication in an automated way using Open Alex"
+
+authors = ["Alejandro Gaspar <miguel.gaspar03@hotmail.com>"]
+maintainers = ["Alejandro Gaspar <miguel.gaspar03@hotmail.com>"]
+
+readme = "README.md"
+license = "MIT"
+
+packages = [{include = "pub_analyzer"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+textual = "^0.8.0"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^0.991"
+pre-commit = "^2.20.0"
+textual = {extras = ["dev"], version = "^0.8.0"}
+
+[tool.mypy]
+strict = true
+
+[tool.ruff]
+target-version = "py310"
+
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "D",  # pydocstyle
+    "UP", # pyupgrade
+]
+
+extend-select = ["D"]
+extend-ignore = [
+    "D107",
+    "D203",
+    "D212",
+    "D213",
+    "D402",
+    "D413",
+    "D415",
+    "D416",
+    "D417",
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
