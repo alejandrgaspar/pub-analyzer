@@ -1,0 +1,25 @@
+/* COLORS */
+$primary-color: #b91c1c;
+$primary-color-accent: #991b1b;
+$primary-color-highlight: #dc2626;
+
+/* Primary variant */
+Button.-primary {
+    background: $primary-color;
+    color: white;
+    border-top: tall $primary-color-highlight;
+    border-bottom: tall black;
+
+}
+
+Button.-primary:hover {
+    background: $primary-color-accent;
+    color: white;
+    border-top: tall $primary-color-highlight;
+}
+
+Button.-primary.-active {
+    background: $primary-color;
+    border-top: tall $primary-color-highlight;
+    border-bottom: tall black;
+}

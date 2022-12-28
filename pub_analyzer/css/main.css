@@ -1,0 +1,35 @@
+/* COLORS */
+$primary-color: #b91c1c;
+$primary-color-accent: #991b1b;
+$primary-color-highlight: #dc2626;
+
+* {
+    scrollbar-color: $primary-color;
+    scrollbar-color-active: $primary-color-accent;
+
+    transition: background 500ms in_out_cubic, color 500ms in_out_cubic;
+}
+
+Body {
+    layout: horizontal;
+    height: 100%;
+    width: 100%;
+}
+
+Footer {
+    background: $primary-color;
+}
+
+Footer > .footer--highlight {
+    background: $primary-color-accent;
+}
+
+Footer > .footer--highlight-key {
+    background: $primary-color-highlight;
+    text-style: bold;
+}
+
+Footer > .footer--key {
+    text-style: bold;
+    background: $primary-color-accent
+}

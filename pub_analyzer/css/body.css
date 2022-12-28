@@ -1,0 +1,74 @@
+/* COLORS */
+$bg-main-color: white;
+$bg-secondary-color: #e5e7eb;
+$text-primary-color: black;
+
+$bg-main-color-darken: #1e293b;
+$bg-secondary-color-darken: #0f172a;
+$text-primary-color-darken: white;
+
+.body-containers {
+    height: 100%;
+}
+
+
+/* SideBar CSS */
+Body .sidebar {
+    background: $bg-secondary-color;
+    color: $text-primary-color;
+    width: 1fr;
+}
+
+.-dark-mode Body .sidebar {
+    background: $bg-secondary-color-darken;
+    color: $text-primary-color-darken;
+}
+
+SideBar Vertical {
+    margin: 1;
+    padding: 1 2;
+}
+
+SideBar .menu-title {
+    content-align: left middle;
+    text-style: bold;
+    border-bottom: heavy $text-primary-color;
+}
+
+.-dark-mode SideBar .menu-title {
+    border-bottom: heavy $text-primary-color-darken;
+}
+
+SideBar .menu-option {
+    content-align: left middle;
+    margin: 1 1;
+    width: 100%;
+}
+
+
+/* Main Content CSS */
+Body .main-content {
+    background: $bg-main-color;
+    color: $text-primary-color;
+    width: 4fr;
+}
+
+.-dark-mode Body .main-content {
+    background: $bg-main-color-darken;
+    color: $text-primary-color-darken;
+}
+
+Body Vertical {
+    margin: 1;
+    padding: 1 2;
+}
+
+Body .title {
+    content-align: left middle;
+    text-style: bold;
+    border-bottom: heavy $text-primary-color;
+}
+
+.-dark-mode Body .title {
+    border-bottom: heavy $text-primary-color-darken;
+}

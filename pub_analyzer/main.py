@@ -2,17 +2,22 @@
 
 from textual.app import App, ComposeResult
 from textual.dom import DOMNode
-from textual.widgets import Footer, Header
+from textual.reactive import Reactive
+from textual.widgets import Footer
+from widgets.body import Body
 
 
 class PubAnalyzerApp(App[DOMNode]):
-    """A Textual app to manage stopwatches."""
+    """Pub Analyzer App entrypoint."""
 
+    CSS_PATH = ["css/main.css", "css/body.css", "css/buttons.css"]
     BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
+
+    dark: Reactive[bool] = Reactive(False)
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
-        yield Header()
+        yield Body()
         yield Footer()
 
     def action_toggle_dark(self) -> None:

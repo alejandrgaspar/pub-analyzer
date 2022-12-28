@@ -6,6 +6,9 @@
 .env
 .venv
 
+# Python
+__pycache__
+
 # mypy
 .mypy_cache/
 
