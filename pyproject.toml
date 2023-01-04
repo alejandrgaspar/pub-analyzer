@@ -19,6 +19,8 @@ packages = [{include = "pub_analyzer"}]
 python = "^3.10"
 
 textual = "^0.8.0"
+httpx = "^0.23.1"
+pydantic = "^1.10.4"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^0.991"

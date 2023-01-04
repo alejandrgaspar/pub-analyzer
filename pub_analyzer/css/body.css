@@ -58,7 +58,7 @@ Body .main-content {
     color: $text-primary-color-darken;
 }
 
-Body Vertical {
+Body .main-content #main-content-container {
     margin: 1;
     padding: 1 2;
 }
