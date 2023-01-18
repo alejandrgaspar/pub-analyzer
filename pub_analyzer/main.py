@@ -1,10 +1,13 @@
 """Entry Point."""
 
+import webbrowser
+
 from textual.app import App, ComposeResult
 from textual.dom import DOMNode
 from textual.reactive import Reactive
 from textual.widgets import Footer
-from widgets.body import Body
+
+from pub_analyzer.widgets.body import Body
 
 
 class PubAnalyzerApp(App[DOMNode]):
@@ -27,9 +30,8 @@ class PubAnalyzerApp(App[DOMNode]):
     def action_open_link(self, link: str) -> None:
         """Open a link in the browser."""
         self.app.bell()
-        import webbrowser
-
-        webbrowser.open(link)
+        if link:
+            webbrowser.open(link)
 
 
 if __name__ == "__main__":
