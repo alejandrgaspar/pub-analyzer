@@ -72,7 +72,7 @@ class ResearcherFinder(Static):
             asyncio.create_task(self.lookup_researcher(message.value))
         else:
             # Clear the results
-            await self.query("InvestigatorResult").remove()
+            await self.query("ResearcherResult").remove()
 
     async def lookup_researcher(self, name: str) -> None:
         """Looks up a word."""
@@ -82,7 +82,7 @@ class ResearcherFinder(Static):
 
         if name == self.query_one(Input).value:
             # Clear the results
-            await self.query("InvestigatorResult").remove()
+            await self.query("ResearcherResult").remove()
 
             researchers_info = parse_obj_as(list[ResearcherInfo], results)
             for researcher_info in researchers_info:

@@ -8,21 +8,21 @@ $bg-main-color-darken: #1e293b;
 $bg-secondary-color-darken: #0f172a;
 $text-primary-color-darken: black;
 
-InvestigatorFinder Input {
+ResearcherFinder Input {
     width: 100%;
     height: 1;
     padding: 0 1;
     margin: 1 1 0 1;
 }
 
-InvestigatorFinder #results-container {
+ResearcherFinder #results-container {
     overflow: auto;
     margin: 1 2;
     height: auto;
 }
 
 
-InvestigatorResult {
+ResearcherResult {
     height: 9;
     layout: horizontal;
     border: $text-primary-color wide;
@@ -30,11 +30,11 @@ InvestigatorResult {
     background: $bg-secondary-color;
 }
 
-.-dark-mode InvestigatorResult {
+.-dark-mode ResearcherResult {
     color: $text-primary-color-darken;
 }
 
-InvestigatorResult .researcher-name-container {
+ResearcherResult .researcher-name-container {
     height: 100%;
     width: 1fr;
     text-align: center;
@@ -42,27 +42,27 @@ InvestigatorResult .researcher-name-container {
     padding: 0 1;
 }
 
-InvestigatorResult .researcher-name-container:hover {
+ResearcherResult .researcher-name-container:hover {
     transition: background 100ms in_out_cubic, color 100ms in_out_cubic;
     background: $bg-secondary-color-accent;
 }
 
-InvestigatorResult .vertical-content {
+ResearcherResult .vertical-content {
     height: 100%;
     width: 4fr;
     border: black solid;
     padding: 0 1;
 }
 
-InvestigatorResult .main-info-container {
+ResearcherResult .main-info-container {
     height: auto;
     margin-bottom: 1;
 }
 
-InvestigatorResult .main-info-container Static {
+ResearcherResult .main-info-container Static {
     width: 1fr;
 }
 
-InvestigatorResult .researcher-hint {
+ResearcherResult .researcher-hint {
     max-height: 3;
 }
