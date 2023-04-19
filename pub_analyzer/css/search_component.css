@@ -34,7 +34,7 @@ ResearcherResult {
     color: $text-primary-color-darken;
 }
 
-ResearcherResult .researcher-name-container {
+ResearcherResult Button {
     height: 100%;
     width: 1fr;
     text-align: center;
@@ -42,9 +42,8 @@ ResearcherResult .researcher-name-container {
     padding: 0 1;
 }
 
-ResearcherResult .researcher-name-container:hover {
-    transition: background 100ms in_out_cubic, color 100ms in_out_cubic;
-    background: $bg-secondary-color-accent;
+.-dark-mode ResearcherResult Button {
+    background: $bg-secondary-color;
 }
 
 ResearcherResult .vertical-content {

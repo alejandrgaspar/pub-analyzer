@@ -13,7 +13,10 @@ from pub_analyzer.widgets.body import Body
 class PubAnalyzerApp(App[DOMNode]):
     """Pub Analyzer App entrypoint."""
 
-    CSS_PATH = ["css/main.css", "css/body.css", "css/buttons.css", "css/search_component.css"]
+    CSS_PATH = [
+        "css/main.css", "css/body.css", "css/buttons.css", "css/search_component.css",
+        "css/researcher.css"
+    ]
     BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
 
     dark: Reactive[bool] = Reactive(False)
