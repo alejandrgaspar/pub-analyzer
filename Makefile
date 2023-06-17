@@ -5,4 +5,7 @@ format:
 	poetry run ruff pub_analyzer
 
 dev:
-	poerty run textual run --dev pub_analyzer/main.py
+	poetry run textual run --dev pub_analyzer/main.py
+
+console:
+	poetry run textual console
