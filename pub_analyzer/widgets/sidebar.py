@@ -1,8 +1,10 @@
 """Sidebar components and options."""
 from enum import Enum
 
+from textual import on
 from textual.app import ComposeResult
 from textual.containers import Vertical
+from textual.widget import Widget
 from textual.widgets import Button, Static
 
 from pub_analyzer.widgets.search import ResearcherFinder
@@ -17,7 +19,7 @@ class SideBarOptionsName(Enum):
 class SideBar(Static):
     """SideBar Widget."""
 
-    DEFAULT_CLASSES = "body-containers sidebar"
+    DEFAULT_CLASSES = "sidebar"
 
     def compose(self) -> ComposeResult:
         """Compose dynamically the sidebar options."""
@@ -30,14 +32,15 @@ class SideBar(Static):
             classes="options-column"
         )
 
-    async def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Remove old widgets in the main section, evaluate what button from the sidebar was pressed and redirect."""
-        main_content_container = self.app.query_one("#main-content-container")
-        page_title = self.app.query_one("#page-title", Static)
+    async def _replace_main_content(self, new_title: str, new_widget: Widget) -> None:
+        """Delete the old widgets in the main section, update the main title and replace it with the given Widget."""
+        await self.app.query("MainContent *").exclude("#page-title").remove()
 
-        old_widgets = self.app.query("MainContent Vertical *").exclude("#page-title")
-        await old_widgets.remove()
+        self.app.query_one("#page-title", Static).update(new_title)
+        self.app.query_one("MainContent").mount(new_widget)
 
-        if event.button.id == "search-sidebar-button":
-            main_content_container.mount(ResearcherFinder())
-            page_title.renderable = SideBarOptionsName.SEARCH.value
+
+    @on(Button.Pressed, "#search-sidebar-button")
+    async def search(self) -> None:
+        """Load the ResearcherFinder Widget in the main view."""
+        await self._replace_main_content(new_title=SideBarOptionsName.SEARCH.value, new_widget=ResearcherFinder())

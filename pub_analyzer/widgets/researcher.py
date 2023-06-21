@@ -1,12 +1,12 @@
-"""Researcher info module."""
+"""Module with Widgets that allows to display the complete information of a researchers using OpenAlex."""
 
 from urllib.parse import urlparse
 
 import httpx
 from rich.table import Table
 from textual.app import ComposeResult
-from textual.containers import Container, Horizontal, Vertical
-from textual.widgets import Static
+from textual.containers import Container, Horizontal, Vertical, VerticalScroll
+from textual.widgets import Label, LoadingIndicator, Static
 
 from pub_analyzer.models.researcher import ResearcherExtendedInfo, ResearcherInfo
 
@@ -16,99 +16,111 @@ class ResearcherInfoWidget(Static):
 
     def __init__(self, researcher_info: ResearcherInfo) -> None:
         self.researcher_info = researcher_info
+        self.author_info: ResearcherExtendedInfo
         super().__init__()
 
     def compose(self) -> ComposeResult:
-        """Create info container of researcher."""
-        yield Vertical(
-            Static('[bold]Work Info:[/bold]', classes="info-block-title"),
-            Horizontal(
-                Static(f'[bold]Cited by count:[/bold] {self.researcher_info.cited_by_count}'),
-                Static(f'[bold]Works count:[/bold] {self.researcher_info.works_count}'),
-                classes="info-container"
-            ),
-            classes="researcher-block-container"
-        )
+        """Create main info container and showing a loading animation."""
+        yield LoadingIndicator()
+        yield VerticalScroll(id="main-container")
 
-        yield Vertical(
-            Static('[bold]Extended Info:[/bold]', classes="info-block-title"),
-            Container(id="extended-info-container"),
-            classes="researcher-block-container"
-        )
+    def on_mount(self) -> None:
+        """Hiding the empty container and calling the data in the background."""
+        self.query_one("#main-container", VerticalScroll).display = False
+        self.run_worker(self.load_data(), exclusive=True)
 
-    async def refresh_researcher_info(self) -> None:
-        """Get extended info from OpenAlex to render the rest of the information."""
+    async def _get_info(self) -> None:
+        """Query OpenAlex API."""
         author_id = urlparse(self.researcher_info.id).path.rpartition('/')[2]
         url = f"https://api.openalex.org/authors/{author_id}"
 
         async with httpx.AsyncClient() as client:
             results = (await client.get(url)).json()
-            researcher_info = ResearcherExtendedInfo(**results)
+            self.author_info = ResearcherExtendedInfo(**results)
 
-        container = self.app.query_one("#extended-info-container")
+    async def load_data(self) -> None:
+        """Query OpenAlex API and composing the widget."""
+        await self._get_info()
+        container = self.query_one("#main-container", VerticalScroll)
 
         # Last institution
-        if researcher_info.last_known_institution:
-            ror = researcher_info.last_known_institution.ror
-            institution_name = researcher_info.last_known_institution.display_name
+        if self.author_info.last_known_institution:
+            ror = self.author_info.last_known_institution.ror
+            institution_name = self.author_info.last_known_institution.display_name
+            institution_card = Vertical(
+                Label('[italic]Last Institution:[/italic]', classes="card-title"),
 
-            await container.mount(
-                Vertical(
-                    Static('[italic]Last Institution:[/italic]', classes="info-block-title"),
-
-                    Static(f'''[bold]Name:[/bold] [@click="app.open_link('{ror}')"]{institution_name}[/]'''),
-                    Static(f'[bold]Country:[/bold] {researcher_info.last_known_institution.country_code}'),
-                    Static(f'[bold]Type:[/bold] {researcher_info.last_known_institution.type}'),
-                    classes="grid-box",
-                )
+                Label(f'''[bold]Name:[/bold] [@click="app.open_link('{ror}')"]{institution_name}[/]'''),
+                Label(f'[bold]Country:[/bold] {self.author_info.last_known_institution.country_code}'),
+                Label(f'[bold]Type:[/bold] {self.author_info.last_known_institution.type}'),
+                classes="card",
             )
         else:
-            await container.mount(
-                Vertical(
-                    Static('[italic]Last Institution:[/italic]', classes="info-block-title"),
-                    classes="grid-box",
-                )
+            institution_card = Vertical(
+                Label('[italic]Last Institution:[/italic]', classes="block-title"),
+                classes="card",
             )
 
         # External links
-        await container.mount(
-            Vertical(
-                Static('[italic]External Links:[/italic]', classes="info-block-title"),
+        links_card = Vertical(
+            Label('[italic]External Links:[/italic]', classes="card-title"),
 
-                *[
-                    Static(f"""- [@click="app.open_link('{platform_url}')"]{platform}[/]""")
-                    for platform, platform_url in researcher_info.ids.dict().items() if platform_url
-                ],
-                classes="grid-box"
-            )
+            *[
+                Label(f"""- [@click="app.open_link('{platform_url}')"]{platform}[/]""")
+                for platform, platform_url in self.author_info.ids.dict().items() if platform_url
+            ],
+            classes="card"
         )
 
         # Citation metrics
+        metrics_card = Vertical(
+            Label('[italic]Citation metrics:[/italic]', classes="card-title"),
+
+            Label(f'[bold]2-year mean:[/bold] {self.author_info.summary_stats.two_yr_mean_citedness:.5f}'),
+            Label(f'[bold]h-index:[/bold] {self.author_info.summary_stats.h_index}'),
+            Label(f'[bold]i10 index:[/bold] {self.author_info.summary_stats.i10_index}'),
+
+            classes="card"
+        )
+
+        # Compose Cards
         await container.mount(
             Vertical(
-                Static('[italic]Citation metrics:[/italic]', classes="info-block-title"),
+                Label('[bold]Author info:[/bold]', classes="block-title"),
+                Horizontal(
+                    institution_card, links_card, metrics_card,
+                    classes="cards-container"
+                ),
+                classes="block-container"
+            )
+        )
 
-                Static(f'[bold]2-year mean:[/bold] {researcher_info.summary_stats.two_yr_mean_citedness:.5f}'),
-                Static(f'[bold]h-index:[/bold] {researcher_info.summary_stats.h_index}'),
-                Static(f'[bold]i10 index:[/bold] {researcher_info.summary_stats.i10_index}'),
-
-                classes="grid-box"
+        # Work realeted info
+        await container.mount(
+            Vertical(
+                Label('[bold]Work Info:[/bold]', classes="block-title"),
+                Horizontal(
+                    Label(f'[bold]Cited by count:[/bold] {self.author_info.cited_by_count}'),
+                    Label(f'[bold]Works count:[/bold] {self.author_info.works_count}'),
+                    classes="info-container"
+                ),
+                classes="block-container"
             )
         )
 
         # Count by year table section
         table = Table('Year', 'Works Count', 'Cited by Count', title="Counts by Year", expand=True)
-        for row in researcher_info.counts_by_year:
+        for row in self.author_info.counts_by_year:
             year, works_count, cited_by_count = row.dict().values()
             table.add_row(str(year), str(works_count), str(cited_by_count))
 
         await container.mount(
             Container(
                 Static(table),
-                classes="grid-box grid-size-3"
+                classes="table-container"
             )
         )
 
-    def on_mount(self) -> None:
-        """Set things in motion on mount."""
-        self.call_after_refresh(self.refresh_researcher_info)
+        # Show results
+        self.query_one(LoadingIndicator).display = False
+        container.display = True

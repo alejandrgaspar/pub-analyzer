@@ -14,7 +14,7 @@ class PubAnalyzerApp(App[DOMNode]):
     """Pub Analyzer App entrypoint."""
 
     CSS_PATH = [
-        "css/main.css", "css/body.css", "css/buttons.css", "css/search_component.css",
+        "css/main.css", "css/body.css", "css/buttons.css", "css/search.css",
         "css/researcher.css"
     ]
     BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
@@ -27,7 +27,7 @@ class PubAnalyzerApp(App[DOMNode]):
         yield Footer()
 
     def action_toggle_dark(self) -> None:
-        """An action to toggle dark mode."""
+        """Toggle dark mode."""
         self.dark = not self.dark
 
     def action_open_link(self, link: str) -> None:

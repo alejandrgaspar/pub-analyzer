@@ -1,7 +1,6 @@
 """Body components."""
 
 from textual.app import ComposeResult
-from textual.containers import Vertical
 from textual.widgets import Static
 
 from pub_analyzer.widgets.search import ResearcherFinder
@@ -11,7 +10,7 @@ from pub_analyzer.widgets.sidebar import SideBar
 class MainContent(Static):
     """Main content Widget."""
 
-    DEFAULT_CLASSES = "body-containers main-content"
+    DEFAULT_CLASSES = "main-content"
 
     def __init__(self, title: str = "Title") -> None:
         self.title = title
@@ -19,11 +18,8 @@ class MainContent(Static):
 
     def compose(self) -> ComposeResult:
         """Compose dynamically the main content view."""
-        yield Vertical(
-            Static(self.title, classes="title", id="page-title"),
-            ResearcherFinder(),
-            id="main-content-container"
-        )
+        yield Static(self.title, classes="title", id="page-title")
+        yield ResearcherFinder()
 
 class Body(Static):
     """Body App."""

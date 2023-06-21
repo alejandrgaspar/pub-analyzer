@@ -6,17 +6,18 @@ $primary-color-highlight: #dc2626;
 * {
     scrollbar-color: $primary-color;
     scrollbar-color-active: $primary-color-accent;
+    scrollbar-color-hover: $primary-color-highlight;
 
     transition: background 500ms in_out_cubic, color 500ms in_out_cubic;
 }
 
 Body {
     layout: horizontal;
-    height: 100%;
-    width: 100%;
+    height: 1fr;
 }
 
 Footer {
+    dock: bottom;
     background: $primary-color;
 }
 

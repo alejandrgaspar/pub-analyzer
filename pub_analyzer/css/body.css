@@ -7,16 +7,13 @@ $bg-main-color-darken: #1e293b;
 $bg-secondary-color-darken: #0f172a;
 $text-primary-color-darken: white;
 
-.body-containers {
-    height: 100%;
-}
-
-
 /* SideBar CSS */
 Body .sidebar {
+    dock: left;
+    width: 20;
+
     background: $bg-secondary-color;
     color: $text-primary-color;
-    width: 1fr;
 }
 
 .-dark-mode Body .sidebar {
@@ -26,7 +23,7 @@ Body .sidebar {
 
 SideBar Vertical {
     margin: 1;
-    padding: 1 2;
+    padding: 1 1;
 }
 
 SideBar .menu-title {
@@ -41,7 +38,7 @@ SideBar .menu-title {
 
 SideBar .menu-option {
     content-align: left middle;
-    margin: 1 1;
+    margin: 1 0;
     width: 100%;
 }
 
@@ -50,17 +47,14 @@ SideBar .menu-option {
 Body .main-content {
     background: $bg-main-color;
     color: $text-primary-color;
-    width: 4fr;
+
+    padding: 2 1 0 1;
+    height: 100%;
 }
 
 .-dark-mode Body .main-content {
     background: $bg-main-color-darken;
     color: $text-primary-color-darken;
-}
-
-Body .main-content #main-content-container {
-    margin: 1;
-    padding: 1 2;
 }
 
 Body .title {

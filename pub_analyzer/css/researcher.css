@@ -9,8 +9,8 @@ $bg-secondary-color-darken: #0f172a;
 $text-primary-color-darken: black;
 
 ResearcherInfoWidget {
+    height: 1fr;
     margin: 1 2;
-    height: auto;
     border: $text-primary-color wide;
     background: $bg-secondary-color;
 }
@@ -20,45 +20,57 @@ ResearcherInfoWidget {
 }
 
 
-/* Main info Container */
-ResearcherInfoWidget .researcher-block-container {
+/* Main Container */
+ResearcherInfoWidget #main-container{
+    height: 1fr;
+}
+
+/* Block Container */
+ResearcherInfoWidget .block-container {
     padding: 1;
     height: auto;
 }
 
-ResearcherInfoWidget .info-block-title {
+ResearcherInfoWidget .block-title {
     text-align: center;
+    width: 100%;
     border-bottom: solid $text-primary-color;
 }
 
-ResearcherInfoWidget .info-container Static {
+ResearcherInfoWidget .info-container {
+    height: auto;
+}
+
+ResearcherInfoWidget .info-container Label {
     text-align: center;
     width: 1fr;
 }
 
-
-/* Extended info container */
-ResearcherInfoWidget #extended-info-container {
+/* Cards */
+ResearcherInfoWidget .cards-container {
     height: auto;
 
     layout: grid;
-    grid-size: 3 4;
+    grid-size: 3 1;
     grid-rows: 11;
     grid-columns: 1fr;
 }
 
-ResearcherInfoWidget .grid-box {
+ResearcherInfoWidget .card {
     height: 100%;
     padding: 1 2;
     border: solid $text-primary-color;
 }
 
-ResearcherInfoWidget .grid-size-2 {
-    column-span: 2;
+ResearcherInfoWidget .card .card-title {
+    margin: 0 0 1 0;
+    width: 100%;
+    text-align: center;
 }
 
-ResearcherInfoWidget .grid-size-3 {
-    column-span: 3;
-    row-span: 2;
-    align: center middle;
+
+/* Table */
+ResearcherInfoWidget .table-container {
+    height: auto;
+    margin: 1 0 0 0 ;
 }
