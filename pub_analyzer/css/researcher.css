@@ -74,3 +74,9 @@ ResearcherInfoWidget .table-container {
     height: auto;
     margin: 1 0 0 0 ;
 }
+
+
+/* Buttons */
+ResearcherInfoWidget .button-container {
+    align: center middle;
+}

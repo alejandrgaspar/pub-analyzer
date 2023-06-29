@@ -4,11 +4,13 @@ from urllib.parse import urlparse
 
 import httpx
 from rich.table import Table
+from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical, VerticalScroll
-from textual.widgets import Label, LoadingIndicator, Static
+from textual.widgets import Button, Label, LoadingIndicator, Static
 
 from pub_analyzer.models.researcher import ResearcherExtendedInfo, ResearcherInfo
+from pub_analyzer.widgets.report import ReportWidget
 
 
 class ResearcherInfoWidget(Static):
@@ -28,6 +30,14 @@ class ResearcherInfoWidget(Static):
         """Hiding the empty container and calling the data in the background."""
         self.query_one("#main-container", VerticalScroll).display = False
         self.run_worker(self.load_data(), exclusive=True)
+
+    @on(Button.Pressed, "#make-report-button")
+    async def make_report(self) -> None:
+        """Make the investigator's report."""
+        report_widget = ReportWidget(author=self.author_info, works_api_url=self.author_info.works_api_url)
+
+        await self.app.query_one("MainContent").mount(report_widget)
+        await self.app.query_one("ResearcherInfoWidget").remove()
 
     async def _get_info(self) -> None:
         """Query OpenAlex API."""
@@ -118,6 +128,14 @@ class ResearcherInfoWidget(Static):
             Container(
                 Static(table),
                 classes="table-container"
+            )
+        )
+
+        # Report Button
+        await container.mount(
+            Vertical(
+                Button("Make Report", variant="primary", id="make-report-button"),
+                classes="block-container button-container"
             )
         )
 

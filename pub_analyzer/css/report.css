@@ -1,0 +1,21 @@
+/* COLORS */
+$bg-main-color: white;
+$bg-secondary-color: #e5e7eb;
+$bg-secondary-color-accent: #d1d5db;
+$text-primary-color: black;
+
+$bg-main-color-darken: #1e293b;
+$bg-secondary-color-darken: #0f172a;
+$text-primary-color-darken: black;
+
+
+ReportWidget {
+    height: 1fr;
+    margin: 1 2;
+    border: $text-primary-color wide;
+    background: black;
+}
+
+.-dark-mode ReportWidget {
+    color: $text-primary-color-darken;
+}
