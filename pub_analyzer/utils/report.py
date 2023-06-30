@@ -45,7 +45,7 @@ async def make_report(author: Author) -> Report:
     url = f"https://api.openalex.org/works?filter=author.id:{author_id}"
 
     async with httpx.AsyncClient() as client:
-        # Getting all the author's works.
+        # Getting all the author works.
         author_works = await _get_works(client, url)
 
         # Getting all works that have cited the author.

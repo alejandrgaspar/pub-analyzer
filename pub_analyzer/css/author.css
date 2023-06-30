@@ -8,46 +8,46 @@ $bg-main-color-darken: #1e293b;
 $bg-secondary-color-darken: #0f172a;
 $text-primary-color-darken: black;
 
-ResearcherInfoWidget {
+AuthorResumeWidget {
     height: 1fr;
     margin: 1 2;
     border: $text-primary-color wide;
     background: $bg-secondary-color;
 }
 
-.-dark-mode ResearcherInfoWidget {
+.-dark-mode AuthorResumeWidget {
     color: $text-primary-color-darken;
 }
 
 
 /* Main Container */
-ResearcherInfoWidget #main-container{
+AuthorResumeWidget #main-container{
     height: 1fr;
 }
 
 /* Block Container */
-ResearcherInfoWidget .block-container {
+AuthorResumeWidget .block-container {
     padding: 1;
     height: auto;
 }
 
-ResearcherInfoWidget .block-title {
+AuthorResumeWidget .block-title {
     text-align: center;
     width: 100%;
     border-bottom: solid $text-primary-color;
 }
 
-ResearcherInfoWidget .info-container {
+AuthorResumeWidget .info-container {
     height: auto;
 }
 
-ResearcherInfoWidget .info-container Label {
+AuthorResumeWidget .info-container Label {
     text-align: center;
     width: 1fr;
 }
 
 /* Cards */
-ResearcherInfoWidget .cards-container {
+AuthorResumeWidget .cards-container {
     height: auto;
 
     layout: grid;
@@ -56,13 +56,13 @@ ResearcherInfoWidget .cards-container {
     grid-columns: 1fr;
 }
 
-ResearcherInfoWidget .card {
+AuthorResumeWidget .card {
     height: 100%;
     padding: 1 2;
     border: solid $text-primary-color;
 }
 
-ResearcherInfoWidget .card .card-title {
+AuthorResumeWidget .card .card-title {
     margin: 0 0 1 0;
     width: 100%;
     text-align: center;
@@ -70,13 +70,13 @@ ResearcherInfoWidget .card .card-title {
 
 
 /* Table */
-ResearcherInfoWidget .table-container {
+AuthorResumeWidget .table-container {
     height: auto;
     margin: 1 0 0 0 ;
 }
 
 
 /* Buttons */
-ResearcherInfoWidget .button-container {
+AuthorResumeWidget .button-container {
     align: center middle;
 }

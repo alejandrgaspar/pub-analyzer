@@ -3,7 +3,7 @@
 from textual.app import ComposeResult
 from textual.widgets import Static
 
-from pub_analyzer.widgets.search import ResearcherFinder
+from pub_analyzer.widgets.search import AuthorFinderWidget
 from pub_analyzer.widgets.sidebar import SideBar
 
 
@@ -19,7 +19,7 @@ class MainContent(Static):
     def compose(self) -> ComposeResult:
         """Compose dynamically the main content view."""
         yield Static(self.title, classes="title", id="page-title")
-        yield ResearcherFinder()
+        yield AuthorFinderWidget()
 
 class Body(Static):
     """Body App."""

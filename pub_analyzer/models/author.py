@@ -1,4 +1,4 @@
-"""Researchers models."""
+"""Authors models."""
 
 from pydantic import BaseModel, Field, HttpUrl, validator
 
@@ -6,7 +6,7 @@ from pub_analyzer.models.institution import DehydratedInstitution
 
 
 class AuthorIDs(BaseModel):
-    """IDs from a Researcher."""
+    """IDs from an Author."""
 
     openalex: str
     orcid: str | None = ""

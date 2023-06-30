@@ -1,4 +1,4 @@
-"""Module that allows searching for researchers using OpenAlex."""
+"""Module that allows searching for authors using OpenAlex."""
 
 import httpx
 from pydantic import TypeAdapter
@@ -7,56 +7,56 @@ from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, Input, Static
 
 from pub_analyzer.models.author import AuthorResult
-from pub_analyzer.widgets.researcher import ResearcherInfoWidget
+from pub_analyzer.widgets.author import AuthorResumeWidget
 
 
-class ResearcherResult(Static):
-    """Researcher info widget."""
+class AuthorResultWidget(Static):
+    """Author result widget."""
 
-    def __init__(self, researcher_info: AuthorResult) -> None:
-        self.researcher_info = researcher_info
+    def __init__(self, author_result: AuthorResult) -> None:
+        self.author_result = author_result
         super().__init__()
 
     def compose(self) -> ComposeResult:
-        """Compose researcher info widget."""
-        yield Button(label=self.researcher_info.display_name)
+        """Compose Author result widget."""
+        yield Button(label=self.author_result.display_name)
         with Vertical(classes="vertical-content"):
             # Main info
             with Horizontal(classes="main-info-container"):
-                yield Static(f'[bold]Cited by count:[/bold] {self.researcher_info.cited_by_count}')
-                yield Static(f'[bold]Works count:[/bold] {self.researcher_info.works_count}')
-                yield Static(f"""[@click="app.open_link('{self.researcher_info.external_id}')"]ORCID[/]""")
+                yield Static(f'[bold]Cited by count:[/bold] {self.author_result.cited_by_count}')
+                yield Static(f'[bold]Works count:[/bold] {self.author_result.works_count}')
+                yield Static(f"""[@click="app.open_link('{self.author_result.external_id}')"]ORCID[/]""")
 
-            # Author's hint
-            yield Static(self.researcher_info.hint or "", classes="researcher-hint")
+            # Author hint
+            yield Static(self.author_result.hint or "", classes="author-hint")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Go to the researcher information page."""
-        researcher_info_widget = ResearcherInfoWidget(researcher_info=self.researcher_info)
+        """Go to the Author resume page."""
+        author_resume_widget = AuthorResumeWidget(author_result=self.author_result)
 
-        self.app.query_one("#page-title", Static).update(self.researcher_info.display_name)
-        self.app.query_one("MainContent").mount(researcher_info_widget)
-        self.app.query_one("ResearcherFinder").remove()
+        self.app.query_one("#page-title", Static).update(self.author_result.display_name)
+        self.app.query_one("MainContent").mount(author_resume_widget)
+        self.app.query_one(AuthorFinderWidget).remove()
 
 
-class ResearcherFinder(Static):
-    """Searches in Open Alex API as-you-type."""
+class AuthorFinderWidget(Static):
+    """Searches Author in Open Alex API as-you-type."""
 
     def compose(self) -> ComposeResult:
         """Generate an input field and displays the results."""
-        yield Input(placeholder="Search for an researcher by name")
+        yield Input(placeholder="Search for an author by name")
         yield VerticalScroll(id="results-container")
 
     async def on_input_changed(self, message: Input.Changed) -> None:
         """Coroutine to handle a text changed message."""
         if message.value:
-            # Look up the researcher in the background
-            self.run_worker(self.lookup_researcher(message.value), exclusive=True)
+            # Look up the author in the background
+            self.run_worker(self.lookup_author(message.value), exclusive=True)
         else:
             # Clear the results
-            await self.query("ResearcherResult").remove()
+            await self.query(AuthorResultWidget).remove()
 
-    async def lookup_researcher(self, name: str) -> None:
+    async def lookup_author(self, name: str) -> None:
         """Use the OpenAlex api we look for the name entered by the user in the search box."""
         url = f"https://api.openalex.org/autocomplete/authors?q={name}&author_hint=institution"
         async with httpx.AsyncClient() as client:
@@ -64,8 +64,8 @@ class ResearcherFinder(Static):
 
         if name == self.query_one(Input).value:
             # Clear the results
-            await self.query("ResearcherResult").remove()
+            await self.query(AuthorResultWidget).remove()
 
-            researchers_info: list[AuthorResult] = TypeAdapter(list[AuthorResult]).validate_python(results)
-            for researcher_info in researchers_info:
-                await self.query_one("#results-container").mount(ResearcherResult(researcher_info=researcher_info))
+            authors_results: list[AuthorResult] = TypeAdapter(list[AuthorResult]).validate_python(results)
+            for author_result in authors_results:
+                await self.query_one("#results-container").mount(AuthorResultWidget(author_result=author_result))

@@ -7,7 +7,7 @@ from textual.containers import Vertical
 from textual.widget import Widget
 from textual.widgets import Button, Static
 
-from pub_analyzer.widgets.search import ResearcherFinder
+from pub_analyzer.widgets.search import AuthorFinderWidget
 
 
 class SideBarOptionsName(Enum):
@@ -42,5 +42,5 @@ class SideBar(Static):
 
     @on(Button.Pressed, "#search-sidebar-button")
     async def search(self) -> None:
-        """Load the ResearcherFinder Widget in the main view."""
-        await self._replace_main_content(new_title=SideBarOptionsName.SEARCH.value, new_widget=ResearcherFinder())
+        """Load the AuthorFinderWidget in the main view."""
+        await self._replace_main_content(new_title=SideBarOptionsName.SEARCH.value, new_widget=AuthorFinderWidget())
