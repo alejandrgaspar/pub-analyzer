@@ -4,6 +4,8 @@ from enum import StrEnum
 
 from pydantic import BaseModel, HttpUrl
 
+from pub_analyzer.models.author import DehydratedAuthor
+
 
 class WorkIDs(BaseModel):
     """IDs from a Work."""
@@ -23,7 +25,6 @@ class WorkDrivenVersion(StrEnum):
     published = "publishedVersion"
 
 
-
 class Location(BaseModel):
     """Describes the location of a given work."""
 
@@ -35,7 +36,7 @@ class Location(BaseModel):
 
 
 class OpenAccessStatus(StrEnum):
-    """The Open Access (OA) status of this work.."""
+    """The Open Access (OA) status of this work."""
 
     gold = "gold"
     green = "green"
@@ -53,23 +54,15 @@ class WorkAccessInfo(BaseModel):
     any_repository_has_fulltext: bool
 
 
-class Author(BaseModel):
-    """Dehydrated Author Object."""
-
-    id: HttpUrl
-    display_name: str | None = None
-    orcid: HttpUrl | None = None
-
-
 class Authorship(BaseModel):
     """Information of author and her institutional affiliations in the context of work."""
 
     author_position: str
-    author: Author
+    author: DehydratedAuthor
 
 
-class WorkInfo(BaseModel):
-    """Information DictType from a Work resulting from a search in OpenAlex."""
+class Work(BaseModel):
+    """Work Model Object from OpenAlex API definition."""
 
     id: HttpUrl
     ids: WorkIDs

@@ -6,14 +6,14 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, Input, Static
 
-from pub_analyzer.models.researcher import ResearcherInfo
+from pub_analyzer.models.author import AuthorResult
 from pub_analyzer.widgets.researcher import ResearcherInfoWidget
 
 
 class ResearcherResult(Static):
     """Researcher info widget."""
 
-    def __init__(self, researcher_info: ResearcherInfo) -> None:
+    def __init__(self, researcher_info: AuthorResult) -> None:
         self.researcher_info = researcher_info
         super().__init__()
 
@@ -66,6 +66,6 @@ class ResearcherFinder(Static):
             # Clear the results
             await self.query("ResearcherResult").remove()
 
-            researchers_info: list[ResearcherInfo] = TypeAdapter(list[ResearcherInfo]).validate_python(results)
+            researchers_info: list[AuthorResult] = TypeAdapter(list[AuthorResult]).validate_python(results)
             for researcher_info in researchers_info:
                 await self.query_one("#results-container").mount(ResearcherResult(researcher_info=researcher_info))

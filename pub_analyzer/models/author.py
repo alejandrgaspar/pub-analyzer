@@ -1,0 +1,93 @@
+"""Researchers models."""
+
+from pydantic import BaseModel, Field, HttpUrl, validator
+
+from pub_analyzer.models.institution import DehydratedInstitution
+
+
+class AuthorIDs(BaseModel):
+    """IDs from a Researcher."""
+
+    openalex: str
+    orcid: str | None = ""
+    mag: str | None = ""
+    scopus: str | None = ""
+    twitter: str | None = ""
+    wikipedia: str | None = ""
+
+    class Config:
+        """Allowing a value to be assigned during validation."""
+
+        validate_assignment = True
+
+    @validator("mag", "scopus", "twitter", "wikipedia")
+    def set_default(cls, value: str) -> str:
+        """Define a default text."""
+        return value or ""
+
+
+class AuthorYearCount(BaseModel):
+    """Summary of published papers and number of citations in a year."""
+
+    year: int
+    works_count: int
+    cited_by_count: int
+
+
+class AuthorSummaryStats(BaseModel):
+    """Citation metrics for this author."""
+
+    two_yr_mean_citedness: float = Field(..., alias="2yr_mean_citedness")
+    h_index: int
+    i10_index: int
+
+
+class Author(BaseModel):
+    """Author Model Object from OpenAlex API definition."""
+
+    id: HttpUrl
+    ids: AuthorIDs
+    orcid: str | None = ""
+
+    display_name: str
+    display_name_alternatives: list[str]
+
+    works_count: int
+    cited_by_count: int
+
+    last_known_institution: DehydratedInstitution | None
+    counts_by_year: list[AuthorYearCount]
+
+    summary_stats: AuthorSummaryStats
+
+    works_api_url: str
+
+
+class DehydratedAuthor(BaseModel):
+    """Stripped-down Author Model."""
+
+    id: HttpUrl
+    display_name: str | None = None
+    orcid: HttpUrl | None = None
+
+
+class AuthorResult(BaseModel):
+    """Author result Model resulting from a search in OpenAlex."""
+
+    id: HttpUrl
+    display_name: str
+    hint: str | None = ""
+    cited_by_count: int
+    works_count: int
+    entity_type: str
+    external_id: str | None = ""
+
+    class Config:
+        """Allowing a value to be assigned during validation."""
+
+        validate_assignment = True
+
+    @validator("hint", "external_id")
+    def set_default(cls, value: str) -> str:
+        """Define a default text."""
+        return value or ""

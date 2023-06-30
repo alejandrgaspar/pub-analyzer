@@ -4,14 +4,14 @@ from textual.app import ComposeResult
 from textual.containers import VerticalScroll
 from textual.widgets import LoadingIndicator, Pretty, Static
 
-from pub_analyzer.models.researcher import ResearcherExtendedInfo
+from pub_analyzer.models.author import Author
 from pub_analyzer.utils.report import make_report
 
 
 class ReportWidget(Static):
     """Report generator view."""
 
-    def __init__(self, author: ResearcherExtendedInfo, works_api_url: str) -> None:
+    def __init__(self, author: Author, works_api_url: str) -> None:
         self.works_api_url = works_api_url
         self.author = author
 

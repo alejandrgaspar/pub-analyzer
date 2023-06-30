@@ -1,7 +1,5 @@
 """Module with Widgets that allows to display the complete information of a researchers using OpenAlex."""
 
-from urllib.parse import urlparse
-
 import httpx
 from rich.table import Table
 from textual import on
@@ -9,16 +7,17 @@ from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, Label, LoadingIndicator, Static
 
-from pub_analyzer.models.researcher import ResearcherExtendedInfo, ResearcherInfo
+from pub_analyzer.models.author import Author, AuthorResult
+from pub_analyzer.utils.identifier import get_author_id
 from pub_analyzer.widgets.report import ReportWidget
 
 
 class ResearcherInfoWidget(Static):
     """Extended info of researcher."""
 
-    def __init__(self, researcher_info: ResearcherInfo) -> None:
+    def __init__(self, researcher_info: AuthorResult) -> None:
         self.researcher_info = researcher_info
-        self.author_info: ResearcherExtendedInfo
+        self.author_info: Author
         super().__init__()
 
     def compose(self) -> ComposeResult:
@@ -41,12 +40,12 @@ class ResearcherInfoWidget(Static):
 
     async def _get_info(self) -> None:
         """Query OpenAlex API."""
-        author_id = urlparse(self.researcher_info.id).path.rpartition('/')[2]
+        author_id = get_author_id(self.researcher_info)
         url = f"https://api.openalex.org/authors/{author_id}"
 
         async with httpx.AsyncClient() as client:
             results = (await client.get(url)).json()
-            self.author_info = ResearcherExtendedInfo(**results)
+            self.author_info = Author(**results)
 
     async def load_data(self) -> None:
         """Query OpenAlex API and composing the widget."""

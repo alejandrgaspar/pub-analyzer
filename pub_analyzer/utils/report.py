@@ -1,14 +1,13 @@
 """Functions to make author reports."""
 
 import math
-from urllib.parse import urlparse
 
 import httpx
 from pydantic import TypeAdapter
 
+from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import CitationReport, CitationType, Report, WorkReport
-from pub_analyzer.models.researcher import ResearcherExtendedInfo
-from pub_analyzer.models.work import Authorship, WorkInfo
+from pub_analyzer.models.work import Authorship, Work
 from pub_analyzer.utils.identifier import get_author_id, get_work_id
 
 
@@ -25,7 +24,7 @@ def _get_citation_type(original_work_authors: list[str], cited_work_authors: lis
     return CitationType.TypeA if not original_set.intersection(cited_set) else CitationType.TypeB
 
 
-async def _get_works(client: httpx.AsyncClient, url: str) -> list[WorkInfo]:
+async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     """Pass."""
     response = (await client.get(url=url)).json()
     meta_info = response["meta"]
@@ -37,12 +36,12 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[WorkInfo]:
         page_result = (await client.get(url + f"?page={page_number + 1}")).json()
         works_data.extend(page_result["results"])
 
-    return TypeAdapter(list[WorkInfo]).validate_python(works_data)
+    return TypeAdapter(list[Work]).validate_python(works_data)
 
 
-async def make_report(author: ResearcherExtendedInfo) -> Report:
+async def make_report(author: Author) -> Report:
     """Make a citation report using an Author's OpenAlex ID."""
-    author_id = urlparse(author.id).path.rpartition('/')[2]
+    author_id = get_author_id(author)
     url = f"https://api.openalex.org/works?filter=author.id:{author_id}"
 
     async with httpx.AsyncClient() as client:
