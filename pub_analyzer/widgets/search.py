@@ -1,7 +1,7 @@
 """Module that allows searching for researchers using OpenAlex."""
 
 import httpx
-from pydantic import parse_obj_as
+from pydantic import TypeAdapter
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, Input, Static
@@ -66,6 +66,6 @@ class ResearcherFinder(Static):
             # Clear the results
             await self.query("ResearcherResult").remove()
 
-            researchers_info = parse_obj_as(list[ResearcherInfo], results)
+            researchers_info: list[ResearcherInfo] = TypeAdapter(list[ResearcherInfo]).validate_python(results)
             for researcher_info in researchers_info:
                 await self.query_one("#results-container").mount(ResearcherResult(researcher_info=researcher_info))
