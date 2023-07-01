@@ -33,7 +33,7 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     works_data = list(response["results"],)
 
     for page_number in range(1, page_count):
-        page_result = (await client.get(url + f"?page={page_number + 1}")).json()
+        page_result = (await client.get(url + f"&page={page_number + 1}")).json()
         works_data.extend(page_result["results"])
 
     return TypeAdapter(list[Work]).validate_python(works_data)
@@ -42,7 +42,7 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
 async def make_report(author: Author) -> Report:
     """Make a citation report using an Author's OpenAlex ID."""
     author_id = get_author_id(author)
-    url = f"https://api.openalex.org/works?filter=author.id:{author_id}"
+    url = f"https://api.openalex.org/works?filter=author.id:{author_id}&sort=publication_date"
 
     async with httpx.AsyncClient() as client:
         # Getting all the author works.
