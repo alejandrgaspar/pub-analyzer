@@ -1,0 +1,18 @@
+/* COLORS */
+$primary-color: #b91c1c;
+$primary-color-accent: #991b1b;
+$primary-color-highlight: #dc2626;
+
+
+/* Tab */
+Tabs:focus .underline--bar {
+    background: black 20%;
+}
+
+.-dark-mode Tabs:focus .underline--bar {
+    background: black 30%;
+}
+
+Tabs Underline > .underline--bar {
+    color: $primary-color;
+}

@@ -12,10 +12,17 @@ $text-primary-color-darken: black;
 ReportWidget {
     height: 1fr;
     margin: 1 2;
-    border: $text-primary-color wide;
-    background: black;
 }
 
 .-dark-mode ReportWidget {
+    background: $bg-secondary-color;
     color: $text-primary-color-darken;
+}
+
+ReportWidget #main-container {
+    height: 100%;
+}
+
+ContentSwitcher {
+    height: 1fr;
 }
