@@ -2,8 +2,10 @@
 
 import httpx
 from pydantic import TypeAdapter
+from textual import on
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
+from textual.events import Key
 from textual.widgets import Button, Input, Static
 
 from pub_analyzer.models.author import AuthorResult
@@ -39,12 +41,22 @@ class AuthorResultWidget(Static):
         self.app.query_one(AuthorFinderWidget).remove()
 
 
+class AuthorSearchBar(Input):
+    """SearchBar."""
+
+    @on(Key)
+    def exit_modal(self, message: Key) -> None:
+        """Unfocus from the input with esc KEY."""
+        if message.key == 'escape':
+            self.screen.set_focus(None)
+
+
 class AuthorFinderWidget(Static):
     """Searches Author in Open Alex API as-you-type."""
 
     def compose(self) -> ComposeResult:
         """Generate an input field and displays the results."""
-        yield Input(placeholder="Search for an author by name")
+        yield AuthorSearchBar(placeholder="Search for an author by name")
         yield VerticalScroll(id="results-container")
 
     async def on_input_changed(self, message: Input.Changed) -> None:
