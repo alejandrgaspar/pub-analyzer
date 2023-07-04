@@ -53,7 +53,7 @@ async def make_report(author: Author) -> Report:
         for author_work in author_works:
             work_id = get_work_id(author_work)
             work_authors = _get_authors_list(authorships=author_work.authorships)
-            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}"
+            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}&sort=publication_date"
 
             cited_by_works = await _get_works(client, cited_by_api_url)
 

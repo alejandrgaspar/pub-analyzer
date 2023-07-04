@@ -26,3 +26,64 @@ ReportWidget #main-container {
 ContentSwitcher {
     height: 1fr;
 }
+
+
+/* Work Resume */
+WorkResume {
+    background: rgba(229, 231, 235, 0.5);
+    align: center middle;
+}
+
+WorkResume #dialog {
+    background: $bg-main-color;
+    height: 100%;
+    width: 100%;
+
+    margin: 3 10;
+    border: $bg-secondary-color;
+}
+
+.-dark-mode WorkResume #dialog {
+    background: $bg-secondary-color;
+    color: $text-primary-color-darken;
+}
+
+WorkResume #dialog .dialog-title {
+    height: 3;
+    width: 100%;
+    margin: 1;
+
+    text-align: center;
+    border-bottom: solid $text-primary-color;
+}
+
+WorkResume #dialog .cards-container {
+    height: auto;
+    width: 100%;
+    padding: 0 2;
+
+    layout: grid;
+    grid-size: 3 1;
+    grid-rows: 15;
+    grid-columns: 1fr;
+    grid-gutter: 1 2;
+}
+
+WorkResume #dialog .card {
+    height: 100%;
+    padding: 1 2;
+    border: solid $text-primary-color;
+    background: $bg-secondary-color;
+}
+
+WorkResume #dialog .card .card-title {
+    margin: 0 0 1 0;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid $text-primary-color;
+}
+
+WorkResume #dialog #citations-table {
+    height: auto;
+    padding: 1 2 0 2;
+}

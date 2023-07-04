@@ -1,6 +1,6 @@
 """Report Structure Objects."""
 
-from enum import IntEnum
+from enum import Enum
 
 from pydantic import BaseModel
 
@@ -8,7 +8,7 @@ from pub_analyzer.models.author import Author
 from pub_analyzer.models.work import Work
 
 
-class CitationType(IntEnum):
+class CitationType(Enum):
     """Citation type Work."""
 
     TypeA = 0
