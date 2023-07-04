@@ -24,13 +24,22 @@ class SideBar(Static):
     def compose(self) -> ComposeResult:
         """Compose dynamically the sidebar options."""
         yield Vertical(
-            Static("Menu", classes="menu-title"),
+            Static("Menu", id="sidebar-title"),
             Button(
                 SideBarOptionsName.SEARCH.value,
-                id="search-sidebar-button", variant="primary", classes="menu-option"
+                id="search-sidebar-button", variant="primary", classes="sidebar-option"
             ),
-            classes="options-column"
+            classes="sidebar-options-column"
         )
+
+    def toggle(self) -> None:
+        """Show/Hide Sidebar."""
+        if self.has_class("-hidden"):
+            self.remove_class("-hidden")
+        else:
+            if self.query("*:focus"):
+                self.screen.set_focus(None)
+            self.add_class("-hidden")
 
     async def _replace_main_content(self, new_title: str, new_widget: Widget) -> None:
         """Delete the old widgets in the main section, update the main title and replace it with the given Widget."""

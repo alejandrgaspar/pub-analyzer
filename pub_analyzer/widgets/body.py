@@ -21,6 +21,7 @@ class MainContent(Static):
         yield Static(self.title, classes="title", id="page-title")
         yield AuthorFinderWidget()
 
+
 class Body(Static):
     """Body App."""
 

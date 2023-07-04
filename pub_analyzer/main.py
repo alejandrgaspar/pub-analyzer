@@ -8,6 +8,7 @@ from textual.reactive import Reactive
 from textual.widgets import Footer
 
 from pub_analyzer.widgets.body import Body
+from pub_analyzer.widgets.sidebar import SideBar
 
 
 class PubAnalyzerApp(App[DOMNode]):
@@ -17,7 +18,10 @@ class PubAnalyzerApp(App[DOMNode]):
         "css/main.css", "css/body.css", "css/buttons.css", "css/tabs.css",
         "css/search.css", "css/author.css", "css/report.css"
     ]
-    BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
+    BINDINGS = [
+        ("ctrl+d", "toggle_dark", "Dark mode"),
+        ("ctrl+s", "toggle_sidebar", "Sidebar"),
+    ]
 
     dark: Reactive[bool] = Reactive(False)
 
@@ -29,6 +33,13 @@ class PubAnalyzerApp(App[DOMNode]):
     def action_toggle_dark(self) -> None:
         """Toggle dark mode."""
         self.dark = not self.dark
+
+    def action_toggle_sidebar(self) -> None:
+        """Toggle sidebar."""
+        self.set_focus(None)
+
+        sidebar = self.query_one(SideBar)
+        sidebar.toggle()
 
     def action_open_link(self, link: str) -> None:
         """Open a link in the browser."""
