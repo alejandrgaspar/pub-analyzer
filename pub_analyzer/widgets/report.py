@@ -63,8 +63,8 @@ class WorkResume(Screen[None]):
                     yield Label('[italic]Citation[/italic]', classes='card-title')
 
                     yield Label(f'[bold]Count:[/bold] {self.work_report.work.cited_by_count}')
-                    yield Label('[bold]Type A:[/bold] [b s]TODO[/ b s]')
-                    yield Label('[bold]Type B:[/bold] [b s]TODO[/ b s]')
+                    yield Label(f'[bold]Type A:[/bold] {self.work_report.citation_resume.type_a_count}')
+                    yield Label(f'[bold]Type B:[/bold] {self.work_report.citation_resume.type_b_count}')
 
             # Citations Table
             citations_table = Table(title='Cited By', expand=True, show_lines=True)
