@@ -93,6 +93,7 @@ class CitedByTable(Static):
         citations_table.add_column('', justify='center', vertical='middle')
         citations_table.add_column('Title', ratio=3)
         citations_table.add_column('Type', ratio=2)
+        citations_table.add_column('DOI')
         citations_table.add_column('Cite Type', justify='center')
         citations_table.add_column('Publication Date')
         citations_table.add_column('Cited by count')
@@ -106,10 +107,14 @@ class CitedByTable(Static):
             ct_value = cited_by_work.citation_type
             citation_type = f"[#909d63]{ct_value.name}[/]" if ct_value is CitationType.TypeA else f"[#bc5653]{ct_value.name}[/]"  # noqa: E501
 
+            doi = work.ids.doi
+            doi_url = f"""[@click="app.open_link('{doi}')"]DOI[/]""" if doi else "-"
+
             citations_table.add_row(
                 str(idx),
                 Text.from_markup(title, overflow='ellipsis'),
                 work.type,
+                Text.from_markup(doi_url, overflow='ellipsis'),
                 citation_type,
                 work.publication_date,
                 str(work.cited_by_count)
@@ -229,15 +234,20 @@ class WorksTable(Static):
         work_table.add_column('', justify='center', vertical='middle')
         work_table.add_column('Title', ratio=3)
         work_table.add_column('Type', ratio=2)
+        work_table.add_column('DOI')
         work_table.add_column('Publication Date')
         work_table.add_column('Cited by count')
 
         for idx, work_report in enumerate(self.report.works):
             work = work_report.work
+            doi = work.ids.doi
+            doi_url = f"""[@click="app.open_link('{doi}')"]DOI[/]""" if doi else "-"
+
             work_table.add_row(
                 str(f"""[@click=open_work_details({idx})]{idx}[/]"""),
                 Text(work.title, overflow='ellipsis'),
                 Text(work.type),
+                Text.from_markup(doi_url, overflow='ellipsis'),
                 Text(work.publication_date),
                 str(work.cited_by_count)
             )
@@ -262,5 +272,28 @@ class WorkReportPane(VerticalScroll):
 
     def compose(self) -> ComposeResult:
         """Compose content pane."""
-        yield Label("Works")
+        with Horizontal(classes="cards-container"):
+            # TODO: Global Citation Card
+            with Card():
+                yield Label('[italic]Citation[/italic]', classes='card-title')
+                with VerticalScroll(classes='card-container'):
+                    yield Label(f'[bold]Count:[/bold] {self.report.author.cited_by_count}')
+                    yield Label('[bold]Type A:[/bold] [s b]TODO[/]')
+                    yield Label('[bold]Type B:[/bold] [s b]TODO[/]')
+
+            # TODO: Work Type Counter
+            with Card():
+                yield Label('[italic]Work Type[/italic]', classes='card-title')
+                with VerticalScroll(classes='card-container'):
+                    yield Label('[bold]journal-article:[/bold] [s b]TODO[/]')
+                    yield Label('[bold]book-section:[/bold] [s b]TODO[/]')
+
+            # TODO: Open Access Counter
+            with Card():
+                yield Label('[italic]Open Access[/italic]', classes='card-title')
+                with VerticalScroll(classes='card-container'):
+                    yield Label('[bold]gold:[/bold] [s b]TODO[/]')
+                    yield Label('[bold]hybrid:[/bold] [s b]TODO[/]')
+                    yield Label('[bold]closed:[/bold] [s b]TODO[/]')
+
         yield WorksTable(report=self.report)
