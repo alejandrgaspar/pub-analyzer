@@ -9,7 +9,7 @@ from textual.events import Key
 from textual.widgets import Button, Input, Static
 
 from pub_analyzer.models.author import AuthorResult
-from pub_analyzer.widgets.author import AuthorResumeWidget
+from pub_analyzer.widgets.author.core import AuthorResumeWidget
 
 
 class AuthorResultWidget(Static):

@@ -56,19 +56,6 @@ AuthorResumeWidget .cards-container {
     grid-columns: 1fr;
 }
 
-AuthorResumeWidget .card {
-    height: 100%;
-    padding: 1 2;
-    border: solid $text-primary-color;
-}
-
-AuthorResumeWidget .card .card-title {
-    margin: 0 0 1 0;
-    width: 100%;
-    text-align: center;
-}
-
-
 /* Table */
 AuthorResumeWidget .table-container {
     height: auto;

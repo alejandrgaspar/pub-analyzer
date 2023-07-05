@@ -1,7 +1,6 @@
 """Module with Widgets that allows to display the complete information of an Author using OpenAlex."""
 
 import httpx
-from rich.table import Table
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical, VerticalScroll
@@ -10,6 +9,9 @@ from textual.widgets import Button, Label, LoadingIndicator, Static
 from pub_analyzer.models.author import Author, AuthorResult
 from pub_analyzer.utils.identifier import get_author_id
 from pub_analyzer.widgets.report.core import ReportWidget
+
+from .cards import CitationMetricsCard, IdentifiersCard, LastInstitutionCard
+from .tables import AuthorWorksByYearTable
 
 
 class AuthorResumeWidget(Static):
@@ -52,52 +54,14 @@ class AuthorResumeWidget(Static):
         await self._get_info()
         container = self.query_one("#main-container", VerticalScroll)
 
-        # Last institution
-        if self.author.last_known_institution:
-            ror = self.author.last_known_institution.ror
-            institution_name = self.author.last_known_institution.display_name
-            institution_card = Vertical(
-                Label('[italic]Last Institution:[/italic]', classes="card-title"),
-
-                Label(f'''[bold]Name:[/bold] [@click="app.open_link('{ror}')"]{institution_name}[/]'''),
-                Label(f'[bold]Country:[/bold] {self.author.last_known_institution.country_code}'),
-                Label(f'[bold]Type:[/bold] {self.author.last_known_institution.type}'),
-                classes="card",
-            )
-        else:
-            institution_card = Vertical(
-                Label('[italic]Last Institution:[/italic]', classes="block-title"),
-                classes="card",
-            )
-
-        # External links
-        links_card = Vertical(
-            Label('[italic]External Links:[/italic]', classes="card-title"),
-
-            *[
-                Label(f"""- [@click="app.open_link('{platform_url}')"]{platform}[/]""")
-                for platform, platform_url in self.author.ids.model_dump().items() if platform_url
-            ],
-            classes="card"
-        )
-
-        # Citation metrics
-        metrics_card = Vertical(
-            Label('[italic]Citation metrics:[/italic]', classes="card-title"),
-
-            Label(f'[bold]2-year mean:[/bold] {self.author.summary_stats.two_yr_mean_citedness:.5f}'),
-            Label(f'[bold]h-index:[/bold] {self.author.summary_stats.h_index}'),
-            Label(f'[bold]i10 index:[/bold] {self.author.summary_stats.i10_index}'),
-
-            classes="card"
-        )
-
         # Compose Cards
         await container.mount(
             Vertical(
                 Label('[bold]Author info:[/bold]', classes="block-title"),
                 Horizontal(
-                    institution_card, links_card, metrics_card,
+                    LastInstitutionCard(author=self.author),
+                    IdentifiersCard(author=self.author),
+                    CitationMetricsCard(author=self.author),
                     classes="cards-container"
                 ),
                 classes="block-container"
@@ -118,14 +82,9 @@ class AuthorResumeWidget(Static):
         )
 
         # Count by year table section
-        table = Table('Year', 'Works Count', 'Cited by Count', title="Counts by Year", expand=True)
-        for row in self.author.counts_by_year:
-            year, works_count, cited_by_count = row.model_dump().values()
-            table.add_row(str(year), str(works_count), str(cited_by_count))
-
         await container.mount(
             Container(
-                Static(table),
+                AuthorWorksByYearTable(author=self.author),
                 classes="table-container"
             )
         )
