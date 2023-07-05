@@ -245,7 +245,7 @@ class WorksTable(Static):
         yield self._WorksTableRenderer(work_table, report=self.report)
 
 
-class WorkReportPane(Static):
+class WorkReportPane(VerticalScroll):
     """Work report Pane Widget."""
 
     DEFAULT_CSS = """

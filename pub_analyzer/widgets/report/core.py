@@ -7,6 +7,7 @@ from textual.widgets import Label, LoadingIndicator, Static, TabbedContent, TabP
 from pub_analyzer.models.author import Author
 from pub_analyzer.utils.report import make_report
 
+from .author import AuthorReportPane
 from .work import WorkReportPane
 
 
@@ -37,13 +38,7 @@ class ReportWidget(Static):
         # Compose Report
         #TODO:Author.
         await container.add_pane(
-            TabPane(
-                "Author",
-                VerticalScroll(
-                    Label("TODO1"),
-                    classes="block-container"
-                ),
-            )
+            TabPane("Author", AuthorReportPane(report=report))
         )
 
         #TODO:Works.
