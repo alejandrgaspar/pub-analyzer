@@ -12,31 +12,11 @@ from textual.widgets import Label, Static
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import CitationReport, CitationType, Report, WorkReport
 from pub_analyzer.models.work import Work
+from pub_analyzer.widgets.common import Card
 
 
-class AuthorshipCard(Static):
+class AuthorshipCard(Card):
     """Card that enumerate the authorships of a work."""
-
-    DEFAULT_CSS = """
-    $bg-secondary-color: #e5e7eb;
-    $text-primary-color: black;
-
-    AuthorshipCard {
-        layout: vertical;
-        height: 100%;
-
-        padding: 1 2;
-        border: solid $text-primary-color;
-        background: $bg-secondary-color;
-    }
-
-    AuthorshipCard > .card-title {
-        margin: 0 0 1 0;
-        width: 100%;
-        text-align: center;
-        border-bottom: solid black;
-    }
-    """
 
     def __init__(self, work: Work, author: Author | None) -> None:
         self.work = work
@@ -58,29 +38,8 @@ class AuthorshipCard(Static):
                 yield Label(f'- [b]{authorship.author_position}:[/b] {author_name_formated}')
 
 
-class OpenAccessCard(Static):
+class OpenAccessCard(Card):
     """Card that show OpenAccess status of a work."""
-
-    DEFAULT_CSS = """
-    $bg-secondary-color: #e5e7eb;
-    $text-primary-color: black;
-
-    OpenAccessCard {
-        layout: vertical;
-        height: 100%;
-
-        padding: 1 2;
-        border: solid $text-primary-color;
-        background: $bg-secondary-color;
-    }
-
-    OpenAccessCard > .card-title {
-        margin: 0 0 1 0;
-        width: 100%;
-        text-align: center;
-        border-bottom: solid black;
-    }
-    """
 
     def __init__(self, work: Work) -> None:
         self.work = work
@@ -96,30 +55,8 @@ class OpenAccessCard(Static):
             yield Label(f"""[bold]URL:[/bold] [@click="app.open_link('{work_url}')"]{work_url}[/]""")
 
 
-class CitationMetricsCard(Static):
+class CitationMetricsCard(Card):
     """Card that show Citation metrics of a work."""
-
-    DEFAULT_CLASSES = "card"
-    DEFAULT_CSS = """
-    $bg-secondary-color: #e5e7eb;
-    $text-primary-color: black;
-
-    CitationMetricsCard {
-        layout: vertical;
-        height: 100%;
-
-        padding: 1 2;
-        border: solid $text-primary-color;
-        background: $bg-secondary-color;
-    }
-
-    CitationMetricsCard > .card-title {
-        margin: 0 0 1 0;
-        width: 100%;
-        text-align: center;
-        border-bottom: solid black;
-    }
-    """
 
     def __init__(self, work_report: WorkReport) -> None:
         self.work_report = work_report
