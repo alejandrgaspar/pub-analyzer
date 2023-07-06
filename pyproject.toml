@@ -7,8 +7,8 @@ name = "pub-analyzer"
 version = "0.1.0"
 description = "Pub Analyzer is a text user interface (TUI), written in python, to generate reports on article publication in an automated way using Open Alex"
 
-authors = ["Alejandro Gaspar <miguel.gaspar03@hotmail.com>"]
-maintainers = ["Alejandro Gaspar <miguel.gaspar03@hotmail.com>"]
+authors = ["Alejandro Gaspar <alex@gaspar.land>"]
+maintainers = ["Alejandro Gaspar <alex@gaspar.land>"]
 
 readme = "README.md"
 license = "MIT"
