@@ -5,7 +5,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 from pub_analyzer.models.author import Author
-from pub_analyzer.models.work import Work
+from pub_analyzer.models.work import OpenAccessStatus, Work
 
 
 class CitationType(Enum):
@@ -36,6 +36,37 @@ class CitationResume(BaseModel):
             self.type_b_count += 1
 
 
+class OpenAccessResume(BaseModel):
+    """Open Access Type counter."""
+
+    gold: int = 0
+    green: int = 0
+    hybrid: int = 0
+    bronze: int = 0
+    closed: int = 0
+
+    def add_oa_type(self, open_access_type: OpenAccessStatus) -> None:
+        """Add the type of Open Access in the corresponding counter."""
+        match open_access_type:
+            case OpenAccessStatus.gold:
+                self.gold += 1
+            case OpenAccessStatus.green:
+                self.green += 1
+            case OpenAccessStatus.hybrid:
+                self.hybrid += 1
+            case OpenAccessStatus.bronze:
+                self.bronze += 1
+            case OpenAccessStatus.closed:
+                self.closed += 1
+
+
+class WorkTypeCounter(BaseModel):
+    """Work Type Counter."""
+
+    type_name: str
+    count: int
+
+
 class WorkReport(BaseModel):
     """Work model with stats."""
 
@@ -44,6 +75,7 @@ class WorkReport(BaseModel):
 
     citation_resume: CitationResume
 
+
 class Report(BaseModel):
     """Citation Report Model."""
 
@@ -51,3 +83,5 @@ class Report(BaseModel):
     works: list[WorkReport]
 
     citation_resume: CitationResume
+    open_access_resume: OpenAccessResume
+    works_type_resume: list[WorkTypeCounter]

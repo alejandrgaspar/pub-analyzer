@@ -14,6 +14,8 @@ from pub_analyzer.models.report import CitationReport, CitationType, Report, Wor
 from pub_analyzer.models.work import Work
 from pub_analyzer.widgets.common import Card
 
+from .cards import OpenAccessResumeCard, ReportCitationMetricsCard, WorksTypeResumeCard
+
 
 class AuthorshipCard(Card):
     """Card that enumerate the authorships of a work."""
@@ -273,27 +275,8 @@ class WorkReportPane(VerticalScroll):
     def compose(self) -> ComposeResult:
         """Compose content pane."""
         with Horizontal(classes="cards-container"):
-            # TODO: Global Citation Card
-            with Card():
-                yield Label('[italic]Citation[/italic]', classes='card-title')
-                with VerticalScroll(classes='card-container'):
-                    yield Label(f'[bold]Count:[/bold] {self.report.author.cited_by_count}')
-                    yield Label('[bold]Type A:[/bold] [s b]TODO[/]')
-                    yield Label('[bold]Type B:[/bold] [s b]TODO[/]')
-
-            # TODO: Work Type Counter
-            with Card():
-                yield Label('[italic]Work Type[/italic]', classes='card-title')
-                with VerticalScroll(classes='card-container'):
-                    yield Label('[bold]journal-article:[/bold] [s b]TODO[/]')
-                    yield Label('[bold]book-section:[/bold] [s b]TODO[/]')
-
-            # TODO: Open Access Counter
-            with Card():
-                yield Label('[italic]Open Access[/italic]', classes='card-title')
-                with VerticalScroll(classes='card-container'):
-                    yield Label('[bold]gold:[/bold] [s b]TODO[/]')
-                    yield Label('[bold]hybrid:[/bold] [s b]TODO[/]')
-                    yield Label('[bold]closed:[/bold] [s b]TODO[/]')
+            yield ReportCitationMetricsCard(report=self.report)
+            yield WorksTypeResumeCard(report=self.report)
+            yield OpenAccessResumeCard(report=self.report)
 
         yield WorksTable(report=self.report)

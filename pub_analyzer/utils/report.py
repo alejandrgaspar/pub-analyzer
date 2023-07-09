@@ -6,7 +6,15 @@ import httpx
 from pydantic import TypeAdapter
 
 from pub_analyzer.models.author import Author
-from pub_analyzer.models.report import CitationReport, CitationResume, CitationType, Report, WorkReport
+from pub_analyzer.models.report import (
+    CitationReport,
+    CitationResume,
+    CitationType,
+    OpenAccessResume,
+    Report,
+    WorkReport,
+    WorkTypeCounter,
+)
 from pub_analyzer.models.work import Authorship, Work
 from pub_analyzer.utils.identifier import get_author_id, get_work_id
 
@@ -48,22 +56,36 @@ async def make_report(author: Author) -> Report:
         # Getting all the author works.
         author_works = await _get_works(client, url)
 
-        # Getting all works that have cited the author.
+        # Report fields.
         works: list[WorkReport] = []
         report_citation_resume = CitationResume()
+        open_access_resume = OpenAccessResume()
+        works_type_counter: list[WorkTypeCounter] = []
+
+        # Getting all works that have cited the author.
         for author_work in author_works:
             work_id = get_work_id(author_work)
             work_authors = _get_authors_list(authorships=author_work.authorships)
             cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}&sort=publication_date"
 
-            cited_by_works = await _get_works(client, cited_by_api_url)
+            # Adding the type of OpenAccess in the counter.
+            open_access_resume.add_oa_type(author_work.open_access.oa_status)
 
+            # Adding the work type to works type counter.
+            work_type = next((work_type for work_type in works_type_counter if work_type.type_name == author_work.type), None)  # noqa: E501
+            if work_type:
+                work_type.count += 1
+            else:
+                works_type_counter.append(WorkTypeCounter(type_name=author_work.type, count=1))
+
+            cited_by_works = await _get_works(client, cited_by_api_url)
             cited_by: list[CitationReport] = []
             work_citation_resume = CitationResume()
             for cited_by_work in cited_by_works:
                 cited_authors = _get_authors_list(authorships=cited_by_work.authorships)
                 citation_type = _get_citation_type(work_authors, cited_authors)
 
+                # Adding the type of cites in the counters.
                 report_citation_resume.add_cite_type(citation_type)
                 work_citation_resume.add_cite_type(citation_type)
 
@@ -71,4 +93,10 @@ async def make_report(author: Author) -> Report:
 
             works.append(WorkReport(work=author_work, cited_by=cited_by, citation_resume=work_citation_resume))
 
-    return Report(author=author, works=works, citation_resume=report_citation_resume)
+    return Report(
+        author=author,
+        works=works,
+        citation_resume=report_citation_resume,
+        open_access_resume=open_access_resume,
+        works_type_resume=works_type_counter
+    )
