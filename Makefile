@@ -2,7 +2,7 @@ typecheck:
 	poetry run mypy pub_analyzer
 
 format:
-	poetry run ruff pub_analyzer
+	poetry run ruff check pub_analyzer
 
 dev:
 	poetry run textual run --dev pub_analyzer/main.py

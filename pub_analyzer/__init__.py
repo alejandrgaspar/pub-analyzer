@@ -1,0 +1,1 @@
+"""Publication Analyzer Core Module."""
