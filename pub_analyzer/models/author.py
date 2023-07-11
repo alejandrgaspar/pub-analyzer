@@ -1,6 +1,6 @@
 """Authors models."""
 
-from pydantic import BaseModel, Field, HttpUrl, validator
+from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator
 
 from pub_analyzer.models.institution import DehydratedInstitution
 
@@ -15,12 +15,10 @@ class AuthorIDs(BaseModel):
     twitter: str | None = ""
     wikipedia: str | None = ""
 
-    class Config:
-        """Allowing a value to be assigned during validation."""
+    # Allowing a value to be assigned during validation.
+    model_config = ConfigDict(validate_assignment=True)
 
-        validate_assignment = True
-
-    @validator("mag", "scopus", "twitter", "wikipedia")
+    @field_validator("mag", "scopus", "twitter", "wikipedia")
     def set_default(cls, value: str) -> str:
         """Define a default text."""
         return value or ""
@@ -82,12 +80,10 @@ class AuthorResult(BaseModel):
     entity_type: str
     external_id: str | None = ""
 
-    class Config:
-        """Allowing a value to be assigned during validation."""
+    # Allowing a value to be assigned during validation.
+    model_config = ConfigDict(validate_assignment=True)
 
-        validate_assignment = True
-
-    @validator("hint", "external_id")
+    @field_validator("hint", "external_id")
     def set_default(cls, value: str) -> str:
         """Define a default text."""
         return value or ""
