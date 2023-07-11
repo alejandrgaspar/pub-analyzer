@@ -30,6 +30,7 @@ mypy = "1.4.1"
 ruff = "0.0.277"
 
 pytest = "7.4.0"
+pytest-asyncio = "0.21.0"
 
 [tool.mypy]
 strict = true

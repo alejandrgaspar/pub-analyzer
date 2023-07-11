@@ -28,4 +28,4 @@ repos:
     hooks:
     -   id: mypy
         args: [--strict, --ignore-missing-imports]
-        additional_dependencies: [textual==0.28.1, httpx==0.24.1, pydantic==2.0, pytest==7.4.0]
+        additional_dependencies: [textual==0.28.1, httpx==0.24.1, pydantic==2.0, pytest==7.4.0, pytest-asyncio==0.21.0]
