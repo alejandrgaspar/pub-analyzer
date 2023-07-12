@@ -1,6 +1,6 @@
 """Works models."""
 
-from enum import StrEnum
+from enum import Enum
 
 from pydantic import BaseModel, HttpUrl
 
@@ -17,7 +17,7 @@ class WorkIDs(BaseModel):
     pmcid: str | None = None
 
 
-class WorkDrivenVersion(StrEnum):
+class WorkDrivenVersion(str, Enum):
     """The version of the work, based on the Driver Guidelines versioning scheme."""
 
     submitted = "submittedVersion"
@@ -35,7 +35,7 @@ class Location(BaseModel):
     version: WorkDrivenVersion | None
 
 
-class OpenAccessStatus(StrEnum):
+class OpenAccessStatus(str, Enum):
     """The Open Access (OA) status of this work."""
 
     gold = "gold"
