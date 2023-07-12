@@ -1,4 +1,4 @@
-"""Test Sidebar buttons."""
+"""Test Sidebar Widget."""
 
 from typing import TypeVar
 

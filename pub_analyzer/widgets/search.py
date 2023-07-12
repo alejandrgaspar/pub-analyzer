@@ -6,7 +6,7 @@ from textual import on
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.events import Key
-from textual.widgets import Button, Input, Static
+from textual.widgets import Button, Input, Label, Static
 
 from pub_analyzer.models.author import AuthorResult
 from pub_analyzer.widgets.author.core import AuthorResumeWidget
@@ -25,27 +25,27 @@ class AuthorResultWidget(Static):
         with Vertical(classes="vertical-content"):
             # Main info
             with Horizontal(classes="main-info-container"):
-                yield Static(f'[bold]Cited by count:[/bold] {self.author_result.cited_by_count}')
-                yield Static(f'[bold]Works count:[/bold] {self.author_result.works_count}')
-                yield Static(f"""[@click="app.open_link('{self.author_result.external_id}')"]ORCID[/]""")
+                yield Label(f'[bold]Cited by count:[/bold] {self.author_result.cited_by_count}', classes="cited-by-count")
+                yield Label(f'[bold]Works count:[/bold] {self.author_result.works_count}', classes="works-count")
+                yield Label(f"""[@click="app.open_link('{self.author_result.external_id}')"]ORCID[/]""", classes="external-id")
 
             # Author hint
-            yield Static(self.author_result.hint or "", classes="author-hint")
+            yield Label(self.author_result.hint or "", classes="author-hint")
 
-    def on_button_pressed(self, event: Button.Pressed) -> None:
+    async def on_button_pressed(self, event: Button.Pressed) -> None:
         """Go to the Author resume page."""
         author_resume_widget = AuthorResumeWidget(author_result=self.author_result)
 
         self.app.query_one("#page-title", Static).update(self.author_result.display_name)
-        self.app.query_one("MainContent").mount(author_resume_widget)
-        self.app.query_one(AuthorFinderWidget).remove()
+        await self.app.query_one("MainContent").mount(author_resume_widget)
+        await self.app.query_one(AuthorFinderWidget).remove()
 
 
 class AuthorSearchBar(Input):
     """SearchBar."""
 
     @on(Key)
-    def exit_modal(self, message: Key) -> None:
+    def exit_focus(self, message: Key) -> None:
         """Unfocus from the input with esc KEY."""
         if message.key == 'escape':
             self.screen.set_focus(None)
