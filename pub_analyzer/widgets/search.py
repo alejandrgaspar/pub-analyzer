@@ -34,10 +34,14 @@ class AuthorResultWidget(Static):
 
     async def on_button_pressed(self, event: Button.Pressed) -> None:
         """Go to the Author resume page."""
+        from pub_analyzer.widgets.body import MainContent
         author_resume_widget = AuthorResumeWidget(author_result=self.author_result)
 
-        self.app.query_one("#page-title", Static).update(self.author_result.display_name)
-        await self.app.query_one("MainContent").mount(author_resume_widget)
+
+        main_content = self.app.query_one(MainContent)
+        main_content.update_title(title=self.author_result.display_name)
+        await main_content.mount(author_resume_widget)
+
         await self.app.query_one(AuthorFinderWidget).remove()
 
 

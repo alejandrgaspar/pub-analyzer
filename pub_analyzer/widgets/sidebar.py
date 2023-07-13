@@ -43,11 +43,13 @@ class SideBar(Static):
 
     async def _replace_main_content(self, new_title: str, new_widget: Widget) -> None:
         """Delete the old widgets in the main section, update the main title and replace it with the given Widget."""
-        await self.app.query("MainContent *").exclude("#page-title").remove()
+        from pub_analyzer.widgets.body import MainContent
 
-        self.app.query_one("#page-title", Static).update(new_title)
-        self.app.query_one("MainContent").mount(new_widget)
+        main_content = self.app.query_one(MainContent)
+        await main_content.query("*").exclude("#page-title").remove()
+        await main_content.mount(new_widget)
 
+        main_content.update_title(title=new_title)
 
     @on(Button.Pressed, "#search-sidebar-button")
     async def search(self) -> None:

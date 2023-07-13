@@ -66,6 +66,7 @@ MainContent .title {
     content-align: left middle;
     text-style: bold;
     border-bottom: heavy $text-primary-color;
+    width: 100%
 }
 
 .-dark-mode MainContent .title {

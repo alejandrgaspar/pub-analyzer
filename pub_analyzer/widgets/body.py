@@ -1,5 +1,6 @@
 """Body components."""
 
+from rich.console import RenderableType
 from textual.app import ComposeResult
 from textual.widgets import Label, Static
 
@@ -20,6 +21,10 @@ class MainContent(Static):
         """Compose dynamically the main content view."""
         yield Label(self.title, classes="title", id="page-title")
         yield AuthorFinderWidget()
+
+    def update_title(self, title: RenderableType) -> None:
+        """Update view title."""
+        self.query_one("#page-title", Label).update(title)
 
 
 class Body(Static):
