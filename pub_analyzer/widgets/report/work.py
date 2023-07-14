@@ -7,7 +7,7 @@ from textual import events, on
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
 from textual.screen import Screen
-from textual.widgets import Label, Static
+from textual.widgets import Label, Static, TabbedContent, TabPane
 
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import CitationReport, CitationType, Report, WorkReport
@@ -19,6 +19,8 @@ from pub_analyzer.widgets.report.cards import (
     ReportCitationMetricsCard,
     WorksTypeResumeCard,
 )
+
+from .locations import LocationsTable
 
 
 class CitedByTable(Static):
@@ -110,18 +112,6 @@ class WorkModal(Screen[None]):
         text-align: center;
         border-bottom: solid $text-primary-color;
     }
-
-    WorkModal #dialog .cards-container {
-        height: auto;
-        width: 100%;
-        padding: 0 2;
-
-        layout: grid;
-        grid-size: 3 1;
-        grid-rows: 15;
-        grid-columns: 1fr;
-        grid-gutter: 1 2;
-    }
     """
 
     def __init__(self, work_report: WorkReport, author: Author) -> None:
@@ -151,9 +141,16 @@ class WorkModal(Screen[None]):
                 # Citation Metrics
                 yield CitationMetricsCard(work_report=self.work_report)
 
-            # Citations Table
-            if len(self.work_report.cited_by):
-                yield CitedByTable(citations_list=self.work_report.cited_by)
+
+            with TabbedContent(id="tables-container"):
+                # Citations Table
+                with TabPane("Cited By Works"):
+                    if len(self.work_report.cited_by):
+                        yield CitedByTable(citations_list=self.work_report.cited_by)
+                # Locations Table
+                with TabPane("Locations"):
+                    if len(self.work_report.work.locations):
+                        yield LocationsTable(self.work_report.work.locations)
 
 
 class WorksTable(Static):

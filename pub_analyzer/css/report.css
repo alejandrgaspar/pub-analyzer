@@ -50,3 +50,26 @@ WorkReportPane WorksTable {
 }
 
 /* Sources Pane */
+
+
+
+/* Work Modal */
+WorkModal #dialog .cards-container {
+    height: auto;
+    width: 100%;
+    padding: 0 2;
+
+    layout: grid;
+    grid-size: 3 1;
+    grid-rows: 15;
+    grid-columns: 1fr;
+    grid-gutter: 1 2;
+}
+
+WorkModal #dialog #tables-container {
+    margin: 1 0;
+}
+
+WorkModal #dialog ContentSwitcher {
+    height: auto;
+}
