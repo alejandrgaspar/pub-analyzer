@@ -6,11 +6,11 @@ from rich.text import Text
 from textual import events, on
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.screen import Screen
 from textual.widgets import Label, Static, TabbedContent, TabPane
 
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import CitationReport, CitationType, Report, WorkReport
+from pub_analyzer.widgets.common import Modal
 from pub_analyzer.widgets.report.cards import (
     AuthorshipCard,
     CitationMetricsCard,
@@ -75,44 +75,8 @@ class CitedByTable(Static):
         yield Static(citations_table, classes='citations-table')
 
 
-class WorkModal(Screen[None]):
+class WorkModal(Modal):
     """Summary of the statistics of a work."""
-
-    DEFAULT_CSS = """
-    $bg-main-color: white;
-    $bg-secondary-color: #e5e7eb;
-    $text-primary-color: black;
-
-    $text-primary-color-darken: black;
-
-    WorkModal {
-        background: rgba(229, 231, 235, 0.5);
-        align: center middle;
-    }
-
-    WorkModal #dialog {
-        background: $bg-main-color;
-        height: 100%;
-        width: 100%;
-
-        margin: 3 10;
-        border: $bg-secondary-color;
-    }
-
-    .-dark-mode WorkModal #dialog {
-        background: $bg-secondary-color;
-        color: $text-primary-color-darken;
-    }
-
-    WorkModal #dialog .dialog-title {
-        height: 3;
-        width: 100%;
-        margin: 1;
-
-        text-align: center;
-        border-bottom: solid $text-primary-color;
-    }
-    """
 
     def __init__(self, work_report: WorkReport, author: Author) -> None:
         self.work_report = work_report
