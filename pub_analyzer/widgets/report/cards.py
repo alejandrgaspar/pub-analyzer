@@ -4,9 +4,12 @@ from textual.app import ComposeResult
 from textual.containers import Vertical, VerticalScroll
 from textual.widgets import Label
 
-from pub_analyzer.models.report import Report
+from pub_analyzer.models.author import Author
+from pub_analyzer.models.report import Report, WorkReport
+from pub_analyzer.models.work import Work
 from pub_analyzer.widgets.common import Card
 
+# Works pane cards.
 
 class ReportCitationMetricsCard(Card):
     """Citation metrics for this report."""
@@ -55,3 +58,60 @@ class OpenAccessResumeCard(Card):
         with VerticalScroll(classes='card-container'):
             for status, count in self.report.open_access_resume.model_dump().items():
                 yield Label(f'[bold]{status}:[/bold] {count}')
+
+
+# Work Info cards.
+class AuthorshipCard(Card):
+    """Card that enumerate the authorships of a work."""
+
+    def __init__(self, work: Work, author: Author | None) -> None:
+        self.work = work
+        self.author = author
+        super().__init__()
+
+    def compose(self) -> ComposeResult:
+        """Compose card."""
+        yield Label('[italic]Authorships[/italic]', classes='card-title')
+
+        with VerticalScroll(classes='card-container'):
+            for authorship in self.work.authorships:
+                # If the author was provided, highlight
+                if self.author and authorship.author.display_name == self.author.display_name:
+                    author_name_formated = f'[b #909d63]{authorship.author.display_name}[/]'
+                else:
+                    author_name_formated = str(authorship.author.display_name)
+
+                yield Label(f'- [b]{authorship.author_position}:[/b] {author_name_formated}')
+
+
+class OpenAccessCard(Card):
+    """Card that show OpenAccess status of a work."""
+
+    def __init__(self, work: Work) -> None:
+        self.work = work
+        super().__init__()
+
+    def compose(self) -> ComposeResult:
+        """Compose card."""
+        work_url = self.work.open_access.oa_url
+
+        yield Label('[italic]Open Access[/italic]', classes='card-title')
+        yield Label(f'[bold]Status:[/bold] {self.work.open_access.oa_status}')
+        if work_url:
+            yield Label(f"""[bold]URL:[/bold] [@click="app.open_link('{work_url}')"]{work_url}[/]""")
+
+
+class CitationMetricsCard(Card):
+    """Card that show Citation metrics of a work."""
+
+    def __init__(self, work_report: WorkReport) -> None:
+        self.work_report = work_report
+        super().__init__()
+
+    def compose(self) -> ComposeResult:
+        """Compose card."""
+        yield Label('[italic]Citation[/italic]', classes='card-title')
+
+        yield Label(f'[bold]Count:[/bold] {self.work_report.work.cited_by_count}')
+        yield Label(f'[bold]Type A:[/bold] {self.work_report.citation_resume.type_a_count}')
+        yield Label(f'[bold]Type B:[/bold] {self.work_report.citation_resume.type_b_count}')

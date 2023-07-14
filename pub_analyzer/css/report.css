@@ -27,36 +27,26 @@ ContentSwitcher {
     height: 1fr;
 }
 
-
-/* Author Pane */
-AuthorReportPane .cards-container {
+/* Common */
+ReportWidget .cards-container {
     height: auto;
     margin: 1 0 0 0 ;
 
     layout: grid;
     grid-size: 3 1;
-    grid-rows: 11;
+    grid-rows: 12;
     grid-columns: 1fr;
     grid-gutter: 1 2;
 }
 
+/* Author Pane */
 AuthorReportPane .table-container {
-    height: auto;
     margin: 1 0 0 0 ;
 }
 
 /* Work Pane */
-WorkReportPane .cards-container {
-    height: auto;
-    margin: 1 0 0 0 ;
-
-    layout: grid;
-    grid-size: 3 1;
-    grid-rows: 11;
-    grid-columns: 1fr;
-    grid-gutter: 1 2;
-}
-
 WorkReportPane WorksTable {
     margin: 1 0 0 0;
 }
+
+/* Sources Pane */

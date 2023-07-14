@@ -1,13 +1,13 @@
 """Main Report widgets."""
 
 from textual.app import ComposeResult
-from textual.containers import VerticalScroll
-from textual.widgets import Label, LoadingIndicator, Static, TabbedContent, TabPane
+from textual.widgets import LoadingIndicator, Static, TabbedContent, TabPane
 
 from pub_analyzer.models.author import Author
 from pub_analyzer.utils.report import make_report
 
 from .author import AuthorReportPane
+from .source import SourcesReportPane
 from .work import WorkReportPane
 
 
@@ -36,25 +36,16 @@ class ReportWidget(Static):
         container = self.query_one("#main-container", TabbedContent)
 
         # Compose Report
-        #TODO:Author.
         await container.add_pane(
             TabPane("Author", AuthorReportPane(report=report))
         )
 
-        #TODO:Works.
         await container.add_pane(
             TabPane("Works", WorkReportPane(report=report))
         )
 
-        #TODO:Locations.
         await container.add_pane(
-            TabPane(
-                "Locations",
-                VerticalScroll(
-                    Label("TODO3"),
-                    classes="block-container"
-                ),
-            )
+            TabPane("Sources", SourcesReportPane(report=report))
         )
 
         # Show results

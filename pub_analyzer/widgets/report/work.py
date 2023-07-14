@@ -11,66 +11,14 @@ from textual.widgets import Label, Static
 
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import CitationReport, CitationType, Report, WorkReport
-from pub_analyzer.models.work import Work
-from pub_analyzer.widgets.common import Card
-
-from .cards import OpenAccessResumeCard, ReportCitationMetricsCard, WorksTypeResumeCard
-
-
-class AuthorshipCard(Card):
-    """Card that enumerate the authorships of a work."""
-
-    def __init__(self, work: Work, author: Author | None) -> None:
-        self.work = work
-        self.author = author
-        super().__init__()
-
-    def compose(self) -> ComposeResult:
-        """Compose card."""
-        yield Label('[italic]Authorships[/italic]', classes='card-title')
-
-        with VerticalScroll(classes='card-container'):
-            for authorship in self.work.authorships:
-                # If the author was provided, highlight
-                if self.author and authorship.author.display_name == self.author.display_name:
-                    author_name_formated = f'[b #909d63]{authorship.author.display_name}[/]'
-                else:
-                    author_name_formated = str(authorship.author.display_name)
-
-                yield Label(f'- [b]{authorship.author_position}:[/b] {author_name_formated}')
-
-
-class OpenAccessCard(Card):
-    """Card that show OpenAccess status of a work."""
-
-    def __init__(self, work: Work) -> None:
-        self.work = work
-        super().__init__()
-
-    def compose(self) -> ComposeResult:
-        """Compose card."""
-        work_url = self.work.open_access.oa_url
-
-        yield Label('[italic]Open Access[/italic]', classes='card-title')
-        yield Label(f'[bold]Status:[/bold] {self.work.open_access.oa_status}')
-        if work_url:
-            yield Label(f"""[bold]URL:[/bold] [@click="app.open_link('{work_url}')"]{work_url}[/]""")
-
-
-class CitationMetricsCard(Card):
-    """Card that show Citation metrics of a work."""
-
-    def __init__(self, work_report: WorkReport) -> None:
-        self.work_report = work_report
-        super().__init__()
-
-    def compose(self) -> ComposeResult:
-        """Compose card."""
-        yield Label('[italic]Citation[/italic]', classes='card-title')
-
-        yield Label(f'[bold]Count:[/bold] {self.work_report.work.cited_by_count}')
-        yield Label(f'[bold]Type A:[/bold] {self.work_report.citation_resume.type_a_count}')
-        yield Label(f'[bold]Type B:[/bold] {self.work_report.citation_resume.type_b_count}')
+from pub_analyzer.widgets.report.cards import (
+    AuthorshipCard,
+    CitationMetricsCard,
+    OpenAccessCard,
+    OpenAccessResumeCard,
+    ReportCitationMetricsCard,
+    WorksTypeResumeCard,
+)
 
 
 class CitedByTable(Static):
@@ -104,10 +52,10 @@ class CitedByTable(Static):
         for idx, cited_by_work in enumerate(self.citations_list):
             work = cited_by_work.work
 
-            work_pdf_url = work.primary_location.pdf_url
-            title = f"""[@click="app.open_link('{work_pdf_url}')"][u]{work.title}[/u][/]""" if work_pdf_url else work.title  # noqa: E501
+            work_pdf_url = work.primary_location.pdf_url if work.primary_location else None
+            title = f"""[@click="app.open_link('{work_pdf_url}')"][u]{work.title}[/u][/]""" if work_pdf_url else work.title
             ct_value = cited_by_work.citation_type
-            citation_type = f"[#909d63]{ct_value.name}[/]" if ct_value is CitationType.TypeA else f"[#bc5653]{ct_value.name}[/]"  # noqa: E501
+            citation_type = f"[#909d63]{ct_value.name}[/]" if ct_value is CitationType.TypeA else f"[#bc5653]{ct_value.name}[/]"
 
             doi = work.ids.doi
             doi_url = f"""[@click="app.open_link('{doi}')"]DOI[/]""" if doi else "-"

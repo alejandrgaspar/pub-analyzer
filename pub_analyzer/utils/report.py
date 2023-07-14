@@ -12,6 +12,7 @@ from pub_analyzer.models.report import (
     CitationType,
     OpenAccessResume,
     Report,
+    SourcesResume,
     WorkReport,
     WorkTypeCounter,
 )
@@ -61,6 +62,7 @@ async def make_report(author: Author) -> Report:
         report_citation_resume = CitationResume()
         open_access_resume = OpenAccessResume()
         works_type_counter: list[WorkTypeCounter] = []
+        sources_resume = SourcesResume(sources=[])
 
         # Getting all works that have cited the author.
         for author_work in author_works:
@@ -77,6 +79,11 @@ async def make_report(author: Author) -> Report:
                 work_type.count += 1
             else:
                 works_type_counter.append(WorkTypeCounter(type_name=author_work.type, count=1))
+
+            # Add Sources to global list.
+            for location in author_work.locations:
+                if location.source and not any(source.display_name == location.source.display_name for source in sources_resume.sources):
+                    sources_resume.sources.append(location.source)
 
             cited_by_works = await _get_works(client, cited_by_api_url)
             cited_by: list[CitationReport] = []
@@ -98,5 +105,6 @@ async def make_report(author: Author) -> Report:
         works=works,
         citation_resume=report_citation_resume,
         open_access_resume=open_access_resume,
-        works_type_resume=works_type_counter
+        works_type_resume=works_type_counter,
+        sources_resume=sources_resume
     )

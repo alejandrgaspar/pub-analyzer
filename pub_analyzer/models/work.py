@@ -4,7 +4,8 @@ from enum import Enum
 
 from pydantic import BaseModel, HttpUrl
 
-from pub_analyzer.models.author import DehydratedAuthor
+from .author import DehydratedAuthor
+from .source import DehydratedSource
 
 
 class WorkIDs(BaseModel):
@@ -33,6 +34,7 @@ class Location(BaseModel):
     license: str | None
     pdf_url: str | None
     version: WorkDrivenVersion | None
+    source: DehydratedSource  | None = None
 
 
 class OpenAccessStatus(str, Enum):
@@ -71,8 +73,11 @@ class Work(BaseModel):
     publication_year: int
     publication_date: str
     language: str | None = None
-    primary_location: Location
     type: str
+
+    primary_location: Location | None = None
+    best_oa_location: Location | None = None
+    locations: list[Location]
 
     open_access: WorkAccessInfo
     authorships: list[Authorship]

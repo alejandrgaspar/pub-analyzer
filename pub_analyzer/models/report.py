@@ -4,8 +4,9 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from pub_analyzer.models.author import Author
-from pub_analyzer.models.work import OpenAccessStatus, Work
+from .author import Author
+from .source import DehydratedSource
+from .work import OpenAccessStatus, Work
 
 
 class CitationType(Enum):
@@ -76,6 +77,12 @@ class WorkReport(BaseModel):
     citation_resume: CitationResume
 
 
+class SourcesResume(BaseModel):
+    """Sources model with stats."""
+
+    sources: list[DehydratedSource]
+
+
 class Report(BaseModel):
     """Citation Report Model."""
 
@@ -85,3 +92,4 @@ class Report(BaseModel):
     citation_resume: CitationResume
     open_access_resume: OpenAccessResume
     works_type_resume: list[WorkTypeCounter]
+    sources_resume: SourcesResume

@@ -27,8 +27,25 @@ WORK: dict[str, Any] = {
         "landing_page_url": "https://doi.org/10.1038/249810a0",
         "pdf_url": None,
         "license": None,
-        "version": None
+        "version": None,
+        "source": {
+            "id": "https://openalex.org/S137773608",
+            "display_name": "Nature",
+            "issn_l": "0028-0836",
+            "issn": [
+                "1476-4687",
+                "0028-0836"
+            ],
+            "is_oa": False,
+            "is_in_doaj": False,
+            "host_organization": "https://openalex.org/P4310319908",
+            "host_organization_name": "Nature Portfolio",
+            "type": "journal"
+
+        }
     },
+    "best_oa_location": None,
+    "locations": [],
     "type": "journal-article",
     "open_access": {
         "is_oa": False,
