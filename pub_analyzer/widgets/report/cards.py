@@ -96,7 +96,7 @@ class OpenAccessCard(Card):
         work_url = self.work.open_access.oa_url
 
         yield Label('[italic]Open Access[/italic]', classes='card-title')
-        yield Label(f'[bold]Status:[/bold] {self.work.open_access.oa_status}')
+        yield Label(f'[bold]Status:[/bold] {self.work.open_access.oa_status.value}')
         if work_url:
             yield Label(f"""[bold]URL:[/bold] [@click="app.open_link('{work_url}')"]{work_url}[/]""")
 
