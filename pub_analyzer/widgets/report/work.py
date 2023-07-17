@@ -75,7 +75,7 @@ class CitedByTable(Static):
         yield Static(citations_table, classes='citations-table')
 
 
-class WorkModal(Modal):
+class WorkModal(Modal[None]):
     """Summary of the statistics of a work."""
 
     def __init__(self, work_report: WorkReport, author: Author) -> None:

@@ -7,6 +7,7 @@ from pub_analyzer.models.author import Author
 from pub_analyzer.utils.report import make_report
 
 from .author import AuthorReportPane
+from .export import ExportReportPane
 from .source import SourcesReportPane
 from .work import WorkReportPane
 
@@ -46,6 +47,10 @@ class ReportWidget(Static):
 
         await container.add_pane(
             TabPane("Sources", SourcesReportPane(report=report))
+        )
+
+        await container.add_pane(
+            TabPane("Export", ExportReportPane(report=report))
         )
 
         # Show results

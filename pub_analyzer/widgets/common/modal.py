@@ -1,8 +1,9 @@
 """Modal Screen."""
-from textual.screen import Screen
+
+from textual.screen import Screen, ScreenResultType
 
 
-class Modal(Screen[None]):
+class Modal(Screen[ScreenResultType]):
     """Base overlay window container."""
 
     DEFAULT_CSS = """
