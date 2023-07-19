@@ -34,3 +34,7 @@ Footer > .footer--key {
     text-style: bold;
     background: $primary-color-accent
 }
+
+LoadingIndicator {
+    color: $primary-color-accent;
+}

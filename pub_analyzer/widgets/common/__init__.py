@@ -2,10 +2,12 @@
 
 from .card import Card
 from .filesystem import FileSystemSelector
+from .input import Input
 from .modal import Modal
 
 __all__ = [
     'Card',
-    'Modal',
     'FileSystemSelector',
+    'Input',
+    'Modal',
 ]

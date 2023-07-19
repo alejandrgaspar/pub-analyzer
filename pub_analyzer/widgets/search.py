@@ -2,14 +2,13 @@
 
 import httpx
 from pydantic import TypeAdapter
-from textual import on
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
-from textual.events import Key
-from textual.widgets import Button, Input, Label, Static
+from textual.widgets import Button, Label, Static
 
 from pub_analyzer.models.author import AuthorResult
 from pub_analyzer.widgets.author.core import AuthorResumeWidget
+from pub_analyzer.widgets.common import Input
 
 
 class AuthorResultWidget(Static):
@@ -47,12 +46,6 @@ class AuthorResultWidget(Static):
 
 class AuthorSearchBar(Input):
     """SearchBar."""
-
-    @on(Key)
-    def exit_focus(self, message: Key) -> None:
-        """Unfocus from the input with esc KEY."""
-        if message.key == 'escape':
-            self.screen.set_focus(None)
 
 
 class AuthorFinderWidget(Static):
