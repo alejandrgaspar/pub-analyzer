@@ -27,6 +27,14 @@ class ExportReportPane(VerticalScroll):
         self.report = report
         super().__init__()
 
+    @on(FileSystemSelector.FileSelected)
+    def activate_button(self, event: FileSystemSelector.FileSelected) -> None:
+        """Activate button on file select."""
+        if event.file_selected:
+            self.query_one(Button).disabled = False
+        else:
+            self.query_one(Button).disabled = True
+
     @on(Button.Pressed, "#export-report-button")
     def export_report(self) -> None:
         """Export Report."""
@@ -52,4 +60,4 @@ class ExportReportPane(VerticalScroll):
                 yield FileSystemSelector(path=pathlib.Path.home(), only_dir=True)
 
             with Horizontal(classes="export-form-buttons"):
-                yield Button("Export Report", variant="primary", id="export-report-button")
+                yield Button("Export Report", variant="primary", disabled=True, id="export-report-button")
