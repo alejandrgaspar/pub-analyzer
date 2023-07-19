@@ -1,0 +1,51 @@
+/* COLORS */
+$bg-main-color: white;
+$bg-secondary-color: #e5e7eb;
+$bg-secondary-color-accent: #d1d5db;
+$text-primary-color: black;
+
+$bg-main-color-darken: #1e293b;
+$bg-secondary-color-darken: #0f172a;
+$text-primary-color-darken: black;
+
+$primary-color: #b91c1c;
+$primary-color-accent: #991b1b;
+$primary-color-highlight: #dc2626;
+
+/* Common */
+DataTable {
+    background: $bg-main-color;
+    color: $text-primary-color;
+    height: 1fr;
+}
+
+.-dark-mode DataTable {
+    background: $bg-secondary-color;
+}
+
+/* Header */
+DataTable > .datatable--header {
+    text-style: bold;
+    background: $bg-secondary-color;
+    color: $text-primary-color;
+}
+
+
+DataTable > .datatable--header-hover {
+    background: $bg-secondary-color-accent;
+}
+
+/* Rows */
+DataTable > .datatable--hover {
+    background: $primary-color 35%;
+}
+
+/* Hover */
+DataTable > .datatable--cursor {
+    background: $primary-color-accent;
+    text-style: bold;
+}
+
+DataTable > .datatable--header-cursor {
+    background: $primary-color;
+}

@@ -16,7 +16,8 @@ class PubAnalyzerApp(App[DOMNode]):
 
     CSS_PATH = [
         "css/main.css", "css/body.css", "css/buttons.css", "css/tabs.css",
-        "css/search.css", "css/author.css", "css/report.css", "css/tree.css"
+        "css/search.css", "css/author.css", "css/report.css", "css/tree.css",
+        "css/datatable.css"
     ]
     BINDINGS = [
         ("ctrl+d", "toggle_dark", "Dark mode"),
