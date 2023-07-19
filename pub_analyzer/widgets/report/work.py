@@ -111,10 +111,14 @@ class WorkModal(Modal[None]):
                 with TabPane("Cited By Works"):
                     if len(self.work_report.cited_by):
                         yield CitedByTable(citations_list=self.work_report.cited_by)
+                    else:
+                        yield Label("No works found.")
                 # Locations Table
                 with TabPane("Locations"):
                     if len(self.work_report.work.locations):
                         yield LocationsTable(self.work_report.work.locations)
+                    else:
+                        yield Label("No sources found.")
 
 
 class WorksTable(Static):
