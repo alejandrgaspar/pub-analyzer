@@ -57,20 +57,6 @@ LoadReportWidget .button-container {
     height: 3;
 }
 
-/* Author Pane */
-AuthorReportPane .table-container {
-    margin: 1 0 0 0 ;
-    height: auto;
-}
-
-/* Work Pane */
-WorkReportPane WorksTable {
-    margin: 1 0 0 0;
-}
-
-/* Sources Pane */
-
-
 /* Report Pane */
 ExportReportPane .export-form-input-container {
     height: auto;

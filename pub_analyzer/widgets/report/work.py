@@ -29,7 +29,7 @@ class CitedByTable(Static):
     DEFAULT_CSS = """
     CitedByTable .citations-table {
         height: auto;
-        padding: 1 2 0 2;
+        margin: 1 0 0 0;
     }
     """
 
@@ -123,6 +123,13 @@ class WorkModal(Modal[None]):
 
 class WorksTable(Static):
     """Table with all works produced by an author."""
+
+    DEFAULT_CSS = """
+    WorksTable {
+        height: auto;
+        margin: 1 0 0 0;
+    }
+    """
 
     def __init__(self, report: Report) -> None:
         self.report = report

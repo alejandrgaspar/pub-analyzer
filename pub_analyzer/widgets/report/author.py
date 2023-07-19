@@ -17,6 +17,11 @@ class AuthorReportPane(VerticalScroll):
         overflow-x: hidden;
         overflow-y: auto;
     }
+
+    AuthorReportPane .table-container {
+        margin: 1 0 0 0 ;
+        height: auto;
+    }
     """
 
     def __init__(self, report: Report) -> None:

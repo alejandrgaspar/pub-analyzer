@@ -16,7 +16,7 @@ class SourcesTable(Static):
     DEFAULT_CSS = """
     SourcesTable .sources-table {
         height: auto;
-        padding: 1 2 0 2;
+        margin: 1 0 0 0;
     }
     """
 
