@@ -28,8 +28,8 @@ class ExportReportPane(VerticalScroll):
         super().__init__()
 
     @on(FileSystemSelector.FileSelected)
-    def activate_button(self, event: FileSystemSelector.FileSelected) -> None:
-        """Activate button on file select."""
+    def enable_button(self, event: FileSystemSelector.FileSelected) -> None:
+        """Enable button on file select."""
         if event.file_selected:
             self.query_one(Button).disabled = False
         else:
