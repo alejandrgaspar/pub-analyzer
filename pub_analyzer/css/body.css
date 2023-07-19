@@ -32,6 +32,7 @@ SideBar .sidebar-options-column {
 }
 
 SideBar #sidebar-title {
+    width: 100%;
     content-align: left middle;
     text-style: bold;
     border-bottom: heavy $text-primary-color;

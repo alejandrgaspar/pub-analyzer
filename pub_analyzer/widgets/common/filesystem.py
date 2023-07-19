@@ -149,6 +149,13 @@ class PathSelectedBox(Widget):
 class FileSystemSelector(Static):
     """File System selector widget."""
 
+    class FileSelected(Message):
+        """File Selected Message."""
+
+        def __init__(self, file_selected: Path | None) -> None:
+            self.file_selected = file_selected
+            super().__init__()
+
     def __init__(self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False) -> None:
         self.path = path
         self.show_hidden_paths = show_hidden_paths
@@ -165,8 +172,10 @@ class FileSystemSelector(Static):
             self.path_selected = path
             if path:
                 self.query_one(PathSelectedBox).path_selected = path.as_posix()
+                self.post_message(self.FileSelected(file_selected=path))
             else:
                 self.query_one(PathSelectedBox).path_selected = "..."
+                self.post_message(self.FileSelected(file_selected=path))
 
         await self.app.push_screen(
             PathSelectorModal(path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir),

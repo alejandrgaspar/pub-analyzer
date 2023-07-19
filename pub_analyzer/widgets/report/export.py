@@ -36,7 +36,7 @@ class ExportReportPane(VerticalScroll):
         if export_path and file_name:
             file_path = export_path.joinpath(file_name)
             with open(file_path, mode="w") as file:
-                file.write(self.report.model_dump_json(indent=2))
+                file.write(self.report.model_dump_json(indent=2, by_alias=True))
 
     def compose(self) -> ComposeResult:
         """Compose content pane."""

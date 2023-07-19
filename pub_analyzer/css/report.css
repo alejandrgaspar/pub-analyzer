@@ -13,7 +13,6 @@ $primary-color-accent: #991b1b;
 $primary-color-highlight: #dc2626;
 
 
-
 ReportWidget {
     height: 1fr;
     margin: 1 2;
@@ -42,6 +41,20 @@ ReportWidget .cards-container {
     grid-rows: 12;
     grid-columns: 1fr;
     grid-gutter: 1 2;
+}
+
+/* Load Report */
+LoadReportWidget {
+    margin: 1 1 0 1;
+}
+
+LoadReportWidget FileSystemSelector {
+    margin-bottom: 1;
+}
+
+LoadReportWidget .button-container {
+    align: center middle;
+    height: 3;
 }
 
 /* Author Pane */

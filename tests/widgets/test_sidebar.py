@@ -7,6 +7,7 @@ from textual.widget import Widget
 
 from pub_analyzer.main import PubAnalyzerApp
 from pub_analyzer.widgets.body import MainContent
+from pub_analyzer.widgets.report.core import LoadReportWidget
 from pub_analyzer.widgets.search import AuthorFinderWidget
 from pub_analyzer.widgets.sidebar import SideBar
 
@@ -36,6 +37,7 @@ async def test_sidebar_toggle() -> None:
     ['button_id', 'widget_expected'],
     [
         ['#search-sidebar-button', AuthorFinderWidget],
+        ['#load-sidebar-button', LoadReportWidget],
     ]
 )
 async def test_sidebar_menu_options(button_id: str, widget_expected: type[ExpectType]) -> None:

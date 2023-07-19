@@ -5,8 +5,9 @@ from textual import on
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.widget import Widget
-from textual.widgets import Button, Static
+from textual.widgets import Button, Label, Static
 
+from pub_analyzer.widgets.report.core import LoadReportWidget
 from pub_analyzer.widgets.search import AuthorFinderWidget
 
 
@@ -14,6 +15,7 @@ class SideBarOptionsName(Enum):
     """List of existing Tabs titles."""
 
     SEARCH = "Search"
+    LOAD_REPORT = "Load report"
 
 
 class SideBar(Static):
@@ -23,14 +25,18 @@ class SideBar(Static):
 
     def compose(self) -> ComposeResult:
         """Compose dynamically the sidebar options."""
-        yield Vertical(
-            Static("Menu", id="sidebar-title"),
-            Button(
+        with Vertical(classes="sidebar-options-column"):
+            yield Label("Menu", id='sidebar-title')
+
+            yield Button(
                 SideBarOptionsName.SEARCH.value,
-                id="search-sidebar-button", variant="primary", classes="sidebar-option"
-            ),
-            classes="sidebar-options-column"
-        )
+                variant="primary", id="search-sidebar-button", classes="sidebar-option"
+            )
+
+            yield Button(
+                SideBarOptionsName.LOAD_REPORT.value,
+                variant="primary", id="load-sidebar-button", classes="sidebar-option"
+            )
 
     def toggle(self) -> None:
         """Show/Hide Sidebar."""
@@ -55,3 +61,8 @@ class SideBar(Static):
     async def search(self) -> None:
         """Load the AuthorFinderWidget in the main view."""
         await self._replace_main_content(new_title=SideBarOptionsName.SEARCH.value, new_widget=AuthorFinderWidget())
+
+    @on(Button.Pressed, "#load-sidebar-button")
+    async def load_report(self) -> None:
+        """Load the AuthorFinderWidget in the main view."""
+        await self._replace_main_content(new_title=SideBarOptionsName.LOAD_REPORT.value, new_widget=LoadReportWidget())

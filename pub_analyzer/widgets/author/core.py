@@ -8,7 +8,7 @@ from textual.widgets import Button, Label, LoadingIndicator, Static
 
 from pub_analyzer.models.author import Author, AuthorResult
 from pub_analyzer.utils.identifier import get_author_id
-from pub_analyzer.widgets.report.core import ReportWidget
+from pub_analyzer.widgets.report.core import CreateReportWidget
 
 from .cards import CitationMetricsCard, IdentifiersCard, LastInstitutionCard
 from .tables import AuthorWorksByYearTable
@@ -35,7 +35,7 @@ class AuthorResumeWidget(Static):
     @on(Button.Pressed, "#make-report-button")
     async def make_report(self) -> None:
         """Make the author report."""
-        report_widget = ReportWidget(author=self.author, works_api_url=self.author.works_api_url)
+        report_widget = CreateReportWidget(author=self.author, works_api_url=self.author.works_api_url)
 
         await self.app.query_one("MainContent").mount(report_widget)
         await self.app.query_one("AuthorResumeWidget").remove()
