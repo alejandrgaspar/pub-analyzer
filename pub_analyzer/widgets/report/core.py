@@ -102,7 +102,7 @@ class LoadReportWidget(Static):
 
     def compose(self) -> ComposeResult:
         """Compose load report widget."""
-        yield FileSystemSelector(path=pathlib.Path.home(), only_dir=False)
+        yield FileSystemSelector(path=pathlib.Path.home(), only_dir=False, extension=[".json",])
 
         with Horizontal(classes="button-container"):
             yield Button("Load Report", variant="primary", disabled=True, id="load-report-button")

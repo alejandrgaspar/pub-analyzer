@@ -28,9 +28,10 @@ class PathTypeSelector(Enum):
 class FilteredDirectoryTree(DirectoryTree):
     """Directory Tree filtered."""
 
-    def __init__(self, path: str | Path, *, show_hidden_paths: bool = False, only_dir: bool = False) -> None:
+    def __init__(self, path: str | Path, *, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None) -> None:  # noqa: E501
         self.show_hidden_paths = show_hidden_paths
         self.only_dir = only_dir
+        self.extension = extension
         super().__init__(path)
 
     def filter_paths(self, paths: Iterable[Path]) -> Iterable[Path]:
@@ -42,7 +43,11 @@ class FilteredDirectoryTree(DirectoryTree):
                 continue
 
             # Filter in case path type expected is directory.
-            if not path.is_dir() and self.only_dir:
+            if path.is_file() and self.only_dir:
+                continue
+
+            # Filter in case file extension is expected
+            if path.is_file() and self.extension and path.suffix not in self.extension:
                 continue
 
             final_paths.append(path)
@@ -73,10 +78,11 @@ class PathSelectorModal(Modal[Path | None]):
     }
     """
 
-    def __init__(self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False) -> None:
+    def __init__(self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None) -> None:  # noqa: E501
         self.path = path
         self.show_hidden_paths = show_hidden_paths
         self.only_dir = only_dir
+        self.extension = extension
 
         self.path_selected: Path | None = None
         super().__init__()
@@ -110,7 +116,10 @@ class PathSelectorModal(Modal[Path | None]):
         """Compose Modal."""
         with VerticalScroll(id='dialog'):
             yield Label("Export Path", classes='dialog-title')
-            yield FilteredDirectoryTree(path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir)
+            yield FilteredDirectoryTree(
+                path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir,
+                extension=self.extension
+            )
 
             with Horizontal(classes="button-container"):
                 yield Button("Done", variant="primary", disabled=True, id="done-button")
@@ -156,10 +165,11 @@ class FileSystemSelector(Static):
             self.file_selected = file_selected
             super().__init__()
 
-    def __init__(self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False) -> None:
+    def __init__(self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None) -> None:  # noqa: E501
         self.path = path
         self.show_hidden_paths = show_hidden_paths
         self.only_dir = only_dir
+        self.extension = extension
 
         self.path_selected: Path | None = None
         super().__init__()
@@ -178,7 +188,10 @@ class FileSystemSelector(Static):
                 self.post_message(self.FileSelected(file_selected=path))
 
         await self.app.push_screen(
-            PathSelectorModal(path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir),
+            PathSelectorModal(
+                path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir,
+                extension=self.extension
+            ),
             callback=update_file_selected
         )
 
