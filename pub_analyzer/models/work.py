@@ -1,8 +1,9 @@
 """Works models."""
 
 from enum import Enum
+from typing import Any
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, HttpUrl, field_validator
 
 from .author import DehydratedAuthor
 from .source import DehydratedSource
@@ -87,3 +88,16 @@ class Work(BaseModel):
 
     referenced_works: list[HttpUrl]
     cited_by_api_url: HttpUrl
+
+    @field_validator('locations', mode='before')
+    def valid_locations(cls, locations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Skip locations that do not contain enough data."""
+        return [location for location in locations if location['landing_page_url'] is not None]
+
+    @field_validator('primary_location', 'best_oa_location', mode='before')
+    def valid_location(cls, location: dict[str, Any]) -> dict[str, Any] | None:
+        """Skip location that do not contain enough data."""
+        if location and location['landing_page_url'] is None:
+            return None
+        else:
+            return location

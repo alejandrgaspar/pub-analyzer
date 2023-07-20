@@ -1,6 +1,7 @@
 """Functions to make author reports."""
 
 import math
+from typing import Any
 
 import httpx
 from pydantic import TypeAdapter
@@ -32,6 +33,9 @@ def _get_citation_type(original_work_authors: list[str], cited_work_authors: lis
 
     return CitationType.TypeA if not original_set.intersection(cited_set) else CitationType.TypeB
 
+def _get_valid_works(works: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Skip works that do not contain enough data."""
+    return [work for work in works if work['title'] is not None]
 
 async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     """Pass."""
@@ -39,11 +43,11 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     meta_info = response["meta"]
     page_count = math.ceil(meta_info["count"] / meta_info["per_page"])
 
-    works_data = list(response["results"],)
+    works_data = list(_get_valid_works(response["results"]),)
 
     for page_number in range(1, page_count):
         page_result = (await client.get(url + f"&page={page_number + 1}")).json()
-        works_data.extend(page_result["results"])
+        works_data.extend(_get_valid_works(page_result["results"]))
 
     return TypeAdapter(list[Work]).validate_python(works_data)
 
