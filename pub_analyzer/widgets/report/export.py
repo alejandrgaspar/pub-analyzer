@@ -45,6 +45,12 @@ class ExportReportPane(VerticalScroll):
             file_path = export_path.joinpath(file_name)
             with open(file_path, mode="w") as file:
                 file.write(self.report.model_dump_json(indent=2, by_alias=True))
+                self.query_one(Button).disabled = True
+                self.app.notify(
+                    title="Report exported successfully!",
+                    message=f"The report was exported correctly. You can go see it at [i]{file_path}[/]",
+                    timeout=20.0
+                )
 
     def compose(self) -> ComposeResult:
         """Compose content pane."""

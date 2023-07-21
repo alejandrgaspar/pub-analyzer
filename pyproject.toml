@@ -18,12 +18,12 @@ packages = [{include = "pub_analyzer"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 
-textual = "0.28.1"
+textual = "0.30.0"
 httpx = "0.24.1"
 pydantic = "2.0"
 
 [tool.poetry.group.dev.dependencies]
-textual = {extras = ["dev"], version = "0.28.1"}
+textual-dev = "1.0.1"
 
 pre-commit = "2.20.0"
 mypy = "1.4.1"
