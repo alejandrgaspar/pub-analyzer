@@ -1,14 +1,19 @@
 """Test report functions from pub_analyzer/utils/report.py."""
 
+import copy
+import math
 from typing import Any
 
+import httpx
 import pytest
+import respx
 from pydantic import HttpUrl
 
 from pub_analyzer.models.author import DehydratedAuthor
 from pub_analyzer.models.report import CitationType
 from pub_analyzer.models.work import Authorship
 from pub_analyzer.utils import report
+from tests.data.work import WORK
 
 
 def test_get_authors_list() -> None:
@@ -69,3 +74,40 @@ def test_get_citation_type(original_authors: list[str], cited_authors: list[str]
 def test_get_valid_works(works: list[dict[str, Any]], expected_works: list[dict[str, Any]]) -> None:
     """Test _get_valid_works function."""
     assert report._get_valid_works(works) == expected_works
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+        ['author_id', 'works'],
+        [
+            ["A4356881717", {"meta": {"count": 2, "page": 1, "per_page": 5}, "results": [WORK, WORK]}],
+            ["A4356881717", {"meta": {"count": 10, "page": 1, "per_page": 5}, "results": [WORK for _ in range(4)]}],
+            ["A4356881717", {"meta": {"count": 15, "page": 1, "per_page": 5}, "results": [WORK for _ in range(4)]}]
+        ]
+)
+async def test_get_works(author_id: str, works: dict[str, Any]) -> None:
+    """Test _get_works function."""
+    base_url = f"https://api.openalex.org/works?filter=author.id:{author_id}&sort=publication_date"
+
+    with respx.mock(assert_all_called=True, assert_all_mocked=True) as respx_mock:
+        respx_mock.get(base_url).mock(return_value=httpx.Response(
+                status_code=httpx.codes.OK,
+                json=works
+            )
+        )
+
+        # Test case when iteration over pages is needed
+        page_count = math.ceil(works["meta"]["count"] / works["meta"]["per_page"])
+        for page in range(1, page_count):
+            page_number = page + 1
+            work_new_page = copy.copy(works)
+            work_new_page['meta']['page'] = page_number
+
+            respx_mock.get(base_url + f"&page={page_number}").mock(return_value=httpx.Response(
+                    status_code=httpx.codes.OK,
+                    json=work_new_page
+                )
+            )
+
+        client = httpx.AsyncClient()
+        await report._get_works(url=base_url, client=client)
