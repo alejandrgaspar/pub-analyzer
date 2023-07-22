@@ -12,8 +12,8 @@ class DehydratedSource(BaseModel):
     issn_l: str | None = None
     issn: list[str] | None = None
 
-    is_oa: bool
-    is_in_doaj: bool
+    is_oa: bool | None = False
+    is_in_doaj: bool | None = False
 
     host_organization: HttpUrl | None = None
     host_organization_name: str | None = None

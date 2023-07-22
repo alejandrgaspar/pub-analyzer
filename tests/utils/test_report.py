@@ -1,5 +1,7 @@
 """Test report functions from pub_analyzer/utils/report.py."""
 
+from typing import Any
+
 import pytest
 from pydantic import HttpUrl
 
@@ -46,3 +48,24 @@ def test_get_citation_type(original_authors: list[str], cited_authors: list[str]
     function_cite_type = report._get_citation_type(original_authors, cited_authors)
 
     assert function_cite_type == expected_cite_type
+
+
+@pytest.mark.parametrize(
+        ['works', 'expected_works'],
+        [
+            [
+                [
+                    {'title': 'Title1', 'language': 'en'},
+                    {'title': 'Title2', 'language': None},
+                    {'title': None, 'language': 'es'}
+                ],
+                [
+                    {'title': 'Title1', 'language': 'en'},
+                    {'title': 'Title2', 'language': None},
+                ],
+            ],
+        ]
+)
+def test_get_valid_works(works: list[dict[str, Any]], expected_works: list[dict[str, Any]]) -> None:
+    """Test _get_valid_works function."""
+    assert report._get_valid_works(works) == expected_works

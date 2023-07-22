@@ -84,7 +84,6 @@ class Work(BaseModel):
     authorships: list[Authorship]
 
     cited_by_count: int
-    referenced_works_count: int
 
     referenced_works: list[HttpUrl]
     cited_by_api_url: HttpUrl
