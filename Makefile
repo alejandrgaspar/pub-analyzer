@@ -11,4 +11,7 @@ console:
 	poetry run textual console
 
 test:
-	poetry run pytest -vv
+	poetry run pytest -vv --block-network
+
+test-record:
+	poetry run pytest --record-mode=once
