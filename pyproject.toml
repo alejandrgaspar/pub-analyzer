@@ -20,7 +20,7 @@ python = "^3.10"
 
 textual = "0.30.0"
 httpx = "0.24.1"
-pydantic = "2.0"
+pydantic = "2.1"
 
 [tool.poetry.group.dev.dependencies]
 textual-dev = "1.0.1"
