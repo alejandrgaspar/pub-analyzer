@@ -1,4 +1,4 @@
-"""Functions to make author reports."""
+"""Functions to make reports."""
 
 import math
 from typing import Any
@@ -6,6 +6,7 @@ from typing import Any
 import httpx
 from pydantic import TypeAdapter
 
+from pub_analyzer.internal.identifier import get_author_id, get_work_id
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import (
     CitationReport,
@@ -18,7 +19,6 @@ from pub_analyzer.models.report import (
     WorkTypeCounter,
 )
 from pub_analyzer.models.work import Authorship, Work
-from pub_analyzer.utils.identifier import get_author_id, get_work_id
 
 
 def _get_authors_list(authorships: list[Authorship]) -> list[str]:

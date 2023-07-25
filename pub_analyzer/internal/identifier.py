@@ -1,4 +1,4 @@
-"""Extract Ids Utils."""
+"""Extract Ids functions."""
 
 from pub_analyzer.models.author import Author, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.work import Work

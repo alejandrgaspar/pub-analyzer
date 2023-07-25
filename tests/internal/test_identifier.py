@@ -1,9 +1,9 @@
-"""Test utils functions from pub_analyzer/utils/identifier.py."""
+"""Test functions from pub_analyzer/internal/identifier.py."""
 
 import pytest
 
+from pub_analyzer.internal.identifier import get_author_id, get_work_id
 from pub_analyzer.models.author import Author, AuthorResult, DehydratedAuthor
-from pub_analyzer.utils.identifier import get_author_id, get_work_id
 from tests.data.author import AUTHOR_OBJECT, AUTHOR_OPEN_ALEX_ID, AUTHOR_RESULT_OBJECT, DEHYDRATED_AUTHOR_OBJECT
 from tests.data.work import WORK_OBJECT, WORK_OPEN_ALEX_ID
 

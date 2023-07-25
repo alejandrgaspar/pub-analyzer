@@ -1,11 +1,11 @@
-"""Integration test of the make_report function from pub_analyzer/utils/report.py."""
+"""Integration test of the make_report function from pub_analyzer/internal/report.py."""
 
 # import httpx
 # import pytest
 # from pydantic import TypeAdapter
 
+# from pub_analyzer.internal import report
 # from pub_analyzer.models.author import Author
-# from pub_analyzer.utils import report
 
 
 # @pytest.mark.asyncio

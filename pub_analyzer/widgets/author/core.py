@@ -6,8 +6,8 @@ from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, Label, LoadingIndicator, Static
 
+from pub_analyzer.internal.identifier import get_author_id
 from pub_analyzer.models.author import Author, AuthorResult
-from pub_analyzer.utils.identifier import get_author_id
 from pub_analyzer.widgets.report.core import CreateReportWidget
 
 from .cards import CitationMetricsCard, IdentifiersCard, LastInstitutionCard

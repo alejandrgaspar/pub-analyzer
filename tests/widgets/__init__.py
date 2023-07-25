@@ -1,1 +1,1 @@
-"""Test for pub_analyzer/widgets module."""
+"""Tests for pub_analyzer/widgets module."""

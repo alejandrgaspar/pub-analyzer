@@ -1,1 +1,0 @@
-"""Helpful common functions."""

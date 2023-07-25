@@ -8,9 +8,9 @@ from textual.app import ComposeResult
 from textual.containers import Container, Horizontal
 from textual.widgets import Button, LoadingIndicator, Static, TabbedContent, TabPane
 
+from pub_analyzer.internal.report import make_report
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import Report
-from pub_analyzer.utils.report import make_report
 from pub_analyzer.widgets.common import FileSystemSelector
 
 from .author import AuthorReportPane

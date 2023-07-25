@@ -1,4 +1,4 @@
-"""Test report functions from pub_analyzer/utils/report.py."""
+"""Test report functions from pub_analyzer/internal/report.py."""
 
 import copy
 import math
@@ -9,10 +9,10 @@ import pytest
 import respx
 from pydantic import HttpUrl
 
+from pub_analyzer.internal import report
 from pub_analyzer.models.author import DehydratedAuthor
 from pub_analyzer.models.report import CitationType
 from pub_analyzer.models.work import Authorship
-from pub_analyzer.utils import report
 from tests.data.work import WORK
 
 
