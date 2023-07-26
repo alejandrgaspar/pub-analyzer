@@ -1,8 +1,11 @@
 """Entry Point."""
 
 import webbrowser
+from typing import ClassVar
 
+from textual._path import CSSPathType
 from textual.app import App, ComposeResult
+from textual.binding import BindingType
 from textual.dom import DOMNode
 from textual.reactive import Reactive
 from textual.widgets import Footer
@@ -14,12 +17,12 @@ from pub_analyzer.widgets.sidebar import SideBar
 class PubAnalyzerApp(App[DOMNode]):
     """Pub Analyzer App entrypoint."""
 
-    CSS_PATH = [
+    CSS_PATH: ClassVar[CSSPathType] = [
         "css/main.css", "css/body.css", "css/buttons.css", "css/tabs.css",
         "css/search.css", "css/author.css", "css/report.css", "css/tree.css",
         "css/datatable.css"
     ]
-    BINDINGS = [
+    BINDINGS: ClassVar[list[BindingType]] = [
         ("ctrl+d", "toggle_dark", "Dark mode"),
         ("ctrl+s", "toggle_sidebar", "Sidebar"),
     ]

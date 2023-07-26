@@ -78,7 +78,7 @@ async def make_report(author: Author) -> Report:
             open_access_resume.add_oa_type(author_work.open_access.oa_status)
 
             # Adding the work type to works type counter.
-            work_type = next((work_type for work_type in works_type_counter if work_type.type_name == author_work.type), None)  # noqa: E501
+            work_type = next((work_type for work_type in works_type_counter if work_type.type_name == author_work.type), None)
             if work_type:
                 work_type.count += 1
             else:

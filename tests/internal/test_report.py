@@ -48,7 +48,7 @@ def test_get_authors_list() -> None:
             [("A4358557189", "A2750800828"), ("A2750800828", "A4354328133"), CitationType.TypeB],
         ]
 )
-def test_get_citation_type(original_authors: list[str], cited_authors: list[str], expected_cite_type: CitationType) -> None:  # noqa: E501
+def test_get_citation_type(original_authors: list[str], cited_authors: list[str], expected_cite_type: CitationType) -> None:
     """Test _get_citation_type function."""
     function_cite_type = report._get_citation_type(original_authors, cited_authors)
 
