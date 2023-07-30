@@ -10,7 +10,6 @@ class AuthorIDs(BaseModel):
 
     openalex: str
     orcid: str | None = ""
-    mag: str | None = ""
     scopus: str | None = ""
     twitter: str | None = ""
     wikipedia: str | None = ""
@@ -18,7 +17,7 @@ class AuthorIDs(BaseModel):
     # Allowing a value to be assigned during validation.
     model_config = ConfigDict(validate_assignment=True)
 
-    @field_validator("mag", "scopus", "twitter", "wikipedia")
+    @field_validator("scopus", "twitter", "wikipedia")
     def set_default(cls, value: str) -> str:
         """Define a default text."""
         return value or ""

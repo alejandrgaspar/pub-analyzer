@@ -14,7 +14,6 @@ class WorkIDs(BaseModel):
 
     openalex: HttpUrl
     doi: HttpUrl | None = None
-    mag: int | None = None
     pmid: str | None = None
     pmcid: str | None = None
 
