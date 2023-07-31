@@ -9,7 +9,7 @@ from typing import Any
 
 from pub_analyzer.models.author import Author, AuthorResult, DehydratedAuthor
 
-AUTHOR_OPEN_ALEX_ID = "A4356881717"
+AUTHOR_OPEN_ALEX_ID = "A5090292188"
 OPEN_ALEX_ID_URL = "https://openalex.org/" + AUTHOR_OPEN_ALEX_ID
 DISPLAY_NAME = "Mario J. Molina"
 ORCID = None
@@ -40,17 +40,17 @@ AUTHOR: dict[str, Any] = {
         {
             "year": 2023,
             "works_count": 0,
-            "cited_by_count": 695
+            "cited_by_count": 914
         },
         {
             "year": 2022,
             "works_count": 0,
-            "cited_by_count": 1572
+            "cited_by_count": 1894
         },
         {
             "year": 2021,
             "works_count": 1,
-            "cited_by_count": 1944
+            "cited_by_count": 2361
         }
     ],
     "works_api_url": "https://api.openalex.org/works?filter=author.id:A4356881717"
