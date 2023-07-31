@@ -53,6 +53,7 @@ class AuthorResumeWidget(Static):
         """Query OpenAlex API and composing the widget."""
         await self._get_info()
         container = self.query_one("#main-container", VerticalScroll)
+        is_report_not_available = self.author.works_count < 1
 
         # Compose Cards
         await container.mount(
@@ -92,7 +93,7 @@ class AuthorResumeWidget(Static):
         # Report Button
         await container.mount(
             Vertical(
-                Button("Make Report", variant="primary", id="make-report-button"),
+                Button("Make Report", variant="primary", id="make-report-button", disabled=is_report_not_available),
                 classes="block-container button-container"
             )
         )
