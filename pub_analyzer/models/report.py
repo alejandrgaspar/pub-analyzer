@@ -93,3 +93,14 @@ class AuthorReport(BaseModel):
     open_access_resume: OpenAccessResume
     works_type_resume: list[WorkTypeCounter]
     sources_resume: SourcesResume
+
+
+class InstitutionReport(BaseModel):
+    """Institution works Model."""
+
+    works: list[WorkReport]
+
+    citation_resume: CitationResume
+    open_access_resume: OpenAccessResume
+    works_type_resume: list[WorkTypeCounter]
+    sources_resume: SourcesResume

@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field, HttpUrl
 class DehydratedInstitution(BaseModel):
     """Stripped-down Institution Model."""
 
-    id: str
+    id: HttpUrl
     ror: str
     display_name: str
     country_code: str
