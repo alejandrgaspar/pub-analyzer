@@ -5,9 +5,9 @@ from textual.containers import VerticalScroll
 from textual.widgets import Button, Label
 
 from pub_analyzer.main import PubAnalyzerApp
+from pub_analyzer.widgets import search
 from pub_analyzer.widgets.author.core import AuthorResumeWidget
 from pub_analyzer.widgets.body import MainContent
-from pub_analyzer.widgets.search import AuthorResultWidget, AuthorSearchBar
 from tests.data.author import AUTHOR_RESULT_OBJECT
 
 
@@ -18,7 +18,7 @@ async def test_author_search_bar_exit_focus() -> None:
         # Switch to AuthorFinder View.
         await pilot.click("#search-sidebar-button")
 
-        search_bar = pilot.app.query_one(AuthorSearchBar)
+        search_bar = pilot.app.query_one(search.SearchBar)
         pilot.app.set_focus(search_bar)
 
         # Pressing esc key to unfocus search bar.
@@ -34,10 +34,10 @@ async def test_author_result_complete_info() -> None:
         await pilot.click("#search-sidebar-button")
 
         result_container = pilot.app.query_one("#results-container", VerticalScroll)
-        await result_container.mount(AuthorResultWidget(AUTHOR_RESULT_OBJECT))
+        await result_container.mount(search.AuthorResultWidget(AUTHOR_RESULT_OBJECT))
 
         # Check Info
-        result_widget = pilot.app.query_one(AuthorResultWidget)
+        result_widget = pilot.app.query_one(search.AuthorResultWidget)
 
         assert str(result_widget.query_one(Button).label) == AUTHOR_RESULT_OBJECT.display_name
 
@@ -56,7 +56,7 @@ async def test_author_result_button_redirect() -> None:
         await pilot.click("#search-sidebar-button")
 
         result_container = pilot.app.query_one("#results-container", VerticalScroll)
-        await result_container.mount(AuthorResultWidget(AUTHOR_RESULT_OBJECT))
+        await result_container.mount(search.AuthorResultWidget(AUTHOR_RESULT_OBJECT))
 
         # Click author button.
         await pilot.click('AuthorResultWidget Button')

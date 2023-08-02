@@ -8,7 +8,7 @@ from textual.widget import Widget
 from textual.widgets import Button, Label, Static
 
 from pub_analyzer.widgets.report.core import LoadReportWidget
-from pub_analyzer.widgets.search import AuthorFinderWidget
+from pub_analyzer.widgets.search import FinderWidget
 
 
 class SideBarOptionsName(Enum):
@@ -59,10 +59,10 @@ class SideBar(Static):
 
     @on(Button.Pressed, "#search-sidebar-button")
     async def search(self) -> None:
-        """Load the AuthorFinderWidget in the main view."""
-        await self._replace_main_content(new_title=SideBarOptionsName.SEARCH.value, new_widget=AuthorFinderWidget())
+        """Load the FinderWidget in the main view."""
+        await self._replace_main_content(new_title=SideBarOptionsName.SEARCH.value, new_widget=FinderWidget())
 
     @on(Button.Pressed, "#load-sidebar-button")
     async def load_report(self) -> None:
-        """Load the AuthorFinderWidget in the main view."""
+        """Load the LoadReportWidget in the main view."""
         await self._replace_main_content(new_title=SideBarOptionsName.LOAD_REPORT.value, new_widget=LoadReportWidget())

@@ -8,7 +8,7 @@ from textual.widget import Widget
 from pub_analyzer.main import PubAnalyzerApp
 from pub_analyzer.widgets.body import MainContent
 from pub_analyzer.widgets.report.core import LoadReportWidget
-from pub_analyzer.widgets.search import AuthorFinderWidget
+from pub_analyzer.widgets.search import FinderWidget
 from pub_analyzer.widgets.sidebar import SideBar
 
 ExpectType = TypeVar("ExpectType", bound="Widget")
@@ -36,7 +36,7 @@ async def test_sidebar_toggle() -> None:
 @pytest.mark.parametrize(
     ['button_id', 'widget_expected'],
     [
-        ['#search-sidebar-button', AuthorFinderWidget],
+        ['#search-sidebar-button', FinderWidget],
         ['#load-sidebar-button', LoadReportWidget],
     ]
 )
