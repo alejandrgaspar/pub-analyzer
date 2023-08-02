@@ -71,6 +71,13 @@ WORK: dict[str, Any] = {
             }
         }
     ],
+    "apc_list": {
+        "value": 9750,
+        "currency": "EUR",
+        "value_usd": 11690,
+        "provenance": "doaj",
+    },
+    "apc_paid": None,
     "cited_by_count": 3700,
     "referenced_works_count": 21,
     "referenced_works": [

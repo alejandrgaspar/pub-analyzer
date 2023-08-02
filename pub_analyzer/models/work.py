@@ -63,6 +63,15 @@ class Authorship(BaseModel):
     author: DehydratedAuthor
 
 
+class ArticleProcessingCharge(BaseModel):
+    """Publication fee information to the author."""
+
+    value: int
+    currency: str
+    provenance: str
+    value_usd: int | None
+
+
 class Work(BaseModel):
     """Work Model Object from OpenAlex API definition."""
 
@@ -86,6 +95,9 @@ class Work(BaseModel):
 
     referenced_works: list[HttpUrl]
     cited_by_api_url: HttpUrl
+
+    apc_list: ArticleProcessingCharge | None = None
+    apc_paid: ArticleProcessingCharge | None = None
 
     @field_validator('locations', mode='before')
     def valid_locations(cls, locations: list[dict[str, Any]]) -> list[dict[str, Any]]:
