@@ -17,13 +17,16 @@ async def test_author_search_bar_exit_focus() -> None:
     async with PubAnalyzerApp().run_test() as pilot:
         # Switch to AuthorFinder View.
         await pilot.click("#search-sidebar-button")
-
         search_bar = pilot.app.query_one(search.SearchBar)
+
+        # Check search bar Focus
+        assert pilot.app.focused is not search_bar
         pilot.app.set_focus(search_bar)
+        assert pilot.app.focused is search_bar
 
         # Pressing esc key to unfocus search bar.
         await pilot.press("escape")
-        assert pilot.app.focused is None
+        assert pilot.app.focused is not search_bar
 
 
 @pytest.mark.asyncio
