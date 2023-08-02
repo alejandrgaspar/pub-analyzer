@@ -9,11 +9,11 @@ from pydantic import TypeAdapter
 from pub_analyzer.internal.identifier import get_author_id, get_work_id
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import (
+    AuthorReport,
     CitationReport,
     CitationResume,
     CitationType,
     OpenAccessResume,
-    Report,
     SourcesResume,
     WorkReport,
     WorkTypeCounter,
@@ -52,7 +52,7 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     return TypeAdapter(list[Work]).validate_python(works_data)
 
 
-async def make_report(author: Author) -> Report:
+async def make_author_report(author: Author) -> AuthorReport:
     """Make a citation report using an Author's OpenAlex ID."""
     author_id = get_author_id(author)
     url = f"https://api.openalex.org/works?filter=author.id:{author_id}&sort=publication_date"
@@ -104,7 +104,7 @@ async def make_report(author: Author) -> Report:
 
             works.append(WorkReport(work=author_work, cited_by=cited_by, citation_resume=work_citation_resume))
 
-    return Report(
+    return AuthorReport(
         author=author,
         works=works,
         citation_resume=report_citation_resume,

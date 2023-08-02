@@ -5,7 +5,7 @@ from textual.containers import Vertical, VerticalScroll
 from textual.widgets import Label
 
 from pub_analyzer.models.author import Author
-from pub_analyzer.models.report import Report, WorkReport
+from pub_analyzer.models.report import AuthorReport, WorkReport
 from pub_analyzer.models.work import Work
 from pub_analyzer.widgets.common import Card
 
@@ -14,7 +14,7 @@ from pub_analyzer.widgets.common import Card
 class ReportCitationMetricsCard(Card):
     """Citation metrics for this report."""
 
-    def __init__(self, report: Report) -> None:
+    def __init__(self, report: AuthorReport) -> None:
         self.report = report
         super().__init__()
 
@@ -31,7 +31,7 @@ class ReportCitationMetricsCard(Card):
 class WorksTypeResumeCard(Card):
     """Works Type Counters Resume Card."""
 
-    def __init__(self, report: Report) -> None:
+    def __init__(self, report: AuthorReport) -> None:
         self.report = report
         super().__init__()
 
@@ -47,7 +47,7 @@ class WorksTypeResumeCard(Card):
 class OpenAccessResumeCard(Card):
     """Open Access counts for this report."""
 
-    def __init__(self, report: Report) -> None:
+    def __init__(self, report: AuthorReport) -> None:
         self.report = report
         super().__init__()
 

@@ -1,4 +1,4 @@
-"""Report Structure Objects."""
+"""Reports Structure Objects."""
 
 from enum import Enum
 
@@ -83,8 +83,8 @@ class SourcesResume(BaseModel):
     sources: list[DehydratedSource]
 
 
-class Report(BaseModel):
-    """Citation Report Model."""
+class AuthorReport(BaseModel):
+    """Report of scientific production of an author."""
 
     author: Author
     works: list[WorkReport]

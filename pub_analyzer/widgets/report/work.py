@@ -9,7 +9,7 @@ from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Label, Static, TabbedContent, TabPane
 
 from pub_analyzer.models.author import Author
-from pub_analyzer.models.report import CitationReport, CitationType, Report, WorkReport
+from pub_analyzer.models.report import AuthorReport, CitationReport, CitationType, WorkReport
 from pub_analyzer.widgets.common import Modal
 from pub_analyzer.widgets.report.cards import (
     AuthorshipCard,
@@ -131,14 +131,14 @@ class WorksTable(Static):
     }
     """
 
-    def __init__(self, report: Report) -> None:
+    def __init__(self, report: AuthorReport) -> None:
         self.report = report
         super().__init__()
 
     class _WorksTableRenderer(Static):
         """Virtual Static Widget to handle table actions calls."""
 
-        def __init__(self, renderable: RenderableType, report: Report) -> None:
+        def __init__(self, renderable: RenderableType, report: AuthorReport) -> None:
             self.report = report
             super().__init__(renderable)
 
@@ -188,7 +188,7 @@ class WorkReportPane(VerticalScroll):
     }
     """
 
-    def __init__(self, report: Report) -> None:
+    def __init__(self, report: AuthorReport) -> None:
         self.report = report
         super().__init__()
 

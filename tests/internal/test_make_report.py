@@ -20,11 +20,11 @@
 #         ],
 # )
 # @pytest.mark.vcr
-# async def test_make_report(author_openalex_id: str) -> None:
-#     """Integration test of make_report function."""
+# async def test_make_author_report(author_openalex_id: str) -> None:
+#     """Integration test of make_author_report function."""
 #     url = f"https://api.openalex.org/authors/{author_openalex_id}"
 #     async with httpx.AsyncClient() as client:
 #         result = (await client.get(url)).json()
 #         author: Author = TypeAdapter(Author).validate_python(result)
 
-#     await report.make_report(author=author)
+#     await report.make_author_report(author=author)

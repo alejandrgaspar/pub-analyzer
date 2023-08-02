@@ -8,7 +8,7 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, Label
 
-from pub_analyzer.models.report import Report
+from pub_analyzer.models.report import AuthorReport
 from pub_analyzer.widgets.common import FileSystemSelector, Input
 
 
@@ -23,7 +23,7 @@ class ExportReportPane(VerticalScroll):
     }
     """
 
-    def __init__(self, report: Report) -> None:
+    def __init__(self, report: AuthorReport) -> None:
         self.report = report
         super().__init__()
 

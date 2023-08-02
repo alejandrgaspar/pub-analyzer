@@ -3,7 +3,7 @@
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, VerticalScroll
 
-from pub_analyzer.models.report import Report
+from pub_analyzer.models.report import AuthorReport
 from pub_analyzer.widgets.author.cards import CitationMetricsCard, IdentifiersCard, LastInstitutionCard
 from pub_analyzer.widgets.author.tables import AuthorWorksByYearTable
 
@@ -24,7 +24,7 @@ class AuthorReportPane(VerticalScroll):
     }
     """
 
-    def __init__(self, report: Report) -> None:
+    def __init__(self, report: AuthorReport) -> None:
         self.report = report
         super().__init__()
 

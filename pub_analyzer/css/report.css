@@ -13,17 +13,17 @@ $primary-color-accent: #991b1b;
 $primary-color-highlight: #dc2626;
 
 
-ReportWidget {
+AuthorReportWidget {
     height: 1fr;
     margin: 1 2;
 }
 
-.-dark-mode ReportWidget {
+.-dark-mode AuthorReportWidget {
     background: $bg-secondary-color;
     color: $text-primary-color-darken;
 }
 
-ReportWidget #main-container {
+AuthorReportWidget #main-container {
     height: 100%;
 }
 
@@ -32,7 +32,7 @@ ContentSwitcher {
 }
 
 /* Common */
-ReportWidget .cards-container {
+AuthorReportWidget .cards-container {
     height: auto;
     margin: 1 0 0 0 ;
 
@@ -57,7 +57,7 @@ LoadReportWidget .button-container {
     height: 3;
 }
 
-/* Report Pane */
+/* Export Report Pane */
 ExportReportPane .export-form-input-container {
     height: auto;
     margin-bottom: 2;
