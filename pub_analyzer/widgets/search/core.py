@@ -6,12 +6,12 @@ import httpx
 from pydantic import TypeAdapter
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import VerticalScroll
+from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Static
 
 from pub_analyzer.models.author import AuthorResult
 from pub_analyzer.models.institution import InstitutionResult
-from pub_analyzer.widgets.common import Input
+from pub_analyzer.widgets.common import Input, Select
 
 from .results import AuthorResultWidget, InstitutionResultWidget
 
@@ -29,13 +29,20 @@ class FinderWidget(Static):
         AUTHOR = "https://api.openalex.org/autocomplete/authors?author_hint=institution"
         INSTITUTION = "https://api.openalex.org/autocomplete/institutions?"
 
+    class EntityTypeSelector(Select[OpenAlexEndPoint]):
+        """Entity_type Selector."""
+
     def __init__(self, url: OpenAlexEndPoint = OpenAlexEndPoint.AUTHOR) -> None:
         self.url = url
         super().__init__()
 
     def compose(self) -> ComposeResult:
         """Generate an input field and displays the results."""
-        yield SearchBar(placeholder="Search for an author by name")
+        entity_options = [(name.title(), endpoint) for name, endpoint in self.OpenAlexEndPoint.__members__.items()]
+
+        with Horizontal(classes="searchbar-container"):
+            yield SearchBar(placeholder="Search author")
+            yield self.EntityTypeSelector(options=entity_options, value=self.OpenAlexEndPoint.AUTHOR, allow_blank=False)
         yield VerticalScroll(id="results-container")
 
     async def lookup(self, input: str) -> None:
@@ -70,3 +77,18 @@ class FinderWidget(Static):
         else:
             # Clear the results
             await self.query("#results-container > *").remove()
+
+    @on(Select.Changed)
+    async def on_select_entity(self, event: Select.Changed) -> None:
+        """Change entity endpoint."""
+        search_bar = self.query_one(SearchBar)
+        match event.value:
+            case self.OpenAlexEndPoint.AUTHOR:
+                self.url = self.OpenAlexEndPoint.AUTHOR
+                search_bar.placeholder = "Search author"
+
+            case self.OpenAlexEndPoint.INSTITUTION:
+                self.url = self.OpenAlexEndPoint.INSTITUTION
+                search_bar.placeholder = "Search institution"
+
+        search_bar.value = ""

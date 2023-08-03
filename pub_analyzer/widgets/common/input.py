@@ -15,11 +15,11 @@ class Input(TextualInput):
     $primary-color-highlight: #dc2626;
 
     Input {
-        border: tall $primary-color-accent;
+        border: tall $background;
     }
 
     Input:focus {
-        border: tall $primary-color-highlight;
+        border: tall $primary-color-accent;
     }
     """
 

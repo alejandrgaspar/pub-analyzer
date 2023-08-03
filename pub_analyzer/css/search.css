@@ -8,15 +8,9 @@ $bg-main-color-darken: #1e293b;
 $bg-secondary-color-darken: #0f172a;
 $text-primary-color-darken: black;
 
+/* Finder */
 FinderWidget {
     height: 1fr;
-}
-
-FinderWidget Input {
-    width: 100%;
-    height: 1;
-    padding: 0 1;
-    margin: 1 1 0 1;
 }
 
 FinderWidget #results-container {
@@ -24,7 +18,25 @@ FinderWidget #results-container {
     margin: 1 2;
 }
 
+/* Searchbar */
+FinderWidget .searchbar-container {
+    height: 4;
+}
 
+SearchBar {
+    width: 3fr;
+    height: 3;
+    padding: 0 1;
+    margin: 1 1 0 1;
+}
+
+EntityTypeSelector {
+    width: 1fr;
+    margin-top: 1;
+}
+
+
+/* Result Widget */
 ResultWidget {
     height: 9;
     layout: horizontal;
