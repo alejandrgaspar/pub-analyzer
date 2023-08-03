@@ -10,9 +10,10 @@ from textual.containers import VerticalScroll
 from textual.widgets import Static
 
 from pub_analyzer.models.author import AuthorResult
+from pub_analyzer.models.institution import InstitutionResult
 from pub_analyzer.widgets.common import Input
 
-from .author import AuthorResultWidget
+from .results import AuthorResultWidget, InstitutionResultWidget
 
 
 class SearchBar(Input):
@@ -22,12 +23,13 @@ class SearchBar(Input):
 class FinderWidget(Static):
     """Search in Open Alex API as-you-type Widget."""
 
-    class EndPoint(Enum):
+    class OpenAlexEndPoint(Enum):
         """OpenAlex Endpoints."""
 
         AUTHOR = "https://api.openalex.org/autocomplete/authors?author_hint=institution"
+        INSTITUTION = "https://api.openalex.org/autocomplete/institutions?"
 
-    def __init__(self, url: EndPoint = EndPoint.AUTHOR) -> None:
+    def __init__(self, url: OpenAlexEndPoint = OpenAlexEndPoint.AUTHOR) -> None:
         self.url = url
         super().__init__()
 
@@ -47,12 +49,17 @@ class FinderWidget(Static):
             await self.query("#results-container > *").remove()
 
             match self.url:
-                case self.EndPoint.AUTHOR:
-                    results: list[AuthorResult] = TypeAdapter(list[AuthorResult]).validate_python(response)
-                    result_widget = AuthorResultWidget
+                case self.OpenAlexEndPoint.AUTHOR:
+                    author_results: list[AuthorResult] = TypeAdapter(list[AuthorResult]).validate_python(response)
+                    for author_result in author_results:
+                        await self.query_one("#results-container").mount(AuthorResultWidget(author_result))
+                    return
 
-            for result in results:
-                await self.query_one("#results-container").mount(result_widget(result))
+                case self.OpenAlexEndPoint.INSTITUTION:
+                    institution_results: list[InstitutionResult] = TypeAdapter(list[InstitutionResult]).validate_python(response)
+                    for institution_result in institution_results:
+                        await self.query_one("#results-container").mount(InstitutionResultWidget(institution_result))
+                    return
 
     @on(Input.Changed)
     async def on_type(self, event: Input.Changed) -> None:

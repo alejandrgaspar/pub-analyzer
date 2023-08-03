@@ -98,3 +98,17 @@ class Institution(BaseModel):
 
     geo: InstitutionGeo
     roles: list[InstitutionRole]
+
+
+class InstitutionResult(BaseModel):
+    """Institution result Model resulting from a search in OpenAlex."""
+
+    id: HttpUrl
+    display_name: str
+    hint: str | None = None
+
+    cited_by_count: int
+    works_count: int
+
+    entity_type: str
+    external_id: str | None = None

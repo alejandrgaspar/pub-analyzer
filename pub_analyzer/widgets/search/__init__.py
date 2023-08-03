@@ -1,10 +1,11 @@
 """Search Widgets."""
 
-from .author import AuthorResultWidget
 from .core import FinderWidget, SearchBar
+from .results import AuthorResultWidget, InstitutionResultWidget
 
 __all__ = [
     'FinderWidget',
-    'AuthorResultWidget',
     'SearchBar',
+    'AuthorResultWidget',
+    'InstitutionResultWidget',
 ]
