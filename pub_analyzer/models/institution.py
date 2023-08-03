@@ -28,14 +28,14 @@ class InstitutionIDs(BaseModel):
 class InstitutionType(str, Enum):
     """Institution type."""
 
-    Education = "Education"
-    Healthcare = "Healthcare"
-    Company = "Company"
-    Archive = "Archive"
-    Nonprofit = "Nonprofit"
-    Government = "Government"
-    Facility = "Facility"
-    Other = "Other"
+    Education = "education"
+    Healthcare = "healthcare"
+    Company = "company"
+    Archive = "archive"
+    Nonprofit = "nonprofit"
+    Government = "government"
+    Facility = "facility"
+    Other = "other"
 
 
 class InstitutionSummaryStats(BaseModel):
@@ -67,9 +67,9 @@ class InstitutionGeo(BaseModel):
 class InstitutionRoleType(str, Enum):
     """Posible institution roles."""
 
-    funder = "Funder"
-    publisher = "Publisher"
-    institution = "Institution"
+    funder = "funder"
+    publisher = "publisher"
+    institution = "institution"
 
 
 class InstitutionRole(BaseModel):

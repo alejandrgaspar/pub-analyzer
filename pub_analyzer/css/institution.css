@@ -1,0 +1,70 @@
+/* COLORS */
+$bg-main-color: white;
+$bg-secondary-color: #e5e7eb;
+$bg-secondary-color-accent: #d1d5db;
+$text-primary-color: black;
+
+$bg-main-color-darken: #1e293b;
+$bg-secondary-color-darken: #0f172a;
+$text-primary-color-darken: black;
+
+InstitutionResumeWidget {
+    height: 1fr;
+    margin: 1 2;
+}
+
+.-dark-mode InstitutionResumeWidget {
+    color: $text-primary-color-darken;
+    background: $bg-secondary-color;
+}
+
+
+/* Main Container */
+InstitutionResumeWidget #main-container{
+    height: 1fr;
+}
+
+/* Block Container */
+InstitutionResumeWidget .block-container {
+    padding: 1;
+    height: auto;
+}
+
+InstitutionResumeWidget .block-title {
+    text-align: center;
+    width: 100%;
+    border-bottom: solid $text-primary-color;
+}
+
+InstitutionResumeWidget .info-container {
+    height: auto;
+}
+
+InstitutionResumeWidget .info-container Label {
+    text-align: center;
+    width: 1fr;
+}
+
+/* Cards */
+InstitutionResumeWidget .cards-container {
+    height: auto;
+    margin: 1 0 0 0 ;
+
+    layout: grid;
+    grid-size: 3 1;
+    grid-rows: 11;
+    grid-columns: 1fr;
+    grid-gutter: 1 2;
+}
+
+/* Table */
+InstitutionResumeWidget .table-container {
+    height: auto;
+    margin: 1 0 0 0 ;
+}
+
+
+/* Buttons */
+InstitutionResumeWidget .button-container {
+    align: center middle;
+}

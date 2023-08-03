@@ -8,6 +8,7 @@ from pub_analyzer.main import PubAnalyzerApp
 from pub_analyzer.widgets import search
 from pub_analyzer.widgets.author.core import AuthorResumeWidget
 from pub_analyzer.widgets.body import MainContent
+from pub_analyzer.widgets.institution.core import InstitutionResumeWidget
 from tests.data.author import AUTHOR_RESULT_OBJECT
 from tests.data.institution import INSTITUTION_RESULT_OBJECT
 
@@ -77,7 +78,7 @@ async def test_institution_result_complete_info() -> None:
 async def test_author_result_button_redirect() -> None:
     """Test Author result widget button redirect to AuthorResumeWidget."""
     async with PubAnalyzerApp().run_test() as pilot:
-        # Switch to AuthorFinder View and mounting a result.
+        # Switch to FinderWidget View and mounting a result.
         await pilot.click("#search-sidebar-button")
 
         result_container = pilot.app.query_one("#results-container", VerticalScroll)
@@ -93,3 +94,25 @@ async def test_author_result_button_redirect() -> None:
         # Check main content update.
         main_content = pilot.app.query_one(MainContent)
         main_content.get_child_by_type(AuthorResumeWidget)
+
+
+@pytest.mark.asyncio
+async def test_institution_result_button_redirect() -> None:
+    """Test Institution result widget button redirect to InstitutionResumeWidget."""
+    async with PubAnalyzerApp().run_test() as pilot:
+        # Switch to FinderWidget View and mounting a result.
+        await pilot.click("#search-sidebar-button")
+
+        result_container = pilot.app.query_one("#results-container", VerticalScroll)
+        await result_container.mount(search.InstitutionResultWidget(INSTITUTION_RESULT_OBJECT))
+
+        # Click institution button.
+        await pilot.click('InstitutionResultWidget Button')
+
+        # Check title update.
+        title = pilot.app.query_one('#page-title', Label)
+        assert str(title.renderable) == INSTITUTION_RESULT_OBJECT.display_name
+
+        # Check main content update.
+        main_content = pilot.app.query_one(MainContent)
+        main_content.get_child_by_type(InstitutionResumeWidget)

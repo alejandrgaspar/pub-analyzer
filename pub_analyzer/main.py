@@ -20,7 +20,7 @@ class PubAnalyzerApp(App[DOMNode]):
     CSS_PATH: ClassVar[CSSPathType] = [
         "css/main.css", "css/body.css", "css/buttons.css", "css/tabs.css",
         "css/search.css", "css/author.css", "css/report.css", "css/tree.css",
-        "css/datatable.css"
+        "css/datatable.css", "css/institution.css",
     ]
     BINDINGS: ClassVar[list[BindingType]] = [
         ("ctrl+d", "toggle_dark", "Dark mode"),
