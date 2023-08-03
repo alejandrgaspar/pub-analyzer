@@ -7,12 +7,78 @@ https://www.ucol.mx/
 
 from typing import Any
 
-from pub_analyzer.models.institution import InstitutionResult
+from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionResult
 
 INSTITUTION_OPEN_ALEX_ID = "I916541031"
 OPEN_ALEX_ID_URL = "https://openalex.org/" + INSTITUTION_OPEN_ALEX_ID
 DISPLAY_NAME = "University of Colima"
 
+
+INSTITUTION: dict[str, Any] = {
+    "id": OPEN_ALEX_ID_URL,
+    "ids": {
+        "openalex": OPEN_ALEX_ID_URL,
+        "ror": "https://ror.org/04znxe670",
+        "mag": "916541031",
+        "grid": "grid.412887.0",
+        "wikipedia": "https://en.wikipedia.org/wiki/University%20of%20Colima",
+        "wikidata": "https://www.wikidata.org/wiki/Q2495731"
+    },
+    "display_name": DISPLAY_NAME,
+    "country_code": "MX",
+    "type": "education",
+    "homepage_url": "http://www.ucol.mx/",
+    "works_count": 5347,
+    "cited_by_count": 40292,
+    "counts_by_year": [
+        {
+            "year": 2023,
+            "works_count": 188,
+            "cited_by_count": 3525
+        },
+        {
+            "year": 2022,
+            "works_count": 341,
+            "cited_by_count": 5876
+        },
+        {
+            "year": 2021,
+            "works_count": 354,
+            "cited_by_count": 5267
+        }
+    ],
+    "summary_stats": {
+        "2yr_mean_citedness": 2.366178428761651,
+        "h_index": 78,
+        "i10_index": 959
+    },
+    "geo": {
+        "city": "Colima",
+        "geonames_city_id": "4013516",
+        "region": None,
+        "country_code": "MX",
+        "country": "Mexico",
+        "latitude": 19.265818,
+        "longitude": -103.74164
+    },
+    "roles": [
+        {
+            "role": "publisher",
+            "id": "https://openalex.org/P4310319647",
+            "works_count": 1164
+        },
+        {
+            "role": "institution",
+            "id": "https://openalex.org/I916541031",
+            "works_count": 5347
+        },
+        {
+            "role": "funder",
+            "id": "https://openalex.org/F4320318845",
+            "works_count": 3
+        }
+    ],
+}
 
 INSTITUTION_RESULT: dict[str, Any] = {
     "id": OPEN_ALEX_ID_URL,
@@ -24,5 +90,15 @@ INSTITUTION_RESULT: dict[str, Any] = {
     "external_id": "https://ror.org/04znxe670"
 }
 
+DEHYDRATED_INSTITUTION: dict[str, Any] = {
+    "id": OPEN_ALEX_ID_URL,
+    "ror": "https://ror.org/04znxe670",
+    "display_name": DISPLAY_NAME,
+    "country_code": "MX",
+    "type": "education"
+}
 
+
+INSTITUTION_OBJECT = Institution(**INSTITUTION)
 INSTITUTION_RESULT_OBJECT = InstitutionResult(**INSTITUTION_RESULT)
+DEHYDRATED_INSTITUTION_OBJECT = DehydratedInstitution(**DEHYDRATED_INSTITUTION)
