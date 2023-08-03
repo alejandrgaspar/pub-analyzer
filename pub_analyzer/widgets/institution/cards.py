@@ -40,6 +40,9 @@ class IdentifiersCard(Card):
             if platform_url:
                 yield Label(f"""- [@click="app.open_link('{platform_url}')"]{platform}[/]""")
 
+        if self.institution.homepage_url:
+            yield Label(f"""- [@click="app.open_link('{self.institution.homepage_url}')"]Homepage[/]""")
+
 
 class GeoCard(Card):
     """Card with location info of this institution."""

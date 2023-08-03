@@ -52,7 +52,7 @@ InstitutionResumeWidget .cards-container {
 
     layout: grid;
     grid-size: 3 1;
-    grid-rows: 11;
+    grid-rows: 14;
     grid-columns: 1fr;
     grid-gutter: 1 2;
 }
