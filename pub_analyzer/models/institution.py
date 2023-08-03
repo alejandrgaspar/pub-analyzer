@@ -5,16 +5,6 @@ from enum import Enum
 from pydantic import BaseModel, Field, HttpUrl
 
 
-class DehydratedInstitution(BaseModel):
-    """Stripped-down Institution Model."""
-
-    id: HttpUrl
-    ror: str
-    display_name: str
-    country_code: str
-    type: str
-
-
 class InstitutionIDs(BaseModel):
     """IDs from a Institution."""
 
@@ -98,6 +88,16 @@ class Institution(BaseModel):
 
     geo: InstitutionGeo
     roles: list[InstitutionRole]
+
+
+class DehydratedInstitution(BaseModel):
+    """Stripped-down Institution Model."""
+
+    id: HttpUrl
+    ror: str
+    display_name: str
+    country_code: str
+    type: InstitutionType
 
 
 class InstitutionResult(BaseModel):
