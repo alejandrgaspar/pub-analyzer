@@ -48,7 +48,16 @@ LoadReportWidget {
     margin: 1 1 0 1;
 }
 
+LoadReportWidget .filesystem-selector-container {
+    height: 5;
+}
+
 LoadReportWidget FileSystemSelector {
+    width: 3fr;
+}
+
+LoadReportWidget EntityTypeSelector {
+    width: 1fr;
     margin-bottom: 1;
 }
 
