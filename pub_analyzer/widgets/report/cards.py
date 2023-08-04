@@ -27,7 +27,7 @@ class ReportCitationMetricsCard(Card):
                 case AuthorReport():
                     yield Label(f'[bold]Count:[/bold] {self.report.author.cited_by_count}')
                 case InstitutionReport():
-                    yield Label('[bold]Count:[/bold] [red]TODO[/]')
+                    yield Label(f'[bold]Count:[/bold] {self.report.institution.cited_by_count}')
 
             yield Label(f'[bold]Type A:[/bold] {self.report.citation_resume.type_a_count}')
             yield Label(f'[bold]Type B:[/bold] {self.report.citation_resume.type_b_count}')
