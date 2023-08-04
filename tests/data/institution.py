@@ -78,6 +78,7 @@ INSTITUTION: dict[str, Any] = {
             "works_count": 3
         }
     ],
+    "works_api_url": "https://api.openalex.org/works?filter=institutions.id:I916541031"
 }
 
 INSTITUTION_RESULT: dict[str, Any] = {
