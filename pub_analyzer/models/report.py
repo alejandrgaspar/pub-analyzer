@@ -5,6 +5,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 from .author import Author
+from .institution import Institution
 from .source import DehydratedSource
 from .work import OpenAccessStatus, Work
 
@@ -98,6 +99,7 @@ class AuthorReport(BaseModel):
 class InstitutionReport(BaseModel):
     """Institution works Model."""
 
+    institution: Institution
     works: list[WorkReport]
 
     citation_resume: CitationResume

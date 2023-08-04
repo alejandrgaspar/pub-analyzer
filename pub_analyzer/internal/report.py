@@ -169,6 +169,7 @@ async def make_institution_report(institution: Institution) -> InstitutionReport
             works.append(WorkReport(work=institution_work, cited_by=cited_by, citation_resume=work_citation_resume))
 
     return InstitutionReport(
+        institution=institution,
         works=works,
         citation_resume=report_citation_resume,
         open_access_resume=open_access_resume,
