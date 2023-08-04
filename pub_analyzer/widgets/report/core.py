@@ -17,6 +17,7 @@ from pub_analyzer.widgets.common import FileSystemSelector
 
 from .author import AuthorReportPane
 from .export import ExportReportPane
+from .institution import InstitutionReportPane
 from .source import SourcesReportPane
 from .work import WorkReportPane
 
@@ -56,6 +57,8 @@ class InstitutionReportWidget(ReportWidget):
     def compose(self) -> ComposeResult:
         """Create main info container and with all the widgets."""
         with TabbedContent(id="main-container"):
+            with TabPane("Institution"):
+                yield InstitutionReportPane(report=self.report)
             with TabPane("Works"):
                 yield WorkReportPane(report=self.report)
             with TabPane("Sources"):
