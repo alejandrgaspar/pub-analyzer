@@ -89,6 +89,8 @@ class Institution(BaseModel):
     geo: InstitutionGeo
     roles: list[InstitutionRole]
 
+    works_api_url: str
+
 
 class DehydratedInstitution(BaseModel):
     """Stripped-down Institution Model."""

@@ -6,10 +6,12 @@ from pydantic import TypeAdapter
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal
+from textual.widget import Widget
 from textual.widgets import Button, LoadingIndicator, Static, TabbedContent, TabPane
 
-from pub_analyzer.internal.report import make_author_report
+from pub_analyzer.internal.report import make_author_report, make_institution_report
 from pub_analyzer.models.author import Author
+from pub_analyzer.models.institution import Institution
 from pub_analyzer.models.report import AuthorReport, InstitutionReport
 from pub_analyzer.widgets.common import FileSystemSelector
 
@@ -19,7 +21,11 @@ from .source import SourcesReportPane
 from .work import WorkReportPane
 
 
-class AuthorReportWidget(Static):
+class ReportWidget(Static):
+    """Base report widget."""
+
+
+class AuthorReportWidget(ReportWidget):
     """Author report generator view."""
 
     def __init__(self, report: AuthorReport) -> None:
@@ -40,7 +46,7 @@ class AuthorReportWidget(Static):
                 yield ExportReportPane(report=self.report, suggest_prefix=suggest_prefix)
 
 
-class InstitutionReportWidget(Static):
+class InstitutionReportWidget(ReportWidget):
     """Institution report generator view."""
 
     def __init__(self, report: InstitutionReport) -> None:
@@ -55,17 +61,12 @@ class InstitutionReportWidget(Static):
             with TabPane("Sources"):
                 yield SourcesReportPane(report=self.report)
             with TabPane("Export"):
-                yield ExportReportPane(report=self.report)
+                suggest_prefix = self.report.institution.display_name.lower().replace(" ", "-")
+                yield ExportReportPane(report=self.report, suggest_prefix=suggest_prefix)
 
 
 class CreateReportWidget(Static):
-    """Widget report wrapper to load data from API."""
-
-    def __init__(self, author: Author, works_api_url: str) -> None:
-        self.works_api_url = works_api_url
-        self.author = author
-
-        super().__init__()
+    """Base Widget report wrapper to load data from API."""
 
     def compose(self) -> ComposeResult:
         """Create main info container and showing a loading animation."""
@@ -75,17 +76,52 @@ class CreateReportWidget(Static):
     def on_mount(self) -> None:
         """Hiding the empty container and calling the data in the background."""
         self.query_one(Container).display = False
-        self.run_worker(self.make_report(), exclusive=True)
+        self.run_worker(self.mount_report(), exclusive=True)
 
-    async def make_report(self) -> None:
-        """Generate the report and compose the widget."""
-        report = await make_author_report(author=self.author)
+    async def make_report(self) -> Widget:
+        """Make report and create the widget."""
+        raise NotImplementedError
+
+    async def mount_report(self) -> None:
+        """Mount report."""
+        report_widget = await self.make_report()
         container = self.query_one(Container)
-        await container.mount(AuthorReportWidget(report=report))
+        await container.mount(report_widget)
 
         # Show results
         self.query_one(LoadingIndicator).display = False
         container.display = True
+
+
+
+class CreateAuthorReportWidget(CreateReportWidget):
+    """Widget Author report wrapper to load data from API."""
+
+    def __init__(self, author: Author, works_api_url: str) -> None:
+        self.works_api_url = works_api_url
+        self.author = author
+
+        super().__init__()
+
+    async def make_report(self) -> AuthorReportWidget:
+        """Make report and create the widget."""
+        report = await make_author_report(author=self.author)
+        return AuthorReportWidget(report=report)
+
+
+class CreateInstitutionReportWidget(CreateReportWidget):
+    """Widget Institution report wrapper to load data from API."""
+
+    def __init__(self, institution: Institution, works_api_url: str) -> None:
+        self.works_api_url = works_api_url
+        self.institution = institution
+
+        super().__init__()
+
+    async def make_report(self) -> InstitutionReportWidget:
+        """Make report and create the widget."""
+        report = await make_institution_report(institution=self.institution)
+        return InstitutionReportWidget(report=report)
 
 
 class LoadReportWidget(Static):

@@ -13,17 +13,17 @@ $primary-color-accent: #991b1b;
 $primary-color-highlight: #dc2626;
 
 
-AuthorReportWidget {
+ReportWidget {
     height: 1fr;
     margin: 1 2;
 }
 
-.-dark-mode AuthorReportWidget {
+.-dark-mode ReportWidget {
     background: $bg-secondary-color;
     color: $text-primary-color-darken;
 }
 
-AuthorReportWidget #main-container {
+ReportWidget #main-container {
     height: 100%;
 }
 
@@ -32,7 +32,7 @@ ContentSwitcher {
 }
 
 /* Common */
-AuthorReportWidget .cards-container {
+ReportWidget .cards-container {
     height: auto;
     margin: 1 0 0 0 ;
 

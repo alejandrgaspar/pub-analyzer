@@ -1,12 +1,14 @@
 """Module with Widgets that allows to display the complete information of Institution using OpenAlex."""
 
 import httpx
+from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical, VerticalScroll
-from textual.widgets import Label, LoadingIndicator, Static
+from textual.widgets import Button, Label, LoadingIndicator, Static
 
 from pub_analyzer.internal.identifier import get_institution_id
 from pub_analyzer.models.institution import Institution, InstitutionResult
+from pub_analyzer.widgets.report.core import CreateInstitutionReportWidget
 
 from .cards import CitationMetricsCard, IdentifiersCard, RolesCard
 from .tables import InstitutionWorksByYearTable
@@ -30,6 +32,14 @@ class InstitutionResumeWidget(Static):
         self.query_one("#main-container", VerticalScroll).display = False
         self.run_worker(self.load_data(), exclusive=True)
 
+    @on(Button.Pressed, "#make-report-button")
+    async def make_report(self) -> None:
+        """Make the institution report."""
+        report_widget = CreateInstitutionReportWidget(institution=self.institution, works_api_url=self.institution.works_api_url)
+
+        await self.app.query_one("MainContent").mount(report_widget)
+        await self.app.query_one("InstitutionResumeWidget").remove()
+
     async def _get_info(self) -> None:
         """Query OpenAlex API."""
         institution_id = get_institution_id(self.institution_result)
@@ -43,6 +53,7 @@ class InstitutionResumeWidget(Static):
         """Query OpenAlex API and composing the widget."""
         await self._get_info()
         container = self.query_one("#main-container", VerticalScroll)
+        is_report_not_available = self.institution.works_count < 1
 
         # Compose Cards
         await container.mount(
@@ -76,6 +87,14 @@ class InstitutionResumeWidget(Static):
             Container(
                 InstitutionWorksByYearTable(institution=self.institution),
                 classes="table-container"
+            )
+        )
+
+        # Report Button
+        await container.mount(
+            Vertical(
+                Button("Make Report", variant="primary", id="make-report-button", disabled=is_report_not_available),
+                classes="block-container button-container"
             )
         )
 
