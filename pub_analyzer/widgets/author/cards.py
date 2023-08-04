@@ -59,4 +59,4 @@ class LastInstitutionCard(Card):
             with Vertical(classes='card-container'):
                 yield Label(f'''[bold]Name:[/bold] [@click="app.open_link('{ror}')"]{institution_name}[/]''')
                 yield Label(f'[bold]Country:[/bold] {self.author.last_known_institution.country_code}')
-                yield Label(f'[bold]Type:[/bold] {self.author.last_known_institution.type}')
+                yield Label(f'[bold]Type:[/bold] {self.author.last_known_institution.type.value}')
