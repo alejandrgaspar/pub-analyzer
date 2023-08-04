@@ -6,7 +6,7 @@ from textual.app import ComposeResult
 from textual.containers import VerticalScroll
 from textual.widgets import Static
 
-from pub_analyzer.models.report import AuthorReport
+from pub_analyzer.models.report import AuthorReport, InstitutionReport
 from pub_analyzer.models.source import DehydratedSource
 
 
@@ -71,7 +71,7 @@ class SourcesReportPane(VerticalScroll):
     }
     """
 
-    def __init__(self, report: AuthorReport) -> None:
+    def __init__(self, report: AuthorReport | InstitutionReport) -> None:
         self.report = report
         super().__init__()
 

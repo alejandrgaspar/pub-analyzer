@@ -8,7 +8,7 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, Label
 
-from pub_analyzer.models.report import AuthorReport
+from pub_analyzer.models.report import AuthorReport, InstitutionReport
 from pub_analyzer.widgets.common import FileSystemSelector, Input
 
 
@@ -23,8 +23,9 @@ class ExportReportPane(VerticalScroll):
     }
     """
 
-    def __init__(self, report: AuthorReport) -> None:
+    def __init__(self, report: AuthorReport | InstitutionReport, suggest_prefix: str = "") -> None:
         self.report = report
+        self.suggest_prefix = suggest_prefix
         super().__init__()
 
     @on(FileSystemSelector.FileSelected)
@@ -54,7 +55,7 @@ class ExportReportPane(VerticalScroll):
 
     def compose(self) -> ComposeResult:
         """Compose content pane."""
-        suggest_file_name = f"{self.report.author.display_name.lower().split()[0]}-{datetime.now().strftime('%m-%d-%Y')}.json"
+        suggest_file_name = f"{self.suggest_prefix}-{datetime.now().strftime('%m-%d-%Y')}.json"
 
         with Vertical(id="export-form"):
             with Vertical(classes="export-form-input-container"):

@@ -5,7 +5,7 @@ from textual.containers import Vertical, VerticalScroll
 from textual.widgets import Label
 
 from pub_analyzer.models.author import Author
-from pub_analyzer.models.report import AuthorReport, WorkReport
+from pub_analyzer.models.report import AuthorReport, InstitutionReport, WorkReport
 from pub_analyzer.models.work import Work
 from pub_analyzer.widgets.common import Card
 
@@ -14,7 +14,7 @@ from pub_analyzer.widgets.common import Card
 class ReportCitationMetricsCard(Card):
     """Citation metrics for this report."""
 
-    def __init__(self, report: AuthorReport) -> None:
+    def __init__(self, report: AuthorReport | InstitutionReport) -> None:
         self.report = report
         super().__init__()
 
@@ -23,7 +23,12 @@ class ReportCitationMetricsCard(Card):
         yield Label('[italic]Citation metrics:[/italic]', classes="card-title")
 
         with Vertical(classes='card-container'):
-            yield Label(f'[bold]Count:[/bold] {self.report.author.cited_by_count}')
+            match self.report:
+                case AuthorReport():
+                    yield Label(f'[bold]Count:[/bold] {self.report.author.cited_by_count}')
+                case InstitutionReport():
+                    yield Label('[bold]Count:[/bold] [red]TODO[/]')
+
             yield Label(f'[bold]Type A:[/bold] {self.report.citation_resume.type_a_count}')
             yield Label(f'[bold]Type B:[/bold] {self.report.citation_resume.type_b_count}')
 
@@ -31,7 +36,7 @@ class ReportCitationMetricsCard(Card):
 class WorksTypeResumeCard(Card):
     """Works Type Counters Resume Card."""
 
-    def __init__(self, report: AuthorReport) -> None:
+    def __init__(self, report: AuthorReport | InstitutionReport) -> None:
         self.report = report
         super().__init__()
 
@@ -47,7 +52,7 @@ class WorksTypeResumeCard(Card):
 class OpenAccessResumeCard(Card):
     """Open Access counts for this report."""
 
-    def __init__(self, report: AuthorReport) -> None:
+    def __init__(self, report: AuthorReport | InstitutionReport) -> None:
         self.report = report
         super().__init__()
 

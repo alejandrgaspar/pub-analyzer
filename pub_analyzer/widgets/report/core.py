@@ -10,7 +10,7 @@ from textual.widgets import Button, LoadingIndicator, Static, TabbedContent, Tab
 
 from pub_analyzer.internal.report import make_author_report
 from pub_analyzer.models.author import Author
-from pub_analyzer.models.report import AuthorReport
+from pub_analyzer.models.report import AuthorReport, InstitutionReport
 from pub_analyzer.widgets.common import FileSystemSelector
 
 from .author import AuthorReportPane
@@ -20,17 +20,36 @@ from .work import WorkReportPane
 
 
 class AuthorReportWidget(Static):
-    """Report generator view."""
+    """Author report generator view."""
 
     def __init__(self, report: AuthorReport) -> None:
         self.report = report
         super().__init__()
 
     def compose(self) -> ComposeResult:
-        """Create main info container and showing a loading animation."""
+        """Create main info container and with all the widgets."""
         with TabbedContent(id="main-container"):
             with TabPane("Author"):
                 yield AuthorReportPane(report=self.report)
+            with TabPane("Works"):
+                yield WorkReportPane(report=self.report)
+            with TabPane("Sources"):
+                yield SourcesReportPane(report=self.report)
+            with TabPane("Export"):
+                suggest_prefix = self.report.author.display_name.lower().split()[0]
+                yield ExportReportPane(report=self.report, suggest_prefix=suggest_prefix)
+
+
+class InstitutionReportWidget(Static):
+    """Institution report generator view."""
+
+    def __init__(self, report: InstitutionReport) -> None:
+        self.report = report
+        super().__init__()
+
+    def compose(self) -> ComposeResult:
+        """Create main info container and with all the widgets."""
+        with TabbedContent(id="main-container"):
             with TabPane("Works"):
                 yield WorkReportPane(report=self.report)
             with TabPane("Sources"):

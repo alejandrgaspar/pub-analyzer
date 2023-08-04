@@ -9,7 +9,7 @@ from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Label, Static, TabbedContent, TabPane
 
 from pub_analyzer.models.author import Author
-from pub_analyzer.models.report import AuthorReport, CitationReport, CitationType, WorkReport
+from pub_analyzer.models.report import AuthorReport, CitationReport, CitationType, InstitutionReport, WorkReport
 from pub_analyzer.widgets.common import Modal
 from pub_analyzer.widgets.report.cards import (
     AuthorshipCard,
@@ -78,7 +78,7 @@ class CitedByTable(Static):
 class WorkModal(Modal[None]):
     """Summary of the statistics of a work."""
 
-    def __init__(self, work_report: WorkReport, author: Author) -> None:
+    def __init__(self, work_report: WorkReport, author: Author | None) -> None:
         self.work_report = work_report
         self.author = author
         super().__init__()
@@ -131,20 +131,24 @@ class WorksTable(Static):
     }
     """
 
-    def __init__(self, report: AuthorReport) -> None:
+    def __init__(self, report: AuthorReport | InstitutionReport) -> None:
         self.report = report
         super().__init__()
 
     class _WorksTableRenderer(Static):
         """Virtual Static Widget to handle table actions calls."""
 
-        def __init__(self, renderable: RenderableType, report: AuthorReport) -> None:
+        def __init__(self, renderable: RenderableType, report: AuthorReport | InstitutionReport) -> None:
             self.report = report
             super().__init__(renderable)
 
         def action_open_work_details(self, idx: int) -> None:
             """Open Modal."""
-            self.app.push_screen(WorkModal(work_report=self.report.works[idx], author=self.report.author))
+            match self.report:
+                case AuthorReport():
+                    self.app.push_screen(WorkModal(work_report=self.report.works[idx], author=self.report.author))
+                case InstitutionReport():
+                    self.app.push_screen(WorkModal(work_report=self.report.works[idx], author=None))
 
     def compose(self) -> ComposeResult:
         """Generate Table."""
@@ -188,7 +192,7 @@ class WorkReportPane(VerticalScroll):
     }
     """
 
-    def __init__(self, report: AuthorReport) -> None:
+    def __init__(self, report: AuthorReport | InstitutionReport) -> None:
         self.report = report
         super().__init__()
 
