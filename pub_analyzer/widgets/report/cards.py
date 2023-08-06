@@ -23,14 +23,13 @@ class ReportCitationMetricsCard(Card):
         yield Label('[italic]Citation metrics:[/italic]', classes="card-title")
 
         with Vertical(classes='card-container'):
-            match self.report:
-                case AuthorReport():
-                    yield Label(f'[bold]Count:[/bold] {self.report.author.cited_by_count}')
-                case InstitutionReport():
-                    yield Label(f'[bold]Count:[/bold] {self.report.institution.cited_by_count}')
+            type_a_count = self.report.citation_resume.type_a_count
+            type_b_count = self.report.citation_resume.type_b_count
+            cited_by_count = type_a_count + type_b_count
 
-            yield Label(f'[bold]Type A:[/bold] {self.report.citation_resume.type_a_count}')
-            yield Label(f'[bold]Type B:[/bold] {self.report.citation_resume.type_b_count}')
+            yield Label(f'[bold]Count:[/bold] {cited_by_count}')
+            yield Label(f'[bold]Type A:[/bold] {type_a_count}')
+            yield Label(f'[bold]Type B:[/bold] {type_b_count}')
 
 
 class WorksTypeResumeCard(Card):
