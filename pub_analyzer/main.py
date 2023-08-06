@@ -5,7 +5,7 @@ from typing import ClassVar
 
 from textual._path import CSSPathType
 from textual.app import App, ComposeResult
-from textual.binding import BindingType
+from textual.binding import Binding, BindingType
 from textual.dom import DOMNode
 from textual.reactive import Reactive
 from textual.widgets import Footer
@@ -23,8 +23,9 @@ class PubAnalyzerApp(App[DOMNode]):
         "css/datatable.css", "css/institution.css",
     ]
     BINDINGS: ClassVar[list[BindingType]] = [
-        ("ctrl+d", "toggle_dark", "Dark mode"),
-        ("ctrl+s", "toggle_sidebar", "Sidebar"),
+        Binding(key="ctrl+d", action="toggle_dark", description="Dark mode"),
+        Binding(key="ctrl+s", action="toggle_sidebar", description="Sidebar"),
+        Binding(key="ctrl+p", action="save_screenshot", description="Screenshot"),
     ]
 
     dark: Reactive[bool] = Reactive(False)
@@ -44,6 +45,16 @@ class PubAnalyzerApp(App[DOMNode]):
 
         sidebar = self.query_one(SideBar)
         sidebar.toggle()
+
+    def action_save_screenshot(self) -> None:
+        """Take Screenshot."""
+        file_path = self.app.save_screenshot()
+        self.app.notify(
+            title="Screenshot saved!",
+            message=f"You can see the screenshot at {file_path}",
+            severity="information",
+            timeout=10.0
+        )
 
     def action_open_link(self, link: str) -> None:
         """Open a link in the browser."""
