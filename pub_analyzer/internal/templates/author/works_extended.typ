@@ -5,7 +5,7 @@
 #pagebreak()
 {% endif %}
 
-=== #text()[{{ work.work.title }}] <work_{{ loop.index }}>
+=== #text()[#"{{ work.work.title.replace('"', '\\"') }}"] <work_{{ loop.index }}>
 #par(justify: true)[#lorem(35)]
 
 #linebreak()
@@ -51,7 +51,7 @@
   // Content
   {% for cited_by_work in work.cited_by %}
   [{{ loop.index }}],
-  [#"{{ cited_by_work.work.title }}"],
+  [#"{{ cited_by_work.work.title.replace('"', '\\"') }}"],
   [{{ cited_by_work.work.type }}],
   [{% if cited_by_work.work.ids.doi %}#underline([#link("{{ cited_by_work.work.ids.doi }}")[DOI]]){% else %}-{% endif %}],
   [{% if cited_by_work.citation_type.value == 0 %}#text(rgb("909d63"))[Type A]{% else %}#text(rgb("bc5653"))[Type B]{% endif %}],

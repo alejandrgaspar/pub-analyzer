@@ -77,6 +77,10 @@ ExportReportPane .export-form-label {
     border-bottom: solid $text-primary-color;
 }
 
+ExportReportPane .file-selector-container {
+    height: 3;
+}
+
 ExportReportPane .export-form-input {
     width: 50vw;
 }

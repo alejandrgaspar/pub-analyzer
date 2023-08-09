@@ -54,7 +54,7 @@
   // Content
   {% for work in report.works %}
   [#underline([#link(label("work_{{ loop.index }}"))[@work_{{ loop.index }}]])],
-  [#"{{ work.work.title }}"],
+  [#"{{ work.work.title.replace('"', '\\"') }}"],
   [{{ work.work.type }}],
   [{% if work.work.ids.doi %}#underline([#link("{{ work.work.ids.doi }}")[DOI]]){% else %}-{% endif %}],
   [{{ work.work.publication_date }}],

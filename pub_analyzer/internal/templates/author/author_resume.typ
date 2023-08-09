@@ -72,7 +72,7 @@
         [#align(center)[#text(size: 12pt)[Citation metrics:]]],
 
         // Card content
-        [#align(left)[#text(size: 10pt)[- *2-year mean:* {{ report.author.summary_stats.two_yr_mean_citedness }}]]],
+        [#align(left)[#text(size: 10pt)[- *2-year mean:* {{ report.author.summary_stats.two_yr_mean_citedness|round(5) }}]]],
         [#align(left)[#text(size: 10pt)[- *h-index:* {{ report.author.summary_stats.h_index }}]]],
         [#align(left)[#text(size: 10pt)[- *i10 index:* {{ report.author.summary_stats.i10_index }}]]],
       )]
