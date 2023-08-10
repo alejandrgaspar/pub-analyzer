@@ -13,7 +13,7 @@
   // Content
   {% for source in report.sources_resume.sources %}
   [{{ loop.index }}],
-  [#underline([#link("{{ source.id }}")[{{ source.display_name }}]])],
+  [#underline([#link("{{ source.id }}")[#"{{ source.display_name }}"]])],
   [{{ source.host_organization_name or "-" }}],
   [{{source.type }}],
   [{{ source.issn_l or "-" }}],
