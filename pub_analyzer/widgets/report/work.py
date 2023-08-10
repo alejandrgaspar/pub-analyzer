@@ -1,5 +1,7 @@
 """Works Report Widgets."""
 
+from urllib.parse import quote
+
 from rich.console import RenderableType
 from rich.table import Table
 from rich.text import Text
@@ -55,12 +57,12 @@ class CitedByTable(Static):
             work = cited_by_work.work
 
             work_pdf_url = work.primary_location.pdf_url if work.primary_location else None
-            title = f"""[@click="app.open_link('{work_pdf_url}')"][u]{work.title}[/u][/]""" if work_pdf_url else work.title
+            title = f"""[@click=app.open_link('{quote(str(work_pdf_url))}')][u]{work.title}[/u][/]""" if work_pdf_url else work.title
             ct_value = cited_by_work.citation_type
             citation_type = f"[#909d63]{ct_value.name}[/]" if ct_value is CitationType.TypeA else f"[#bc5653]{ct_value.name}[/]"
 
             doi = work.ids.doi
-            doi_url = f"""[@click="app.open_link('{doi}')"]DOI[/]""" if doi else "-"
+            doi_url = f"""[@click=app.open_link('{quote(str(doi))}')]DOI[/]""" if doi else "-"
 
             citations_table.add_row(
                 str(idx),
@@ -167,7 +169,7 @@ class WorksTable(Static):
         for idx, work_report in enumerate(self.report.works):
             work = work_report.work
             doi = work.ids.doi
-            doi_url = f"""[@click="app.open_link('{doi}')"]DOI[/]""" if doi else "-"
+            doi_url = f"""[@click=app.open_link("{quote(str(doi))}")]DOI[/]""" if doi else "-"
 
             work_table.add_row(
                 str(f"""[@click=open_work_details({idx})]{idx}[/]"""),

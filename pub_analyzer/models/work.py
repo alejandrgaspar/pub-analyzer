@@ -30,7 +30,7 @@ class Location(BaseModel):
     """Describes the location of a given work."""
 
     is_oa: bool
-    landing_page_url: HttpUrl
+    landing_page_url: str
     license: str | None
     pdf_url: str | None
     version: WorkDrivenVersion | None
@@ -111,3 +111,8 @@ class Work(BaseModel):
             return None
         else:
             return location
+
+    @field_validator('authorships', mode='before')
+    def valid_authorships(cls, authorships: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Skip authorships that do not contain enough data."""
+        return [authorship for authorship in authorships if authorship['author'].get("id") is not None]

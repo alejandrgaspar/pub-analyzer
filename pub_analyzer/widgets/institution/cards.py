@@ -1,5 +1,7 @@
 """Institution Cards Widgets."""
 
+from urllib.parse import quote
+
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.widgets import Label
@@ -38,10 +40,10 @@ class IdentifiersCard(Card):
 
         for platform, platform_url in self.institution.ids.model_dump().items():
             if platform_url:
-                yield Label(f"""- [@click="app.open_link('{platform_url}')"]{platform}[/]""")
+                yield Label(f"""- [@click=app.open_link('{quote(str(platform_url))}')]{platform}[/]""")
 
         if self.institution.homepage_url:
-            yield Label(f"""- [@click="app.open_link('{self.institution.homepage_url}')"]Homepage[/]""")
+            yield Label(f"""- [@click=app.open_link('{quote(str(self.institution.homepage_url))}')]Homepage[/]""")
 
 
 class GeoCard(Card):
@@ -73,4 +75,6 @@ class RolesCard(Card):
 
         with Vertical(classes='card-container'):
             for role in self.institution.roles:
-                yield Label(f"""[@click="app.open_link('{role.id}')"]{role.role.value.title()}[/]: {role.works_count}""")
+                yield Label(
+                    f"""[@click=app.open_link('{quote(str(role.id))}')]{role.role.value.title()}[/]: {role.works_count}"""
+                )

@@ -1,5 +1,7 @@
 """Author Cards Widgets."""
 
+from urllib.parse import quote
+
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.widgets import Label
@@ -38,7 +40,7 @@ class IdentifiersCard(Card):
 
         for platform, platform_url in self.author.ids.model_dump().items():
             if platform_url:
-                yield Label(f"""- [@click="app.open_link('{platform_url}')"]{platform}[/]""")
+                yield Label(f"""- [@click=app.open_link('{quote(str(platform_url))}')]{platform}[/]""")
 
 
 class LastInstitutionCard(Card):
@@ -57,6 +59,6 @@ class LastInstitutionCard(Card):
             institution_name = self.author.last_known_institution.display_name
 
             with Vertical(classes='card-container'):
-                yield Label(f'''[bold]Name:[/bold] [@click="app.open_link('{ror}')"]{institution_name}[/]''')
+                yield Label(f'''[bold]Name:[/bold] [@click=app.open_link('{quote(str(ror))}')]{institution_name}[/]''')
                 yield Label(f'[bold]Country:[/bold] {self.author.last_known_institution.country_code}')
                 yield Label(f'[bold]Type:[/bold] {self.author.last_known_institution.type.value}')

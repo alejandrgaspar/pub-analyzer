@@ -1,5 +1,7 @@
 """Sources Report Widgets."""
 
+from urllib.parse import quote
+
 from rich.table import Table
 from rich.text import Text
 from textual.app import ComposeResult
@@ -38,11 +40,11 @@ class SourcesTable(Static):
 
         for idx, source in enumerate(self.sources_list):
             if source.host_organization_name:
-                host_organization = f"""[@click="app.open_link('{source.host_organization}')"][u]{source.host_organization_name}[/u][/]"""
+                host_organization = f"""[@click=app.open_link('{quote(str(source.host_organization))}')][u]{source.host_organization_name}[/u][/]"""  # noqa: E501
             else:
                 host_organization = "-"
 
-            title = f"""[@click="app.open_link('{source.id}')"][u]{source.display_name}[/u][/]"""
+            title = f"""[@click=app.open_link('{quote(str(source.id))}')][u]{source.display_name}[/u][/]"""
             type_source = source.type
             issn_l = source.issn_l if source.issn_l else "-"
             is_open_access = "[#909d63]True[/]" if source.is_oa else "[#bc5653]False[/]"

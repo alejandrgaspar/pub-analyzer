@@ -1,5 +1,7 @@
 """Report Cards Widgets."""
 
+from urllib.parse import quote
+
 from textual.app import ComposeResult
 from textual.containers import Vertical, VerticalScroll
 from textual.widgets import Label
@@ -102,7 +104,7 @@ class OpenAccessCard(Card):
         yield Label('[italic]Open Access[/italic]', classes='card-title')
         yield Label(f'[bold]Status:[/bold] {self.work.open_access.oa_status.value}')
         if work_url:
-            yield Label(f"""[bold]URL:[/bold] [@click="app.open_link('{work_url}')"]{work_url}[/]""")
+            yield Label(f"""[bold]URL:[/bold] [@click=app.open_link('{quote(str(work_url))}')]{work_url}[/]""")
 
 
 class CitationMetricsCard(Card):

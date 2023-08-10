@@ -1,5 +1,6 @@
 """Entry Point."""
 
+import urllib.parse
 import webbrowser
 from typing import ClassVar
 
@@ -60,7 +61,7 @@ class PubAnalyzerApp(App[DOMNode]):
         """Open a link in the browser."""
         self.app.bell()
         if link:
-            webbrowser.open(link)
+            webbrowser.open(urllib.parse.unquote(link))
 
 
 if __name__ == "__main__":

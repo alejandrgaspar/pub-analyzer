@@ -1,5 +1,7 @@
 """Module that allows searching for authors using OpenAlex."""
 
+from urllib.parse import quote
+
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import Button, Label, Static
@@ -31,7 +33,7 @@ class AuthorResultWidget(ResultWidget):
             with Horizontal(classes="main-info-container"):
                 yield Label(f'[bold]Cited by count:[/bold] {self.author_result.cited_by_count}', classes="cited-by-count")
                 yield Label(f'[bold]Works count:[/bold] {self.author_result.works_count}', classes="works-count")
-                yield Label(f"""[@click="app.open_link('{self.author_result.external_id}')"]ORCID[/]""", classes="external-id")
+                yield Label(f"""[@click=app.open_link('{quote(str(self.author_result.external_id))}')]ORCID[/]""", classes="external-id")
 
             # Author hint
             yield Label(self.author_result.hint or "", classes="text-hint")
@@ -61,10 +63,12 @@ class InstitutionResultWidget(ResultWidget):
         with Vertical(classes="vertical-content"):
             # Main info
             with Horizontal(classes="main-info-container"):
+                external_id = self.institution_result.external_id or self.institution_result.id
+
                 yield Label(f'[bold]Cited by count:[/bold] {self.institution_result.cited_by_count}', classes="cited-by-count")
                 yield Label(f'[bold]Works count:[/bold] {self.institution_result.works_count}', classes="works-count")
                 yield Label(
-                    f"""[@click="app.open_link('{self.institution_result.external_id or self.institution_result.id}')"]External ID[/]""",
+                    f"""[@click=app.open_link('{quote(str(external_id))}')]External ID[/]""",
                     classes="external-id"
                 )
 

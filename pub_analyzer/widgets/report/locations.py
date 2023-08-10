@@ -1,5 +1,7 @@
 """Locations Widgets."""
 
+from urllib.parse import quote
+
 from rich.table import Table
 from rich.text import Text
 from textual.app import ComposeResult
@@ -39,16 +41,16 @@ class LocationsTable(Static):
         for idx, location in enumerate(self.locations_list):
             if location.source:
                 source = location.source
-                title = f"""[@click="app.open_link('{location.landing_page_url}')"][u]{source.display_name}[/u][/]"""
+                title = f"""[@click=app.open_link('{quote(str(location.landing_page_url))}')][u]{source.display_name}[/u][/]"""
                 type = source.type
                 issn_l = source.issn_l if source.issn_l else "-"
 
                 if source.host_organization_name and source.host_organization:
-                    publisher = f"""[@click="app.open_link('{source.host_organization}')"][u]{source.host_organization_name}[/u][/]"""
+                    publisher = f"""[@click=app.open_link('{quote(str(source.host_organization))}')][u]{source.host_organization_name}[/u][/]"""  # noqa: E501
                 else:
                     publisher = source.host_organization_name if source.host_organization_name else "-"
             else:
-                title = f"""[@click="app.open_link('{location.landing_page_url}')"][u]{location.landing_page_url}[/u][/]"""
+                title = f"""[@click=app.open_link('{quote(str(location.landing_page_url))}')][u]{location.landing_page_url}[/u][/]"""
                 publisher = "-"
                 type = "-"
                 issn_l = "-"
