@@ -87,7 +87,8 @@ class AuthorshipCard(Card):
                 else:
                     author_name_formated = str(authorship.author.display_name)
 
-                yield Label(f'- [b]{authorship.author_position}:[/b] {author_name_formated}')
+                external_id = authorship.author.orcid or authorship.author.id
+                yield Label(f"""- [b]{authorship.author_position}:[/b] [@click=app.open_link('{quote(str(external_id))}')]{author_name_formated}[/]""")  # noqa: E501
 
 
 class OpenAccessCard(Card):
