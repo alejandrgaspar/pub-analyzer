@@ -43,7 +43,7 @@
 
 #linebreak()
 
-#align(center, text(11pt)[_Works from 2002 to 2023_])
+#align(center, text(11pt)[Works from {{ report.works[0].work.publication_year }} to {{ report.works[-1].work.publication_year }}])
 #table(
   columns: (auto, 3fr, auto, auto, auto, auto, auto, auto, auto),
   inset: 8pt,
