@@ -30,6 +30,10 @@ DataTable > .datatable--header {
     color: $text-primary-color;
 }
 
+.-dark-mode DataTable > .datatable--header {
+    background: $bg-secondary-color-darken;
+    color: $bg-main-color;
+}
 
 DataTable > .datatable--header-hover {
     background: $bg-secondary-color-accent;
@@ -37,13 +41,57 @@ DataTable > .datatable--header-hover {
 
 /* Rows */
 DataTable > .datatable--hover {
-    background: $primary-color 35%;
+    background: $bg-secondary-color-accent 50%;
 }
 
-/* Hover */
-DataTable > .datatable--cursor {
-    background: $primary-color-accent;
+.-dark-mode DataTable > .datatable--hover {
+    background: $bg-main-color-darken 30%;
+}
+
+/* Fixed */
+DataTable > .datatable--fixed {
+    background: $bg-secondary-color-accent 50%;
+}
+
+.-dark-mode DataTable > .datatable--fixed {
+    background: $bg-secondary-color-darken;
+    color: $bg-main-color;
+}
+
+DataTable > .datatable--fixed-cursor {
+    background: $primary-color-accent 95%;
+    color: white;
     text-style: bold;
+}
+
+/* Even Row */
+DataTable > .datatable--even-row {
+    background: $bg-main-color;
+}
+
+.-dark-mode DataTable > .datatable--even-row {
+    background: $bg-secondary-color;
+}
+
+/* Odd Row */
+DataTable > .datatable--odd-row {
+    background: $bg-secondary-color 20%;
+}
+
+.-dark-mode DataTable > .datatable--odd-row {
+    background: $bg-main-color-darken 10%;
+}
+
+/* Cursor */
+DataTable > .datatable--cursor {
+    background: $primary-color-accent 95%;
+    color: white;
+    text-style: bold;
+}
+
+.-dark-mode DataTable > .datatable--cursor {
+    background: $bg-main-color-darken 30%;
+    color: $text-primary-color;
 }
 
 DataTable > .datatable--header-cursor {

@@ -91,6 +91,13 @@ ExportReportPane .export-form-buttons {
 }
 
 
+/* Work Pane */
+WorksTable .table-title{
+    width: 100%;
+    text-align: center;
+}
+
+
 /* Work Modal */
 WorkModal #dialog .cards-container {
     height: auto;

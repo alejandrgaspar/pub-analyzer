@@ -1,14 +1,14 @@
 """Works Report Widgets."""
 
+import math
 from urllib.parse import quote
 
-from rich.console import RenderableType
 from rich.table import Table
 from rich.text import Text
 from textual import events, on
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Label, Static, TabbedContent, TabPane
+from textual.widgets import DataTable, Label, Static, TabbedContent, TabPane
 
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import AuthorReport, CitationReport, CitationType, InstitutionReport, WorkReport
@@ -137,50 +137,52 @@ class WorksTable(Static):
         self.report = report
         super().__init__()
 
-    class _WorksTableRenderer(Static):
-        """Virtual Static Widget to handle table actions calls."""
-
-        def __init__(self, renderable: RenderableType, report: AuthorReport | InstitutionReport) -> None:
-            self.report = report
-            super().__init__(renderable)
-
-        def action_open_work_details(self, idx: int) -> None:
-            """Open Modal."""
-            match self.report:
-                case AuthorReport():
-                    self.app.push_screen(WorkModal(work_report=self.report.works[idx], author=self.report.author))
-                case InstitutionReport():
-                    self.app.push_screen(WorkModal(work_report=self.report.works[idx], author=None))
+    @on(DataTable.RowLabelSelected)
+    async def open_work_details(self, message: DataTable.RowLabelSelected) -> None:
+        """Open work deatils in a modal."""
+        match self.report:
+            case AuthorReport():
+                await self.app.push_screen(WorkModal(work_report=self.report.works[message.row_index], author=self.report.author))
+            case InstitutionReport():
+                await self.app.push_screen(WorkModal(work_report=self.report.works[message.row_index], author=None))
 
     def compose(self) -> ComposeResult:
-        """Generate Table."""
+        """Compose table."""
         first_pub_year = self.report.works[0].work.publication_year
         last_pub_year = self.report.works[-1].work.publication_year
 
-        work_table = Table(title=f"Works from {first_pub_year} to {last_pub_year}", expand=True, show_lines=True)
+        yield Label(f"Works from {first_pub_year} to {last_pub_year}", classes="table-title")
+        yield DataTable(zebra_stripes=True)
 
-        work_table.add_column('', justify='center', vertical='middle')
-        work_table.add_column('Title', ratio=3)
-        work_table.add_column('Type', ratio=2)
-        work_table.add_column('DOI')
-        work_table.add_column('Publication Date')
-        work_table.add_column('Cited by count')
 
-        for idx, work_report in enumerate(self.report.works):
+    def on_mount(self) -> None:
+        """Generate Table."""
+        title_width = 100
+
+        work_table: DataTable[Text] = self.app.query_one(DataTable)
+        work_table.cursor_type = "cell"
+
+        work_table.add_column('Title', width=title_width)
+        work_table.add_column('Type', width=20)
+        work_table.add_column('DOI', width=5)
+        work_table.add_column('Publication Date', width=20)
+        work_table.add_column('Cited by count', width=14)
+
+        for idx, work_report in enumerate(self.report.works, start=1):
             work = work_report.work
             doi = work.ids.doi
-            doi_url = f"""[@click=app.open_link("{quote(str(doi))}")]DOI[/]""" if doi else "-"
+            doi_url = f"""[u][@click=app.open_link("{quote(str(doi))}")]DOI[/][u/]""" if doi else "-"
 
+            row_height = math.ceil(len(work.title) / title_width) + 1
             work_table.add_row(
-                str(f"""[@click=open_work_details({idx})]{idx}[/]"""),
                 Text(work.title, overflow='ellipsis'),
                 Text(work.type),
                 Text.from_markup(doi_url, overflow='ellipsis'),
                 Text(work.publication_date),
-                str(work.cited_by_count)
+                Text(str(work.cited_by_count)),
+                height=row_height,
+                label=Text.from_markup(f"[u]{idx}[/]")
             )
-
-        yield self._WorksTableRenderer(work_table, report=self.report)
 
 
 class WorkReportPane(VerticalScroll):
