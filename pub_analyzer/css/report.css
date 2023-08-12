@@ -97,6 +97,15 @@ WorksTable .table-title{
     text-align: center;
 }
 
+WorksTable {
+    height: 75vh;
+}
+
+WorksTable DataTable {
+    height: 100h;
+    margin-bottom: 1;
+}
+
 
 /* Work Modal */
 WorkModal #dialog .cards-container {
@@ -117,4 +126,13 @@ WorkModal #dialog #tables-container {
 
 WorkModal #dialog ContentSwitcher {
     height: auto;
+}
+
+CitedByTable {
+    height: 70vh;
+}
+
+CitedByTable #cited-by-table {
+    height: auto;
+    max-height: 100h;
 }

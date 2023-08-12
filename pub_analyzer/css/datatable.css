@@ -84,7 +84,7 @@ DataTable > .datatable--odd-row {
 
 /* Cursor */
 DataTable > .datatable--cursor {
-    background: $primary-color-accent 95%;
+    background: $primary-color-accent 80%;
     color: white;
     text-style: bold;
 }
@@ -95,5 +95,5 @@ DataTable > .datatable--cursor {
 }
 
 DataTable > .datatable--header-cursor {
-    background: $primary-color;
+    background: $primary-color-accent 95%;
 }
