@@ -10,7 +10,7 @@ repos:
     -   id: trailing-whitespace
 
 -   repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev:  v0.0.280
+    rev:  v0.0.284
     hooks:
     -   id: ruff
         args:
@@ -29,10 +29,10 @@ repos:
     -   id: mypy
         args: [--strict, --ignore-missing-imports]
         additional_dependencies:
-            - textual==0.30.0
+            - textual==0.32.0
             - textual-dev==1.0.1
             - httpx==0.24.1
-            - pydantic==2.1
+            - pydantic==2.1.1
             - typst==0.5.0
             - jinja2==3.1.2
             - pytest==7.4.0
