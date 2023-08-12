@@ -52,7 +52,7 @@ class CitedByTable(Static):
         """Generate table."""
         title_width = 95
 
-        citations_table: DataTable[Text] = self.app.query_one("#cited-by-table", DataTable)
+        citations_table: DataTable[Text] = self.query_one("#cited-by-table", DataTable)
         citations_table.cursor_type = "row"
 
         # Define Columns

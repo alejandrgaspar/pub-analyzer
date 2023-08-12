@@ -1,12 +1,12 @@
 """Sources Report Widgets."""
 
+import math
 from urllib.parse import quote
 
-from rich.table import Table
 from rich.text import Text
 from textual.app import ComposeResult
 from textual.containers import VerticalScroll
-from textual.widgets import Static
+from textual.widgets import DataTable, Static
 
 from pub_analyzer.models.report import AuthorReport, InstitutionReport
 from pub_analyzer.models.source import DehydratedSource
@@ -27,18 +27,25 @@ class SourcesTable(Static):
         super().__init__()
 
     def compose(self) -> ComposeResult:
+        """Compose table."""
+        yield DataTable(zebra_stripes=True, header_height=2, id="sources-table")
+
+    def on_mount(self) -> None:
         """Compose Table."""
-        sources_table = Table(title='Sources', expand=True, show_lines=True)
+        sources_table = self.query_one("#sources-table", DataTable)
+        sources_table.cursor_type = "row"
 
         # Define Columns
-        sources_table.add_column('', justify='center', vertical='middle')
-        sources_table.add_column('Name', ratio=3)
-        sources_table.add_column('Publisher or institution', ratio=2)
-        sources_table.add_column('Type')
-        sources_table.add_column('ISSN-L')
+        name_width = 70
+        publisher_width = 60
+
+        sources_table.add_column('Name', width=name_width)
+        sources_table.add_column('Publisher or institution', width=publisher_width)
+        sources_table.add_column('Type', width=10)
+        sources_table.add_column('ISSN-L', width=10)
         sources_table.add_column('Is Open Access')
 
-        for idx, source in enumerate(self.sources_list):
+        for idx, source in enumerate(self.sources_list, start=1):
             if source.host_organization_name:
                 host_organization = f"""[@click=app.open_link('{quote(str(source.host_organization))}')][u]{source.host_organization_name}[/u][/]"""  # noqa: E501
             else:
@@ -49,17 +56,18 @@ class SourcesTable(Static):
             issn_l = source.issn_l if source.issn_l else "-"
             is_open_access = "[#909d63]True[/]" if source.is_oa else "[#bc5653]False[/]"
 
+            name_height = math.ceil(len(source.display_name) / name_width) + 1
+            publisher_height = math.ceil(len(source.host_organization_name) / publisher_width) + 1 if source.host_organization_name else 1
+            row_height = max(name_height, publisher_height)
             sources_table.add_row(
-                str(idx),
                 Text.from_markup(title, overflow='ellipsis'),
                 Text.from_markup(host_organization),
                 Text.from_markup(type_source),
                 Text.from_markup(issn_l),
                 Text.from_markup(is_open_access),
+                label=Text(f"{idx}", justify="center"),
+                height=row_height,
             )
-
-        yield Static(sources_table, classes='sources-table')
-
 
 
 class SourcesReportPane(VerticalScroll):
