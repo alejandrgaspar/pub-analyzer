@@ -35,14 +35,14 @@ ruff = "0.0.284"
 pytest = "7.4.0"
 pytest-asyncio = "0.21.0"
 respx = "0.20.2"
-vcrpy = "4.4.0"
-pytest-recording = "0.12.2"
+vcrpy = "5.1.0"
+pytest-recording = "0.13.0"
 
 [tool.mypy]
 strict = true
 
 [tool.ruff]
-required-version = "0.0.280"
+required-version = "0.0.284"
 target-version = "py310"
 
 line-length = 140

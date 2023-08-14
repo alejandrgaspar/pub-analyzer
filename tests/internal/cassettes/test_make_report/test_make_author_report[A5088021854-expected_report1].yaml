@@ -1,0 +1,1229 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/authors/A5088021854
+  response:
+    content: '{"id":"https://openalex.org/A5088021854","orcid":"https://orcid.org/0000-0002-3664-9595","display_name":"Rossana
+      Tamara Medina Valencia","display_name_alternatives":["Rossana Tamara Medina
+      Valencia","Rossana Tamara Medina-Valencia"],"works_count":12,"cited_by_count":4,"summary_stats":{"2yr_mean_citedness":0.2,"h_index":1,"i10_index":0},"ids":{"openalex":"https://openalex.org/A5088021854","orcid":"https://orcid.org/0000-0002-3664-9595"},"last_known_institution":{"id":"https://openalex.org/I916541031","ror":"https://ror.org/04znxe670","display_name":"University
+      of Colima","country_code":"MX","type":"education"},"x_concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":75.0},{"id":"https://openalex.org/C138885662","wikidata":"https://www.wikidata.org/wiki/Q5891","display_name":"Philosophy","level":0,"score":75.0},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":75.0},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":50.0},{"id":"https://openalex.org/C71924100","wikidata":"https://www.wikidata.org/wiki/Q11190","display_name":"Medicine","level":0,"score":33.3},{"id":"https://openalex.org/C144024400","wikidata":"https://www.wikidata.org/wiki/Q21201","display_name":"Sociology","level":0,"score":33.3},{"id":"https://openalex.org/C17744445","wikidata":"https://www.wikidata.org/wiki/Q36442","display_name":"Political
+      science","level":0,"score":25.0}],"counts_by_year":[{"year":2022,"works_count":1,"cited_by_count":1},{"year":2021,"works_count":4,"cited_by_count":3},{"year":2020,"works_count":1,"cited_by_count":0},{"year":2017,"works_count":1,"cited_by_count":0},{"year":2015,"works_count":2,"cited_by_count":0},{"year":2014,"works_count":1,"cited_by_count":0}],"works_api_url":"https://api.openalex.org/works?filter=author.id:A5088021854","updated_date":"2023-08-05T18:08:10.132651","created_date":"2023-07-21"}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '661'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:45 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=author.id:A5088021854&sort=publication_date
+  response:
+    content: '{"meta":{"count":12,"db_response_time_ms":62,"page":1,"per_page":25},"results":[{"id":"https://openalex.org/W1938046431","doi":null,"title":"An\u00e1lisis
+      descriptivo del IMC, habilidad motriz y deporte extraescolar en ni\u00f1os y
+      ni\u00f1as de once a\u00f1os","display_name":"An\u00e1lisis descriptivo del
+      IMC, habilidad motriz y deporte extraescolar en ni\u00f1os y ni\u00f1as de once
+      a\u00f1os","publication_year":2007,"publication_date":"2007-11-30","ids":{"openalex":"https://openalex.org/W1938046431","mag":"1938046431"},"language":"en","primary_location":{"is_oa":false,"landing_page_url":"http://sedici.unlp.edu.ar/bitstream/handle/10915/11799/Documento_completo.pdf?sequence=1","pdf_url":null,"source":{"id":"https://openalex.org/S2739229005","display_name":"Educaci\u00f3n
+      F\u00edsica y Ciencia","issn_l":"1514-0105","issn":["1514-0105","2314-2561"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310318145","host_organization_name":"National
+      University of La Plata","host_organization_lineage":["https://openalex.org/P4310318145"],"host_organization_lineage_names":["National
+      University of La Plata"],"type":"journal"},"license":null,"version":null},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":false,"oa_status":"closed","oa_url":null,"any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5008632896","display_name":"Ciria
+      Margarita Salazar","orcid":"https://orcid.org/0000-0001-8863-2309"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5080062960","display_name":"Mart\u00edn
+      Gerardo Vargas Elizondo","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"last","author":{"id":"https://openalex.org/A5083005379","display_name":"Jos\u00e9
+      Del R\u00edo Valdivia","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]}],"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"apc_paid":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"cited_by_count":0,"biblio":{"volume":"10","issue":"10","first_page":"125","last_page":"138"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C2776154427","wikidata":"https://www.wikidata.org/wiki/Q7755","display_name":"Constitution","level":2,"score":0.70322394},{"id":"https://openalex.org/C135121143","wikidata":"https://www.wikidata.org/wiki/Q182034","display_name":"Hegemony","level":3,"score":0.65310836},{"id":"https://openalex.org/C2778444522","wikidata":"https://www.wikidata.org/wiki/Q1081491","display_name":"Football","level":2,"score":0.59815496},{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.573837},{"id":"https://openalex.org/C144024400","wikidata":"https://www.wikidata.org/wiki/Q21201","display_name":"Sociology","level":0,"score":0.5258575},{"id":"https://openalex.org/C164429055","wikidata":"https://www.wikidata.org/wiki/Q2070165","display_name":"Institutionalisation","level":2,"score":0.4786916},{"id":"https://openalex.org/C9652623","wikidata":"https://www.wikidata.org/wiki/Q190109","display_name":"Field
+      (mathematics)","level":2,"score":0.42067003},{"id":"https://openalex.org/C94625758","wikidata":"https://www.wikidata.org/wiki/Q7163","display_name":"Politics","level":2,"score":0.26409993},{"id":"https://openalex.org/C17744445","wikidata":"https://www.wikidata.org/wiki/Q36442","display_name":"Political
+      science","level":0,"score":0.24418679},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.14690548},{"id":"https://openalex.org/C199539241","wikidata":"https://www.wikidata.org/wiki/Q7748","display_name":"Law","level":1,"score":0.09728849},{"id":"https://openalex.org/C33923547","wikidata":"https://www.wikidata.org/wiki/Q395","display_name":"Mathematics","level":0,"score":0.0},{"id":"https://openalex.org/C202444582","wikidata":"https://www.wikidata.org/wiki/Q837863","display_name":"Pure
+      mathematics","level":1,"score":0.0}],"mesh":[],"locations_count":1,"locations":[{"is_oa":false,"landing_page_url":"http://sedici.unlp.edu.ar/bitstream/handle/10915/11799/Documento_completo.pdf?sequence=1","pdf_url":null,"source":{"id":"https://openalex.org/S2739229005","display_name":"Educaci\u00f3n
+      F\u00edsica y Ciencia","issn_l":"1514-0105","issn":["1514-0105","2314-2561"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310318145","host_organization_name":"National
+      University of La Plata","host_organization_lineage":["https://openalex.org/P4310318145"],"host_organization_lineage_names":["National
+      University of La Plata"],"type":"journal"},"license":null,"version":null}],"best_oa_location":null,"sustainable_development_goals":[],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":[],"ngrams_url":"https://api.openalex.org/works/W1938046431/ngrams","abstract_inverted_index":{"The":[0],"article":[1],"seeks":[2],"a":[3,17],"cultural":[4],"analysis":[5],"of":[6,14,24,40,55,63],"women":[7],"and":[8,26,32,42,49],"their":[9],"participation":[10],"in":[11,60],"the":[12,21,29,37,53,61,66,71],"space":[13],"football.":[15],"Proposes":[16],"reflective":[18],"journey":[19],"on":[20],"complex":[22],"institutionalization":[23],"male":[25,72],"female":[27,68],"within":[28,65],"sports":[30],"field,":[31],"tries":[33],"to":[34,44,70],"point":[35],"out":[36],"historical":[38],"continuity":[39],"relationships":[41],"unbalanced":[43],"be":[45],"crystallized":[46],"as":[47],"natural":[48],"are":[50],"constructed":[51],"from":[52],"places":[54],"domination":[56],"(and":[57],"therefore":[58],"dominated)":[59],"constitution":[62],"hegemony":[64],"football:":[67],"subordinate":[69]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W1938046431","counts_by_year":[],"updated_date":"2023-08-07T03:06:39.252476","created_date":"2016-06-24"},{"id":"https://openalex.org/W1558253067","doi":null,"title":"Percepci\u00f3n
+      del concepto de Educaci\u00f3n F\u00edsica en los estudiantes de primer a\u00f1o
+      de la licenciatura en Educaci\u00f3n F\u00edsica y Deporte","display_name":"Percepci\u00f3n
+      del concepto de Educaci\u00f3n F\u00edsica en los estudiantes de primer a\u00f1o
+      de la licenciatura en Educaci\u00f3n F\u00edsica y Deporte","publication_year":2011,"publication_date":"2011-11-27","ids":{"openalex":"https://openalex.org/W1558253067","mag":"1558253067"},"language":"es","primary_location":{"is_oa":false,"landing_page_url":"https://dehesa.unex.es/bitstream/10662/5406/1/0213-9529_30_11.pdf","pdf_url":null,"source":{"id":"https://openalex.org/S4306505593","display_name":"Campo
+      Abierto. Revista de Educaci\u00f3n","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":null},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":false,"oa_status":"closed","oa_url":null,"any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[{"id":"https://openalex.org/I80606768","display_name":"University
+      of Extremadura","ror":"https://ror.org/0174shg90","country_code":"ES","type":"education"}],"countries":["ES"],"is_corresponding":false,"raw_affiliation_string":"Facultad
+      de Educaci\u00f3n#R##N#Universidad de Extremadura","raw_affiliation_strings":["Facultad
+      de Educaci\u00f3n#R##N#Universidad de Extremadura"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5057032512","display_name":"Manuel
+      Vizuete Carrizosa","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5008632896","display_name":"Ciria
+      Margarita Salazar","orcid":"https://orcid.org/0000-0001-8863-2309"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5083005379","display_name":"Jos\u00e9
+      Del R\u00edo Valdivia","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5013188739","display_name":"Emiliano
+      Manzo","orcid":"https://orcid.org/0000-0001-8861-1559"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5082970198","display_name":"Briseda
+      Noem\u00ed Ramos Ram\u00edrez","orcid":"https://orcid.org/0000-0002-8564-4993"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"last","author":{"id":"https://openalex.org/A5080062960","display_name":"Mart\u00edn
+      Gerardo Vargas Elizondo","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]}],"institutions_distinct_count":1,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":0,"biblio":{"volume":"30","issue":"2","first_page":"11","last_page":"22"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.6784759},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.32639998},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.28243583}],"mesh":[],"locations_count":1,"locations":[{"is_oa":false,"landing_page_url":"https://dehesa.unex.es/bitstream/10662/5406/1/0213-9529_30_11.pdf","pdf_url":null,"source":{"id":"https://openalex.org/S4306505593","display_name":"Campo
+      Abierto. Revista de Educaci\u00f3n","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":null}],"best_oa_location":null,"sustainable_development_goals":[],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":[],"ngrams_url":"https://api.openalex.org/works/W1558253067/ngrams","abstract_inverted_index":{"El":[0,90],"presente":[1],"trabajo,":[2],"de":[3,13,21,27,44,47,57,59,74,80,98,101,105,110,118],"corte":[4],"cuantitativo":[5],"prospectivo,":[6],"describe":[7],"la":[8,14,22,48,96],"percepcion":[9],"que":[10,112],"construyen\u00a0los":[11],"escolares":[12],"Licenciatura":[15],"en":[16,95],"Educacion":[17,28,60,84],"Fisica":[18,85],"y":[19,40,107,114],"Deporte":[20],"Universidad\u00a0de":[23],"Colima":[24],"del":[25,32],"concepto":[26],"Fisica.":[29],"La":[30],"poblacion":[31],"estudio":[33],"esta":[34],"conformada\u00a0por":[35],"los":[36,67,72,99],"79":[37],"(24":[38],"mujeres":[39],"55":[41],"varones)":[42],"estudiantes":[43,73,100],"primer":[45,75,102],"ano":[46,76],"carrera":[49],"antes":[50],"mencionada.\u00a0El":[51],"instrumento":[52],"utilizado":[53],"fue":[54,64],"el":[55],"\u201cCuestionario":[56],"Percepciones":[58],"Fisica\u201d\u00a0y":[61],"su":[62],"aplicacion":[63],"autogestionada.":[65],"Entre":[66],"principales":[68],"hallazgos":[69],"podemos":[70],"mencionar\u00a0que":[71],"asumen":[77],"concepciones":[78],"deportivizadas":[79],"todo":[81],"lo\u00a0relacionado":[82],"a":[83],"segun":[86],"establece":[87],"Bart":[88],"Crum.":[89],"deporte":[91],"es":[92],"un":[93,116],"dominio\u00a0sociocultural":[94],"conceptualizacion":[97],"ano,":[103],"derivada":[104],"las\u00a0experiencias":[106],"construcciones":[108],"preconcebidas":[109],"lo":[111],"hace":[113],"ensena":[115],"profesor":[117],"educacion\u00a0fisica":[119]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W1558253067","counts_by_year":[],"updated_date":"2023-08-10T00:31:36.663745","created_date":"2016-06-24"},{"id":"https://openalex.org/W429746514","doi":null,"title":"El
+      modelo educativo integral y flexible en la formaci\u00f3n del profesional de
+      educaci\u00f3n f\u00edsica","display_name":"El modelo educativo integral y flexible
+      en la formaci\u00f3n del profesional de educaci\u00f3n f\u00edsica","publication_year":2014,"publication_date":"2014-03-12","ids":{"openalex":"https://openalex.org/W429746514","mag":"429746514"},"language":"es","primary_location":{"is_oa":false,"landing_page_url":"http://congresoeducacionfisica.fahce.unlp.edu.ar/9o-ca-y-4o-la-efyc/publicaciones-actas/M2_GomezFigueroa.pdf","pdf_url":null,"source":{"id":"https://openalex.org/S4306514710","display_name":"IX
+      Congreso Argentino y IV Latinoamericano de Educaci\u00f3n F\u00edsica y Ciencias","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":null},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":false,"oa_status":"closed","oa_url":null,"any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5040815113","display_name":"Julio
+      Alejandro G\u00f3mez Figueroa","orcid":"https://orcid.org/0000-0001-8400-6087"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5038170036","display_name":"Sergio
+      Hern\u00e1ndez L\u00f3pez","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5008632896","display_name":"Ciria
+      Margarita Salazar","orcid":"https://orcid.org/0000-0001-8863-2309"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5014503927","display_name":"Emilio
+      Gerza\u00edn Manzo Lozano","orcid":"https://orcid.org/0000-0003-2087-2378"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5083005379","display_name":"Jos\u00e9
+      Del R\u00edo Valdivia","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"last","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]}],"institutions_distinct_count":0,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":0,"biblio":{"volume":null,"issue":null,"first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.6453589},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.37633213},{"id":"https://openalex.org/C144024400","wikidata":"https://www.wikidata.org/wiki/Q21201","display_name":"Sociology","level":0,"score":0.3257926}],"mesh":[],"locations_count":1,"locations":[{"is_oa":false,"landing_page_url":"http://congresoeducacionfisica.fahce.unlp.edu.ar/9o-ca-y-4o-la-efyc/publicaciones-actas/M2_GomezFigueroa.pdf","pdf_url":null,"source":{"id":"https://openalex.org/S4306514710","display_name":"IX
+      Congreso Argentino y IV Latinoamericano de Educaci\u00f3n F\u00edsica y Ciencias","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":null}],"best_oa_location":null,"sustainable_development_goals":[],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":[],"ngrams_url":"https://api.openalex.org/works/W429746514/ngrams","abstract_inverted_index":{"Emilio":[0],"Gerzain":[1],"Manzo":[2],"Lozano.":[3],"Profesor":[4],"Investigador":[5],"de":[6,12,14,17,20,25,31,33,45,55,57,69,85],"Tiempo":[7],"Completo":[8],"en":[9,23,37,40,48,52,80],"la":[10,15,18,34,43,58],"Facultad":[11],"Ciencias":[13,32],"Educacion":[16],"Universidad":[19,44,59],"Colima.":[21,46,81],"Licenciado":[22,36],"Problemas":[24],"Audicion":[26],"y":[27],"Lenguaje,":[28],"Escuela":[29],"Superior":[30],"Educacion.":[35],"Letras.":[38],"Maestria":[39],"Linguistica":[41],"por":[42],"Doctorado":[47],"letras":[49],"modernas,":[50],"(tesis":[51],"proceso)":[53],"Departamento":[54],"Letras":[56],"Iberoamericana,":[60],"Unidad":[61],"Santa":[62],"Fe,":[63],"Mexico":[64],"D.":[65],"F.":[66],"Publicaciones:":[67],"Esquina":[68],"Luz,":[70],"Poemario,":[71],"Editorial":[72],"Praxis":[73],"2002.":[74],"Mujeres":[75],"entrenando.":[76],"Pioneras":[77],"del":[78,83],"deporte":[79],"Gobierno":[82],"estado":[84],"Colima":[86],"2009.":[87],"manzolozano@hotmail.com":[88]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W429746514","counts_by_year":[],"updated_date":"2023-08-11T00:04:16.199357","created_date":"2016-06-24"},{"id":"https://openalex.org/W2298174360","doi":"https://doi.org/10.17265/2159-5526/2015.03.007","title":"Vocational
+      Training and Basic Knowledge of the Mexican University Coach","display_name":"Vocational
+      Training and Basic Knowledge of the Mexican University Coach","publication_year":2015,"publication_date":"2015-03-28","ids":{"openalex":"https://openalex.org/W2298174360","doi":"https://doi.org/10.17265/2159-5526/2015.03.007","mag":"2298174360"},"language":"en","primary_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.17265/2159-5526/2015.03.007","pdf_url":null,"source":{"id":"https://openalex.org/S2764549171","display_name":"Sociology
+      Study","issn_l":"2159-5534","issn":["2159-5526","2159-5534"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc","version":"publishedVersion","is_accepted":true,"is_published":true},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":true,"oa_status":"hybrid","oa_url":"https://doi.org/10.17265/2159-5526/2015.03.007","any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5008632896","display_name":"Ciria
+      Margarita Salazar","orcid":"https://orcid.org/0000-0001-8863-2309"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5040815113","display_name":"Julio
+      Alejandro G\u00f3mez Figueroa","orcid":"https://orcid.org/0000-0001-8400-6087"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5052997367","display_name":"Martha
+      Patricia P\u00e9rez L\u00f3pez","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5049472516","display_name":"Carmen
+      Silvia Vargas Pe\u00f1a","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5043511589","display_name":"Pedro
+      Juli\u00e1n Flores Moreno","orcid":"https://orcid.org/0000-0003-2587-513X"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5023394057","display_name":"Jos\u00e9
+      Encarnaci\u00f3n Del R\u00edo Valdivia","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"last","author":{"id":"https://openalex.org/A5051291091","display_name":"Jos\u00e9
+      Aldo Hern\u00e1ndez Mur\u00faa","orcid":"https://orcid.org/0000-0002-9277-5799"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]}],"institutions_distinct_count":0,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":0,"biblio":{"volume":"5","issue":"3","first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C668760","wikidata":"https://www.wikidata.org/wiki/Q6869278","display_name":"Vocational
+      education","level":2,"score":0.83712006},{"id":"https://openalex.org/C2777211547","wikidata":"https://www.wikidata.org/wiki/Q17141490","display_name":"Training
+      (meteorology)","level":2,"score":0.71684384},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.2922204},{"id":"https://openalex.org/C205649164","wikidata":"https://www.wikidata.org/wiki/Q1071","display_name":"Geography","level":0,"score":0.27033406},{"id":"https://openalex.org/C19417346","wikidata":"https://www.wikidata.org/wiki/Q7922","display_name":"Pedagogy","level":1,"score":0.19378144},{"id":"https://openalex.org/C153294291","wikidata":"https://www.wikidata.org/wiki/Q25261","display_name":"Meteorology","level":1,"score":0.0}],"mesh":[],"locations_count":1,"locations":[{"is_oa":true,"landing_page_url":"https://doi.org/10.17265/2159-5526/2015.03.007","pdf_url":null,"source":{"id":"https://openalex.org/S2764549171","display_name":"Sociology
+      Study","issn_l":"2159-5534","issn":["2159-5526","2159-5534"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc","version":"publishedVersion","is_accepted":true,"is_published":true}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.17265/2159-5526/2015.03.007","pdf_url":null,"source":{"id":"https://openalex.org/S2764549171","display_name":"Sociology
+      Study","issn_l":"2159-5534","issn":["2159-5526","2159-5534"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc","version":"publishedVersion","is_accepted":true,"is_published":true},"sustainable_development_goals":[],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W83123951","https://openalex.org/W198125099","https://openalex.org/W2348119175","https://openalex.org/W2365089353","https://openalex.org/W2383574283","https://openalex.org/W2387475208","https://openalex.org/W2392464837","https://openalex.org/W2563755598","https://openalex.org/W3039468744","https://openalex.org/W3091273895"],"ngrams_url":"https://api.openalex.org/works/W2298174360/ngrams","abstract_inverted_index":null,"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W2298174360","counts_by_year":[],"updated_date":"2023-08-12T22:16:24.653532","created_date":"2016-06-24"},{"id":"https://openalex.org/W2210937787","doi":null,"title":"Efectos
+      de un programa de flexibilidad en el desarrollo de la fuerza muscular en jugadoras
+      de futbol femenil","display_name":"Efectos de un programa de flexibilidad en
+      el desarrollo de la fuerza muscular en jugadoras de futbol femenil","publication_year":2015,"publication_date":"2015-12-18","ids":{"openalex":"https://openalex.org/W2210937787","mag":"2210937787"},"language":"es","primary_location":{"is_oa":false,"landing_page_url":"http://sedici.unlp.edu.ar/bitstream/handle/10915/51008/Documento_completo.pdf?sequence=1","pdf_url":null,"source":{"id":"https://openalex.org/S2739229005","display_name":"Educaci\u00f3n
+      F\u00edsica y Ciencia","issn_l":"1514-0105","issn":["1514-0105","2314-2561"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310318145","host_organization_name":"National
+      University of La Plata","host_organization_lineage":["https://openalex.org/P4310318145"],"host_organization_lineage_names":["National
+      University of La Plata"],"type":"journal"},"license":null,"version":null,"is_accepted":false,"is_published":false},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":false,"oa_status":"closed","oa_url":null,"any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5023394057","display_name":"Jos\u00e9
+      Encarnaci\u00f3n Del R\u00edo Valdivia","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5043511589","display_name":"Pedro
+      Juli\u00e1n Flores Moreno","orcid":"https://orcid.org/0000-0003-2587-513X"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5020274625","display_name":"Joel
+      Bautista Gonz\u00e1lez","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5060410504","display_name":"Lenin
+      Tlamatini Barajas Pineda","orcid":"https://orcid.org/0000-0003-0975-8144"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"last","author":{"id":"https://openalex.org/A5040600837","display_name":"Eduardo
+      G\u00f3mez G\u00f3mez","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]}],"institutions_distinct_count":1,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"apc_paid":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"cited_by_count":1,"biblio":{"volume":"17","issue":"2","first_page":"00","last_page":"00"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C121332964","wikidata":"https://www.wikidata.org/wiki/Q413","display_name":"Physics","level":0,"score":0.57163817},{"id":"https://openalex.org/C71924100","wikidata":"https://www.wikidata.org/wiki/Q11190","display_name":"Medicine","level":0,"score":0.3513665}],"mesh":[],"locations_count":1,"locations":[{"is_oa":false,"landing_page_url":"http://sedici.unlp.edu.ar/bitstream/handle/10915/51008/Documento_completo.pdf?sequence=1","pdf_url":null,"source":{"id":"https://openalex.org/S2739229005","display_name":"Educaci\u00f3n
+      F\u00edsica y Ciencia","issn_l":"1514-0105","issn":["1514-0105","2314-2561"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310318145","host_organization_name":"National
+      University of La Plata","host_organization_lineage":["https://openalex.org/P4310318145"],"host_organization_lineage_names":["National
+      University of La Plata"],"type":"journal"},"license":null,"version":null,"is_accepted":false,"is_published":false}],"best_oa_location":null,"sustainable_development_goals":[],"grants":[],"referenced_works_count":6,"referenced_works":["https://openalex.org/W1037973628","https://openalex.org/W1589148118","https://openalex.org/W2101541528","https://openalex.org/W2117634177","https://openalex.org/W2293035635","https://openalex.org/W3204317558"],"related_works":[],"ngrams_url":"https://api.openalex.org/works/W2210937787/ngrams","abstract_inverted_index":{"Se":[0,28,52],"analizo":[1],"el":[2,12,39,49,76,189],"impacto":[3],"de":[4,7,9,14,21,25,44,62,79,114,179,193,195],"un":[5],"programa":[6],"entrenamiento":[8,50],"flexibilidad":[10],"sobre":[11],"desarrollo":[13,190],"la":[15,54,176],"fuerza":[16],"muscular":[17,192],"en":[18,182,188],"16":[19],"jugadores":[20],"futbol":[22],"con":[23],"edad":[24],"19.03\u00b12.7":[26],"anos.":[27],"entreno":[29],"durante":[30],"30":[31],"dias":[32],"y":[33,64,72,83,90,101,109,120,128,137,146,157,165,185],"5":[34],"veces":[35],"por":[36,186],"semanas,":[37],"donde":[38,75],"grupo":[40],"\u201cA\u201d":[41],"realizo":[42],"\u00a0entrenamiento":[43],"flexibilidad,":[45,55],"mientras":[46],"que":[47,173],"\u201cB\u201d":[48],"regular.":[51],"midio":[53],"1RM,":[56],"salto":[57],"vertical,":[58],"peso,":[59],"talla,":[60],"circunferencia":[61,95],"pantorrilla":[63],"muslo.":[65],"Los":[66],"resultados":[67],"muestran\u00a0":[68],"valores":[69],"para":[70],"A":[71],"B":[73],"respectivamente,":[74],"IGF":[77,184],"fue":[78],"91.01":[80],"\u00b1":[81,85,88,92,98,103,107,111,117,122,126,130,134,139,143,148,154,159,163,167],"18.3":[82],"111.93":[84],"23.5;":[86],"\u00a078.22":[87],"29,":[89],"\u00a079.03":[91],"29.1.":[93],"La":[94],"femoral,":[96],"48.04":[97],"3.6":[99],"cms":[100],"49.54":[102],"3.4":[104],"cms.;":[105],"47.56":[106],"4.9":[108],"47.89":[110],"5.2.":[112],"Circunferencia":[113],"pantorrilla,":[115],"33.83":[116,125],"2.7":[118],"cm":[119],"35.21":[121],"2.4":[123],"cm;":[124,161],"2":[127],"33.73":[129],"2.8.":[131],"Fuerza":[132],"\u00a048.13":[133],"7.8":[135],"Kg.":[136,145,150],"53.38":[138],"8.2":[140],"Kg.;":[141],"52.63":[142],"8.6":[144],"53.39":[147],"9.1":[149],"Potencia":[151],"anaerobica,":[152],"34.13":[153],"2.9":[155],"cm.":[156],"36.63":[158],"1.7":[160],"38.25":[162],"4.7":[164],"37.06":[166],"3.4.":[168],"Como":[169],"conclusion":[170],"se":[171],"tiene":[172],"el\u00a0":[174,183],"uso":[175],"\u00a0flexibilidad":[177],"impacta":[178],"forma":[180],"\u00a0positiva":[181],"tanto":[187],"favorable":[191],"jugadoras":[194],"futbol.":[196]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W2210937787","counts_by_year":[{"year":2021,"cited_by_count":1}],"updated_date":"2023-08-13T16:39:12.256359","created_date":"2016-06-24"},{"id":"https://openalex.org/W2616479870","doi":null,"title":"EVALUACI\u00d3N
+      DEL TIEMPO EFECTIVO DE LA CLASE DE EDUCACI\u00d3N F\u00cdSICA EN ESCOLARES DEL
+      \u00c1MBITO RURAL","display_name":"EVALUACI\u00d3N DEL TIEMPO EFECTIVO DE LA
+      CLASE DE EDUCACI\u00d3N F\u00cdSICA EN ESCOLARES DEL \u00c1MBITO RURAL","publication_year":2017,"publication_date":"2017-04-19","ids":{"openalex":"https://openalex.org/W2616479870","mag":"2616479870"},"language":"es","primary_location":{"is_oa":false,"landing_page_url":"http://revistas.ut.edu.co/index.php/edufisica/article/download/1097/913","pdf_url":null,"source":{"id":"https://openalex.org/S4306527184","display_name":"Revista
+      Edu-F\u00edsica","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":null},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":false,"oa_status":"closed","oa_url":null,"any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5008632896","display_name":"Ciria
+      Margarita Salazar","orcid":"https://orcid.org/0000-0001-8863-2309"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5043511589","display_name":"Pedro
+      Juli\u00e1n Flores Moreno","orcid":"https://orcid.org/0000-0003-2587-513X"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5060410504","display_name":"Lenin
+      Tlamatini Barajas Pineda","orcid":"https://orcid.org/0000-0003-0975-8144"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5003317983","display_name":"Mar\u00eda
+      Elena Valenzuela","orcid":"https://orcid.org/0000-0001-9418-1321"},"institutions":[{"id":"https://openalex.org/I4061448","display_name":"Universidad
+      de Sonora","ror":"https://ror.org/00c32gy34","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"UNIVERSIDAD
+      DE SONORA, M\u00c9XICO","raw_affiliation_strings":["UNIVERSIDAD DE SONORA, M\u00c9XICO"]},{"author_position":"last","author":{"id":"https://openalex.org/A5060580956","display_name":"Elisandra
+      Camacho Acevedo","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]}],"institutions_distinct_count":2,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":1,"biblio":{"volume":"9","issue":"19","first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.8402777},{"id":"https://openalex.org/C3020255362","wikidata":"https://www.wikidata.org/wiki/Q747883","display_name":"Physical
+      activity","level":2,"score":0.5479552},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.3922668},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.37276608},{"id":"https://openalex.org/C71924100","wikidata":"https://www.wikidata.org/wiki/Q11190","display_name":"Medicine","level":0,"score":0.07136878},{"id":"https://openalex.org/C99508421","wikidata":"https://www.wikidata.org/wiki/Q2678675","display_name":"Physical
+      medicine and rehabilitation","level":1,"score":0.0}],"mesh":[],"locations_count":1,"locations":[{"is_oa":false,"landing_page_url":"http://revistas.ut.edu.co/index.php/edufisica/article/download/1097/913","pdf_url":null,"source":{"id":"https://openalex.org/S4306527184","display_name":"Revista
+      Edu-F\u00edsica","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":null}],"best_oa_location":null,"sustainable_development_goals":[],"grants":[],"referenced_works_count":6,"referenced_works":["https://openalex.org/W1604019074","https://openalex.org/W1884761677","https://openalex.org/W1987451563","https://openalex.org/W2137929248","https://openalex.org/W2154976381","https://openalex.org/W2235884128"],"related_works":[],"ngrams_url":"https://api.openalex.org/works/W2616479870/ngrams","abstract_inverted_index":{"El":[0,34],"objetivo":[1],"de":[2,12,15,25,28,32,42,44,49,67,72,93,98,105,114,133],"la":[3,13,29,45,70,126,131],"presente":[4],"investigacion":[5],"consistio":[6],"en":[7,118],"medir":[8],"el":[9,38,60,64,75,90,111],"tiempo":[10,63,86,91,112],"efectivo":[11,113],"clase":[14,71,102,132],"educacion":[16,73,134],"fisica.":[17],"La":[18],"poblacion":[19],"se":[20,57],"conformo":[21],"por":[22,101,130],"43":[23],"sujetos":[24],"centros":[26],"escolares":[27],"zona":[30],"rural":[31],"Colima.":[33],"instrumento":[35],"utilizado":[36],"fue":[37],"Cuestionario":[39],"del":[40,62,85],"Sistema":[41],"Observacion":[43],"Aptitud":[46],"y":[47,83,103],"Tiempo":[48],"Instrucciones":[50],"(SOFIT).":[51],"Entre":[52],"los":[53],"resultados":[54],"mas":[55],"relevantes":[56],"observa":[58],"que":[59,125],"63%":[61],"alumnado":[65],"esta":[66],"pie":[68],"durante":[69],"fisica,":[74],"17%":[76],"caminando,":[77],"un":[78],"19%":[79],"registra":[80],"actividad":[81,94,106,127],"vigorosa":[82,96],"1%":[84],"sentado.":[87],"En":[88],"conclusion":[89],"promedio":[92],"fisica":[95,107,128,135],"es":[97],"9.5":[99],"minutos":[100],"8.5":[104],"suave,":[108],"coincidiendo":[109],"con":[110],"otros":[115],"estudios":[116],"realizados":[117],"zonas":[119],"urbanas":[120],"mexicanas.":[121],"De":[122],"tal":[123],"forma,":[124],"generada":[129],"sigue":[136],"siendo":[137],"limitada.":[138]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W2616479870","counts_by_year":[{"year":2021,"cited_by_count":1}],"updated_date":"2023-08-11T10:05:47.013557","created_date":"2017-05-26"},{"id":"https://openalex.org/W3111555194","doi":"https://doi.org/10.46642/efd.v25i271.2549","title":"La
+      recreaci\u00f3n en adolescentes mexicanos durante el confinamiento por Covid-19","display_name":"La
+      recreaci\u00f3n en adolescentes mexicanos durante el confinamiento por Covid-19","publication_year":2020,"publication_date":"2020-12-15","ids":{"openalex":"https://openalex.org/W3111555194","doi":"https://doi.org/10.46642/efd.v25i271.2549","mag":"3111555194"},"language":"es","primary_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.46642/efd.v25i271.2549","pdf_url":null,"source":{"id":"https://openalex.org/S4210192356","display_name":"Lecturas
+      educaci\u00f3n f\u00edsica y deportes","issn_l":"1514-3465","issn":["1514-3465"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":"publishedVersion"},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://doi.org/10.46642/efd.v25i271.2549","any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5085014370","display_name":"Adriana
+      Isabel Andrade S\u00e1nchez","orcid":"https://orcid.org/0000-0001-9790-5719"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"last","author":{"id":"https://openalex.org/A5079193202","display_name":"Isela
+      Guadalupe Ramos Carranza","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]}],"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":2,"biblio":{"volume":"25","issue":"271","first_page":"22","last_page":"34"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.73511773},{"id":"https://openalex.org/C3008058167","wikidata":"https://www.wikidata.org/wiki/Q84263196","display_name":"Coronavirus
+      disease 2019 (COVID-19)","level":4,"score":0.5789918},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.3743472},{"id":"https://openalex.org/C71924100","wikidata":"https://www.wikidata.org/wiki/Q11190","display_name":"Medicine","level":0,"score":0.16714206},{"id":"https://openalex.org/C2779134260","wikidata":"https://www.wikidata.org/wiki/Q12136","display_name":"Disease","level":2,"score":0.0},{"id":"https://openalex.org/C142724271","wikidata":"https://www.wikidata.org/wiki/Q7208","display_name":"Pathology","level":1,"score":0.0},{"id":"https://openalex.org/C524204448","wikidata":"https://www.wikidata.org/wiki/Q788926","display_name":"Infectious
+      disease (medical specialty)","level":3,"score":0.0}],"mesh":[],"locations_count":1,"locations":[{"is_oa":true,"landing_page_url":"https://doi.org/10.46642/efd.v25i271.2549","pdf_url":null,"source":{"id":"https://openalex.org/S4210192356","display_name":"Lecturas
+      educaci\u00f3n f\u00edsica y deportes","issn_l":"1514-3465","issn":["1514-3465"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":"publishedVersion"}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.46642/efd.v25i271.2549","pdf_url":null,"source":{"id":"https://openalex.org/S4210192356","display_name":"Lecturas
+      educaci\u00f3n f\u00edsica y deportes","issn_l":"1514-3465","issn":["1514-3465"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":"publishedVersion"},"sustainable_development_goals":[],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W135163757","https://openalex.org/W1557907936","https://openalex.org/W1832118649","https://openalex.org/W1934311404","https://openalex.org/W2111865594","https://openalex.org/W2123836397","https://openalex.org/W2248387313","https://openalex.org/W3006587989","https://openalex.org/W3120330463","https://openalex.org/W3203105381"],"ngrams_url":"https://api.openalex.org/works/W3111555194/ngrams","abstract_inverted_index":{"En":[0,26],"marzo":[1],"del":[2],"2020,":[3],"el":[4,16,47,88,91,152,161,191,201,233],"consejo":[5],"de":[6,13,23,41,44,49,93,95,103,118,121,132,134,138,177,186],"Salubridad":[7],"General":[8],"Mexicana":[9],"reconoci\u00f3":[10],"la":[11,34,39,116,122,175,178],"epidemia":[12],"enfermedad":[14],"por":[15,111,144,154,163,183],"virus":[17],"SARS-CoV2":[18],"(Covid-19)":[19],"como":[20,38,136,157],"grave":[21],"y":[22,36,55,68,129,194,224,232],"atenci\u00f3n":[24],"prioritaria.":[25],"este":[27],"tenor":[28],"se":[29,77,113],"establecieron":[30],"medidas":[31],"preventivas":[32],"para":[33],"mitigaci\u00f3n":[35],"control":[37],"suspensi\u00f3n":[40],"clases,":[42],"cierre":[43],"centros":[45],"recreativos,":[46],"lanzamiento":[48],"campa\u00f1as":[50],"nacionales":[51],"denominadas":[52],"Sana":[53],"Distancia":[54],"Qu\u00e9date":[56],"en":[57,85,97,115,151,230],"casa.":[58],"El":[59,140,226],"llamado":[60],"al":[61],"confinamiento":[62,162],"ha":[63],"generado":[64],"un":[65,169],"impacto":[66],"personal":[67],"social":[69],"inesperado.":[70],"Todos":[71],"los":[72,104,108],"sectores":[73],"poblacionales":[74],"est\u00e1n":[75],"afectados,":[76],"asumen":[78],"roles":[79],"solidarios,":[80],"activos":[81],"y/o":[82],"pasivos,":[83],"confinados":[84],"casa":[86],"sobrellevando":[87],"encierro":[89],"con":[90,211,237],"silencio":[92],"ausencia":[94],"gente":[96],"las":[98,147,207,228],"calles,":[99],"sin":[100],"duda,":[101],"uno":[102],"m\u00e1s":[105],"golpeados":[106],"son":[107,214],"adolescentes":[109,155],"que":[110,200],"naturaleza":[112],"encuentran":[114],"b\u00fasqueda":[117],"movilizaci\u00f3n":[119],"fuera":[120],"familia,":[123,231],"volcando":[124],"su":[125],"motivaci\u00f3n,":[126],"tiempo":[127,204],"libre":[128,205],"actividades":[130,148,208],"dependientes":[131],"relaciones":[133],"amistad":[135],"fuente":[137],"bienestar.":[139],"presente":[141],"art\u00edculo":[142],"tiene":[143],"objetivo":[145],"analizar":[146],"recreativas":[149,209],"realizadas":[150,210],"hogar":[153],"mexicanos":[156],"fen\u00f3meno":[158],"medi\u00e1tico":[159],"durante":[160],"Covid-19.":[164],"La":[165],"metodolog\u00eda":[166],"corresponde":[167],"a":[168,188],"enfoque":[170],"explicativo":[171],"descriptivo,":[172],"no":[173],"experimental,":[174],"selecci\u00f3n":[176],"muestra":[179],"fue":[180],"probabil\u00edstica,":[181],"conformada":[182],"444":[184],"sujetos":[185],"10":[187],"17":[189],"a\u00f1os,":[190],"57,4%":[192],"mujeres":[193],"42,6%":[195],"hombres.":[196],"Los":[197],"resultados":[198],"muestran":[199],"88,1%":[202],"tienen":[203],"suficiente,":[206],"mayor":[212],"frecuencia":[213],"escuchar":[215],"m\u00fasica,":[216],"dormir,":[217],"ver":[218],"TV,":[219],"platicar,":[220],"aprender":[221],"algo":[222],"nuevo":[223],"ejercitarse.":[225],"70,7%":[227],"realiza":[229],"71%":[234],"preferir\u00eda":[235],"realizarlas":[236],"amigos,":[238],"compa\u00f1eros":[239],"u":[240],"otros.":[241]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W3111555194","counts_by_year":[{"year":2022,"cited_by_count":1},{"year":2021,"cited_by_count":1}],"updated_date":"2023-08-07T02:29:17.250322","created_date":"2020-12-21"},{"id":"https://openalex.org/W3171919066","doi":"https://doi.org/10.15332/2422474x.6466","title":"Aceptaci\u00f3n
+      de la clase de educaci\u00f3n f\u00edsica en escuelas privadas y p\u00fablicas
+      del Colima","display_name":"Aceptaci\u00f3n de la clase de educaci\u00f3n f\u00edsica
+      en escuelas privadas y p\u00fablicas del Colima","publication_year":2021,"publication_date":"2021-01-01","ids":{"openalex":"https://openalex.org/W3171919066","doi":"https://doi.org/10.15332/2422474x.6466","mag":"3171919066"},"language":"es","primary_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.15332/2422474x.6466","pdf_url":null,"source":{"id":"https://openalex.org/S4210232953","display_name":"Revista
+      de Investigaci\u00f3n","issn_l":"2248-4418","issn":["2248-4418","2422-474X"],"is_oa":true,"is_in_doaj":false,"host_organization":"https://openalex.org/P4310315529","host_organization_name":"Universidad
+      Santo Tom\u00e1s","host_organization_lineage":["https://openalex.org/P4310315529"],"host_organization_lineage_names":["Universidad
+      Santo Tom\u00e1s"],"type":"journal"},"license":null,"version":"publishedVersion","is_accepted":true,"is_published":true},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://doi.org/10.15332/2422474x.6466","any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5079193202","display_name":"Isela
+      Guadalupe Ramos Carranza","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima","raw_affiliation_strings":["Universidad de Colima"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5085014370","display_name":"Adriana
+      Isabel Andrade S\u00e1nchez","orcid":"https://orcid.org/0000-0001-9790-5719"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima","raw_affiliation_strings":["Universidad de Colima"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima","raw_affiliation_strings":["Universidad de Colima"]},{"author_position":"last","author":{"id":"https://openalex.org/A5008632896","display_name":"Ciria
+      Margarita Salazar","orcid":"https://orcid.org/0000-0001-8863-2309"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima","raw_affiliation_strings":["Universidad de Colima"]}],"institutions_distinct_count":1,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":0,"biblio":{"volume":"11","issue":"1","first_page":"22","last_page":"34"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.787932},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.2977929}],"mesh":[],"locations_count":1,"locations":[{"is_oa":true,"landing_page_url":"https://doi.org/10.15332/2422474x.6466","pdf_url":null,"source":{"id":"https://openalex.org/S4210232953","display_name":"Revista
+      de Investigaci\u00f3n","issn_l":"2248-4418","issn":["2248-4418","2422-474X"],"is_oa":true,"is_in_doaj":false,"host_organization":"https://openalex.org/P4310315529","host_organization_name":"Universidad
+      Santo Tom\u00e1s","host_organization_lineage":["https://openalex.org/P4310315529"],"host_organization_lineage_names":["Universidad
+      Santo Tom\u00e1s"],"type":"journal"},"license":null,"version":"publishedVersion","is_accepted":true,"is_published":true}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.15332/2422474x.6466","pdf_url":null,"source":{"id":"https://openalex.org/S4210232953","display_name":"Revista
+      de Investigaci\u00f3n","issn_l":"2248-4418","issn":["2248-4418","2422-474X"],"is_oa":true,"is_in_doaj":false,"host_organization":"https://openalex.org/P4310315529","host_organization_name":"Universidad
+      Santo Tom\u00e1s","host_organization_lineage":["https://openalex.org/P4310315529"],"host_organization_lineage_names":["Universidad
+      Santo Tom\u00e1s"],"type":"journal"},"license":null,"version":"publishedVersion","is_accepted":true,"is_published":true},"sustainable_development_goals":[],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W2899016","https://openalex.org/W3417315","https://openalex.org/W10289458","https://openalex.org/W11262237","https://openalex.org/W13422005","https://openalex.org/W16912586","https://openalex.org/W20711992","https://openalex.org/W21732578","https://openalex.org/W24567785","https://openalex.org/W24814860"],"ngrams_url":"https://api.openalex.org/works/W3171919066/ngrams","abstract_inverted_index":{"&#x0D;":[0,1,2,210,211],"El":[3],"presente":[4],"estudio":[5],"tiene":[6,179],"como":[7,140],"objetivo":[8],"identificar":[9],"el":[10,30,42,92,118,161],"nivel":[11],"de":[12,18,24,28,32,47,50,55,64,78,85,95,113,120,125,142,151,157,166,176,182,206],"aceptaci\u00f3n":[13,183],"que":[14,34,101,133,173,203],"tienen":[15],"los":[16,65,69,72,83,134,167,186,189,204],"estudiantes":[17,46,66,135,190,205],"educaci\u00f3n":[19,25,51,114,121,138,158,177],"b\u00e1sica":[20,52],"hacia":[21,97],"la":[22,98,137,149,152,174,197],"clase":[23,175],"f\u00edsica;":[26],"adem\u00e1s":[27],"conocer":[29],"grado":[31,181],"importancia":[33],"le":[35],"otorgan":[36],"a":[37,44],"esta":[38],"materia.":[39],"Se":[40,90,170],"aplic\u00f3":[41],"instrumento":[43],"302":[45],"cuatro":[48,105],"primarias":[49],"del":[53,155,191],"estado":[54],"Colima,":[56],"dos":[57,60],"p\u00fablicas":[58],"y":[59,71,88,123,154,199],"privadas.":[61],"La":[62],"edad":[63],"oscilaba":[67],"entre":[68],"8":[70],"13":[73],"a\u00f1os":[74,80],"con":[75,163],"una":[76],"media":[77],"10.35":[79],"(\u00b10.93),":[81],"en":[82,104],"grados":[84],"4\u00b0,":[86],"5\u00b0":[87],"6\u00b0.":[89],"utiliz\u00f3":[91],"CAEF":[93],"(Cuestionario":[94],"Actitudes":[96],"Educaci\u00f3n":[99],"F\u00edsica),":[100],"est\u00e1":[102],"estructurado":[103],"bloques:":[106],"datos":[107],"sociodemogr\u00e1ficos,":[108],"opini\u00f3n":[109,116],"sobre":[110,117],"las":[111,207],"clases":[112],"f\u00edsica,":[115,122],"profesorado":[119],"h\u00e1bitos":[124],"actividad":[126],"f\u00edsica.":[127],"Los":[128],"resultados":[129],"m\u00e1s":[130,196],"relevantes":[131],"arrojan":[132],"consideran":[136],"f\u00edsica":[139,159,178],"algo":[141],"poca":[143],"utilidad":[144],"(m=1.97;":[145],"\u00b10.43);":[146],"sin":[147],"embargo,":[148],"valoraci\u00f3n":[150],"asignatura":[153,198],"profesor":[156,201],"es":[160],"factor":[162],"mayor":[164],"puntaje":[165],"siete":[168],"analizados.":[169],"puede":[171],"concluir":[172],"un":[180],"elevado":[184],"por":[185],"estudiantes;":[187],"asimismo,":[188],"sector":[192],"privado":[193],"parecen":[194],"valorar":[195],"al":[200],"encargado":[202],"escuelas":[208],"p\u00fablicas.&#x0D;":[209]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W3171919066","counts_by_year":[],"updated_date":"2023-08-13T13:09:29.737521","created_date":"2021-06-22"},{"id":"https://openalex.org/W3217533497","doi":null,"title":"Actualidades
+      en educaci\u00f3n f\u00edsica y deporte 2021","display_name":"Actualidades en
+      educaci\u00f3n f\u00edsica y deporte 2021","publication_year":2021,"publication_date":"2021-01-01","ids":{"openalex":"https://openalex.org/W3217533497","mag":"3217533497"},"language":"es","primary_location":{"is_oa":false,"landing_page_url":"https://ulibros.com/actualidades-en-educacion-fisica-y-deporte-2021-djmy3.html","pdf_url":null,"source":{"id":"https://openalex.org/S4306469798","display_name":"Editorial
+      Universidad de Guadalajara eBooks","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"ebook
+      platform"},"license":null,"version":null},"type":"book-chapter","type_crossref":"book-chapter","open_access":{"is_oa":false,"oa_status":"closed","oa_url":null,"any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5084164815","display_name":"Vicente
+      Te\u00f3filo Mu\u00f1oz Fern\u00e1ndez","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5015475715","display_name":"Pedro
+      Reynaga Estrada","orcid":"https://orcid.org/0000-0002-4857-6573"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5014787694","display_name":"Juan
+      Josu\u00e9 Morales Acosta","orcid":"https://orcid.org/0000-0002-1238-1950"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5055953088","display_name":"Juan
+      R Lopez y Taylor","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5040764265","display_name":"Mart\u00edn
+      Francisco Gonz\u00e1lez Villalobos","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5062827219","display_name":"Marta
+      Ca\u00f1izares Hern\u00e1ndez","orcid":"https://orcid.org/0000-0001-9504-9779"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5010624028","display_name":"Jos\u00e9
+      Moncada Jim\u00e9nez","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5011301997","display_name":"Margarita
+      Salazar Ciria","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5079193202","display_name":"Isela
+      Guadalupe Ramos Carranza","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5043511589","display_name":"Pedro
+      Juli\u00e1n Flores Moreno","orcid":"https://orcid.org/0000-0003-2587-513X"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5034309812","display_name":"Sandy
+      Ravelo Vigoa","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5009480954","display_name":"Yanet
+      P\u00e9rez Surita","orcid":"https://orcid.org/0000-0002-3220-3000"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5030329743","display_name":"Mar\u00eda
+      del Carmen Navarro Guti\u00e9rrez","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5055615069","display_name":"Eduardo
+      Ponce Flores","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5064600625","display_name":"Edtna
+      Elvira J\u00e1uregui Ulloa","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5041422710","display_name":"Paulina
+      Yesica Ochoa Mart\u00ednez","orcid":"https://orcid.org/0000-0001-8107-4906"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5037377102","display_name":"Javier
+      Arturo Hall L\u00f3pez","orcid":"https://orcid.org/0000-0002-7808-0181"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5054120267","display_name":"Edgar
+      Ismael Alarc\u00f3n Meza","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5089603699","display_name":"Teixeira
+      Ana Mar\u00eda Miranda Botelho","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5046296773","display_name":"Luc\u00eda
+      Morales Liz\u00e1rraga","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5061396857","display_name":"Ana
+      Rita \u00c1gueda","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5039243709","display_name":"Paula
+      Silva","orcid":"https://orcid.org/0000-0003-1573-7446"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5072168865","display_name":"Paula
+      Queir\u00f3s","orcid":"https://orcid.org/0000-0001-6193-5289"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5005645886","display_name":"Luis
+      Del Toro Reyes","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5013687163","display_name":"Julio
+      Enrique L\u00f3pez Alfonso","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5042647103","display_name":"Jos\u00e9
+      Guadalupe Guzm\u00e1n Moreno","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5053519052","display_name":"Beatriz
+      Edith V\u00e1zquez Becerra","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5038352314","display_name":"Javier
+      Orozco Alvarado","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5048493041","display_name":"Emelina
+      Mar\u00eda Mu\u00f1oz del Toro","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5072157615","display_name":"Mar\u00eda
+      Regla Aball\u00ed Candelario","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5027368007","display_name":"Yamila
+      Fern\u00e1ndez Nieves","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5050254156","display_name":"Ariel
+      D\u00edaz Labrada","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5067071852","display_name":"Julissa
+      Ortiz Brunel","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5003470049","display_name":"C
+      Sandoval","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5064744148","display_name":"Ra\u00fal
+      Soria Rodr\u00edguez","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5079176922","display_name":"Carmen
+      Del Marcillo Cecilia","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5063306897","display_name":"Geovanny
+      Javier Carrera Viver","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"middle","author":{"id":"https://openalex.org/A5045752145","display_name":"Brenda
+      Nataly Gonz\u00e1lez Real","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"last","author":{"id":"https://openalex.org/A5089640022","display_name":"Ana
+      Isabel D\u00edaz Villanueva","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]}],"institutions_distinct_count":0,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":0,"biblio":{"volume":null,"issue":null,"first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C17744445","wikidata":"https://www.wikidata.org/wiki/Q36442","display_name":"Political
+      science","level":0,"score":0.3708765}],"mesh":[],"locations_count":1,"locations":[{"is_oa":false,"landing_page_url":"https://ulibros.com/actualidades-en-educacion-fisica-y-deporte-2021-djmy3.html","pdf_url":null,"source":{"id":"https://openalex.org/S4306469798","display_name":"Editorial
+      Universidad de Guadalajara eBooks","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"ebook
+      platform"},"license":null,"version":null}],"best_oa_location":null,"sustainable_development_goals":[],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":[],"ngrams_url":"https://api.openalex.org/works/W3217533497/ngrams","abstract_inverted_index":null,"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W3217533497","counts_by_year":[],"updated_date":"2023-08-10T20:07:35.713720","created_date":"2021-12-06"},{"id":"https://openalex.org/W3183740983","doi":null,"title":"Dise\u00f1o
+      y validaci\u00f3n del cuestionario sobre creencias y valores impl\u00edcitos
+      entre alumnado y profesorado (CVIAP) en la interacci\u00f3n de la clase de educaci\u00f3n
+      f\u00edsica","display_name":"Dise\u00f1o y validaci\u00f3n del cuestionario
+      sobre creencias y valores impl\u00edcitos entre alumnado y profesorado (CVIAP)
+      en la interacci\u00f3n de la clase de educaci\u00f3n f\u00edsica","publication_year":2021,"publication_date":"2021-03-23","ids":{"openalex":"https://openalex.org/W3183740983","mag":"3183740983"},"language":"es","primary_location":{"is_oa":false,"landing_page_url":"http://rabida.uhu.es/dspace/handle/10272/20031","pdf_url":null,"source":null,"license":null,"version":null},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":false,"oa_status":"closed","oa_url":null,"any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5075129056","display_name":"J
+      A Soto","orcid":null},"institutions":[{"id":"https://openalex.org/I1302736544","display_name":"Secretariat
+      of Public Education","ror":"https://ror.org/02e1c4h55","country_code":"MX","type":"government"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Secretar\u00eda\u00a0de\u00a0Educaci\u00f3n\u00a0P\u00fablica","raw_affiliation_strings":["Secretar\u00eda\u00a0de\u00a0Educaci\u00f3n\u00a0P\u00fablica"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]},{"author_position":"last","author":{"id":"https://openalex.org/A5027506993","display_name":"Adriana
+      Isabe Andrade S\u00e1nchez","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima,","raw_affiliation_strings":["Universidad de Colima,"]}],"institutions_distinct_count":2,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":0,"biblio":{"volume":null,"issue":"16","first_page":"1","last_page":"23"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.76579356},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.68263656},{"id":"https://openalex.org/C138885662","wikidata":"https://www.wikidata.org/wiki/Q5891","display_name":"Philosophy","level":0,"score":0.28601906}],"mesh":[],"locations_count":1,"locations":[{"is_oa":false,"landing_page_url":"http://rabida.uhu.es/dspace/handle/10272/20031","pdf_url":null,"source":null,"license":null,"version":null}],"best_oa_location":null,"sustainable_development_goals":[],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":[],"ngrams_url":"https://api.openalex.org/works/W3183740983/ngrams","abstract_inverted_index":{"El":[0,76],"objetivo":[1],"del":[2,121],"presente":[3],"articulo":[4],"fue":[5],"disenar":[6],"y":[7,18,24,30,67,72,96,112,117,129,140],"validar":[8],"un":[9,45,61],"instrumento":[10,122],"que":[11,26,57,86,132],"permita":[12],"definir":[13],"las":[14,21,93],"percepciones":[15,128],"de":[16,36,39,44,65,70,74,79,84],"alumnado":[17,139],"profesorado":[19,141],"sobre":[20,107,126,135],"interacciones,":[22],"actitudes":[23],"valores":[25],"se":[27,91,130],"ensenan,":[28],"aprenden":[29],"promueven":[31],"en":[32,60,82],"la":[33,37,49],"practica":[34],"educativa":[35],"clase":[38],"educacion":[40],"fisica.":[41],"Se":[42],"trato":[43],"estudio":[46],"descriptivo":[47],"transversal;":[48],"encuesta":[50],"construida":[51],"(CVIAP)":[52],"paso":[53],"por":[54],"seis":[55],"fases,":[56],"incluyo":[58],"pilotaje":[59],"grupo":[62],"no":[63],"probabilistico":[64],"alumnos":[66,110],"profesores,":[68],"jueceo":[69],"expertos":[71],"grupos":[73],"discusion.":[75],"cuestionario":[77],"consto":[78],"35":[80],"items":[81],"escala":[83],"Likert":[85],"miden":[87],"cinco":[88],"constructos":[89],"latentes,":[90],"hicieron":[92],"valoraciones":[94],"cuantitativas":[95],"cualitativas":[97],"para":[98,142],"ajustar":[99],"los":[100,109],"items.":[101],"Los":[102],"hallazgos":[103],"arrojan":[104],"informacion":[105],"objetiva":[106],"como":[108],"interactuan":[111],"valoran":[113],"el":[114],"trabajo":[115],"docente":[116],"viceversa.":[118],"La":[119],"validacion":[120],"revela":[123],"datos":[124],"confiables":[125],"dichas":[127],"concluye":[131],"permite":[133],"indagar":[134],"estas":[136],"creencias":[137],"entre":[138],"investigaciones":[143],"futuras.":[144]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W3183740983","counts_by_year":[],"updated_date":"2023-08-10T01:50:06.307857","created_date":"2021-08-02"},{"id":"https://openalex.org/W4237550744","doi":"https://doi.org/10.33776/remo.v0i16.5183","title":"Dise\u00f1o
+      y validaci\u00f3n del cuestionario sobre creencias y valores impl\u00edcitos
+      entre alumnado y profesorado (CVIAP) en la interacci\u00f3n de la clase de educaci\u00f3n
+      f\u00edsica.","display_name":"Dise\u00f1o y validaci\u00f3n del cuestionario
+      sobre creencias y valores impl\u00edcitos entre alumnado y profesorado (CVIAP)
+      en la interacci\u00f3n de la clase de educaci\u00f3n f\u00edsica.","publication_year":2021,"publication_date":"2021-03-23","ids":{"openalex":"https://openalex.org/W4237550744","doi":"https://doi.org/10.33776/remo.v0i16.5183"},"language":"es","primary_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.33776/remo.v0i16.5183","pdf_url":null,"source":{"id":"https://openalex.org/S4210227039","display_name":"E-motion","issn_l":"2341-1473","issn":["2341-1473"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310321128","host_organization_name":"University
+      of Huelva","host_organization_lineage":["https://openalex.org/P4310321128"],"host_organization_lineage_names":["University
+      of Huelva"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://doi.org/10.33776/remo.v0i16.5183","any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5003833544","display_name":"Jesus
+      Arturo Arturo Guerrero-Soto","orcid":"https://orcid.org/0000-0002-3563-9790"},"institutions":[{"id":"https://openalex.org/I1302736544","display_name":"Secretariat
+      of Public Education","ror":"https://ror.org/02e1c4h55","country_code":"MX","type":"government"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Secretar\u00eda
+      de Educaci\u00f3n P\u00fablica","raw_affiliation_strings":["Secretar\u00eda
+      de Educaci\u00f3n P\u00fablica"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima","raw_affiliation_strings":["Universidad de Colima"]},{"author_position":"last","author":{"id":"https://openalex.org/A5085014370","display_name":"Adriana
+      Isabel Andrade S\u00e1nchez","orcid":"https://orcid.org/0000-0001-9790-5719"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima","raw_affiliation_strings":["Universidad de Colima"]}],"institutions_distinct_count":2,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"apc_paid":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"cited_by_count":0,"biblio":{"volume":null,"issue":"16","first_page":"1","last_page":"23"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.8009544},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.5726761},{"id":"https://openalex.org/C2983454672","wikidata":"https://www.wikidata.org/wiki/Q14623204","display_name":"Secondary
+      education","level":2,"score":0.42627612},{"id":"https://openalex.org/C138885662","wikidata":"https://www.wikidata.org/wiki/Q5891","display_name":"Philosophy","level":0,"score":0.32984102},{"id":"https://openalex.org/C19417346","wikidata":"https://www.wikidata.org/wiki/Q7922","display_name":"Pedagogy","level":1,"score":0.1545834}],"mesh":[],"locations_count":1,"locations":[{"is_oa":true,"landing_page_url":"https://doi.org/10.33776/remo.v0i16.5183","pdf_url":null,"source":{"id":"https://openalex.org/S4210227039","display_name":"E-motion","issn_l":"2341-1473","issn":["2341-1473"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310321128","host_organization_name":"University
+      of Huelva","host_organization_lineage":["https://openalex.org/P4310321128"],"host_organization_lineage_names":["University
+      of Huelva"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.33776/remo.v0i16.5183","pdf_url":null,"source":{"id":"https://openalex.org/S4210227039","display_name":"E-motion","issn_l":"2341-1473","issn":["2341-1473"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310321128","host_organization_name":"University
+      of Huelva","host_organization_lineage":["https://openalex.org/P4310321128"],"host_organization_lineage_names":["University
+      of Huelva"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"},"sustainable_development_goals":[{"id":"https://metadata.un.org/sdg/4","display_name":"Quality
+      Education","score":0.97}],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W59019880","https://openalex.org/W766819059","https://openalex.org/W2308060692","https://openalex.org/W2473335724","https://openalex.org/W2478882070","https://openalex.org/W2609344916","https://openalex.org/W2748952813","https://openalex.org/W2780307509","https://openalex.org/W2899084033","https://openalex.org/W4210390885"],"ngrams_url":"https://api.openalex.org/works/W4237550744/ngrams","abstract_inverted_index":{"El":[0,76],"objetivo":[1],"del":[2,121],"presente":[3],"art\u00edculo":[4],"fue":[5],"dise\u00f1ar":[6],"y":[7,18,24,30,67,72,96,112,117,129,140],"validar":[8],"un":[9,45,61],"instrumento":[10,122],"que":[11,26,57,86,132],"permita":[12],"definir":[13],"las":[14,21,93],"percepciones":[15,128],"de":[16,36,39,44,65,70,74,79,84],"alumnado":[17,139],"profesorado":[19,141],"sobre":[20,107,126,135],"interacciones,":[22],"actitudes":[23],"valores":[25],"se":[27,91,130],"ense\u00f1an,":[28],"aprenden":[29],"promueven":[31],"en":[32,60,82],"la":[33,37,49],"pr\u00e1ctica":[34],"educativa":[35],"clase":[38],"educaci\u00f3n":[40],"f\u00edsica.":[41],"Se":[42],"trat\u00f3":[43],"estudio":[46],"descriptivo":[47],"transversal;":[48],"encuesta":[50],"construida":[51],"(CVIAP)":[52],"pas\u00f3":[53],"por":[54],"seis":[55],"fases,":[56],"incluy\u00f3":[58],"pilotaje":[59],"grupo":[62],"no":[63],"probabil\u00edstico":[64],"alumnos":[66,110],"profesores,":[68],"jueceo":[69],"expertos":[71],"grupos":[73],"discusi\u00f3n.":[75],"cuestionario":[77],"const\u00f3":[78],"35":[80],"\u00edtems":[81],"escala":[83],"Likert":[85],"miden":[87],"cinco":[88],"constructos":[89],"latentes,":[90],"hicieron":[92],"valoraciones":[94],"cuantitativas":[95],"cualitativas":[97],"para":[98,142],"ajustar":[99],"los":[100,109],"\u00edtems.":[101],"Los":[102],"hallazgos":[103],"arrojan":[104],"informaci\u00f3n":[105],"objetiva":[106],"c\u00f3mo":[108],"interact\u00faan":[111],"valoran":[113],"el":[114],"trabajo":[115],"docente":[116],"viceversa.":[118],"La":[119],"validaci\u00f3n":[120],"revela":[123],"datos":[124],"confiables":[125],"dichas":[127],"concluye":[131],"permite":[133],"indagar":[134],"estas":[136],"creencias":[137],"entre":[138],"investigaciones":[143],"futuras.":[144]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W4237550744","counts_by_year":[],"updated_date":"2023-08-10T08:06:46.283201","created_date":"2022-05-12"},{"id":"https://openalex.org/W4289521652","doi":"https://doi.org/10.31391/s2007-7033(2022)0059-006","title":"Representaciones
+      sociales sobre educaci\u00f3n f\u00edsica y deporte de estudiantes de una universidad
+      p\u00fablica mexicana","display_name":"Representaciones sociales sobre educaci\u00f3n
+      f\u00edsica y deporte de estudiantes de una universidad p\u00fablica mexicana","publication_year":2022,"publication_date":"2022-08-02","ids":{"openalex":"https://openalex.org/W4289521652","doi":"https://doi.org/10.31391/s2007-7033(2022)0059-006"},"language":"es","primary_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.31391/s2007-7033(2022)0059-006","pdf_url":null,"source":{"id":"https://openalex.org/S4210169729","display_name":"Sin\u00e9ctica","issn_l":"1665-109X","issn":["1665-109X","2007-7033"],"is_oa":true,"is_in_doaj":true,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc","version":"publishedVersion"},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://doi.org/10.31391/s2007-7033(2022)0059-006","any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5056396757","display_name":"Carmen
+      Silvia Pe\u00f1a Vargas","orcid":"https://orcid.org/0000-0002-3537-6265"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima, M\u00e9xico","raw_affiliation_strings":["Universidad de Colima, M\u00e9xico"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5008632896","display_name":"Ciria
+      Margarita Salazar","orcid":"https://orcid.org/0000-0001-8863-2309"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima, M\u00e9xico","raw_affiliation_strings":["Universidad de Colima, M\u00e9xico"]},{"author_position":"last","author":{"id":"https://openalex.org/A5088021854","display_name":"Rossana
+      Tamara Medina Valencia","orcid":"https://orcid.org/0000-0002-3664-9595"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      de Colima, M\u00e9xico","raw_affiliation_strings":["Universidad de Colima, M\u00e9xico"]}],"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"apc_paid":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"cited_by_count":0,"biblio":{"volume":null,"issue":"59","first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.76557916},{"id":"https://openalex.org/C138885662","wikidata":"https://www.wikidata.org/wiki/Q5891","display_name":"Philosophy","level":0,"score":0.3605825}],"mesh":[],"locations_count":1,"locations":[{"is_oa":true,"landing_page_url":"https://doi.org/10.31391/s2007-7033(2022)0059-006","pdf_url":null,"source":{"id":"https://openalex.org/S4210169729","display_name":"Sin\u00e9ctica","issn_l":"1665-109X","issn":["1665-109X","2007-7033"],"is_oa":true,"is_in_doaj":true,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc","version":"publishedVersion"}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.31391/s2007-7033(2022)0059-006","pdf_url":null,"source":{"id":"https://openalex.org/S4210169729","display_name":"Sin\u00e9ctica","issn_l":"1665-109X","issn":["1665-109X","2007-7033"],"is_oa":true,"is_in_doaj":true,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc","version":"publishedVersion"},"sustainable_development_goals":[{"id":"https://metadata.un.org/sdg/4","display_name":"Quality
+      Education","score":0.75}],"grants":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W59019880","https://openalex.org/W766819059","https://openalex.org/W2308060692","https://openalex.org/W2460312481","https://openalex.org/W2473335724","https://openalex.org/W2478882070","https://openalex.org/W2609344916","https://openalex.org/W2780307509","https://openalex.org/W2928210713","https://openalex.org/W4210390885"],"ngrams_url":"https://api.openalex.org/works/W4289521652/ngrams","abstract_inverted_index":{"El":[0,40],"objetivo":[1],"es":[2,42],"exponer":[3],"las":[4,17,133],"representaciones":[5],"sociales":[6,124],"a":[7,59],"partir":[8],"de":[9,14,22,34,37,43,65,82,98,103,113,132,168,187],"la":[10,20,23,35,48,63,72,79,86,104,147,166,169,188],"informaci\u00f3n,":[11],"el":[12,96,157,191],"campo":[13,97],"representaci\u00f3n":[15,99],"y":[16,26,90,107,115,120,122,129,152,172,183,190],"actitudes":[18,184],"sobre":[19,78],"profesi\u00f3n":[21,80,167],"educaci\u00f3n":[24,170],"f\u00edsica":[25,171],"deporte":[27,173],"que":[28,56,71,74,95,141,160,165],"comparten":[29],"educadores":[30],"f\u00edsicos":[31],"en":[32,125,156],"formaci\u00f3n":[33,189],"Universidad":[36],"Colima,":[38],"M\u00e9xico.":[39],"estudio":[41],"car\u00e1cter":[44],"descriptivo":[45],"y,":[46],"para":[47],"indagaci\u00f3n":[49],"emp\u00edrica,":[50],"se":[51,57,135],"utiliz\u00f3":[52],"un":[53],"cuestionario":[54],"semiestructurado":[55],"aplic\u00f3":[58],"166":[60],"estudiantes":[61,77,180],"mediante":[62],"plataforma":[64],"Google":[66],"Forms.":[67],"Los":[68],"resultados":[69],"se\u00f1alan":[70],"informaci\u00f3n":[73],"poseen":[75],"los":[76,83,88,153,179],"proviene":[81],"medios":[84],"digitales,":[85],"familia,":[87],"amigos":[89],"conocidos":[91],"cercanos.":[92],"Se":[93,163],"determina":[94],"abarca":[100],"cinco":[101],"im\u00e1genes":[102,182],"profesi\u00f3n:":[105],"f\u00e1cil":[106],"desacreditada;":[108],"alta":[109],"vocaci\u00f3n":[110,148],"inicial;":[111],"perfil":[112],"deportista":[114],"docente;":[116],"entusiastas,":[117],"vers\u00e1tiles,":[118],"apasionados":[119],"comprometidos;":[121],"agentes":[123],"salud,":[126],"bienestar":[127],"f\u00edsico":[128],"valores.":[130],"Respecto":[131],"actitudes,":[134],"revela":[136],"una":[137,143],"inclinaci\u00f3n":[138],"positiva,":[139],"ya":[140],"existe":[142],"vinculaci\u00f3n":[144],"directa":[145],"entre":[146],"por":[149],"esta":[150],"disciplina":[151],"intereses":[154],"personales":[155],"camino":[158],"laboral":[159],"desean":[161],"tomar.":[162],"concluye":[164],"est\u00e1":[174],"subvalorada":[175],"socialmente;":[176],"no":[177],"obstante,":[178],"perfilan":[181],"positivas":[185],"acerca":[186],"\u00e1mbito":[192],"laboral.":[193]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W4289521652","counts_by_year":[],"updated_date":"2023-08-06T23:44:41.535268","created_date":"2022-08-03"}],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '15448'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:45 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W1938046431&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":77,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:46 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W1558253067&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":45,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:46 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W429746514&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":37,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:46 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W2298174360&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":39,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:46 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W2210937787&sort=publication_date
+  response:
+    content: '{"meta":{"count":1,"db_response_time_ms":30,"page":1,"per_page":25},"results":[{"id":"https://openalex.org/W3151940839","doi":"https://doi.org/10.14306/renhyd.25.s1.1272","title":"Diferencias
+      morfol\u00f3gicas y de condici\u00f3n f\u00edsica en futbolistas adolescentes
+      seg\u00fan posici\u00f3n de juego: una revisi\u00f3n sistem\u00e1tica","display_name":"Diferencias
+      morfol\u00f3gicas y de condici\u00f3n f\u00edsica en futbolistas adolescentes
+      seg\u00fan posici\u00f3n de juego: una revisi\u00f3n sistem\u00e1tica","publication_year":2021,"publication_date":"2021-10-10","ids":{"openalex":"https://openalex.org/W3151940839","doi":"https://doi.org/10.14306/renhyd.25.s1.1272","mag":"3151940839"},"language":"es","primary_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.14306/renhyd.25.s1.1272","pdf_url":null,"source":{"id":"https://openalex.org/S2739089816","display_name":"Revista
+      Espa\u00f1ola de Nutrici\u00f3n Humana y Diet\u00e9tica","issn_l":"2173-1292","issn":["2174-5145","2173-1292"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310322427","host_organization_name":"Fundaci\u00f3n
+      Espa\u00f1ola de Dietistas-Nutricionistas (FEDN)","host_organization_lineage":["https://openalex.org/P4310322427"],"host_organization_lineage_names":["Fundaci\u00f3n
+      Espa\u00f1ola de Dietistas-Nutricionistas (FEDN)"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://doi.org/10.14306/renhyd.25.s1.1272","any_repository_has_fulltext":true},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5022662495","display_name":"Pablo
+      Vald\u00e9s-Badilla","orcid":"https://orcid.org/0000-0002-3948-8280"},"institutions":[{"id":"https://openalex.org/I2799535320","display_name":"Catholic
+      University of the Maule","ror":"https://ror.org/04vdpck27","country_code":"CL","type":"education"}],"countries":["CL"],"is_corresponding":false,"raw_affiliation_string":"Departamento
+      de Ciencias de la Actividad F\u00edsica, Facultad de Ciencias de la Educaci\u00f3n.
+      Universidad Cat\u00f3lica del Maule, Chile.","raw_affiliation_strings":["Departamento
+      de Ciencias de la Actividad F\u00edsica, Facultad de Ciencias de la Educaci\u00f3n.
+      Universidad Cat\u00f3lica del Maule, Chile."]},{"author_position":"middle","author":{"id":"https://openalex.org/A5018275475","display_name":"Darlyn
+      Obreque Villagr\u00e1n","orcid":null},"institutions":[{"id":"https://openalex.org/I3121512035","display_name":"Universidad
+      Aut\u00f3noma de Chile","ror":"https://ror.org/010r9dy59","country_code":"CL","type":"education"}],"countries":["CL"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      Aut\u00f3noma de Chile, sede Temuco, Chile.","raw_affiliation_strings":["Universidad
+      Aut\u00f3noma de Chile, sede Temuco, Chile."]},{"author_position":"middle","author":{"id":"https://openalex.org/A5045005388","display_name":"\u00c1lvaro
+      Lev\u00edn Catrilao","orcid":null},"institutions":[{"id":"https://openalex.org/I3121512035","display_name":"Universidad
+      Aut\u00f3noma de Chile","ror":"https://ror.org/010r9dy59","country_code":"CL","type":"education"}],"countries":["CL"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      Aut\u00f3noma de Chile, sede Temuco, Chile.","raw_affiliation_strings":["Universidad
+      Aut\u00f3noma de Chile, sede Temuco, Chile."]},{"author_position":"middle","author":{"id":"https://openalex.org/A5045496434","display_name":"\u00c1ndres
+      Carim\u00e1n San Mart\u00edn","orcid":null},"institutions":[{"id":"https://openalex.org/I3121512035","display_name":"Universidad
+      Aut\u00f3noma de Chile","ror":"https://ror.org/010r9dy59","country_code":"CL","type":"education"}],"countries":["CL"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      Aut\u00f3noma de Chile, sede Temuco, Chile.","raw_affiliation_strings":["Universidad
+      Aut\u00f3noma de Chile, sede Temuco, Chile."]},{"author_position":"middle","author":{"id":"https://openalex.org/A5007963291","display_name":"Diego
+      Segura Contanzo","orcid":null},"institutions":[{"id":"https://openalex.org/I3121512035","display_name":"Universidad
+      Aut\u00f3noma de Chile","ror":"https://ror.org/010r9dy59","country_code":"CL","type":"education"}],"countries":["CL"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      Aut\u00f3noma de Chile, sede Temuco, Chile.","raw_affiliation_strings":["Universidad
+      Aut\u00f3noma de Chile, sede Temuco, Chile."]},{"author_position":"middle","author":{"id":"https://openalex.org/A5039907446","display_name":"Cristian
+      N\u00fa\u00f1ez-Espinosa","orcid":"https://orcid.org/0000-0002-9896-7062"},"institutions":[{"id":"https://openalex.org/I63471342","display_name":"University
+      of Magallanes","ror":"https://ror.org/049784n50","country_code":"CL","type":"education"}],"countries":["CL"],"is_corresponding":false,"raw_affiliation_string":"Escuela
+      De Medicina, Universidad De Magallanes,Punta Arenas,Chile","raw_affiliation_strings":["Escuela
+      De Medicina, Universidad De Magallanes,Punta Arenas,Chile"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5076635129","display_name":"Tom\u00e1s
+      Herrera-Valenzuela","orcid":"https://orcid.org/0000-0002-5219-5896"},"institutions":[{"id":"https://openalex.org/I4210122369","display_name":"Universidad
+      Santo Tom\u00e1s","ror":"https://ror.org/02vbtzd72","country_code":"CL","type":"education"},{"id":"https://openalex.org/I10457146","display_name":"University
+      of Santiago Chile","ror":"https://ror.org/02ma57s91","country_code":"CL","type":"education"}],"countries":["CL"],"is_corresponding":false,"raw_affiliation_string":"Departamento
+      de Ciencias de la Actividad F\u00edsica y el Deporte. Facultad de Salud. Universidad
+      Santo Tom\u00e1s, UST, Chile. \r\n\r\nDepartamento de Ciencias de la Actividad
+      F\u00edsica, el Deporte y la Salud. Facultad de Ciencias M\u00e9dicas. Universidad
+      de Santiago de Chile, USACH, Chile.","raw_affiliation_strings":["Departamento
+      de Ciencias de la Actividad F\u00edsica y el Deporte. Facultad de Salud. Universidad
+      Santo Tom\u00e1s, UST, Chile. \r\n\r\nDepartamento de Ciencias de la Actividad
+      F\u00edsica, el Deporte y la Salud. Facultad de Ciencias M\u00e9dicas. Universidad
+      de Santiago de Chile, USACH, Chile."]},{"author_position":"middle","author":{"id":"https://openalex.org/A5016010411","display_name":"Eduardo
+      Guzm\u00e1n-Mu\u00f1oz","orcid":"https://orcid.org/0000-0001-7001-9004"},"institutions":[{"id":"https://openalex.org/I4210122369","display_name":"Universidad
+      Santo Tom\u00e1s","ror":"https://ror.org/02vbtzd72","country_code":"CL","type":"education"}],"countries":["CL"],"is_corresponding":false,"raw_affiliation_string":"Escuela
+      de Kinesiologi\u0301a. Facultad de Salud. Universidad Santo Tom\u00e1s, UST,
+      Chile.","raw_affiliation_strings":["Escuela de Kinesiologi\u0301a. Facultad
+      de Salud. Universidad Santo Tom\u00e1s, UST, Chile."]},{"author_position":"last","author":{"id":"https://openalex.org/A5035493806","display_name":"Braulio
+      Henrique Magnani Branco","orcid":null},"institutions":[{"id":"https://openalex.org/I3018588415","display_name":"Centro
+      Universit\u00e1rio Cesumar","ror":"https://ror.org/03byjr489","country_code":"BR","type":"education"}],"countries":["BR"],"is_corresponding":false,"raw_affiliation_string":"Graduate
+      Program in Health Promotion. Universidade Cesumar (UniCesumar), Maring\u00e1,
+      PR, Brazil.","raw_affiliation_strings":["Graduate Program in Health Promotion.
+      Universidade Cesumar (UniCesumar), Maring\u00e1, PR, Brazil."]}],"institutions_distinct_count":6,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"apc_paid":{"value":0,"currency":"USD","value_usd":0,"provenance":"doaj"},"cited_by_count":0,"biblio":{"volume":"25","issue":null,"first_page":"e1272","last_page":"e1272"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.6736491},{"id":"https://openalex.org/C121332964","wikidata":"https://www.wikidata.org/wiki/Q413","display_name":"Physics","level":0,"score":0.4239375},{"id":"https://openalex.org/C58640448","wikidata":"https://www.wikidata.org/wiki/Q42515","display_name":"Cartography","level":1,"score":0.39629266},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.38198903},{"id":"https://openalex.org/C205649164","wikidata":"https://www.wikidata.org/wiki/Q1071","display_name":"Geography","level":0,"score":0.20354438}],"mesh":[],"locations_count":3,"locations":[{"is_oa":true,"landing_page_url":"https://doi.org/10.14306/renhyd.25.s1.1272","pdf_url":null,"source":{"id":"https://openalex.org/S2739089816","display_name":"Revista
+      Espa\u00f1ola de Nutrici\u00f3n Humana y Diet\u00e9tica","issn_l":"2173-1292","issn":["2174-5145","2173-1292"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310322427","host_organization_name":"Fundaci\u00f3n
+      Espa\u00f1ola de Dietistas-Nutricionistas (FEDN)","host_organization_lineage":["https://openalex.org/P4310322427"],"host_organization_lineage_names":["Fundaci\u00f3n
+      Espa\u00f1ola de Dietistas-Nutricionistas (FEDN)"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"},{"is_oa":true,"landing_page_url":"https://renhyd.org/index.php/renhyd/article/view/1272","pdf_url":"https://renhyd.org/renhyd/article/download/1272/752","source":{"id":"https://openalex.org/S4306401402","display_name":"Spanish
+      Foundation of Dieticians - Spanish Journal of Human Nutrition and Dietetics","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"repository"},"license":"cc-by-sa","version":"publishedVersion"},{"is_oa":true,"landing_page_url":"https://dialnet.unirioja.es/servlet/oaiart?codigo=8102565","pdf_url":"https://dialnet.unirioja.es/descarga/articulo/8102565.pdf","source":{"id":"https://openalex.org/S4306401293","display_name":"Dialnet
+      (Universidad de la Rioja)","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"host_organization":"https://openalex.org/I3032752892","host_organization_name":"Universidad
+      Internacional de La Rioja","host_organization_lineage":["https://openalex.org/I3032752892"],"host_organization_lineage_names":["Universidad
+      Internacional de La Rioja"],"type":"repository"},"license":"cc-by-nc-sa","version":"submittedVersion"}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.14306/renhyd.25.s1.1272","pdf_url":null,"source":{"id":"https://openalex.org/S2739089816","display_name":"Revista
+      Espa\u00f1ola de Nutrici\u00f3n Humana y Diet\u00e9tica","issn_l":"2173-1292","issn":["2174-5145","2173-1292"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310322427","host_organization_name":"Fundaci\u00f3n
+      Espa\u00f1ola de Dietistas-Nutricionistas (FEDN)","host_organization_lineage":["https://openalex.org/P4310322427"],"host_organization_lineage_names":["Fundaci\u00f3n
+      Espa\u00f1ola de Dietistas-Nutricionistas (FEDN)"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"},"sustainable_development_goals":[],"grants":[],"referenced_works_count":43,"referenced_works":["https://openalex.org/W116984602","https://openalex.org/W152976177","https://openalex.org/W186452902","https://openalex.org/W1480861408","https://openalex.org/W1853329468","https://openalex.org/W1916293593","https://openalex.org/W1987158086","https://openalex.org/W2024867806","https://openalex.org/W2065011034","https://openalex.org/W2076255707","https://openalex.org/W2077251820","https://openalex.org/W2085318361","https://openalex.org/W2096156023","https://openalex.org/W2114488753","https://openalex.org/W2120145728","https://openalex.org/W2168933256","https://openalex.org/W2169302237","https://openalex.org/W2210937787","https://openalex.org/W2315300890","https://openalex.org/W2315407785","https://openalex.org/W2317451773","https://openalex.org/W2401982082","https://openalex.org/W2435825850","https://openalex.org/W2475838950","https://openalex.org/W2505907343","https://openalex.org/W2516540078","https://openalex.org/W2565953797","https://openalex.org/W2576790070","https://openalex.org/W2603838955","https://openalex.org/W2606412884","https://openalex.org/W2738888703","https://openalex.org/W2769523803","https://openalex.org/W2769651530","https://openalex.org/W2791714260","https://openalex.org/W2799427222","https://openalex.org/W2885834835","https://openalex.org/W2892846695","https://openalex.org/W2904020983","https://openalex.org/W2906996343","https://openalex.org/W2935622080","https://openalex.org/W2963287466","https://openalex.org/W2990588177","https://openalex.org/W3013070552"],"related_works":["https://openalex.org/W135163757","https://openalex.org/W1557907936","https://openalex.org/W1832118649","https://openalex.org/W2111865594","https://openalex.org/W2123836397","https://openalex.org/W2248387313","https://openalex.org/W2740647293","https://openalex.org/W2742816064","https://openalex.org/W2997727571","https://openalex.org/W3203105381"],"ngrams_url":"https://api.openalex.org/works/W3151940839/ngrams","abstract_inverted_index":{"Introducci\u00f3n:":[0],"El":[1],"objetivo":[2],"de":[3,18,26,42,50,53,64,86,231],"la":[4,40,48,135,138,150,164,195],"presente":[5],"revisi\u00f3n":[6],"sistem\u00e1tica":[7],"fue":[8,153,168],"analizar":[9],"los":[10,62,95,189,200,208,217],"estudios":[11,58,91],"que":[12,94,110,117,188,194,199],"eval\u00faan":[13],"las":[14],"diferencias":[15],"morfol\u00f3gicas":[16],"y":[17,28,45,78,97,106,112,127,157,163,178,185,191,210,216],"condici\u00f3n":[19,136,196],"f\u00edsica":[20],"en":[21,125,155,170],"futbolistas":[22,68,227],"adolescentes":[23,228],"seg\u00fan":[24,229],"posici\u00f3n":[25,230],"juego.Material":[27],"m\u00e9todos:":[29],"Para":[30],"su":[31],"elaboraci\u00f3n":[32],"se":[33,38,46,225],"sigui\u00f3":[34],"el":[35],"protocolo":[36],"PRISMA-P,":[37],"utiliz\u00f3":[39],"base":[41],"datos":[43],"PubMed/MEDLINE":[44],"aplic\u00f3":[47],"evaluaci\u00f3n":[49],"calidad":[51],"metodol\u00f3gica":[52],"Downs":[54],"&amp;":[55],"Black.":[56],"Seis":[57],"cumplieron":[59],"con":[60,82,161],"todos":[61],"criterios":[63],"selecci\u00f3n,":[65],"sumando":[66],"784":[67],"(229":[69],"defensas":[70],"[DF];":[71],"271":[72],"mediocampistas":[73],"[MC],":[74],"168":[75],"delanteros":[76],"[DL]":[77],"69":[79],"porteros":[80],"[PT])":[81],"una":[83,100],"edad":[84],"media":[85],"16,2":[87],"a\u00f1os.":[88],"Resultados:":[89],"Los":[90,176],"analizados":[92],"indican":[93],"PT":[96,162,177],"DF":[98,128,156,179,211],"poseen":[99],"altura,":[101,182],"peso":[102,123,183],"corporal,":[103],"componente":[104],"endom\u00f3rfico":[105],"grasa":[107,186],"corporal":[108,124,184,187],"mayor":[109,169,181,203,213,220],"MC":[111,158,171,190,209,218],"DL,":[113],"excepto":[114],"un":[115],"estudio":[116],"reporta":[118],"valores":[119,142],"m\u00e1s":[120,143],"altos":[121],"para":[122,145],"DL":[126,146,201],"respecto":[129,147,172],"a":[130,134,148,173],"MC.":[131],"En":[132],"relaci\u00f3n":[133],"f\u00edsica,":[137,197],"sentadilla":[139],"m\u00e1xima":[140],"exhibi\u00f3":[141],"elevados":[144],"MC;":[149],"capacidad":[151,214],"cardiorrespiratoria":[152,215],"superior":[154],"al":[159],"compararlos":[160],"resistencia":[165,221],"muscular":[166,222],"abdominal":[167,223],"DF.":[174],"Conclusi\u00f3n:":[175],"ostentan":[180],"DL.":[192],"Mientras":[193],"indica":[198],"demuestran":[202],"fuerza":[204],"del":[205],"tren":[206],"inferior,":[207],"consiguen":[212],"presentan":[219],"cuando":[224],"analizan":[226],"juego.":[232]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W3151940839","counts_by_year":[],"updated_date":"2023-08-10T23:33:40.544151","created_date":"2021-04-13"}],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '4044'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:46 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W2616479870&sort=publication_date
+  response:
+    content: '{"meta":{"count":1,"db_response_time_ms":34,"page":1,"per_page":25},"results":[{"id":"https://openalex.org/W3197257696","doi":"https://doi.org/10.24215/23142561e178","title":"Efectos
+      del trote progresivo en la sesi\u00f3n de educaci\u00f3n f\u00edsica sobre el
+      porcentaje de grasa corporal y VO2m\u00e1x en estudiantes con sobrepeso y obesidad.
+      Prueba Piloto","display_name":"Efectos del trote progresivo en la sesi\u00f3n
+      de educaci\u00f3n f\u00edsica sobre el porcentaje de grasa corporal y VO2m\u00e1x
+      en estudiantes con sobrepeso y obesidad. Prueba Piloto","publication_year":2021,"publication_date":"2021-04-01","ids":{"openalex":"https://openalex.org/W3197257696","doi":"https://doi.org/10.24215/23142561e178","mag":"3197257696"},"language":"es","primary_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.24215/23142561e178","pdf_url":null,"source":{"id":"https://openalex.org/S2739229005","display_name":"Educaci\u00f3n
+      F\u00edsica y Ciencia","issn_l":"1514-0105","issn":["1514-0105","2314-2561"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310318145","host_organization_name":"National
+      University of La Plata","host_organization_lineage":["https://openalex.org/P4310318145"],"host_organization_lineage_names":["National
+      University of La Plata"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion","is_accepted":true,"is_published":true},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://doi.org/10.24215/23142561e178","any_repository_has_fulltext":true},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5060410504","display_name":"Lenin
+      Tlamatini Barajas Pineda","orcid":"https://orcid.org/0000-0003-0975-8144"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima","raw_affiliation_strings":["Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5043511589","display_name":"Pedro
+      Juli\u00e1n Flores Moreno","orcid":"https://orcid.org/0000-0003-2587-513X"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima","raw_affiliation_strings":["Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5085014370","display_name":"Adriana
+      Isabel Andrade S\u00e1nchez","orcid":"https://orcid.org/0000-0001-9790-5719"},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima","raw_affiliation_strings":["Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5037377102","display_name":"Javier
+      Arturo Hall L\u00f3pez","orcid":"https://orcid.org/0000-0002-7808-0181"},"institutions":[],"countries":["US"],"is_corresponding":false,"raw_affiliation_string":"Facultad  de
+      Deportes Universidad Aut\u00f3noma de Baja California","raw_affiliation_strings":["Facultad  de
+      Deportes Universidad Aut\u00f3noma de Baja California"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5023394057","display_name":"Jos\u00e9
+      Encarnaci\u00f3n Del R\u00edo Valdivia","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Facultad
+      de Medicina, Universidad de Colima","raw_affiliation_strings":["Facultad de
+      Medicina, Universidad de Colima"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5055328195","display_name":"Uriel
+      Andr\u00e9s Viera Maldonado","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima","raw_affiliation_strings":["Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima"]},{"author_position":"last","author":{"id":"https://openalex.org/A5005376584","display_name":"Jenny
+      Daniela P\u00e9rez Mojica","orcid":null},"institutions":[{"id":"https://openalex.org/I916541031","display_name":"University
+      of Colima","ror":"https://ror.org/04znxe670","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima","raw_affiliation_strings":["Facultad
+      de Ciencias de la Educaci\u00f3n, Universidad de Colima"]}],"institutions_distinct_count":1,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":0,"biblio":{"volume":"23","issue":"2","first_page":"e178","last_page":"e178"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.68781775},{"id":"https://openalex.org/C121332964","wikidata":"https://www.wikidata.org/wiki/Q413","display_name":"Physics","level":0,"score":0.36696562},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.2898591}],"mesh":[],"locations_count":5,"locations":[{"is_oa":true,"landing_page_url":"https://doi.org/10.24215/23142561e178","pdf_url":null,"source":{"id":"https://openalex.org/S2739229005","display_name":"Educaci\u00f3n
+      F\u00edsica y Ciencia","issn_l":"1514-0105","issn":["1514-0105","2314-2561"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310318145","host_organization_name":"National
+      University of La Plata","host_organization_lineage":["https://openalex.org/P4310318145"],"host_organization_lineage_names":["National
+      University of La Plata"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion","is_accepted":true,"is_published":true},{"is_oa":false,"landing_page_url":"https://doaj.org/article/56c74413fd2e45e2a4b360c48306a525","pdf_url":null,"source":{"id":"https://openalex.org/S4306401280","display_name":"DOAJ
+      (DOAJ: Directory of Open Access Journals)","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"repository"},"license":null,"version":null,"is_accepted":false,"is_published":false},{"is_oa":true,"landing_page_url":"https://www.memoria.fahce.unlp.edu.ar/art_revistas/pr.12899/pr.12899.pdf","pdf_url":"https://www.memoria.fahce.unlp.edu.ar/art_revistas/pr.12899/pr.12899.pdf","source":{"id":"https://openalex.org/S4306402641","display_name":"LA
+      Referencia (Red Federada de Repositorios Institucionales de Publicaciones Cient\u00edficas)","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"host_organization":"https://openalex.org/I4383465926","host_organization_name":"LA
+      Referencia","host_organization_lineage":["https://openalex.org/I4383465926"],"host_organization_lineage_names":["LA
+      Referencia"],"type":"repository"},"license":"cc-by-nc-sa","version":"publishedVersion","is_accepted":true,"is_published":true},{"is_oa":true,"landing_page_url":"http://sedici.unlp.edu.ar/handle/10915/128990","pdf_url":"http://sedici.unlp.edu.ar/bitstream/handle/10915/128990/Documento.pdf?sequence=1","source":{"id":"https://openalex.org/S4306402641","display_name":"LA
+      Referencia (Red Federada de Repositorios Institucionales de Publicaciones Cient\u00edficas)","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"host_organization":"https://openalex.org/I4383465926","host_organization_name":"LA
+      Referencia","host_organization_lineage":["https://openalex.org/I4383465926"],"host_organization_lineage_names":["LA
+      Referencia"],"type":"repository"},"license":"cc-by-nc-sa","version":"publishedVersion","is_accepted":true,"is_published":true},{"is_oa":true,"landing_page_url":"https://www.redalyc.org/articulo.oa?id=439967612010","pdf_url":"https://www.redalyc.org/journal/4399/439967612010/439967612010.pdf","source":{"id":"https://openalex.org/S4377196100","display_name":"Redalyc
+      (Universidad Aut\u00f3noma del Estado de M\u00e9xico)","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"host_organization":"https://openalex.org/I179647637","host_organization_name":"Universidad
+      Aut\u00f3noma del Estado de M\u00e9xico","host_organization_lineage":["https://openalex.org/I179647637"],"host_organization_lineage_names":["Universidad
+      Aut\u00f3noma del Estado de M\u00e9xico"],"type":"repository"},"license":null,"version":"submittedVersion","is_accepted":false,"is_published":false}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.24215/23142561e178","pdf_url":null,"source":{"id":"https://openalex.org/S2739229005","display_name":"Educaci\u00f3n
+      F\u00edsica y Ciencia","issn_l":"1514-0105","issn":["1514-0105","2314-2561"],"is_oa":true,"is_in_doaj":true,"host_organization":"https://openalex.org/P4310318145","host_organization_name":"National
+      University of La Plata","host_organization_lineage":["https://openalex.org/P4310318145"],"host_organization_lineage_names":["National
+      University of La Plata"],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion","is_accepted":true,"is_published":true},"sustainable_development_goals":[],"grants":[],"referenced_works_count":27,"referenced_works":["https://openalex.org/W299133441","https://openalex.org/W1571657189","https://openalex.org/W1592152839","https://openalex.org/W1918320041","https://openalex.org/W1934402304","https://openalex.org/W1992218198","https://openalex.org/W2054200391","https://openalex.org/W2064312699","https://openalex.org/W2092474485","https://openalex.org/W2108225225","https://openalex.org/W2109277245","https://openalex.org/W2121813141","https://openalex.org/W2131613651","https://openalex.org/W2154976381","https://openalex.org/W2235884128","https://openalex.org/W2563037672","https://openalex.org/W2612910497","https://openalex.org/W2616479870","https://openalex.org/W2752795181","https://openalex.org/W2802215516","https://openalex.org/W2894172756","https://openalex.org/W2911277518","https://openalex.org/W3021312582","https://openalex.org/W3025445211","https://openalex.org/W3047970440","https://openalex.org/W3048010057","https://openalex.org/W3207184414"],"related_works":["https://openalex.org/W54078636","https://openalex.org/W1501425562","https://openalex.org/W1536502753","https://openalex.org/W2740647293","https://openalex.org/W2742816064","https://openalex.org/W2902782467","https://openalex.org/W2935759653","https://openalex.org/W2954470139","https://openalex.org/W2997727571","https://openalex.org/W3105167352"],"ngrams_url":"https://api.openalex.org/works/W3197257696/ngrams","abstract_inverted_index":{"El":[0],"presente":[1],"estudio":[2],"cuasi":[3],"experimental":[4,86],"y":[5,39,46,55,62,81,99,103],"prospectivo":[6],"tubo":[7],"como":[8],"objetivo":[9],"determinar":[10],"si":[11],"el":[12,34,40,88],"trote":[13],"progresivo":[14],"a":[15,29,72],"10":[16],"minutos":[17],"durante":[18],"la":[19,107],"sesi\u00f3n":[20],"de":[21,36,51,68,75,90,93],"educaci\u00f3n":[22],"f\u00edsica":[23],"caracterizada":[24],"por":[25],"desarrollar":[26],"actividades":[27],"moderadas":[28],"vigorosas,":[30],"ten\u00eda":[31],"efecto":[32],"sobre":[33],"porcentaje":[35,89],"grasa":[37,91],"corporal":[38,92],"VO2m\u00e1x":[41],"en":[42,59],"estudiantes":[43],"con":[44],"sobrepeso":[45],"obesidad.":[47],"La":[48],"poblaci\u00f3n":[49],"fue":[50],"59":[52],"ni\u00f1os":[53,83],"(57.63%)":[54],"ni\u00f1as":[56,80],"(42.37%)":[57],"organizados":[58],"grupo":[60,85],"control":[61],"experimental.":[63],"Entre":[64],"los":[65,82],"principales":[66],"resultados":[67],"esta":[69],"investigaci\u00f3n":[70],"posterior":[71],"cuatro":[73],"meses":[74],"intervenci\u00f3n,":[76],"fueron":[77],"que":[78],"las":[79],"del":[84],"disminuyeron":[87],"manera":[94],"significativa":[95],"(p.":[96,111],"&lt;":[97,112],"0.005)":[98],"ambos":[100],"grupos":[101],"(control":[102],"experimental),":[104],"aumentaron":[105],"significativamente":[106],"capacidad":[108],"aer\u00f3bica":[109],"m\u00e1xima":[110],"0.005).":[113]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W3197257696","counts_by_year":[],"updated_date":"2023-08-12T23:47:01.424195","created_date":"2021-09-13"}],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '3066'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:46 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W3111555194&sort=publication_date
+  response:
+    content: '{"meta":{"count":2,"db_response_time_ms":24,"page":1,"per_page":25},"results":[{"id":"https://openalex.org/W3158713728","doi":"https://doi.org/10.31206/rmdo342020","title":"Respuestas
+      psicol\u00f3gicas durante el confinamiento por la pandemia por COVID-19 en estudiantes
+      mexicanos","display_name":"Respuestas psicol\u00f3gicas durante el confinamiento
+      por la pandemia por COVID-19 en estudiantes mexicanos","publication_year":2021,"publication_date":"2021-01-01","ids":{"openalex":"https://openalex.org/W3158713728","doi":"https://doi.org/10.31206/rmdo342020","mag":"3158713728"},"language":"es","primary_location":{"is_oa":false,"landing_page_url":"https://doi.org/10.31206/rmdo342020","pdf_url":null,"source":{"id":"https://openalex.org/S4210225343","display_name":"Revista
+      mexicana de orientaci\u00f3n educativa","issn_l":"1665-7527","issn":["1665-7527"],"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":null,"is_accepted":false,"is_published":false},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":false,"oa_status":"closed","oa_url":null,"any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5076629000","display_name":"Blanca
+      Estela Barcelata-Eguiarte","orcid":null},"institutions":[{"id":"https://openalex.org/I4210087225","display_name":"Universidad
+      Aut\u00f3noma Monterrey","ror":"https://ror.org/004fan886","country_code":"CR","type":"education"}],"countries":["CR"],"is_corresponding":false,"raw_affiliation_string":"UNAM","raw_affiliation_strings":["UNAM"]},{"author_position":"middle","author":{"id":"https://openalex.org/A5009619989","display_name":"Raquel
+      Rodr\u00edguez-Alc\u00e1ntara","orcid":"https://orcid.org/0000-0002-2770-8135"},"institutions":[{"id":"https://openalex.org/I4210087225","display_name":"Universidad
+      Aut\u00f3noma Monterrey","ror":"https://ror.org/004fan886","country_code":"CR","type":"education"}],"countries":["CR"],"is_corresponding":false,"raw_affiliation_string":"UNAM","raw_affiliation_strings":["UNAM"]},{"author_position":"last","author":{"id":"https://openalex.org/A5006895568","display_name":"F\u00e1tima
+      Gonz\u00e1lez Medina","orcid":null},"institutions":[{"id":"https://openalex.org/I90757844","display_name":"National
+      Pedagogic University","ror":"https://ror.org/023m5rq87","country_code":"MX","type":"education"}],"countries":["MX"],"is_corresponding":false,"raw_affiliation_string":"Universidad
+      Pedag\u00f3gica Nacional","raw_affiliation_strings":["Universidad Pedag\u00f3gica
+      Nacional"]}],"institutions_distinct_count":2,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":2,"biblio":{"volume":null,"issue":null,"first_page":"1","last_page":"20"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C3008058167","wikidata":"https://www.wikidata.org/wiki/Q84263196","display_name":"Coronavirus
+      disease 2019 (COVID-19)","level":4,"score":0.63430864},{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.6300654},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.57993764},{"id":"https://openalex.org/C71924100","wikidata":"https://www.wikidata.org/wiki/Q11190","display_name":"Medicine","level":0,"score":0.23423111},{"id":"https://openalex.org/C142362112","wikidata":"https://www.wikidata.org/wiki/Q735","display_name":"Art","level":0,"score":0.16496274},{"id":"https://openalex.org/C2779134260","wikidata":"https://www.wikidata.org/wiki/Q12136","display_name":"Disease","level":2,"score":0.0},{"id":"https://openalex.org/C142724271","wikidata":"https://www.wikidata.org/wiki/Q7208","display_name":"Pathology","level":1,"score":0.0},{"id":"https://openalex.org/C524204448","wikidata":"https://www.wikidata.org/wiki/Q788926","display_name":"Infectious
+      disease (medical specialty)","level":3,"score":0.0}],"mesh":[],"locations_count":1,"locations":[{"is_oa":false,"landing_page_url":"https://doi.org/10.31206/rmdo342020","pdf_url":null,"source":{"id":"https://openalex.org/S4210225343","display_name":"Revista
+      mexicana de orientaci\u00f3n educativa","issn_l":"1665-7527","issn":["1665-7527"],"is_oa":false,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":null,"version":null,"is_accepted":false,"is_published":false}],"best_oa_location":null,"sustainable_development_goals":[],"grants":[],"referenced_works_count":21,"referenced_works":["https://openalex.org/W2895336045","https://openalex.org/W3001465255","https://openalex.org/W3011821664","https://openalex.org/W3012189167","https://openalex.org/W3012206748","https://openalex.org/W3013355453","https://openalex.org/W3015245681","https://openalex.org/W3016529082","https://openalex.org/W3018516287","https://openalex.org/W3021560368","https://openalex.org/W3023457733","https://openalex.org/W3023578473","https://openalex.org/W3029850845","https://openalex.org/W3032994313","https://openalex.org/W3037109040","https://openalex.org/W3084387953","https://openalex.org/W3092386566","https://openalex.org/W3111555194","https://openalex.org/W3155868411","https://openalex.org/W3203138906","https://openalex.org/W4205885663"],"related_works":["https://openalex.org/W93312527","https://openalex.org/W2748952813","https://openalex.org/W2899084033","https://openalex.org/W3135208316","https://openalex.org/W3175450294","https://openalex.org/W3187621644","https://openalex.org/W3189060602","https://openalex.org/W4205413867","https://openalex.org/W4205698903","https://openalex.org/W4294968941"],"ngrams_url":"https://api.openalex.org/works/W3158713728/ngrams","abstract_inverted_index":{"La":[0],"pandemia":[1,40],"de":[2,17,24,32,47,55,62,69,86,134],"COVID-19":[3,73],"representa":[4],"un":[5],"riesgo":[6],"para":[7,74,147],"la":[8,39,67,94,132],"salud":[9],"mental":[10],"ya":[11],"que":[12,107,113,129],"ha":[13],"modificado":[14],"los":[15,18,108,111,148],"contextos":[16],"adolescentes":[19,33,51,112,149],"y":[20,34,41,52,79,84,104,150],"j\u00f3venes.":[21,151],"El":[22],"objetivo":[23],"este":[25],"estudio":[26],"fue":[27],"analizar":[28],"las":[29,125],"respuestas":[30],"psicol\u00f3gicas":[31],"j\u00f3venes":[35,53],"estudiantes":[36,54],"mexicanos":[37],"ante":[38],"compararlas":[42],"en":[43,117,123,145],"funci\u00f3n":[44],"del":[45,60,72],"tiempo":[46,116],"confinamiento.":[48],"Participaron":[49],"197":[50],"13":[56],"a":[57],"24":[58],"a\u00f1os":[59],"Estado":[61],"Puebla,":[63],"M\u00e9xico.":[64],"Se":[65],"aplic\u00f3":[66],"Encuesta":[68],"Percepci\u00f3n":[70],"Juvenil":[71],"evaluar":[75],"por":[76,96],"ejemplo":[77],"miedos":[78],"preocupaciones,":[80],"estr\u00e9s,":[81,102],"presiones":[82,105],"escolares":[83,106],"cambios":[85],"rutina,":[87],"as\u00ed":[88],"como":[89],"algunas":[90],"condiciones":[91],"relacionadas":[92],"con":[93],"enfermedad":[95],"COVID-19.":[97],"Las":[98],"mujeres":[99],"presentan":[100,119],"m\u00e1s":[101,115,121],"miedo":[103],"hombres.":[109],"Adem\u00e1s,":[110],"llevan":[114],"confinamiento":[118],"puntajes":[120],"altos":[122],"todas":[124],"\u00e1reas":[126],"evaluadas":[127],"lo":[128],"podr\u00eda":[130],"incrementar":[131],"probabilidad":[133],"problemas":[135],"emocionales.":[136],"Por":[137],"tanto,":[138],"es":[139],"necesario":[140],"dise\u00f1ar":[141],"estrategias":[142],"selectivas":[143],"basadas":[144],"evidencia":[146]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W3158713728","counts_by_year":[{"year":2022,"cited_by_count":1},{"year":2021,"cited_by_count":1}],"updated_date":"2023-08-12T00:23:24.535109","created_date":"2021-05-10"},{"id":"https://openalex.org/W4296924699","doi":"https://doi.org/10.21615/cesp.6143","title":"Percepci\u00f3n
+      subjetiva del COVID-19: Una medida de evaluaci\u00f3n integral para adolescentes
+      y j\u00f3venes","display_name":"Percepci\u00f3n subjetiva del COVID-19: Una
+      medida de evaluaci\u00f3n integral para adolescentes y j\u00f3venes","publication_year":2022,"publication_date":"2022-09-16","ids":{"openalex":"https://openalex.org/W4296924699","doi":"https://doi.org/10.21615/cesp.6143"},"language":"es","primary_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.21615/cesp.6143","pdf_url":null,"source":{"id":"https://openalex.org/S4210231395","display_name":"Revista
+      CES psicologi\u0301a","issn_l":"2011-3080","issn":["2011-3080"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"},"type":"article","type_crossref":"journal-article","open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://doi.org/10.21615/cesp.6143","any_repository_has_fulltext":false},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5076629000","display_name":"Blanca
+      Estela Barcelata-Eguiarte","orcid":null},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]},{"author_position":"last","author":{"id":"https://openalex.org/A5009619989","display_name":"Raquel
+      Rodr\u00edguez-Alc\u00e1ntara","orcid":"https://orcid.org/0000-0002-2770-8135"},"institutions":[],"countries":[],"is_corresponding":false,"raw_affiliation_string":"","raw_affiliation_strings":[]}],"institutions_distinct_count":0,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"cited_by_count":0,"biblio":{"volume":"15","issue":"3","first_page":"1","last_page":"20"},"is_retracted":false,"is_paratext":false,"concepts":[{"id":"https://openalex.org/C15708023","wikidata":"https://www.wikidata.org/wiki/Q80083","display_name":"Humanities","level":1,"score":0.6240772},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.5494872},{"id":"https://openalex.org/C3008058167","wikidata":"https://www.wikidata.org/wiki/Q84263196","display_name":"Coronavirus
+      disease 2019 (COVID-19)","level":4,"score":0.5161753},{"id":"https://openalex.org/C71924100","wikidata":"https://www.wikidata.org/wiki/Q11190","display_name":"Medicine","level":0,"score":0.30367535},{"id":"https://openalex.org/C138885662","wikidata":"https://www.wikidata.org/wiki/Q5891","display_name":"Philosophy","level":0,"score":0.1374169},{"id":"https://openalex.org/C2779134260","wikidata":"https://www.wikidata.org/wiki/Q12136","display_name":"Disease","level":2,"score":0.110566705},{"id":"https://openalex.org/C142724271","wikidata":"https://www.wikidata.org/wiki/Q7208","display_name":"Pathology","level":1,"score":0.0},{"id":"https://openalex.org/C524204448","wikidata":"https://www.wikidata.org/wiki/Q788926","display_name":"Infectious
+      disease (medical specialty)","level":3,"score":0.0}],"mesh":[],"locations_count":1,"locations":[{"is_oa":true,"landing_page_url":"https://doi.org/10.21615/cesp.6143","pdf_url":null,"source":{"id":"https://openalex.org/S4210231395","display_name":"Revista
+      CES psicologi\u0301a","issn_l":"2011-3080","issn":["2011-3080"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://doi.org/10.21615/cesp.6143","pdf_url":null,"source":{"id":"https://openalex.org/S4210231395","display_name":"Revista
+      CES psicologi\u0301a","issn_l":"2011-3080","issn":["2011-3080"],"is_oa":true,"is_in_doaj":false,"host_organization":null,"host_organization_name":null,"host_organization_lineage":[],"host_organization_lineage_names":[],"type":"journal"},"license":"cc-by-nc-sa","version":"publishedVersion"},"sustainable_development_goals":[{"id":"https://metadata.un.org/sdg/3","display_name":"Good
+      health and well-being","score":0.41},{"id":"https://metadata.un.org/sdg/10","display_name":"Reduced
+      inequalities","score":0.19},{"id":"https://metadata.un.org/sdg/5","display_name":"Gender
+      equality","score":0.15},{"id":"https://metadata.un.org/sdg/16","display_name":"Peace,
+      Justice and strong institutions","score":0.11}],"grants":[],"referenced_works_count":32,"referenced_works":["https://openalex.org/W1836311887","https://openalex.org/W2035639136","https://openalex.org/W2056864356","https://openalex.org/W2104310414","https://openalex.org/W2468221858","https://openalex.org/W2885488449","https://openalex.org/W2948449697","https://openalex.org/W3001465255","https://openalex.org/W3011821664","https://openalex.org/W3012731499","https://openalex.org/W3013355453","https://openalex.org/W3015245681","https://openalex.org/W3015259921","https://openalex.org/W3016529082","https://openalex.org/W3018516287","https://openalex.org/W3020377681","https://openalex.org/W3021560368","https://openalex.org/W3024915923","https://openalex.org/W3027267488","https://openalex.org/W3030171511","https://openalex.org/W3031352486","https://openalex.org/W3033214140","https://openalex.org/W3084387953","https://openalex.org/W3092386566","https://openalex.org/W3111555194","https://openalex.org/W3120587029","https://openalex.org/W3130873870","https://openalex.org/W3132266422","https://openalex.org/W3194352720","https://openalex.org/W4205885663","https://openalex.org/W4206120380","https://openalex.org/W4297983578"],"related_works":["https://openalex.org/W1506200166","https://openalex.org/W2039318446","https://openalex.org/W2048182022","https://openalex.org/W2080531066","https://openalex.org/W2604872355","https://openalex.org/W2748952813","https://openalex.org/W2899084033","https://openalex.org/W2998699411","https://openalex.org/W3032375762","https://openalex.org/W3108674512"],"ngrams_url":"https://api.openalex.org/works/W4296924699/ngrams","abstract_inverted_index":{"La":[0],"pandemia":[1,97,246],"por":[2,98,144],"COVID-19":[3,133,219],"es":[4,61,220],"un":[5,43,102,192],"evento":[6,39],"adverso":[7],"y":[8,19,27,49,79,86,93,156,171,173,224,237,242],"factor":[9],"de":[10,16,24,57,59,64,70,90,111,120,123,129,152,159,166,186,194,200,232,239],"riesgo":[11],"para":[12,81,230,247],"la":[13,31,36,47,55,62,83,96,121,127,217,235,245],"salud":[14,50],"integral":[15,234],"los":[17,91,240],"adolescentes":[18,92,110,241],"j\u00f3venes,":[20],"asociado":[21],"a":[22,113],"trastornos":[23],"estr\u00e9s,":[25,160],"ansiedad":[26],"depresi\u00f3n,":[28],"sin":[29],"embargo,":[30],"perspectiva":[32],"ecol\u00f3gica":[33],"plantea":[34],"que":[35,107,136,216,226],"percepci\u00f3n":[37,84,236],"del":[38,132],"o":[40],"situaci\u00f3n":[41],"juega":[42],"papel":[44],"central":[45],"en":[46,105,139,251],"adaptaci\u00f3n":[48],"mental.":[51],"Por":[52],"otra":[53],"parte,":[54],"detecci\u00f3n":[56],"factores":[58,196],"riesgo-protecci\u00f3n":[60],"base":[63],"una":[65,75,150,206,221],"intervenci\u00f3n":[66],"efectiva.":[67],"El":[68],"objetivo":[69],"este":[71],"estudio":[72,103],"fue":[73,137],"construir":[74],"medida":[76,222],"multidimensional":[77],"v\u00e1lida":[78,223],"confiable":[80,225],"explorar":[82],"subjetiva":[85],"las":[87],"respuestas":[88,238],"psicol\u00f3gicas":[89],"j\u00f3venes":[94,243],"ante":[95,244],"COVID-19.":[99],"Se":[100,125],"realiz\u00f3":[101],"instrumental":[104],"el":[106,184,202],"participaron":[108],"727":[109],"13":[112],"24":[114],"a\u00f1os":[115],"(M=":[116],"18.36;":[117],"DE=":[118],"2.9)":[119],"Ciudad":[122],"M\u00e9xico.":[124],"elabor\u00f3":[126],"Encuesta":[128],"Percepci\u00f3n":[130],"Juvenil":[131],"(EPJ":[134],"COVID-19)":[135],"aplicada":[138],"l\u00ednea.":[140],"Un":[141,179],"an\u00e1lisis":[142,180],"factorial":[143,181],"componentes":[145],"principales":[146],"(n=":[147,189],"410)":[148],"arroj\u00f3":[149],"soluci\u00f3n":[151],"ocho":[153,195],"factores:":[154],"Miedo":[155],"preocupaciones,":[157],"Indicadores":[158],"Presiones":[161],"escolares,":[162],"Conductas":[163],"preventivas,":[164],"Cambios":[165],"rutinas,":[167],"Din\u00e1mica":[168],"familiar,":[169],"Relajaci\u00f3n":[170],"esparcimiento,":[172],"Socializaci\u00f3n":[174],"virtual":[175],"(VE":[176],"=":[177],"59.07%).":[178],"confirmatorio":[182],"con":[183],"m\u00e9todo":[185],"m\u00e1xima":[187],"verosimilitud":[188],"317)":[190],"corrobor\u00f3":[191],"modelo":[193],"mostrando":[197],"\u00edndices":[198],"aceptables":[199],"ajuste,":[201],"cual":[203],"tambi\u00e9n":[204],"present\u00f3":[205],"buena":[207],"consistencia":[208],"interna":[209],"(\u03b1":[210],"total=":[211],".863).":[212],"Los":[213],"resultados":[214],"sugieren":[215],"EPJ":[218],"puede":[227],"ser":[228],"usada":[229],"valorar":[231],"manera":[233],"dise\u00f1ar":[248],"intervenciones":[249],"basadas":[250],"evidencia.":[252]},"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W4296924699","counts_by_year":[],"updated_date":"2023-08-10T19:32:07.593582","created_date":"2022-09-24"}],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '4640'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:47 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W3171919066&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":27,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:47 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W3217533497&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":64,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:47 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W3183740983&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":119,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '97'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:47 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W4237550744&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":27,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:47 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openalex.org
+      user-agent:
+      - python-httpx/0.24.1
+    method: GET
+    uri: https://api.openalex.org/works?filter=cites:W4289521652&sort=publication_date
+  response:
+    content: '{"meta":{"count":0,"db_response_time_ms":22,"page":1,"per_page":25},"results":[],"group_by":[]}
+
+      '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '96'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 14 Aug 2023 03:38:47 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - gunicorn
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Via:
+      - 1.1 vegur
+      X-Api-Pool:
+      - common
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+    http_version: HTTP/1.1
+    status_code: 200
+version: 1
