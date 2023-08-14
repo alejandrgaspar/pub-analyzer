@@ -15,3 +15,9 @@ test:
 
 test-record:
 	poetry run pytest --record-mode=once
+
+docs-serve:
+	poetry run mkdocs serve
+
+docs-build:
+	poetry run mkdocs build

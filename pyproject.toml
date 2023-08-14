@@ -38,6 +38,10 @@ respx = "0.20.2"
 vcrpy = "5.1.0"
 pytest-recording = "0.13.0"
 
+[tool.poetry.group.docs.dependencies]
+mkdocs = "1.5.2"
+mkdocs-material = "9.1.21"
+
 [tool.mypy]
 strict = true
 

@@ -1,0 +1,43 @@
+# Site config
+site_name: Pub Analyzer
+
+site_author: Alejandro Gaspar
+site_description: Pub Analyzer is a text user interface (TUI), written in python, to generate reports on article publication in an automated way using Open Alex
+
+repo_url: https://github.com/alejandrgaspar/pub-analyzer
+site_url: https://pub-analyzer.com/
+
+copyright: Copyright &copy; Alejandro Gaspar.
+
+# Theme config
+theme:
+  name: material
+  icon:
+    logo: fontawesome/solid/book
+  palette:
+    primary: pink
+    accent: pink
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - navigation.footer
+    - navigation.indexes
+    - navigation.tabs
+
+# Social links
+extra:
+  social:
+    - icon: material/web
+      link: https://gaspar.land/
+      name: Author web page
+    - icon: fontawesome/brands/github
+      link: https://github.com/alejandrgaspar/pub-analyzer
+      name: Pub Analyzer on github
+    - icon: simple/python
+      link: https://github.com/alejandrgaspar/pub-analyzer
+      name: Pub Analyzer on pypi
+
+# Nav paths
+nav:
+  - Introduction:
+    - "index.md"

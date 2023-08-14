@@ -17,3 +17,6 @@ __pycache__
 
 # PyTest
 .pytest_cache
+
+# MkDocs documentation
+/site
