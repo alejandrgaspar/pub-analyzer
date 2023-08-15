@@ -9,20 +9,57 @@ site_url: https://pub-analyzer.com/
 
 copyright: Copyright &copy; Alejandro Gaspar.
 
+watch:
+  - pub_analyzer
+
 # Theme config
 theme:
   name: material
   icon:
     logo: fontawesome/solid/book
+    admonition:
+      example: simple/python
   palette:
     primary: pink
     accent: pink
   features:
     - content.code.annotate
     - content.code.copy
+    - content.tabs.link
     - navigation.footer
     - navigation.indexes
     - navigation.tabs
+    - navigation.tracking
+
+markdown_extensions:
+  - admonition:
+  - attr_list
+  - codehilite
+  - def_list
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - toc:
+      permalink: true
+
+# Plugins
+plugins:
+  search:
+  autorefs:
+  mkdocstrings:
+    custom_templates: docs/_templates
+    handlers:
+      python:
+        options:
+          docstring_style: google
+          show_root_toc_entry: false
+          separate_signature: true
 
 # Social links
 extra:
@@ -41,3 +78,6 @@ extra:
 nav:
   - Introduction:
     - "index.md"
+  - API:
+    - Internal:
+      - "api/internal/identifier.md"
