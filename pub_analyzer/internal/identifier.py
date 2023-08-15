@@ -44,7 +44,7 @@ def get_institution_id(institution: Institution | InstitutionResult | Dehydrated
         from pub_analyzer.internal.identifier import get_institution_id
         from pub_analyzer.models.institution import DehydratedInstitution
 
-        institution = DehydratedInstitution(id="https://openalex.org/I000000000", **kargs)
+        institution = DehydratedInstitution(id="https://openalex.org/I000000000", **kwargs)
         print(get_institution_id(institution))
         # 'I000000000'
         ```
@@ -69,7 +69,7 @@ def get_work_id(work: Work) -> str:
         from pub_analyzer.internal.identifier import get_work_id
         from pub_analyzer.models.work import Work
 
-        work = Work(id="https://openalex.org/W000000000", **kargs)
+        work = Work(id="https://openalex.org/W000000000", **kwargs)
         print(get_work_id(work))
         # 'W000000000'
         ```

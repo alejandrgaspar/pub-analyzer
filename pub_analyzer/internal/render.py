@@ -9,7 +9,19 @@ from pub_analyzer.models.report import AuthorReport, InstitutionReport
 
 
 async def render_template_report(report: AuthorReport | InstitutionReport) -> str:
-    """Render report pdf."""
+    """Render report template.
+
+    Render the report to typst format using the templates.
+
+    Args:
+        report: Report Model.
+
+    Returns:
+        Report in Typst language.
+
+    Raises:
+        NotImplementedError: If report is `InstitutionReport` type.
+    """
     if isinstance(report, AuthorReport):
         templates_path = pathlib.Path(__file__).parent.resolve().joinpath("templates/author")
     if isinstance(report, InstitutionReport):
@@ -21,7 +33,23 @@ async def render_template_report(report: AuthorReport | InstitutionReport) -> st
 
 
 async def render_report(report: AuthorReport | InstitutionReport, file_path: pathlib.Path) -> bytes:
-    """Render report pdf."""
+    """Render report to PDF.
+
+    The specified path is not where the PDF file will be saved. The path is where the typst
+    file will be created (You can create a temporary path using the `tempfile` package).
+    This is done in this way because at the moment the typst package can only read the
+    document to be compiled from a file.
+
+    Args:
+        report: Report Model.
+        file_path: Temporary directory for the typst file.
+
+    Returns:
+        PDF bytes.
+
+    Raises:
+        SyntaxError: If typst compiler syntax error.
+    """
     template_render = await render_template_report(report=report)
 
     # Write template to typst file

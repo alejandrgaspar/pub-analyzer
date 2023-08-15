@@ -10,11 +10,11 @@ import asyncio
 from pub_analyzer.internal.report import make_author_report
 from pub_analyzer.models.author import Author
 
-author = Author(**kargs) # (1)!
+author = Author(**kwargs) # (1)!
 report = asyncio.run(make_author_report(author=author)) # (2)!
 ```
 
-1. Use real information instead of `**kargs` placeholder.
+1. Use real information instead of `**kwargs` placeholder.
 2. Functions are defined as asynchronous since their primary use occurs within a TUI context. We apologize for any inconvenience this may cause.
 
 And that's it! that's all. Well, maybe you want to export the report to a format like JSON, that's where pydantic does its magic.
