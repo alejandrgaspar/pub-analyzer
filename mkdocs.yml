@@ -81,3 +81,4 @@ nav:
   - API:
     - Internal:
       - "api/internal/identifier.md"
+      - "api/internal/report.md"
