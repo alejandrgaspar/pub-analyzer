@@ -1,4 +1,4 @@
-"""Works models."""
+"""Works models from OpenAlex API Schema definition."""
 
 from enum import Enum
 from typing import Any
@@ -64,7 +64,7 @@ class Authorship(BaseModel):
 
 
 class ArticleProcessingCharge(BaseModel):
-    """Publication fee information to the author."""
+    """Information about the paid APC for this work."""
 
     value: int
     currency: str
@@ -97,7 +97,9 @@ class Work(BaseModel):
     cited_by_api_url: HttpUrl
 
     apc_list: ArticleProcessingCharge | None = None
+    """The price as listed by the journal's publisher."""
     apc_paid: ArticleProcessingCharge | None = None
+    """APC actually paid by authors."""
 
     @field_validator('locations', mode='before')
     def valid_locations(cls, locations: list[dict[str, Any]]) -> list[dict[str, Any]]:

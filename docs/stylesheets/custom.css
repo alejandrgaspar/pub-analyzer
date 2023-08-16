@@ -1,0 +1,21 @@
+/* Horizontal Rule for h2 heading */
+h2.doc.doc-heading {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 48px;
+}
+
+/* Indentation. */
+div.doc-contents:not(.first) {
+  padding-left: 25px;
+  border-left: .05rem solid var(--md-typeset-table-color);
+}
+
+.doc-label code {
+  background: transparent;
+  opacity: 0.8;
+  float: right;
+}
+
+.doc-function p strong {
+  opacity: 0.85;
+}

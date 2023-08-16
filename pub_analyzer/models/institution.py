@@ -16,7 +16,7 @@ class InstitutionIDs(BaseModel):
 
 
 class InstitutionType(str, Enum):
-    """Institution type."""
+    """The institution's primary type, using the ROR "type" controlled vocabulary."""
 
     Education = "education"
     Healthcare = "healthcare"

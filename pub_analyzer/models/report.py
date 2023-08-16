@@ -97,7 +97,7 @@ class AuthorReport(BaseModel):
 
 
 class InstitutionReport(BaseModel):
-    """Institution works Model."""
+    """Scientific production report of the Institution."""
 
     institution: Institution
     works: list[WorkReport]

@@ -1,4 +1,4 @@
-"""Source models."""
+"""Sources models from OpenAlex API Schema definition."""
 
 from pydantic import BaseModel, HttpUrl
 

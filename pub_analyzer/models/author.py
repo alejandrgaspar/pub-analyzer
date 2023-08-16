@@ -1,4 +1,4 @@
-"""Authors models."""
+"""Authors models from OpenAlex API Schema definition."""
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator
 
