@@ -82,6 +82,10 @@ extra:
 nav:
   - Introduction:
     - "index.md"
+  - User Guide:
+    - "user/index.md"
+  - Dev Guide:
+    - "dev/index.md"
   - API:
     - Internal:
       - "api/internal/identifier.md"
@@ -93,3 +97,6 @@ nav:
       - "api/models/report.md"
       - "api/models/source.md"
       - "api/models/work.md"
+  - Roadmap:
+    - roadmap/index.md
+  - Author's website: https://gaspar.land
