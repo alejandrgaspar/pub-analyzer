@@ -59,8 +59,7 @@ async def render_report(report: AuthorReport | InstitutionReport, file_path: pat
     temp_file.close()
 
     # Render typst file
-    compiler = typst.Compiler(root)
-    pdf_render = compiler.compile(temp_file.name)
+    pdf_render = typst.compile(temp_file.name)
 
     if isinstance(pdf_render, bytes):
         return pdf_render
