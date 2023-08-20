@@ -93,9 +93,12 @@ class ExportReportPane(VerticalScroll):
                 yield Label("[b]Name File:[/]", classes="export-form-label")
                 with Horizontal(classes="file-selector-container"):
                     type_options = [(name, value) for name, value in self.ExportFileType.__members__.items()]
+                    selector_disabled = isinstance(self.report, InstitutionReport)
 
-                    yield Input(value=suggest_file_name,placeholder="report.json", classes="export-form-input")
-                    yield self.ExportTypeSelector(options=type_options, value=self.ExportFileType.JSON, allow_blank=False)
+                    yield Input(value=suggest_file_name, placeholder="report.json", classes="export-form-input")
+                    yield self.ExportTypeSelector(
+                        options=type_options, value=self.ExportFileType.JSON, allow_blank=False, disabled=selector_disabled
+                    )
 
             with Vertical(classes="export-form-input-container"):
                 yield Label("[b]Export Directory:[/]", classes="export-form-label")
