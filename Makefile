@@ -5,7 +5,7 @@ format:
 	poetry run ruff check pub_analyzer tests
 
 dev:
-	poetry run textual run --dev pub_analyzer/main.py
+	poetry run textual run --dev pub_analyzer.main:PubAnalyzerApp
 
 console:
 	poetry run textual console

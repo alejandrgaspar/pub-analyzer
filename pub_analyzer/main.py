@@ -64,6 +64,7 @@ class PubAnalyzerApp(App[DOMNode]):
             webbrowser.open(urllib.parse.unquote(link))
 
 
-if __name__ == "__main__":
+def run() -> None:
+    """Run Pub Analyzer App."""
     app = PubAnalyzerApp()
     app.run()
