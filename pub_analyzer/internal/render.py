@@ -1,6 +1,7 @@
 """Render reports."""
 
 import pathlib
+from importlib.metadata import version
 
 import typst
 from jinja2 import Environment, FileSystemLoader
@@ -29,7 +30,7 @@ async def render_template_report(report: AuthorReport | InstitutionReport) -> st
 
     # Render template
     env = Environment(loader=FileSystemLoader(searchpath=templates_path), enable_async=True, trim_blocks=True, lstrip_blocks=True)
-    return await env.get_template("report.typ").render_async(report=report)
+    return await env.get_template("report.typ").render_async(report=report, version=version('pub-analyzer'))
 
 
 async def render_report(report: AuthorReport | InstitutionReport, file_path: pathlib.Path) -> bytes:
