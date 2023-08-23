@@ -35,7 +35,7 @@ pub-analyzer = "pub_analyzer.main:run"
 [tool.poetry.dependencies]
 python = "^3.10"
 
-textual = "0.33.0"
+textual = "0.34.0"
 httpx = "0.24.1"
 pydantic = "2.2.1"
 
@@ -43,7 +43,7 @@ typst = "0.7.0"
 jinja2 = "3.1.2"
 
 [tool.poetry.group.dev.dependencies]
-textual-dev = "1.0.1"
+textual-dev = "1.1.0"
 
 pre-commit = "2.20.0"
 mypy = "1.4.1"

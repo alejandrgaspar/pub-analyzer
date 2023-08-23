@@ -43,6 +43,11 @@ ReportWidget .cards-container {
     grid-gutter: 1 2;
 }
 
+/* Create Report */
+CreateReportWidget {
+    height: 1fr;
+}
+
 /* Load Report */
 LoadReportWidget {
     margin: 1 1 0 1;

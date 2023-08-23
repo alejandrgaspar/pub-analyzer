@@ -97,7 +97,6 @@ class CreateReportWidget(Static):
         container.display = True
 
 
-
 class CreateAuthorReportWidget(CreateReportWidget):
     """Widget Author report wrapper to load data from API."""
 
