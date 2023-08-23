@@ -1,8 +1,5 @@
 // Works
 = Works.
-#par(justify: true)[#lorem(50)]
-#par(justify: true)[#lorem(40)]
-
 #linebreak()
 
 #grid(

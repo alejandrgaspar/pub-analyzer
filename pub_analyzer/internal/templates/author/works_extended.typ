@@ -6,8 +6,6 @@
 {% endif %}
 
 === #text()[#"{{ work.work.title.replace('"', '\\"') }}"] <work_{{ loop.index }}>
-#par(justify: true)[#lorem(35)]
-
 #linebreak()
 
 // Cards
