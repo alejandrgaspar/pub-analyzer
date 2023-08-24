@@ -49,6 +49,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
   - toc:
       permalink: true
 
@@ -86,6 +88,7 @@ nav:
   - Introduction:
     - "index.md"
     - "getting_started.md"
+    - "help.md"
   - User Guide:
     - "user/index.md"
   - Dev Guide:
