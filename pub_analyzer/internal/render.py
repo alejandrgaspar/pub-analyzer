@@ -55,7 +55,7 @@ async def render_report(report: AuthorReport | InstitutionReport, file_path: pat
 
     # Write template to typst file
     root = file_path.parent
-    temp_file = open(root.joinpath(file_path.stem + ".typ"), mode="w")
+    temp_file = open(root.joinpath(file_path.stem + ".typ"), mode="w", encoding="utf-8")
     temp_file.write(template_render)
     temp_file.close()
 

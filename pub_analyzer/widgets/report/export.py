@@ -70,7 +70,7 @@ class ExportReportPane(VerticalScroll):
 
             match file_type:
                 case self.ExportFileType.JSON:
-                    with open(file_path, mode="w") as file:
+                    with open(file_path, mode="w", encoding="utf-8") as file:
                         file.write(self.report.model_dump_json(indent=2, by_alias=True))
                 case self.ExportFileType.PDF:
                     report_bytes = await render_report(report=self.report, file_path=file_path)

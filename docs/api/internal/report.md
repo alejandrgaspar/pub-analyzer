@@ -21,7 +21,7 @@ And that's it! that's all. Well, maybe you want to export the report to a format
 
 
 ```python
-with open("report.json", mode="w") as file:
+with open("report.json", mode="w", encoding="utf-8") as file:
     file.write(report.model_dump_json(indent=2, by_alias=True)) # (1)!
 ```
 

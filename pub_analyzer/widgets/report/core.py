@@ -160,7 +160,7 @@ class LoadReportWidget(Static):
         if not file_path:
             return
 
-        with open(file_path) as file:
+        with open(file_path, encoding="utf-8") as file:
             data = file.read()
 
         main_content = self.app.query_one(MainContent)
