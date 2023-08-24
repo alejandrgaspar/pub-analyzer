@@ -10,7 +10,7 @@
 
 #set page(footer: grid(
     columns: (1fr, 1fr),
-    align(left)[Made with #link("https://gaspar.land")[_pub-analyzer_] version {{ version }}],
+    align(left)[Made with #link("https://pub-analyzer.com")[_pub-analyzer_] version {{ version }}],
     align(right)[#counter(page).display("1")],
   )
 )
