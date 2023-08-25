@@ -1,9 +1,9 @@
 # Getting started
 
-Good! Looks like you gave us a chance :partying_face:. Here's everything you need to get started.
+Thanks for giving us a chance :partying_face:. To get started, you need a minimum knowledge of the terminal to install and launch the application. Don't worry, it's actually very simple. If you think you need to review some concepts, we recommend that you read this [first steps guide](https://realpython.com/terminal-commands/){target=_blank} from Real Python.
 
 ## Requirements
-Pub Analyzer requires **Python 3.10 or later** (If you can choose, we always recommend the newest version of Python available). If you use a linux distribution with a system-dependent version of Python like Ubuntu that currently uses Python 3.8, you can use [pyenv](https://github.com/pyenv/pyenv){target=_blank}.
+Pub Analyzer requires **Python 3.10 or later** (If you can choose, we always recommend the [newest version of Python](https://www.python.org/downloads/){target=_blank} available). If you use a linux distribution with a system-dependent version of Python like Ubuntu that currently uses Python 3.8, you can use [pyenv](https://github.com/pyenv/pyenv){target=_blank}.
 
 
 Pub Analyzer is a **cross-platform** app, this means it runs on Linux, macOS, and Windows. But the rendering of colors within the application depends on the **terminal** you use. If this is not a problem for you, any terminal will do the job, otherwise, more details below.
@@ -19,7 +19,7 @@ There's really not much to say. You should definitely go straight for the new [W
 
 ## Installation
 
-Install Pub Analyzer via PyPI, with the following command:
+Install Pub Analyzer via PyPI, with the following command in the terminal:
 
 ```
 pip install pub-analyzer
@@ -29,7 +29,7 @@ We aim to maintain a minimal list of dependencies, but keep in mind that the pro
 
 ## Run it
 
-Everything is ready to go :rocket:. Open the app with:
+Everything is ready to go :rocket:. Open the app with the following command:
 
 ```
 pub-analyzer
