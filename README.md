@@ -10,6 +10,10 @@ All our information comes from OpenAlex, an open and complete catalog of the wor
 
 Pub Analyzer generates reports that you can view directly within the app, **export as PDF** files to submit as evidence, or **export as JSON** for analysis with the tools you use every day.
 
+## Why use Pub Analyzer?
+
+Researchers are generally required to submit scientific production reports when seeking promotions or funding to support their ongoing research. Instead of laborious manual tracking of their publications and citations, researchers now have the opportunity to perform all of these tasks automatically **in a matter of minutes**.
+
 ## Requirements
 
 Pub Analyzer requires **Python 3.10 or later** and can run on Linux, macOS, and Windows.
