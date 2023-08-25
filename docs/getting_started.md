@@ -8,13 +8,13 @@ Pub Analyzer requires **Python 3.10 or later** (If you can choose, we always rec
 
 Pub Analyzer is a **cross-platform** app, this means it runs on Linux, macOS, and Windows. But the rendering of colors within the application depends on the **terminal** you use. If this is not a problem for you, any terminal will do the job, otherwise, more details below.
 
-### :fontawesome-brands-linux: Linux
+### Linux
 All Linux distributions come with a terminal emulator that can run Pub Analyzer properly. Nothing to worry about here.
 
-### :material-apple: MacOS
+### MacOS
 The default Terminal app is limited to 256 colors, resulting in inaccurate color representation (Trust me, the app doesn't look good at all :melting_face:). So we recommend that you use [iTerm2](https://iterm2.com/){target=_blank}.
 
-### :material-microsoft-windows: Windows
+### Windows
 There's really not much to say. You should definitely go straight for the new [Windows Terminal](https://apps.microsoft.com/store/detail/9N0DX20HK701){target=_blank}, you will have a better experience.
 
 ## Installation

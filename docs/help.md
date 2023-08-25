@@ -12,6 +12,6 @@ Did you find a **bug**? Report it on [GitHub issues](https://github.com/alejandr
 
 Do you have any **questions**? Do you think there is a **missing feature**? [GitHub discussions](https://github.com/alejandrgaspar/pub-analyzer/discussions){target=_blank} is the ideal place to ask questions and discuss next steps for Pub Analyzer. Here you can receive help from our community.
 
-## :simple-minutemailer: Connect with us
+## :material-email-fast: Connect with us
 
 If you need consulting services or want to contact the author directly, we have a [form for it](https://tally.so/r/wdaKxN){target=_blank}. Please note that bug reports and feature requests will be redirected to GitHub. Also keep in mind that we are a small team so response times may vary, but we do our best to respond quickly.
