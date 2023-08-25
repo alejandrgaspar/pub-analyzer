@@ -5,10 +5,14 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "pub-analyzer"
 version = "0.1.0"
-description = "Pub Analyzer is a text user interface (TUI), written in python, which automates the generation of scientific production reports using OpenAlex"
+description = "A text user interface, written in python, which automates the generation of scientific production reports using OpenAlex"
 
 authors = ["Alejandro Gaspar <alejandro@gaspar.land>"]
 maintainers = ["Alejandro Gaspar <alejandro@gaspar.land>"]
+
+homepage = "https://github.com/alejandrgaspar/pub-analyzer"
+repository = "https://github.com/alejandrgaspar/pub-analyzer"
+documentation = "https://pub-analyzer.com/"
 
 readme = "README.md"
 license = "MIT"
