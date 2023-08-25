@@ -48,7 +48,6 @@ SideBar .sidebar-option {
     width: 100%;
 }
 
-
 /* Main Content CSS */
 MainContent {
     background: $bg-main-color;

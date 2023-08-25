@@ -8,63 +8,61 @@ $bg-main-color-darken: #1e293b;
 $bg-secondary-color-darken: #0f172a;
 $text-primary-color-darken: black;
 
-AuthorResumeWidget {
+InstitutionResumeWidget {
     height: 1fr;
     margin: 1 2;
 }
 
-.-dark-mode AuthorResumeWidget {
+.-dark-mode InstitutionResumeWidget {
     color: $text-primary-color-darken;
     background: $bg-secondary-color;
 }
 
-
 /* Main Container */
-AuthorResumeWidget #main-container{
+InstitutionResumeWidget #main-container{
     height: 1fr;
 }
 
 /* Block Container */
-AuthorResumeWidget .block-container {
+InstitutionResumeWidget .block-container {
     padding: 1;
     height: auto;
 }
 
-AuthorResumeWidget .block-title {
+InstitutionResumeWidget .block-title {
     text-align: center;
     width: 100%;
     border-bottom: solid $text-primary-color;
 }
 
-AuthorResumeWidget .info-container {
+InstitutionResumeWidget .info-container {
     height: auto;
 }
 
-AuthorResumeWidget .info-container Label {
+InstitutionResumeWidget .info-container Label {
     text-align: center;
     width: 1fr;
 }
 
 /* Cards */
-AuthorResumeWidget .cards-container {
+InstitutionResumeWidget .cards-container {
     height: auto;
     margin: 1 0 0 0 ;
 
     layout: grid;
     grid-size: 3 1;
-    grid-rows: 11;
+    grid-rows: 14;
     grid-columns: 1fr;
     grid-gutter: 1 2;
 }
 
 /* Table */
-AuthorResumeWidget .table-container {
+InstitutionResumeWidget .table-container {
     height: auto;
     margin: 1 0 0 0 ;
 }
 
-
 /* Buttons */
-AuthorResumeWidget .button-container {
+InstitutionResumeWidget .button-container {
     align: center middle;
 }

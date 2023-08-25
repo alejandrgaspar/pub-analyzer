@@ -12,7 +12,6 @@ $primary-color: #b91c1c;
 $primary-color-accent: #991b1b;
 $primary-color-highlight: #dc2626;
 
-
 ReportWidget {
     height: 1fr;
     margin: 1 2;
@@ -94,7 +93,6 @@ ExportReportPane .export-form-buttons {
     align: center middle;
     height: 3;
 }
-
 
 /* Work Modal */
 WorkModal #dialog .cards-container {

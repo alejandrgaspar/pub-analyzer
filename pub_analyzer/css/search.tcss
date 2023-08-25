@@ -35,7 +35,6 @@ EntityTypeSelector {
     margin-top: 1;
 }
 
-
 /* Result Widget */
 ResultWidget {
     height: 9;

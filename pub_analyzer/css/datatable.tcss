@@ -30,7 +30,6 @@ DataTable > .datatable--header {
     color: $text-primary-color;
 }
 
-
 DataTable > .datatable--header-hover {
     background: $bg-secondary-color-accent;
 }
