@@ -76,15 +76,17 @@ target-version = "py310"
 line-length = 140
 
 select = [
+    "B",   # flake8-bugbear
+    "C",   # flake8-comprehensions
+    "D",   # pydocstyle
     "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
     "F",   # pyflakes
     "I",   # isort
-    "C",   # flake8-comprehensions
-    "B",   # flake8-bugbear
-    "D",   # pydocstyle
-    "UP",  # pyupgrade
+    "INP", # flake8-no-pep420
     "RUF", # Ruff-specific rules
+    "T20", # flake8-print
+    "UP",  # pyupgrade
+    "W",   # pycodestyle warnings
 ]
 
 ignore = [
