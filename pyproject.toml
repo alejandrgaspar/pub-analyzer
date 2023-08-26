@@ -49,9 +49,9 @@ jinja2 = "3.1.2"
 [tool.poetry.group.dev.dependencies]
 textual-dev = "1.1.0"
 
-pre-commit = "2.20.0"
-mypy = "1.4.1"
-ruff = "0.0.284"
+pre-commit = "3.3.3"
+mypy = "1.5.1"
+ruff = "0.0.286"
 
 pytest = "7.4.0"
 pytest-asyncio = "0.21.0"
@@ -70,7 +70,7 @@ mkdocstrings-python = "1.5.2"
 strict = true
 
 [tool.ruff]
-required-version = "0.0.284"
+required-version = "0.0.286"
 target-version = "py310"
 
 line-length = 140
