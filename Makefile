@@ -21,5 +21,8 @@ test-record:
 docs-serve:
 	$(run) mkdocs serve
 
-docs-build:
+docs-clean-screenshot-cache:
+	rm -rf .screenshot_cache
+
+docs-build: docs-clean-screenshot-cache
 	$(run) mkdocs build

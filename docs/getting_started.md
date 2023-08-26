@@ -35,6 +35,11 @@ Everything is ready to go :rocket:. Open the app with the following command:
 pub-analyzer
 ```
 
+You should see the following:
+
+```{.textual path="pub_analyzer/main.py" columns=90}
+```
+
 ## Need help?
 
 The [User Guide](./user/index.md) section is the best place to understand how to use Pub Analyzer. If you have more questions, go to the [Help](./help.md) section.

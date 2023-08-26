@@ -20,3 +20,6 @@ __pycache__
 
 # MkDocs documentation
 /site
+
+# Textual Screenshots
+.screenshot_cache
