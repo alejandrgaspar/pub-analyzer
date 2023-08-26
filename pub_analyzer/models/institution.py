@@ -55,7 +55,7 @@ class InstitutionGeo(BaseModel):
 
 
 class InstitutionRoleType(str, Enum):
-    """Posible institution roles."""
+    """Possible institution roles."""
 
     funder = "funder"
     publisher = "publisher"

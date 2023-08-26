@@ -5,6 +5,9 @@ repos:
     rev: v4.4.0
     hooks:
     -   id: check-added-large-files
+    -   id: check-toml
+    -   id: check-yaml
+        args: ['--unsafe']
     -   id: detect-private-key
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
