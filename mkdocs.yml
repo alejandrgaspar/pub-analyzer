@@ -2,7 +2,7 @@
 site_name: Pub Analyzer
 
 site_author: Alejandro Gaspar
-site_description: Pub Analyzer is a text user interface (TUI), written in python, to generate reports on article publication in an automated way using Open Alex
+site_description: Pub Analyzer is a text user interface (TUI), written in python, which automates the generation of scientific production reports using OpenAlex
 
 repo_url: https://github.com/alejandrgaspar/pub-analyzer
 site_url: https://pub-analyzer.com/
