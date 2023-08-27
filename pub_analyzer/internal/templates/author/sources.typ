@@ -1,7 +1,5 @@
 // Sources
 = Sources.
-#par(justify: true)[#lorem(45)]
-
 
 #table(
   columns: (auto, 3fr, 2fr, auto, auto, auto),
