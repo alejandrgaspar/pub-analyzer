@@ -35,12 +35,22 @@ AuthorResumeWidget .block-title {
     border-bottom: solid $text-primary-color;
 }
 
+/* Info Container */
 AuthorResumeWidget .info-container {
     height: auto;
 }
 
 AuthorResumeWidget .info-container Label {
     text-align: center;
+    width: 1fr;
+}
+
+/* Filter Container */
+AuthorResumeWidget .filter-container Input {
+    width: 3fr;
+}
+
+AuthorResumeWidget .filter-container Checkbox {
     width: 1fr;
 }
 

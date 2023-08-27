@@ -1,0 +1,29 @@
+/* COLORS */
+$primary-color-accent: #991b1b;
+
+$bg-main-color: white;
+$bg-main-color-darken: #1e293b;
+
+ToggleButton {
+    background: transparent;
+}
+
+ToggleButton:focus {
+    border: tall transparent;
+}
+
+ToggleButton:hover {
+    text-style: bold;
+    background: transparent;
+}
+
+/* Button colours. */
+ToggleButton > .toggle--button {
+    color: $bg-main-color;
+    text-style: bold;
+    background: $bg-main-color-darken 25%;
+}
+
+ToggleButton.-on > .toggle--button {
+    background: $primary-color-accent;
+}

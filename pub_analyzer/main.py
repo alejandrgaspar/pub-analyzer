@@ -19,9 +19,17 @@ class PubAnalyzerApp(App[DOMNode]):
     """Pub Analyzer App entrypoint."""
 
     CSS_PATH: ClassVar[CSSPathType] = [
-        "css/main.tcss", "css/body.tcss", "css/buttons.tcss", "css/tabs.tcss",
-        "css/search.tcss", "css/author.tcss", "css/report.tcss", "css/tree.tcss",
-        "css/datatable.tcss", "css/institution.tcss",
+        "css/author.tcss",
+        "css/body.tcss",
+        "css/buttons.tcss",
+        "css/checkbox.tcss",
+        "css/datatable.tcss",
+        "css/institution.tcss",
+        "css/main.tcss",
+        "css/report.tcss",
+        "css/search.tcss",
+        "css/tabs.tcss",
+        "css/tree.tcss",
     ]
     BINDINGS: ClassVar[list[BindingType]] = [
         Binding(key="ctrl+d", action="toggle_dark", description="Dark mode"),
