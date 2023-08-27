@@ -117,15 +117,16 @@ class CreateAuthorReportWidget(CreateReportWidget):
 class CreateInstitutionReportWidget(CreateReportWidget):
     """Widget Institution report wrapper to load data from API."""
 
-    def __init__(self, institution: Institution, works_api_url: str) -> None:
-        self.works_api_url = works_api_url
+    def __init__(self, institution: Institution, from_date: datetime.date | None = None, to_date: datetime.date | None = None) -> None:
         self.institution = institution
+        self.from_date = from_date
+        self.to_date = to_date
 
         super().__init__()
 
     async def make_report(self) -> InstitutionReportWidget:
         """Make report and create the widget."""
-        report = await make_institution_report(institution=self.institution)
+        report = await make_institution_report(institution=self.institution, from_date=self.from_date, to_date=self.to_date)
         return InstitutionReportWidget(report=report)
 
 

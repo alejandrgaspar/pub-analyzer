@@ -176,17 +176,24 @@ async def make_author_report(author: Author, from_date: datetime.date | None = N
     )
 
 
-async def make_institution_report(institution: Institution) -> InstitutionReport:
+async def make_institution_report(
+        institution: Institution, from_date: datetime.date | None = None, to_date: datetime.date | None = None
+    ) -> InstitutionReport:
     """Make a scientific production report by Institution.
 
     Args:
         institution: Institution to which the report is generated.
+        from_date: Filter works published from this date.
+        to_date: Filter works published up to this date.
 
     Returns:
         Institution's scientific production report Model.
     """
     institution_id = identifier.get_institution_id(institution)
-    url = f"https://api.openalex.org/works?filter=institutions.id:{institution_id}&sort=publication_date"
+
+    from_filter = f",from_publication_date:{from_date:%Y-%m-%d}" if from_date else ""
+    to_filter = f",to_publication_date:{to_date:%Y-%m-%d}" if to_date else ""
+    url = f"https://api.openalex.org/works?filter=institutions.id:{institution_id}{from_filter}{to_filter}&sort=publication_date"
 
     async with httpx.AsyncClient() as client:
         # Getting all the institution works.
