@@ -83,6 +83,7 @@ async def test_author_result_button_redirect() -> None:
 
         result_container = pilot.app.query_one("#results-container", VerticalScroll)
         await result_container.mount(search.AuthorResultWidget(AUTHOR_RESULT_OBJECT))
+        await pilot.wait_for_scheduled_animations()
 
         # Click author button.
         await pilot.click('AuthorResultWidget Button')
@@ -105,6 +106,7 @@ async def test_institution_result_button_redirect() -> None:
 
         result_container = pilot.app.query_one("#results-container", VerticalScroll)
         await result_container.mount(search.InstitutionResultWidget(INSTITUTION_RESULT_OBJECT))
+        await pilot.wait_for_scheduled_animations()
 
         # Click institution button.
         await pilot.click('InstitutionResultWidget Button')
