@@ -54,7 +54,7 @@ mypy = "1.5.1"
 ruff = "0.0.286"
 
 pytest = "7.4.0"
-pytest-asyncio = "0.21.0"
+pytest-asyncio = "0.21.1"
 respx = "0.20.2"
 vcrpy = "5.1.0"
 pytest-recording = "0.13.0"
