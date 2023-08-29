@@ -157,11 +157,14 @@ class WorksTable(Static):
 
     def compose(self) -> ComposeResult:
         """Generate Table."""
-        first_pub_year = self.report.works[0].work.publication_year
-        last_pub_year = self.report.works[-1].work.publication_year
+        if self.report.works:
+            first_pub_year = self.report.works[0].work.publication_year
+            last_pub_year = self.report.works[-1].work.publication_year
+            title = f"Works from {first_pub_year} to {last_pub_year}"
+        else:
+            title = "Works"
 
-        work_table = Table(title=f"Works from {first_pub_year} to {last_pub_year}", expand=True, show_lines=True)
-
+        work_table = Table(title=title, expand=True, show_lines=True)
         work_table.add_column('', justify='center', vertical='middle')
         work_table.add_column('Title', ratio=3)
         work_table.add_column('Type', ratio=2)
@@ -208,4 +211,5 @@ class WorkReportPane(VerticalScroll):
             yield WorksTypeResumeCard(report=self.report)
             yield OpenAccessResumeCard(report=self.report)
 
-        yield WorksTable(report=self.report)
+        if self.report.works:
+            yield WorksTable(report=self.report)
