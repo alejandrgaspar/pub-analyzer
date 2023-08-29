@@ -86,9 +86,11 @@ class FinderWidget(Static):
             case self.OpenAlexEndPoint.AUTHOR:
                 self.url = self.OpenAlexEndPoint.AUTHOR
                 search_bar.placeholder = "Search author"
-
             case self.OpenAlexEndPoint.INSTITUTION:
                 self.url = self.OpenAlexEndPoint.INSTITUTION
                 search_bar.placeholder = "Search institution"
+            case _:
+                self.url = self.OpenAlexEndPoint.AUTHOR
+                search_bar.placeholder = "Search author"
 
         search_bar.value = ""

@@ -46,9 +46,10 @@ class ExportReportPane(VerticalScroll):
         match event.value:
             case self.ExportFileType.JSON:
                 file_name_input.value = f"{self.suggest_prefix}-{datetime.now().strftime('%m-%d-%Y')}.json"
-
             case self.ExportFileType.PDF:
                 file_name_input.value = f"{self.suggest_prefix}-{datetime.now().strftime('%m-%d-%Y')}.pdf"
+            case _:
+                file_name_input.value = f"{self.suggest_prefix}-{datetime.now().strftime('%m-%d-%Y')}"
 
     @on(FileSystemSelector.FileSelected)
     def enable_button(self, event: FileSystemSelector.FileSelected) -> None:
@@ -76,6 +77,8 @@ class ExportReportPane(VerticalScroll):
                     report_bytes = await render_report(report=self.report, file_path=file_path)
                     with open(file_path, mode="wb") as file:
                         file.write(report_bytes)
+                case _:
+                    raise NotImplementedError
 
             self.query_one(Button).disabled = True
             self.app.notify(

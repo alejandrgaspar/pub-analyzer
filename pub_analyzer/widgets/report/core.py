@@ -198,9 +198,10 @@ class LoadReportWidget(Static):
         match event.value:
             case self.EntityType.AUTHOR:
                 self.entity_handler = self.EntityType.AUTHOR
-
             case self.EntityType.INSTITUTION:
                 self.entity_handler = self.EntityType.INSTITUTION
+            case _:
+                raise NotImplementedError
 
     def compose(self) -> ComposeResult:
         """Compose load report widget."""
