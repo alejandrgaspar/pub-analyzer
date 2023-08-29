@@ -107,12 +107,18 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
 
     Returns:
         List of Works Models.
+
+    Raises:
+        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
-    response = (await client.get(url=url)).json()
-    meta_info = response["meta"]
+    response = await client.get(url=url)
+    response.raise_for_status()
+
+    json_response = response.json()
+    meta_info = json_response["meta"]
     page_count = math.ceil(meta_info["count"] / meta_info["per_page"])
 
-    works_data = list(_get_valid_works(response["results"]),)
+    works_data = list(_get_valid_works(json_response["results"]),)
 
     for page_number in range(1, page_count):
         page_result = (await client.get(url + f"&page={page_number + 1}")).json()
@@ -131,6 +137,9 @@ async def make_author_report(author: Author, from_date: datetime.date | None = N
 
     Returns:
         Author's scientific production report Model.
+
+    Raises:
+        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
     author_id = identifier.get_author_id(author)
 
@@ -207,6 +216,9 @@ async def make_institution_report(
 
     Returns:
         Institution's scientific production report Model.
+
+    Raises:
+        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
     institution_id = identifier.get_institution_id(institution)
 

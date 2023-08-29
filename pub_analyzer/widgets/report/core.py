@@ -4,6 +4,7 @@ import datetime
 import pathlib
 from enum import Enum
 
+import httpx
 from pydantic import TypeAdapter, ValidationError
 from textual import on
 from textual.app import ComposeResult
@@ -89,7 +90,19 @@ class CreateReportWidget(Static):
 
     async def mount_report(self) -> None:
         """Mount report."""
-        report_widget = await self.make_report()
+        try:
+            report_widget = await self.make_report()
+        except httpx.HTTPStatusError as exc:
+            self.query_one(LoadingIndicator).display = False
+            status_error = f"HTTP Exception for url: {exc.request.url}. Status code: {exc.response.status_code}"
+            self.app.notify(
+                    title="Error making report!",
+                    message=f"The report could not be generated due to a problem with the OpenAlex API. {status_error}",
+                    severity="error",
+                    timeout=20.0
+                )
+            return None
+
         container = self.query_one(Container)
         await container.mount(report_widget)
 
