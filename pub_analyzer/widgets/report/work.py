@@ -107,7 +107,6 @@ class WorkModal(Modal[None]):
                 # Citation Metrics
                 yield CitationMetricsCard(work_report=self.work_report)
 
-
             with TabbedContent(id="tables-container"):
                 # Citations Table
                 with TabPane("Cited By Works"):
@@ -121,6 +120,10 @@ class WorkModal(Modal[None]):
                         yield LocationsTable(self.work_report.work.locations)
                     else:
                         yield Label("No sources found.")
+                # Abtract if exists
+                if self.work_report.work.abstract:
+                    with TabPane("Abstract"):
+                        yield Label(self.work_report.work.abstract, classes="abstract")
 
 
 class WorksTable(Static):

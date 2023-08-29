@@ -17,6 +17,7 @@
 
 // Text config
 #set text(size: 10pt)
+#set par(justify: true)
 
 // Override reference
 #show ref: it => {
