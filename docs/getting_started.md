@@ -27,6 +27,12 @@ pip install pub-analyzer
 
 We aim to maintain a minimal list of dependencies, but keep in mind that the project is in a very early stage, and significant changes might occur. You may prefer to keep the installation in an isolated environment using [venv](https://docs.python.org/es/3/library/venv.html){target=_blank}.
 
+If a new version is released, you can update using pip with the following command:
+
+```
+pip install -U pub-analyzer
+```
+
 ## Run it
 
 Everything is ready to go :rocket:. Open the app with the following command:
