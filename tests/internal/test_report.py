@@ -56,6 +56,19 @@ def test_get_citation_type(original_authors: list[str], cited_authors: list[str]
 
 
 @pytest.mark.parametrize(
+        ['work', 'expected_abstract'],
+        [
+            [{'abstract_inverted_index': {"Fear": [0,], "is": [1,], "the": [2,], "mind-killer.": [3,]}}, "Fear is the mind-killer."],
+            [{'abstract_inverted_index': None}, None],
+        ]
+)
+def test_add_work_abstract(work: dict[str, Any], expected_abstract: str | None) -> None:
+    """Test _add_work_abstract function."""
+    work = report._add_work_abstract(work)
+    assert work['abstract'] == expected_abstract
+
+
+@pytest.mark.parametrize(
         ['works', 'expected_works'],
         [
             [

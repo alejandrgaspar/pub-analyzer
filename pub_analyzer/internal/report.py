@@ -62,8 +62,8 @@ def _get_citation_type(original_work_authors: list[str], cited_work_authors: lis
     return CitationType.TypeA if not original_set.intersection(cited_set) else CitationType.TypeB
 
 
-def _get_work_abstract(work: dict[str, Any]) -> dict[str, Any]:
-    """Get work abtract from abstract_inverted_index.
+def _add_work_abstract(work: dict[str, Any]) -> dict[str, Any]:
+    """Get work abtract from abstract_inverted_index and insert new key `abstract`.
 
     Args:
         work: Raw work.
@@ -93,7 +93,7 @@ def _get_valid_works(works: list[dict[str, Any]]) -> list[dict[str, Any]]:
         In response, we have chosen to exclude such works at this stage, thus avoiding
         the need to handle exceptions within the Model validators.
     """
-    return [_get_work_abstract(work) for work in works if work['title'] is not None]
+    return [_add_work_abstract(work) for work in works if work['title'] is not None]
 
 
 async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
