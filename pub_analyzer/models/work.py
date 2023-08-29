@@ -79,6 +79,7 @@ class Work(BaseModel):
     ids: WorkIDs
 
     title: str
+    abstract: str | None = None
     publication_year: int
     publication_date: str
     language: str | None = None

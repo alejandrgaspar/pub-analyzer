@@ -65,8 +65,8 @@ def test_get_citation_type(original_authors: list[str], cited_authors: list[str]
                     {'title': None, 'language': 'es'}
                 ],
                 [
-                    {'title': 'Title1', 'language': 'en'},
-                    {'title': 'Title2', 'language': None},
+                    {'title': 'Title1', 'language': 'en', 'abstract': None},
+                    {'title': 'Title2', 'language': None, 'abstract': None},
                 ],
             ],
         ]
