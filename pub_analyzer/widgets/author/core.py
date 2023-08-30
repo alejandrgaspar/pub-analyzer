@@ -67,10 +67,10 @@ class AuthorResumeWidget(Static):
         from_input = self.query_one("#from-date", DateInput)
         to_input = self.query_one("#to-date", DateInput)
 
-        if checkbox.value and from_input.value and to_input.value:
+        if checkbox.value and (from_input.value or to_input.value):
             date_format = "%Y-%m-%d"
-            from_date = datetime.datetime.strptime(from_input.value, date_format)
-            to_date = datetime.datetime.strptime(to_input.value, date_format)
+            from_date = datetime.datetime.strptime(from_input.value, date_format) if from_input.value else None
+            to_date = datetime.datetime.strptime(to_input.value, date_format) if to_input.value else None
 
             report_widget = CreateAuthorReportWidget(author=self.author, from_date=from_date, to_date=to_date)
         else:
