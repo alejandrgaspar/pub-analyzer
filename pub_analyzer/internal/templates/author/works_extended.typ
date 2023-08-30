@@ -6,11 +6,14 @@
 {% endif %}
 
 === #text()[#"{{ work.work.title.replace('"', '\\"') }}"] <work_{{ loop.index }}>
+
 #linebreak()
+
 {% if work.work.abstract %}
 #text()[#"{{ work.work.abstract.replace('"', '\\"') }}"]
+
 #linebreak()
-#linebreak()
+
 {% endif %}
 
 // Cards
