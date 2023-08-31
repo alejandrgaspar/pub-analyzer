@@ -1,42 +1,35 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-    -   id: check-added-large-files
-    -   id: check-toml
-    -   id: check-yaml
-        args: ['--unsafe']
-    -   id: detect-private-key
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
+      - id: check-added-large-files
+      - id: check-toml
+      - id: check-yaml
+        args: ["--unsafe"]
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
 
--   repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev:  v0.0.286
-    hooks:
-    -   id: ruff
-        args:
-        - --fix
-
--   repo: https://github.com/asottile/pyupgrade
+  - repo: https://github.com/asottile/pyupgrade
     rev: v3.3.1
     hooks:
-    -   id: pyupgrade
+      - id: pyupgrade
         args:
-        - --py310-plus
+          - --py310-plus
 
--   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.5.1
+  - repo: local
     hooks:
-    -   id: mypy
-        args: [--strict, --ignore-missing-imports]
-        additional_dependencies:
-            - textual==0.32.0
-            - textual-dev==1.0.1
-            - httpx==0.24.1
-            - pydantic==2.1.1
-            - typst==0.5.0
-            - jinja2==3.1.2
-            - pytest==7.4.0
-            - pytest-asyncio==0.21.0
+      - id: ruff
+        name: ruff
+        entry: make format
+        types: [python]
+        language: system
+        pass_filenames: false
+      - id: mypy
+        name: mypy
+        entry: make typecheck
+        types: [python]
+        language: system
+        pass_filenames: false
