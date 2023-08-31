@@ -71,6 +71,10 @@ LoadReportWidget .button-container {
 }
 
 /* Export Report Pane */
+ExportReportPane #export-form {
+    height: auto;
+}
+
 ExportReportPane .export-form-input-container {
     height: auto;
     margin-bottom: 2;
