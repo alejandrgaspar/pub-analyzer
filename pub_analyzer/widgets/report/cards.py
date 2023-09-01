@@ -117,8 +117,12 @@ class CitationMetricsCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
+        type_a_count = self.work_report.citation_resume.type_a_count
+        type_b_count = self.work_report.citation_resume.type_b_count
+        cited_by_count = type_a_count + type_b_count
+
         yield Label('[italic]Citation[/italic]', classes='card-title')
 
-        yield Label(f'[bold]Count:[/bold] {self.work_report.work.cited_by_count}')
-        yield Label(f'[bold]Type A:[/bold] {self.work_report.citation_resume.type_a_count}')
-        yield Label(f'[bold]Type B:[/bold] {self.work_report.citation_resume.type_b_count}')
+        yield Label(f'[bold]Count:[/bold] {cited_by_count}')
+        yield Label(f'[bold]Type A:[/bold] {type_a_count}')
+        yield Label(f'[bold]Type B:[/bold] {type_b_count}')
