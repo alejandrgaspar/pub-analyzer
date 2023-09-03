@@ -4,7 +4,7 @@ import pathlib
 from datetime import datetime
 from enum import Enum
 
-from textual import on
+from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, Label
@@ -59,33 +59,36 @@ class ExportReportPane(VerticalScroll):
         else:
             self.query_one(Button).disabled = True
 
+    @work(exclusive=True, thread=True)
+    async def _export_report(self, file_type: ExportFileType, file_path: pathlib.Path) -> None:
+        """Export report."""
+        match file_type:
+            case self.ExportFileType.JSON:
+                with open(file_path, mode="w", encoding="utf-8") as file:
+                    file.write(self.report.model_dump_json(indent=2, by_alias=True))
+            case self.ExportFileType.PDF:
+                report_bytes = await render_report(report=self.report, file_path=file_path)
+                with open(file_path, mode="wb") as file:
+                    file.write(report_bytes)
+
+        self.app.call_from_thread(
+            self.app.notify,
+            title="Report exported successfully!",
+            message=f"The report was exported correctly. You can go see it at [i]{file_path}[/]",
+            timeout=20.0
+        )
+
     @on(Button.Pressed, "#export-report-button")
     async def export_report(self) -> None:
-        """Export Report."""
+        """Handle export report button."""
         export_path = self.query_one(FileSystemSelector).path_selected
         file_name = self.query_one(Input).value
         file_type = self.query_one(self.ExportTypeSelector).value
 
-        if export_path and file_name:
+        if export_path and file_name and file_type:
             file_path = export_path.joinpath(file_name)
-
-            match file_type:
-                case self.ExportFileType.JSON:
-                    with open(file_path, mode="w", encoding="utf-8") as file:
-                        file.write(self.report.model_dump_json(indent=2, by_alias=True))
-                case self.ExportFileType.PDF:
-                    report_bytes = await render_report(report=self.report, file_path=file_path)
-                    with open(file_path, mode="wb") as file:
-                        file.write(report_bytes)
-                case _:
-                    raise NotImplementedError
-
+            self._export_report(file_type=file_type, file_path=file_path)
             self.query_one(Button).disabled = True
-            self.app.notify(
-                title="Report exported successfully!",
-                message=f"The report was exported correctly. You can go see it at [i]{file_path}[/]",
-                timeout=20.0
-            )
 
     def compose(self) -> ComposeResult:
         """Compose content pane."""
