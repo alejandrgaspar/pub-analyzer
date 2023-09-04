@@ -63,7 +63,7 @@ pytest-recording = "0.13.0"
 mkdocs = "1.5.2"
 mkdocs-material = "9.2.7"
 
-mkdocstrings = {extras = ["python"], version = "0.22.0"}
+mkdocstrings = {extras = ["python"], version = "0.23.0"}
 mkdocstrings-python = "1.6.0"
 
 [tool.mypy]
