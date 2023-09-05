@@ -40,6 +40,12 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
+      # Run lints
+      - name: Run lints
+        run: |
+          source $VENV
+          ruff check pub_analyzer tests
+          mypy pub_analyzer tests
       # Run test suite
       - name: Run tests
         run: |
