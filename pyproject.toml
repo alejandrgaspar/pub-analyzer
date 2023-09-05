@@ -70,7 +70,7 @@ mkdocstrings-python = "1.6.0"
 strict = true
 
 [tool.ruff]
-required-version = "0.0.286"
+required-version = "0.0.287"
 target-version = "py310"
 
 line-length = 140
