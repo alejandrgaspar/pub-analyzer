@@ -53,7 +53,7 @@ pre-commit = "3.3.3"
 mypy = "1.5.1"
 ruff = "0.0.286"
 
-pytest = "7.4.0"
+pytest = "7.4.1"
 pytest-asyncio = "0.21.1"
 respx = "0.20.2"
 vcrpy = "5.1.0"
