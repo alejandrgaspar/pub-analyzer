@@ -24,7 +24,7 @@
     #align(center)[_Authorships_]
     #parbreak()
     {% for authorship in work.work.authorships[:10] %}
-    - *{{ authorship.author_position }}:* #text({% if authorship.author.display_name == report.author.display_name %}rgb("909d63"){% endif %})[{{ authorship.author.display_name }}]
+    - *{{ authorship.author_position }}:* #underline([#link("{{ authorship.author.orcid or authorship.author.id }}")[#text({% if authorship.author.display_name == report.author.display_name %}rgb("909d63"){% endif %})[{{ authorship.author.display_name }}]]])
     {% endfor %}
     {% if work.work.authorships|length > 10 %}
     - *...*
