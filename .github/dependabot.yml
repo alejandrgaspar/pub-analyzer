@@ -14,3 +14,13 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: ⬆
+    groups:
+      main-dependencies:
+        dependency-type: "production"
+      dev-dependencies:
+        dependency-type: "development"
+        exclude-patterns:
+          - "mkdocs*"
+      docs-dependencies:
+        patterns:
+          - "mkdocs*"
