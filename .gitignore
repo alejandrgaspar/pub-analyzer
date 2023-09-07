@@ -23,3 +23,6 @@ __pycache__
 
 # Textual Screenshots
 .screenshot_cache
+
+# Poetry build
+/dist
