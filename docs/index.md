@@ -1,7 +1,7 @@
 # Pub Analyzer
 
 <figure>
-    <a href="https://pub-analyzer.com" target="_blank"><img src="/assets/img/logo.png" alt="PubAnalyzer" width="275"></a>
+    <img src="/assets/img/logo.png" alt="PubAnalyzer" width="275">
 </figure>
 
 <p align="center">
@@ -15,7 +15,7 @@
         <img src="https://img.shields.io/pypi/pyversions/pub-analyzer?color=%230f80c1" alt="PyPI - Python Version">
     </a>
     <a href="https://github.com/alejandrgaspar/pub-analyzer/blob/main/LICENSE" target="_blank">
-        <img src="https://img.shields.io/github/license/alejandrgaspar/pub-analyzer?color=%230f80c1" alt="License MIT">
+        <img src="https://img.shields.io/github/license/alejandrgaspar/pub-analyzer?color=%2331c553" alt="License MIT">
     </a>
 </p>
 

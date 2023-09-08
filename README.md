@@ -1,7 +1,7 @@
 # Pub Analyzer
 
 <p align="center">
-    <a href="https://pub-analyzer.com" target="_blank"><img src="docs/assets/img/logo.png" alt="PubAnalyzer" width="275"></a>
+    <img src="docs/assets/img/logo.png" alt="PubAnalyzer" width="275">
 </p>
 
 <p align="center">
