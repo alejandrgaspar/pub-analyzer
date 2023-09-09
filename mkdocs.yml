@@ -15,6 +15,7 @@ watch:
 # Theme config
 theme:
   name: material
+  custom_dir: docs/overrides
   icon:
     logo: fontawesome/solid/book
     admonition:
