@@ -133,11 +133,14 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     return TypeAdapter(list[Work]).validate_python(works_data)
 
 
-async def make_author_report(author: Author, from_date: FromDate | None = None, to_date: ToDate | None = None) -> AuthorReport:
+async def make_author_report(
+        author: Author, extra_profiles: list[str] | None = None, from_date: FromDate | None = None, to_date: ToDate | None = None
+    ) -> AuthorReport:
     """Make a scientific production report by Author.
 
     Args:
         author: Author to whom the report is generated.
+        extra_profiles: List of profiles whose works will be attached.
         from_date: Filter works published from this date.
         to_date: Filter works published up to this date.
 
@@ -149,9 +152,12 @@ async def make_author_report(author: Author, from_date: FromDate | None = None, 
     """
     author_id = identifier.get_author_id(author)
 
+    profiles = [author_id, *extra_profiles] if extra_profiles else [author_id,]
+    profiles_ids = "|".join(profiles)
+
     from_filter = f",from_publication_date:{from_date:%Y-%m-%d}" if from_date else ""
     to_filter = f",to_publication_date:{to_date:%Y-%m-%d}" if to_date else ""
-    url = f"https://api.openalex.org/works?filter=author.id:{author_id}{from_filter}{to_filter}&sort=publication_date"
+    url = f"https://api.openalex.org/works?filter=author.id:{profiles_ids}{from_filter}{to_filter}&sort=publication_date"
 
     async with httpx.AsyncClient() as client:
         # Getting all the author works.
