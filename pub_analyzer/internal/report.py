@@ -2,7 +2,7 @@
 
 import datetime
 import math
-from typing import Any
+from typing import Any, NewType
 
 import httpx
 from pydantic import TypeAdapter
@@ -22,6 +22,12 @@ from pub_analyzer.models.report import (
     WorkTypeCounter,
 )
 from pub_analyzer.models.work import Authorship, Work
+
+FromDate = NewType('FromDate', datetime.datetime)
+"""DateTime marker for works published from this date."""
+
+ToDate = NewType('ToDate', datetime.datetime)
+"""DateTime marker for works published up to this date."""
 
 
 def _get_authors_list(authorships: list[Authorship]) -> list[str]:
@@ -127,7 +133,7 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     return TypeAdapter(list[Work]).validate_python(works_data)
 
 
-async def make_author_report(author: Author, from_date: datetime.date | None = None, to_date: datetime.date | None = None) -> AuthorReport:
+async def make_author_report(author: Author, from_date: FromDate | None = None, to_date: ToDate | None = None) -> AuthorReport:
     """Make a scientific production report by Author.
 
     Args:
@@ -205,7 +211,7 @@ async def make_author_report(author: Author, from_date: datetime.date | None = N
 
 
 async def make_institution_report(
-        institution: Institution, from_date: datetime.date | None = None, to_date: datetime.date | None = None
+        institution: Institution, from_date: FromDate | None = None, to_date: ToDate | None = None
     ) -> InstitutionReport:
     """Make a scientific production report by Institution.
 

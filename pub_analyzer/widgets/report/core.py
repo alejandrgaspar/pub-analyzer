@@ -12,7 +12,7 @@ from textual.containers import Container, Horizontal
 from textual.widget import Widget
 from textual.widgets import Button, LoadingIndicator, Static, TabbedContent, TabPane
 
-from pub_analyzer.internal.report import make_author_report, make_institution_report
+from pub_analyzer.internal.report import FromDate, ToDate, make_author_report, make_institution_report
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.institution import Institution
 from pub_analyzer.models.report import AuthorReport, InstitutionReport
@@ -114,7 +114,7 @@ class CreateReportWidget(Static):
 class CreateAuthorReportWidget(CreateReportWidget):
     """Widget Author report wrapper to load data from API."""
 
-    def __init__(self, author: Author, from_date: datetime.date | None = None, to_date: datetime.date | None = None) -> None:
+    def __init__(self, author: Author, from_date: datetime.datetime | None = None, to_date: datetime.datetime | None = None) -> None:
         self.author = author
         self.from_date = from_date
         self.to_date = to_date
@@ -123,14 +123,17 @@ class CreateAuthorReportWidget(CreateReportWidget):
 
     async def make_report(self) -> AuthorReportWidget:
         """Make report and create the widget."""
-        report = await make_author_report(author=self.author, from_date=self.from_date, to_date=self.to_date)
+        from_date = FromDate(self.from_date) if self.from_date else None
+        to_date = ToDate(self.to_date) if self.to_date else None
+
+        report = await make_author_report(author=self.author, from_date=from_date, to_date=to_date)
         return AuthorReportWidget(report=report)
 
 
 class CreateInstitutionReportWidget(CreateReportWidget):
     """Widget Institution report wrapper to load data from API."""
 
-    def __init__(self, institution: Institution, from_date: datetime.date | None = None, to_date: datetime.date | None = None) -> None:
+    def __init__(self, institution: Institution, from_date: datetime.datetime | None = None, to_date: datetime.datetime | None = None) -> None:  # noqa: E501
         self.institution = institution
         self.from_date = from_date
         self.to_date = to_date
@@ -139,7 +142,10 @@ class CreateInstitutionReportWidget(CreateReportWidget):
 
     async def make_report(self) -> InstitutionReportWidget:
         """Make report and create the widget."""
-        report = await make_institution_report(institution=self.institution, from_date=self.from_date, to_date=self.to_date)
+        from_date = FromDate(self.from_date) if self.from_date else None
+        to_date = ToDate(self.to_date) if self.to_date else None
+
+        report = await make_institution_report(institution=self.institution, from_date=from_date, to_date=to_date)
         return InstitutionReportWidget(report=report)
 
 
