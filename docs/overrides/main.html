@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+<!-- Open Graph Tags -->
+<meta property="og:site_name" content="Pub Analyzer Documentation">
+<meta property="og:url" content="{{ page.canonical_url | url }}">
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="{{ page.title }} - Pub Analyzer">
+<meta property="og:description" content="Pub Analyzer is a text user interface, written in python, which automates the generation of scientific production reports using OpenAlex.">
+<meta property="og:image" content="https://raw.githubusercontent.com/alejandrgaspar/pub-analyzer/main/docs/assets/img/social.png">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title }} - Pub Analyzer">
+<meta name="twitter:description" content="Pub Analyzer is a text user interface, written in python, which automates the generation of scientific production reports using OpenAlex.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/alejandrgaspar/pub-analyzer/main/docs/assets/img/social.png">
+{% endblock %}

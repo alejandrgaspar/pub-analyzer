@@ -1,6 +1,27 @@
-# Introduction
+# Pub Analyzer
 
-Pub-Analyzer –[*Publication Analyzer*](https://github.com/alejandrgaspar/pub-analyzer){target=_blank}– is a Text User Interface –*TUI*–, written in Python, which automates the generation of scientific production reports using [*OpenAlex*](https://openalex.org/){target=_blank}.
+<figure>
+    <img src="/assets/img/logo.png" alt="PubAnalyzer" width="275">
+</figure>
+
+<p align="center">
+    <a href="https://github.com/alejandrgaspar/pub-analyzer/actions/workflows/python-test.yml" target="_blank">
+        <img src="https://github.com/alejandrgaspar/pub-analyzer/actions/workflows/python-test.yml/badge.svg?branch=main" alt="Test status">
+    </a>
+    <a href="https://pypi.org/project/pub-analyzer/" target="_blank">
+        <img src="https://img.shields.io/pypi/v/pub-analyzer?color=%230f80c1" alt="PyPI - Version">
+    </a>
+    <a href="https://pypi.org/project/pub-analyzer/" target="_blank">
+        <img src="https://img.shields.io/pypi/pyversions/pub-analyzer?color=%230f80c1" alt="PyPI - Python Version">
+    </a>
+    <a href="https://github.com/alejandrgaspar/pub-analyzer/blob/main/LICENSE" target="_blank">
+        <img src="https://img.shields.io/github/license/alejandrgaspar/pub-analyzer?color=%2331c553" alt="License MIT">
+    </a>
+</p>
+
+<p align="center">
+    Pub-Analyzer &mdash;<a href="https://github.com/alejandrgaspar/pub-analyzer" target="_blank"><em>Publication Analyzer</em></a>&mdash; is a Text User Interface &mdash;<em>TUI</em>&mdash; written in Python, which automates the generation of scientific production reports using <a href="https://openalex.org/" target="_blank"><em>OpenAlex</em></a>.
+</p>
 
 ---
 
