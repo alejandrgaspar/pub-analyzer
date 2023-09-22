@@ -8,7 +8,7 @@ import httpx
 from pydantic import TypeAdapter
 
 from pub_analyzer.internal import identifier
-from pub_analyzer.models.author import Author
+from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.institution import Institution
 from pub_analyzer.models.report import (
     AuthorReport,
@@ -28,6 +28,23 @@ FromDate = NewType('FromDate', datetime.datetime)
 
 ToDate = NewType('ToDate', datetime.datetime)
 """DateTime marker for works published up to this date."""
+
+
+def _get_author_profiles_keys(author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None) -> list[AuthorOpenAlexKey]:  # noqa: E501
+    """Create a list of profiles IDs joining main author profile and extra author profiles.
+
+    Args:
+        author: Main OpenAlex author object.
+        extra_profiles: Extra OpenAlex authors objects related with the main author.
+
+    Returns:
+        List of Author OpenAlex Keys.
+    """
+    if extra_profiles:
+        profiles = [author, *extra_profiles]
+        return [identifier.get_author_id(profile) for profile in profiles]
+    else:
+        return [identifier.get_author_id(author)]
 
 
 def _get_authors_list(authorships: list[Authorship]) -> list[str]:
@@ -134,13 +151,14 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
 
 
 async def make_author_report(
-        author: Author, extra_profiles: list[str] | None = None, from_date: FromDate | None = None, to_date: ToDate | None = None
+        author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None = None,
+        from_date: FromDate | None = None, to_date: ToDate | None = None
     ) -> AuthorReport:
     """Make a scientific production report by Author.
 
     Args:
         author: Author to whom the report is generated.
-        extra_profiles: List of profiles whose works will be attached.
+        extra_profiles: List of author profiles whose works will be attached.
         from_date: Filter works published from this date.
         to_date: Filter works published up to this date.
 
@@ -150,14 +168,12 @@ async def make_author_report(
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
-    author_id = identifier.get_author_id(author)
-
-    profiles = [author_id, *extra_profiles] if extra_profiles else [author_id,]
-    profiles_ids = "|".join(profiles)
+    author_profiles_keys = _get_author_profiles_keys(author, extra_profiles)
+    profiles_query_parameter = "|".join(author_profiles_keys)
 
     from_filter = f",from_publication_date:{from_date:%Y-%m-%d}" if from_date else ""
     to_filter = f",to_publication_date:{to_date:%Y-%m-%d}" if to_date else ""
-    url = f"https://api.openalex.org/works?filter=author.id:{profiles_ids}{from_filter}{to_filter}&sort=publication_date"
+    url = f"https://api.openalex.org/works?filter=author.id:{profiles_query_parameter}{from_filter}{to_filter}&sort=publication_date"
 
     async with httpx.AsyncClient() as client:
         # Getting all the author works.

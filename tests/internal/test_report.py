@@ -10,10 +10,37 @@ import respx
 from pydantic import HttpUrl
 
 from pub_analyzer.internal import report
-from pub_analyzer.models.author import DehydratedAuthor
+from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.report import CitationType
 from pub_analyzer.models.work import Authorship
 from tests.data.work import WORK
+
+
+@pytest.mark.parametrize(
+        ['main_author', 'extra_profiles', 'expected_keys'],
+        [
+            [
+                DehydratedAuthor(id=HttpUrl("https://openalex.org/A0")),
+                None,
+                ["A0",]
+            ],
+            [
+                DehydratedAuthor(id=HttpUrl("https://openalex.org/A0")),
+                [
+                    DehydratedAuthor(id=HttpUrl("https://openalex.org/A1")),
+                    DehydratedAuthor(id=HttpUrl("https://openalex.org/A2")),
+                    DehydratedAuthor(id=HttpUrl("https://openalex.org/A3")),
+                ],
+                ["A0", "A1", "A2", "A3"]
+            ]
+        ]
+)
+def test_get_author_profiles_keys(
+        main_author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None,
+        expected_keys: list[AuthorOpenAlexKey]
+    ) -> None:
+    """Test _get_author_profiles_keys function."""
+    assert report._get_author_profiles_keys(main_author, extra_profiles) == expected_keys
 
 
 def test_get_authors_list() -> None:
