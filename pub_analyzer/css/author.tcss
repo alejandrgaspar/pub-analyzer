@@ -46,6 +46,14 @@ AuthorResumeWidget .info-container Label {
 }
 
 /* Filter Container */
+AuthorResumeWidget CollapsibleTitle {
+    padding: 0;
+}
+
+AuthorResumeWidget .filter-collapsible {
+    margin-top: 1;
+}
+
 AuthorResumeWidget .filter-container Input {
     width: 3fr;
 }

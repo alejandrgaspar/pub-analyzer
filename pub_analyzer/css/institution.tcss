@@ -46,6 +46,14 @@ InstitutionResumeWidget .info-container Label {
 }
 
 /* Filter Container */
+InstitutionResumeWidget CollapsibleTitle {
+    padding: 0;
+}
+
+InstitutionResumeWidget .filter-collapsible {
+    margin-top: 1;
+}
+
 InstitutionResumeWidget .filter-container Input {
     width: 3fr;
 }

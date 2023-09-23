@@ -23,6 +23,7 @@ class PubAnalyzerApp(App[DOMNode]):
         "css/body.tcss",
         "css/buttons.tcss",
         "css/checkbox.tcss",
+        "css/collapsible.tcss",
         "css/datatable.tcss",
         "css/institution.tcss",
         "css/main.tcss",

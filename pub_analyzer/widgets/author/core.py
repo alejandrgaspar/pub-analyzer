@@ -6,7 +6,7 @@ import httpx
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical, VerticalScroll
-from textual.widgets import Button, Checkbox, Label, LoadingIndicator, Static
+from textual.widgets import Button, Checkbox, Collapsible, Label, LoadingIndicator, Static
 
 from pub_analyzer.internal.identifier import get_author_id
 from pub_analyzer.models.author import Author, AuthorResult
@@ -135,11 +135,15 @@ class AuthorResumeWidget(Static):
                 Label('[bold]Make report:[/bold]', classes="block-title"),
 
                 # Filters
-                Horizontal(
-                    Checkbox("Filter", id="filters-checkbox"),
-                    DateInput(placeholder="From yyyy-mm-dd", disabled=True, id="from-date"),
-                    DateInput(placeholder="To yyyy-mm-dd", disabled=True, id="to-date"),
-                    classes="info-container filter-container",
+                Collapsible(
+                    Horizontal(
+                        Checkbox("Date Range", id="filters-checkbox"),
+                        DateInput(placeholder="From yyyy-mm-dd", disabled=True, id="from-date"),
+                        DateInput(placeholder="To yyyy-mm-dd", disabled=True, id="to-date"),
+                        classes="info-container filter-container",
+                    ),
+                    title="Report filters.",
+                    classes="filter-collapsible"
                 ),
 
                 # Button
