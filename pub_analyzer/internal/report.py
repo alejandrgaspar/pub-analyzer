@@ -9,7 +9,7 @@ from pydantic import TypeAdapter
 
 from pub_analyzer.internal import identifier
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
-from pub_analyzer.models.institution import Institution
+from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult
 from pub_analyzer.models.report import (
     AuthorReport,
     CitationReport,
@@ -45,6 +45,24 @@ def _get_author_profiles_keys(author: Author, extra_profiles: list[Author | Auth
         return [identifier.get_author_id(profile) for profile in profiles]
     else:
         return [identifier.get_author_id(author)]
+
+def _get_institution_keys(
+        institution: Institution, extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None
+    ) -> list[InstitutionOpenAlexKey]:
+    """Create a list of profiles IDs joining main institution profile and extra institution profiles.
+
+    Args:
+        institution: Main OpenAlex institution object.
+        extra_profiles: Extra OpenAlex institutions objects related with the main institution.
+
+    Returns:
+        List of Institution OpenAlex Keys.
+    """
+    if extra_profiles:
+        profiles = [institution, *extra_profiles]
+        return [identifier.get_institution_id(profile) for profile in profiles]
+    else:
+        return [identifier.get_institution_id(institution)]
 
 
 def _get_authors_list(authorships: list[Authorship]) -> list[str]:
@@ -233,12 +251,14 @@ async def make_author_report(
 
 
 async def make_institution_report(
-        institution: Institution, from_date: FromDate | None = None, to_date: ToDate | None = None
+        institution: Institution, extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None = None,
+        from_date: FromDate | None = None, to_date: ToDate | None = None
     ) -> InstitutionReport:
     """Make a scientific production report by Institution.
 
     Args:
         institution: Institution to which the report is generated.
+        extra_profiles: List of institutions profiles whose works will be attached.
         from_date: Filter works published from this date.
         to_date: Filter works published up to this date.
 
@@ -248,11 +268,12 @@ async def make_institution_report(
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
-    institution_id = identifier.get_institution_id(institution)
+    institution_keys = _get_institution_keys(institution, extra_profiles)
+    institution_query_parameter = "|".join(institution_keys)
 
     from_filter = f",from_publication_date:{from_date:%Y-%m-%d}" if from_date else ""
     to_filter = f",to_publication_date:{to_date:%Y-%m-%d}" if to_date else ""
-    url = f"https://api.openalex.org/works?filter=institutions.id:{institution_id}{from_filter}{to_filter}&sort=publication_date"
+    url = f"https://api.openalex.org/works?filter=institutions.id:{institution_query_parameter}{from_filter}{to_filter}&sort=publication_date"
 
     async with httpx.AsyncClient() as client:
         # Getting all the institution works.

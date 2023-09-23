@@ -1,14 +1,21 @@
 """Institutions models from OpenAlex API Schema definition."""
 
 from enum import Enum
+from typing import TypeAlias
 
 from pydantic import BaseModel, Field, HttpUrl
+
+InstitutionOpenAlexID: TypeAlias = HttpUrl
+"""OpenAlex ID for Institution Objects with the format `https://openalex.org/I000000000`"""
+
+InstitutionOpenAlexKey: TypeAlias = str
+"""OpenAlex Institution entity Key with the format `I000000000`"""
 
 
 class InstitutionIDs(BaseModel):
     """IDs from a Institution."""
 
-    openalex: HttpUrl
+    openalex: InstitutionOpenAlexID
     grid: str | None = None
     ror: HttpUrl | None = None
     wikipedia: HttpUrl | None = None
@@ -73,7 +80,7 @@ class InstitutionRole(BaseModel):
 class Institution(BaseModel):
     """Universities and other organizations to which authors claim affiliations."""
 
-    id: HttpUrl
+    id: InstitutionOpenAlexID
     ids: InstitutionIDs
 
     display_name: str
@@ -95,7 +102,7 @@ class Institution(BaseModel):
 class DehydratedInstitution(BaseModel):
     """Stripped-down Institution Model."""
 
-    id: HttpUrl
+    id: InstitutionOpenAlexID
     ror: str
     display_name: str
     country_code: str
@@ -105,7 +112,7 @@ class DehydratedInstitution(BaseModel):
 class InstitutionResult(BaseModel):
     """Institution result Model resulting from a search in OpenAlex."""
 
-    id: HttpUrl
+    id: InstitutionOpenAlexID
     display_name: str
     hint: str | None = None
 

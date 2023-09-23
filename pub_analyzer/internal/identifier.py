@@ -1,7 +1,7 @@
 """Functions to extract OpenAlex IDs from Models."""
 
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
-from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionResult
+from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult
 from pub_analyzer.models.work import Work
 
 
@@ -30,7 +30,7 @@ def get_author_id(author: Author | AuthorResult | DehydratedAuthor) -> AuthorOpe
         return ''
 
 
-def get_institution_id(institution: Institution | InstitutionResult | DehydratedInstitution) -> str:
+def get_institution_id(institution: Institution | InstitutionResult | DehydratedInstitution) -> InstitutionOpenAlexKey:
     """Extract OpenAlex ID from institution Model.
 
     Args:

@@ -11,6 +11,7 @@ from pydantic import HttpUrl
 
 from pub_analyzer.internal import report
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
+from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult, InstitutionType
 from pub_analyzer.models.report import CitationType
 from pub_analyzer.models.work import Authorship
 from tests.data.work import WORK
@@ -41,6 +42,43 @@ def test_get_author_profiles_keys(
     ) -> None:
     """Test _get_author_profiles_keys function."""
     assert report._get_author_profiles_keys(main_author, extra_profiles) == expected_keys
+
+
+@pytest.mark.parametrize(
+        ['main_institution', 'extra_profiles', 'expected_keys'],
+        [
+            [
+                DehydratedInstitution(
+                    id=HttpUrl("https://openalex.org/I0"), ror="", display_name="", country_code="", type=InstitutionType.Education
+                ),
+                None,
+                ["I0",]
+            ],
+            [
+                DehydratedInstitution(
+                    id=HttpUrl("https://openalex.org/I0"), ror="", display_name="", country_code="", type=InstitutionType.Education
+                ),
+                [
+                    DehydratedInstitution(
+                        id=HttpUrl("https://openalex.org/I1"), ror="", display_name="", country_code="", type=InstitutionType.Education
+                    ),
+                    DehydratedInstitution(
+                        id=HttpUrl("https://openalex.org/I2"), ror="", display_name="", country_code="", type=InstitutionType.Education
+                    ),
+                    DehydratedInstitution(
+                        id=HttpUrl("https://openalex.org/I3"), ror="", display_name="", country_code="", type=InstitutionType.Education
+                    ),
+                ],
+                ["I0", "I1", "I2", "I3"]
+            ]
+        ]
+)
+def test_get_institution_keys(
+        main_institution: Institution, extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None,
+        expected_keys: list[InstitutionOpenAlexKey]
+    ) -> None:
+    """Test _get_institution_keys function."""
+    assert report._get_institution_keys(main_institution, extra_profiles) == expected_keys
 
 
 def test_get_authors_list() -> None:
