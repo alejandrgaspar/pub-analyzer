@@ -47,11 +47,11 @@ typst = "0.7.1"
 jinja2 = "3.1.2"
 
 [tool.poetry.group.dev.dependencies]
-textual-dev = "1.1.0"
+textual-dev = "1.2.1"
 
 pre-commit = "3.4.0"
 mypy = "1.5.1"
-ruff = "0.0.287"
+ruff = "0.0.291"
 
 pytest = "7.4.2"
 pytest-asyncio = "0.21.1"
