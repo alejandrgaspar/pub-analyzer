@@ -31,9 +31,6 @@ Pub Analyzer is a tool designed to retrieve, process and present in a concise an
 
 All our information comes from OpenAlex, an open and complete catalog of the world's scholarly papers, researchers, journals, and institutions &mdash; along with all the ways they're connected to one another[^1]. This is the key piece to **make all this possible**.
 
-!!! abstract "Special thanks"
-    From Pub Analyzer we are eternally grateful to [OurResearch](https://ourresearch.org/){target=_blank} for their great work with OpenAlex. If this project has benefited you, it is largely thanks to them, so we ask you to consider writing a [testimonial](https://forms.monday.com/forms/4d5ad5a8e6a72ae31987a29118f1d437){target=_blank} and thanking them on our behalf.
-
 Pub Analyzer generates reports that you can view directly within the app, [export as PDF]() files to submit as evidence, or [export as JSON]() for analysis with the tools you use every day.
 
 ## Why use Pub Analyzer?
