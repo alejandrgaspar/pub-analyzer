@@ -22,9 +22,9 @@ If you had wondered how Pub Analyzer displayed such complex graphical interfaces
 
 ### <a href="https://typst.app/" target="_blank">Typst</a>
 
-Exporting PDF reports is probably one of the features I'm most proud of in Pub Analyzer. Typically, this feature is implemented in other applications that use external dependencies installed on the system. But since Pub Analyzer aims to be a cross-platform project, being able to include the engine responsible for generating PDF files within the package, without compromising the size of the final package, is simply a miracle.
+Exporting PDF reports is probably one of the features I'm most proud of in Pub Analyzer. Typically, this feature is implemented in other applications using dependencies installed on the system.
 
-At the end of the day, Typst offers more value than simply generating a PDF: it gives us the opportunity for our users to customize their reports using the information we provide them.
+Pub Analyzer took another approach, using the Typst compiler built into the package, to export the reports. This, in addition to allowing us to be a cross-platform package with batteries included, allows users to later customize their reports using the Typst syntax.
 
 ## Sponsors
 
