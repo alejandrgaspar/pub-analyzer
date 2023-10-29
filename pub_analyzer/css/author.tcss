@@ -54,14 +54,6 @@ AuthorResumeWidget .filter-collapsible {
     margin-top: 1;
 }
 
-AuthorResumeWidget .filter-container Input {
-    width: 3fr;
-}
-
-AuthorResumeWidget .filter-container Checkbox {
-    width: 1fr;
-}
-
 /* Cards */
 AuthorResumeWidget .cards-container {
     height: auto;

@@ -54,14 +54,6 @@ InstitutionResumeWidget .filter-collapsible {
     margin-top: 1;
 }
 
-InstitutionResumeWidget .filter-container Input {
-    width: 3fr;
-}
-
-InstitutionResumeWidget .filter-container Checkbox {
-    width: 1fr;
-}
-
 /* Cards */
 InstitutionResumeWidget .cards-container {
     height: auto;
