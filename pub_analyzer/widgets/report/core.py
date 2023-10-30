@@ -114,38 +114,68 @@ class CreateReportWidget(Static):
 class CreateAuthorReportWidget(CreateReportWidget):
     """Widget Author report wrapper to load data from API."""
 
-    def __init__(self, author: Author, from_date: datetime.datetime | None = None, to_date: datetime.datetime | None = None) -> None:
+    def __init__(
+            self, author: Author, pub_from_date: datetime.datetime | None = None, pub_to_date: datetime.datetime | None = None,
+            cited_from_date: datetime.datetime | None = None, cited_to_date: datetime.datetime | None = None
+        ) -> None:
         self.author = author
-        self.from_date = from_date
-        self.to_date = to_date
+
+        # Author publication date range
+        self.pub_from_date = pub_from_date
+        self.pub_to_date = pub_to_date
+
+        # Cited date range
+        self.cited_from_date = cited_from_date
+        self.cited_to_date = cited_to_date
 
         super().__init__()
 
     async def make_report(self) -> AuthorReportWidget:
         """Make report and create the widget."""
-        from_date = FromDate(self.from_date) if self.from_date else None
-        to_date = ToDate(self.to_date) if self.to_date else None
+        pub_from_date = FromDate(self.pub_from_date) if self.pub_from_date else None
+        pub_to_date = ToDate(self.pub_to_date) if self.pub_to_date else None
 
-        report = await make_author_report(author=self.author, from_date=from_date, to_date=to_date)
+        cited_from_date = FromDate(self.cited_from_date) if self.cited_from_date else None
+        cited_to_date = ToDate(self.cited_to_date) if self.cited_to_date else None
+
+        report = await make_author_report(
+            author=self.author, pub_from_date=pub_from_date, pub_to_date=pub_to_date,
+            cited_from_date=cited_from_date, cited_to_date=cited_to_date
+        )
         return AuthorReportWidget(report=report)
 
 
 class CreateInstitutionReportWidget(CreateReportWidget):
     """Widget Institution report wrapper to load data from API."""
 
-    def __init__(self, institution: Institution, from_date: datetime.datetime | None = None, to_date: datetime.datetime | None = None) -> None:  # noqa: E501
+    def __init__(
+            self, institution: Institution, pub_from_date: datetime.datetime | None = None, pub_to_date: datetime.datetime | None = None,
+            cited_from_date: datetime.datetime | None = None, cited_to_date: datetime.datetime | None = None
+        ) -> None:
         self.institution = institution
-        self.from_date = from_date
-        self.to_date = to_date
+
+         # Institution publication date range
+        self.pub_from_date = pub_from_date
+        self.pub_to_date = pub_to_date
+
+        # Cited date range
+        self.cited_from_date = cited_from_date
+        self.cited_to_date = cited_to_date
 
         super().__init__()
 
     async def make_report(self) -> InstitutionReportWidget:
         """Make report and create the widget."""
-        from_date = FromDate(self.from_date) if self.from_date else None
-        to_date = ToDate(self.to_date) if self.to_date else None
+        pub_from_date = FromDate(self.pub_from_date) if self.pub_from_date else None
+        pub_to_date = ToDate(self.pub_to_date) if self.pub_to_date else None
 
-        report = await make_institution_report(institution=self.institution, from_date=from_date, to_date=to_date)
+        cited_from_date = FromDate(self.cited_from_date) if self.cited_from_date else None
+        cited_to_date = ToDate(self.cited_to_date) if self.cited_to_date else None
+
+        report = await make_institution_report(
+            institution=self.institution, pub_from_date=pub_from_date, pub_to_date=pub_to_date,
+            cited_from_date=cited_from_date, cited_to_date=cited_to_date
+        )
         return InstitutionReportWidget(report=report)
 
 

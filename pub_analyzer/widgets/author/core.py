@@ -55,8 +55,11 @@ class _AuthorResumeWidget(Static):
 
             # Filters
             with Collapsible(title="Report filters.", classes="filter-collapsible"):
-                # Date Range
-                yield DateRangeFilter(id="date-range-filter")
+                # Author publication Date Range
+                yield DateRangeFilter(checkbox_label="Publication date range:", id="author-date-range-filter")
+
+                # Cite Date Range
+                yield DateRangeFilter(checkbox_label="Cited date range:", id="cited-date-range-filter")
 
             # Button
             with Vertical(classes="block-container button-container"):
@@ -104,10 +107,14 @@ class AuthorResumeWidget(VerticalScroll):
     async def make_report(self) -> None:
         """Make the author report."""
         filters: dict[str, Any] = {}
-        date_range = self.query_one("#date-range-filter", DateRangeFilter)
+        pub_date_range = self.query_one("#author-date-range-filter", DateRangeFilter)
+        cited_date_range = self.query_one("#cited-date-range-filter", DateRangeFilter)
 
-        if not date_range.filter_disabled:
-            filters.update({"from_date": date_range.from_date, "to_date":date_range.to_date})
+        if not pub_date_range.filter_disabled:
+            filters.update({"pub_from_date": pub_date_range.from_date, "pub_to_date":pub_date_range.to_date})
+
+        if not cited_date_range.filter_disabled:
+            filters.update({"cited_from_date": cited_date_range.from_date, "cited_to_date":cited_date_range.to_date})
 
         report_widget = CreateAuthorReportWidget(author=self.author, **filters)
         await self.app.query_one("MainContent").mount(report_widget)

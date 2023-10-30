@@ -54,6 +54,10 @@ InstitutionResumeWidget .filter-collapsible {
     margin-top: 1;
 }
 
+InstitutionResumeWidget .filter-collapsible DateRangeFilter {
+    margin-top: 1;
+}
+
 /* Cards */
 InstitutionResumeWidget .cards-container {
     height: auto;

@@ -170,15 +170,20 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
 
 async def make_author_report(
         author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None = None,
-        from_date: FromDate | None = None, to_date: ToDate | None = None
+        pub_from_date: FromDate | None = None, pub_to_date: ToDate | None = None,
+        cited_from_date: FromDate | None = None, cited_to_date: ToDate | None = None
     ) -> AuthorReport:
     """Make a scientific production report by Author.
 
     Args:
         author: Author to whom the report is generated.
         extra_profiles: List of author profiles whose works will be attached.
-        from_date: Filter works published from this date.
-        to_date: Filter works published up to this date.
+
+        pub_from_date: Filter works published from this date.
+        pub_to_date: Filter works published up to this date.
+
+        cited_from_date: Filter works that cite the author, published after this date.
+        cited_to_date: Filter works that cite the author, published up to this date.
 
     Returns:
         Author's scientific production report Model.
@@ -189,13 +194,17 @@ async def make_author_report(
     author_profiles_keys = _get_author_profiles_keys(author, extra_profiles)
     profiles_query_parameter = "|".join(author_profiles_keys)
 
-    from_filter = f",from_publication_date:{from_date:%Y-%m-%d}" if from_date else ""
-    to_filter = f",to_publication_date:{to_date:%Y-%m-%d}" if to_date else ""
-    url = f"https://api.openalex.org/works?filter=author.id:{profiles_query_parameter}{from_filter}{to_filter}&sort=publication_date"
+    pub_from_filter = f",from_publication_date:{pub_from_date:%Y-%m-%d}" if pub_from_date else ""
+    pub_to_filter = f",to_publication_date:{pub_to_date:%Y-%m-%d}" if pub_to_date else ""
+    url = f"https://api.openalex.org/works?filter=author.id:{profiles_query_parameter}{pub_from_filter}{pub_to_filter}&sort=publication_date"
 
     async with httpx.AsyncClient() as client:
         # Getting all the author works.
         author_works = await _get_works(client, url)
+
+        # Extra filters
+        cited_from_filter = f",from_publication_date:{cited_from_date:%Y-%m-%d}" if cited_from_date else ""
+        cited_to_filter = f",to_publication_date:{cited_to_date:%Y-%m-%d}" if cited_to_date else ""
 
         # Report fields.
         works: list[WorkReport] = []
@@ -208,7 +217,7 @@ async def make_author_report(
         for author_work in author_works:
             work_id = identifier.get_work_id(author_work)
             work_authors = _get_authors_list(authorships=author_work.authorships)
-            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}&sort=publication_date"
+            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
 
             # Adding the type of OpenAccess in the counter.
             open_access_resume.add_oa_type(author_work.open_access.oa_status)
@@ -252,15 +261,20 @@ async def make_author_report(
 
 async def make_institution_report(
         institution: Institution, extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None = None,
-        from_date: FromDate | None = None, to_date: ToDate | None = None
+        pub_from_date: FromDate | None = None, pub_to_date: ToDate | None = None,
+        cited_from_date: FromDate | None = None, cited_to_date: ToDate | None = None
     ) -> InstitutionReport:
     """Make a scientific production report by Institution.
 
     Args:
         institution: Institution to which the report is generated.
         extra_profiles: List of institutions profiles whose works will be attached.
-        from_date: Filter works published from this date.
-        to_date: Filter works published up to this date.
+
+        pub_from_date: Filter works published from this date.
+        pub_to_date: Filter works published up to this date.
+
+        cited_from_date: Filter works that cite the institution, published after this date.
+        cited_to_date: Filter works that cite the institution, published up to this date.
 
     Returns:
         Institution's scientific production report Model.
@@ -271,13 +285,17 @@ async def make_institution_report(
     institution_keys = _get_institution_keys(institution, extra_profiles)
     institution_query_parameter = "|".join(institution_keys)
 
-    from_filter = f",from_publication_date:{from_date:%Y-%m-%d}" if from_date else ""
-    to_filter = f",to_publication_date:{to_date:%Y-%m-%d}" if to_date else ""
-    url = f"https://api.openalex.org/works?filter=institutions.id:{institution_query_parameter}{from_filter}{to_filter}&sort=publication_date"
+    pub_from_filter = f",from_publication_date:{pub_from_date:%Y-%m-%d}" if pub_from_date else ""
+    pub_to_filter = f",to_publication_date:{pub_to_date:%Y-%m-%d}" if pub_to_date else ""
+    url = f"https://api.openalex.org/works?filter=institutions.id:{institution_query_parameter}{pub_from_filter}{pub_to_filter}&sort=publication_date"
 
     async with httpx.AsyncClient() as client:
         # Getting all the institution works.
         institution_works = await _get_works(client=client, url=url)
+
+        # Extra filters
+        cited_from_filter = f",from_publication_date:{cited_from_date:%Y-%m-%d}" if cited_from_date else ""
+        cited_to_filter = f",to_publication_date:{cited_to_date:%Y-%m-%d}" if cited_to_date else ""
 
         # Report fields.
         works: list[WorkReport] = []
@@ -290,7 +308,7 @@ async def make_institution_report(
         for institution_work in institution_works:
             work_id = identifier.get_work_id(institution_work)
             work_authors = _get_authors_list(authorships=institution_work.authorships)
-            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}&sort=publication_date"
+            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
 
             # Adding the type of OpenAccess in the counter.
             open_access_resume.add_oa_type(institution_work.open_access.oa_status)

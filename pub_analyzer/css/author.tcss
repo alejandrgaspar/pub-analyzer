@@ -54,6 +54,10 @@ AuthorResumeWidget .filter-collapsible {
     margin-top: 1;
 }
 
+AuthorResumeWidget .filter-collapsible DateRangeFilter {
+    margin-top: 1;
+}
+
 /* Cards */
 AuthorResumeWidget .cards-container {
     height: auto;
