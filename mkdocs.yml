@@ -93,6 +93,7 @@ nav:
   - Introduction:
     - "index.md"
     - "getting_started.md"
+    - "acknowledgement.md"
     - "help.md"
   - User Guide:
     - "user/index.md"
