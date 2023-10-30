@@ -10,13 +10,13 @@ from tests.data.institution import DEHYDRATED_INSTITUTION_OBJECT, INSTITUTION_OB
 from tests.data.work import WORK_OBJECT, WORK_OPEN_ALEX_ID
 
 
-@pytest.mark.parametrize('model_input', [AUTHOR_OBJECT, AUTHOR_RESULT_OBJECT, DEHYDRATED_AUTHOR_OBJECT])
+@pytest.mark.parametrize("model_input", [AUTHOR_OBJECT, AUTHOR_RESULT_OBJECT, DEHYDRATED_AUTHOR_OBJECT])
 def test_get_author_id(model_input: Author | AuthorResult | DehydratedAuthor) -> None:
     """Test get_author_id function."""
     assert get_author_id(model_input) == AUTHOR_OPEN_ALEX_ID
 
 
-@pytest.mark.parametrize('model_input', [INSTITUTION_OBJECT, INSTITUTION_RESULT_OBJECT, DEHYDRATED_INSTITUTION_OBJECT])
+@pytest.mark.parametrize("model_input", [INSTITUTION_OBJECT, INSTITUTION_RESULT_OBJECT, DEHYDRATED_INSTITUTION_OBJECT])
 def test_get_institution_id(model_input: Institution | InstitutionResult | DehydratedInstitution) -> None:
     """Test get_institution_id function."""
     assert get_institution_id(model_input) == INSTITUTION_OPEN_ALEX_ID

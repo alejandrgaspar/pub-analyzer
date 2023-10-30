@@ -16,7 +16,7 @@ class AuthorWorksByYearTable(Static):
 
     def compose(self) -> ComposeResult:
         """Compose Table."""
-        table = Table('Year', 'Works Count', 'Cited by Count', title="Counts by Year", expand=True)
+        table = Table("Year", "Works Count", "Cited by Count", title="Counts by Year", expand=True)
         for row in self.author.counts_by_year:
             year, works_count, cited_by_count = row.model_dump().values()
             table.add_row(str(year), str(works_count), str(cited_by_count))

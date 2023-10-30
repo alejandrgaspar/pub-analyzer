@@ -50,7 +50,7 @@ async def test_author_result_complete_info() -> None:
         assert str(AUTHOR_RESULT_OBJECT.works_count) in str(result_widget.query_one(".works-count", Label).renderable)
         assert str(AUTHOR_RESULT_OBJECT.external_id) in str(result_widget.query_one(".external-id", Label).renderable)
 
-        assert str(AUTHOR_RESULT_OBJECT.hint or '') in str(result_widget.query_one(".text-hint", Label).renderable)
+        assert str(AUTHOR_RESULT_OBJECT.hint or "") in str(result_widget.query_one(".text-hint", Label).renderable)
 
 
 @pytest.mark.asyncio
@@ -71,7 +71,7 @@ async def test_institution_result_complete_info() -> None:
         assert str(INSTITUTION_RESULT_OBJECT.cited_by_count) in str(result_widget.query_one(".cited-by-count", Label).renderable)
         assert str(INSTITUTION_RESULT_OBJECT.works_count) in str(result_widget.query_one(".works-count", Label).renderable)
 
-        assert str(INSTITUTION_RESULT_OBJECT.hint or '') in str(result_widget.query_one(".text-hint", Label).renderable)
+        assert str(INSTITUTION_RESULT_OBJECT.hint or "") in str(result_widget.query_one(".text-hint", Label).renderable)
 
 
 @pytest.mark.asyncio
@@ -86,10 +86,10 @@ async def test_author_result_button_redirect() -> None:
         await pilot.wait_for_scheduled_animations()
 
         # Click author button.
-        await pilot.click('AuthorResultWidget Button')
+        await pilot.click("AuthorResultWidget Button")
 
         # Check title update.
-        title = pilot.app.query_one('#page-title', Label)
+        title = pilot.app.query_one("#page-title", Label)
         assert str(title.renderable) == AUTHOR_RESULT_OBJECT.display_name
 
         # Check main content update.
@@ -109,10 +109,10 @@ async def test_institution_result_button_redirect() -> None:
         await pilot.wait_for_scheduled_animations()
 
         # Click institution button.
-        await pilot.click('InstitutionResultWidget Button')
+        await pilot.click("InstitutionResultWidget Button")
 
         # Check title update.
-        title = pilot.app.query_one('#page-title', Label)
+        title = pilot.app.query_one("#page-title", Label)
         assert str(title.renderable) == INSTITUTION_RESULT_OBJECT.display_name
 
         # Check main content update.

@@ -16,11 +16,7 @@ WORK: dict[str, Any] = {
     "title": "Stratospheric sink for chlorofluoromethanes: chlorine atom-catalysed destruction of ozone",
     "publication_year": 1974,
     "publication_date": "1974-06-01",
-    "ids": {
-        "openalex": "https://openalex.org/" + WORK_OPEN_ALEX_ID,
-        "doi": "https://doi.org/10.1038/249810a0",
-        "mag": "2058179313"
-    },
+    "ids": {"openalex": "https://openalex.org/" + WORK_OPEN_ALEX_ID, "doi": "https://doi.org/10.1038/249810a0", "mag": "2058179313"},
     "language": "en",
     "primary_location": {
         "is_oa": False,
@@ -32,44 +28,27 @@ WORK: dict[str, Any] = {
             "id": "https://openalex.org/S137773608",
             "display_name": "Nature",
             "issn_l": "0028-0836",
-            "issn": [
-                "1476-4687",
-                "0028-0836"
-            ],
+            "issn": ["1476-4687", "0028-0836"],
             "is_oa": False,
             "is_in_doaj": False,
             "host_organization": "https://openalex.org/P4310319908",
             "host_organization_name": "Nature Portfolio",
-            "type": "journal"
-
-        }
+            "type": "journal",
+        },
     },
     "best_oa_location": None,
     "locations": [],
     "type": "journal-article",
-    "open_access": {
-        "is_oa": False,
-        "oa_status": "closed",
-        "oa_url": None,
-        "any_repository_has_fulltext": False
-    },
+    "open_access": {"is_oa": False, "oa_status": "closed", "oa_url": None, "any_repository_has_fulltext": False},
     "authorships": [
         {
             "author_position": "first",
-            "author": {
-                "id": "https://openalex.org/A4356881717",
-                "display_name": "Mario J. Molina",
-                "orcid": None
-            }
+            "author": {"id": "https://openalex.org/A4356881717", "display_name": "Mario J. Molina", "orcid": None},
         },
         {
             "author_position": "last",
-            "author": {
-                "id": "https://openalex.org/A4346008987",
-                "display_name": "F. Sherwood Rowland",
-                "orcid": None
-            }
-        }
+            "author": {"id": "https://openalex.org/A4346008987", "display_name": "F. Sherwood Rowland", "orcid": None},
+        },
     ],
     "apc_list": {
         "value": 9750,
@@ -101,7 +80,7 @@ WORK: dict[str, Any] = {
         "https://openalex.org/W2127703393",
         "https://openalex.org/W2164314714",
         "https://openalex.org/W2326876406",
-        "https://openalex.org/W2793356690"
+        "https://openalex.org/W2793356690",
     ],
     "cited_by_api_url": "https://api.openalex.org/works?filter=cites:" + WORK_OPEN_ALEX_ID,
 }

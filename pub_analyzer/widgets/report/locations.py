@@ -26,17 +26,17 @@ class LocationsTable(Static):
 
     def compose(self) -> ComposeResult:
         """Compose Table."""
-        locations_table = Table(title='Locations', expand=True, show_lines=True)
+        locations_table = Table(title="Locations", expand=True, show_lines=True)
 
         # Define Columns
-        locations_table.add_column('', justify='center', vertical='middle')
-        locations_table.add_column('Name', ratio=3)
-        locations_table.add_column('Publisher or institution', ratio=2)
-        locations_table.add_column('Type')
-        locations_table.add_column('ISSN-L')
-        locations_table.add_column('Is OA')
-        locations_table.add_column('License')
-        locations_table.add_column('version')
+        locations_table.add_column("", justify="center", vertical="middle")
+        locations_table.add_column("Name", ratio=3)
+        locations_table.add_column("Publisher or institution", ratio=2)
+        locations_table.add_column("Type")
+        locations_table.add_column("ISSN-L")
+        locations_table.add_column("Is OA")
+        locations_table.add_column("License")
+        locations_table.add_column("version")
 
         for idx, location in enumerate(self.locations_list):
             if location.source:
@@ -46,7 +46,9 @@ class LocationsTable(Static):
                 issn_l = source.issn_l if source.issn_l else "-"
 
                 if source.host_organization_name and source.host_organization:
-                    publisher = f"""[@click=app.open_link('{quote(str(source.host_organization))}')][u]{source.host_organization_name}[/u][/]"""  # noqa: E501
+                    publisher = (
+                        f"""[@click=app.open_link('{quote(str(source.host_organization))}')][u]{source.host_organization_name}[/u][/]"""
+                    )
                 else:
                     publisher = source.host_organization_name if source.host_organization_name else "-"
             else:
@@ -61,7 +63,7 @@ class LocationsTable(Static):
 
             locations_table.add_row(
                 str(idx),
-                Text.from_markup(title, overflow='ellipsis'),
+                Text.from_markup(title, overflow="ellipsis"),
                 Text.from_markup(publisher),
                 Text.from_markup(type),
                 Text.from_markup(issn_l),
@@ -70,4 +72,4 @@ class LocationsTable(Static):
                 Text.from_markup(version.capitalize()),
             )
 
-        yield Static(locations_table, classes='locations-table')
+        yield Static(locations_table, classes="locations-table")

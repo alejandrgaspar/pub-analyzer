@@ -25,9 +25,9 @@ def get_author_id(author: Author | AuthorResult | DehydratedAuthor) -> AuthorOpe
         ```
     """
     if author.id.path:
-        return author.id.path.rpartition('/')[2]
+        return author.id.path.rpartition("/")[2]
     else:
-        return ''
+        return ""
 
 
 def get_institution_id(institution: Institution | InstitutionResult | DehydratedInstitution) -> InstitutionOpenAlexKey:
@@ -50,9 +50,9 @@ def get_institution_id(institution: Institution | InstitutionResult | Dehydrated
         ```
     """
     if institution.id.path:
-        return institution.id.path.rpartition('/')[2]
+        return institution.id.path.rpartition("/")[2]
     else:
-        return ''
+        return ""
 
 
 def get_work_id(work: Work) -> str:
@@ -75,6 +75,6 @@ def get_work_id(work: Work) -> str:
         ```
     """
     if work.id.path:
-        return work.id.path.rpartition('/')[2]
+        return work.id.path.rpartition("/")[2]
     else:
-        return ''
+        return ""

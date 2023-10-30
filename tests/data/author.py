@@ -21,39 +21,21 @@ AUTHOR: dict[str, Any] = {
     "display_name_alternatives": [],
     "works_count": 185,
     "cited_by_count": 19275,
-    "summary_stats": {
-        "2yr_mean_citedness": 37.375,
-        "h_index": 57,
-        "i10_index": 125
-    },
-    "ids": {
-        "openalex": OPEN_ALEX_ID_URL
-    },
+    "summary_stats": {"2yr_mean_citedness": 37.375, "h_index": 57, "i10_index": 125},
+    "ids": {"openalex": OPEN_ALEX_ID_URL},
     "last_known_institution": {
         "id": "https://openalex.org/I36258959",
         "ror": "https://ror.org/0168r3w48",
         "display_name": "University of California, San Diego",
         "country_code": "US",
-        "type": "education"
+        "type": "education",
     },
     "counts_by_year": [
-        {
-            "year": 2023,
-            "works_count": 0,
-            "cited_by_count": 914
-        },
-        {
-            "year": 2022,
-            "works_count": 0,
-            "cited_by_count": 1894
-        },
-        {
-            "year": 2021,
-            "works_count": 1,
-            "cited_by_count": 2361
-        }
+        {"year": 2023, "works_count": 0, "cited_by_count": 914},
+        {"year": 2022, "works_count": 0, "cited_by_count": 1894},
+        {"year": 2021, "works_count": 1, "cited_by_count": 2361},
     ],
-    "works_api_url": "https://api.openalex.org/works?filter=author.id:A4356881717"
+    "works_api_url": "https://api.openalex.org/works?filter=author.id:A4356881717",
 }
 
 AUTHOR_RESULT: dict[str, Any] = {
@@ -64,14 +46,10 @@ AUTHOR_RESULT: dict[str, Any] = {
     "works_count": 185,
     "entity_type": "author",
     "external_id": None,
-    "filter_key": None
+    "filter_key": None,
 }
 
-DEHYDRATED_AUTHOR: dict[str, Any] = {
-    "id": OPEN_ALEX_ID_URL,
-    "display_name": DISPLAY_NAME,
-    "orcid": ORCID
-}
+DEHYDRATED_AUTHOR: dict[str, Any] = {"id": OPEN_ALEX_ID_URL, "display_name": DISPLAY_NAME, "orcid": ORCID}
 
 
 AUTHOR_OBJECT = Author(**AUTHOR)

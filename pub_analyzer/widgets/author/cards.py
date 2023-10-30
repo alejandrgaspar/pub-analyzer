@@ -19,12 +19,12 @@ class CitationMetricsCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        yield Label('[italic]Citation metrics:[/italic]', classes="card-title")
+        yield Label("[italic]Citation metrics:[/italic]", classes="card-title")
 
-        with Vertical(classes='card-container'):
-            yield Label(f'[bold]2-year mean:[/bold] {self.author.summary_stats.two_yr_mean_citedness:.5f}')
-            yield Label(f'[bold]h-index:[/bold] {self.author.summary_stats.h_index}')
-            yield Label(f'[bold]i10 index:[/bold] {self.author.summary_stats.i10_index}')
+        with Vertical(classes="card-container"):
+            yield Label(f"[bold]2-year mean:[/bold] {self.author.summary_stats.two_yr_mean_citedness:.5f}")
+            yield Label(f"[bold]h-index:[/bold] {self.author.summary_stats.h_index}")
+            yield Label(f"[bold]i10 index:[/bold] {self.author.summary_stats.i10_index}")
 
 
 class IdentifiersCard(Card):
@@ -36,7 +36,7 @@ class IdentifiersCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        yield Label('[italic]Identifiers:[/italic]', classes="card-title")
+        yield Label("[italic]Identifiers:[/italic]", classes="card-title")
 
         for platform, platform_url in self.author.ids.model_dump().items():
             if platform_url:
@@ -52,13 +52,13 @@ class LastInstitutionCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        yield Label('[italic]Last Institution:[/italic]', classes="card-title")
+        yield Label("[italic]Last Institution:[/italic]", classes="card-title")
 
         if self.author.last_known_institution:
             ror = self.author.last_known_institution.ror
             institution_name = self.author.last_known_institution.display_name
 
-            with Vertical(classes='card-container'):
-                yield Label(f'''[bold]Name:[/bold] [@click=app.open_link('{quote(str(ror))}')]{institution_name}[/]''')
-                yield Label(f'[bold]Country:[/bold] {self.author.last_known_institution.country_code}')
-                yield Label(f'[bold]Type:[/bold] {self.author.last_known_institution.type.value}')
+            with Vertical(classes="card-container"):
+                yield Label(f"""[bold]Name:[/bold] [@click=app.open_link('{quote(str(ror))}')]{institution_name}[/]""")
+                yield Label(f"[bold]Country:[/bold] {self.author.last_known_institution.country_code}")
+                yield Label(f"[bold]Type:[/bold] {self.author.last_known_institution.type.value}")

@@ -28,7 +28,9 @@ class PathTypeSelector(Enum):
 class FilteredDirectoryTree(DirectoryTree):
     """Directory Tree filtered."""
 
-    def __init__(self, path: str | Path, *, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None) -> None:  # noqa: E501
+    def __init__(
+        self, path: str | Path, *, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None
+    ) -> None:
         self.show_hidden_paths = show_hidden_paths
         self.only_dir = only_dir
         self.extension = extension
@@ -78,7 +80,9 @@ class PathSelectorModal(Modal[Path | None]):
     }
     """
 
-    def __init__(self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None) -> None:  # noqa: E501
+    def __init__(
+        self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None
+    ) -> None:
         self.path = path
         self.show_hidden_paths = show_hidden_paths
         self.only_dir = only_dir
@@ -90,7 +94,7 @@ class PathSelectorModal(Modal[Path | None]):
     @on(events.Key)
     def exit_modal(self, message: events.Key) -> None:
         """Exit from the modal with esc KEY."""
-        if message.key == 'escape':
+        if message.key == "escape":
             self.app.pop_screen()
 
     @on(Button.Pressed, "#done-button")
@@ -114,11 +118,10 @@ class PathSelectorModal(Modal[Path | None]):
 
     def compose(self) -> ComposeResult:
         """Compose Modal."""
-        with VerticalScroll(id='dialog'):
-            yield Label("Export Path", classes='dialog-title')
+        with VerticalScroll(id="dialog"):
+            yield Label("Export Path", classes="dialog-title")
             yield FilteredDirectoryTree(
-                path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir,
-                extension=self.extension
+                path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir, extension=self.extension
             )
 
             with Horizontal(classes="button-container"):
@@ -165,7 +168,9 @@ class FileSystemSelector(Static):
             self.file_selected = file_selected
             super().__init__()
 
-    def __init__(self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None) -> None:  # noqa: E501
+    def __init__(
+        self, path: str | Path, show_hidden_paths: bool = False, only_dir: bool = False, extension: list[str] | None = None
+    ) -> None:
         self.path = path
         self.show_hidden_paths = show_hidden_paths
         self.only_dir = only_dir
@@ -177,6 +182,7 @@ class FileSystemSelector(Static):
     @on(PathSelectedBox.Selected)
     async def show_export_report_modal(self) -> None:
         """Show export Modal."""
+
         def update_file_selected(path: Path | None) -> None:
             """Call when modal is closed."""
             self.path_selected = path
@@ -188,11 +194,8 @@ class FileSystemSelector(Static):
                 self.post_message(self.FileSelected(file_selected=path))
 
         await self.app.push_screen(
-            PathSelectorModal(
-                path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir,
-                extension=self.extension
-            ),
-            callback=update_file_selected
+            PathSelectorModal(path=self.path, show_hidden_paths=self.show_hidden_paths, only_dir=self.only_dir, extension=self.extension),
+            callback=update_file_selected,
         )
 
     def compose(self) -> ComposeResult:

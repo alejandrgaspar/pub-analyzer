@@ -75,7 +75,7 @@ class ExportReportPane(VerticalScroll):
             self.app.notify,
             title="Report exported successfully!",
             message=f"The report was exported correctly. You can go see it at [i]{file_path}[/]",
-            timeout=20.0
+            timeout=20.0,
         )
 
     @on(Button.Pressed, "#export-report-button")
@@ -98,7 +98,7 @@ class ExportReportPane(VerticalScroll):
             with Vertical(classes="export-form-input-container"):
                 yield Label("[b]Name File:[/]", classes="export-form-label")
                 with Horizontal(classes="file-selector-container"):
-                    type_options = [(name, value) for name, value in self.ExportFileType.__members__.items()]
+                    type_options = list(self.ExportFileType.__members__.items())
                     selector_disabled = isinstance(self.report, InstitutionReport)
 
                     yield Input(value=suggest_file_name, placeholder="report.json", classes="export-form-input")

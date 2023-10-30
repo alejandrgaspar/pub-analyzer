@@ -26,17 +26,10 @@ class SideBar(Static):
     def compose(self) -> ComposeResult:
         """Compose dynamically the sidebar options."""
         with Vertical(classes="sidebar-options-column"):
-            yield Label("Menu", id='sidebar-title')
+            yield Label("Menu", id="sidebar-title")
 
-            yield Button(
-                SideBarOptionsName.SEARCH.value,
-                variant="primary", id="search-sidebar-button", classes="sidebar-option"
-            )
-
-            yield Button(
-                SideBarOptionsName.LOAD_REPORT.value,
-                variant="primary", id="load-sidebar-button", classes="sidebar-option"
-            )
+            yield Button(SideBarOptionsName.SEARCH.value, variant="primary", id="search-sidebar-button", classes="sidebar-option")
+            yield Button(SideBarOptionsName.LOAD_REPORT.value, variant="primary", id="load-sidebar-button", classes="sidebar-option")
 
     def toggle(self) -> None:
         """Show/Hide Sidebar."""

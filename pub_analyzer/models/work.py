@@ -34,7 +34,7 @@ class Location(BaseModel):
     license: str | None
     pdf_url: str | None
     version: WorkDrivenVersion | None
-    source: DehydratedSource  | None = None
+    source: DehydratedSource | None = None
 
 
 class OpenAccessStatus(str, Enum):
@@ -105,20 +105,20 @@ class Work(BaseModel):
     apc_paid: ArticleProcessingCharge | None = None
     """APC actually paid by authors."""
 
-    @field_validator('locations', mode='before')
+    @field_validator("locations", mode="before")
     def valid_locations(cls, locations: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Skip locations that do not contain enough data."""
-        return [location for location in locations if location['landing_page_url'] is not None]
+        return [location for location in locations if location["landing_page_url"] is not None]
 
-    @field_validator('primary_location', 'best_oa_location', mode='before')
+    @field_validator("primary_location", "best_oa_location", mode="before")
     def valid_location(cls, location: dict[str, Any]) -> dict[str, Any] | None:
         """Skip location that do not contain enough data."""
-        if location and location['landing_page_url'] is None:
+        if location and location["landing_page_url"] is None:
             return None
         else:
             return location
 
-    @field_validator('authorships', mode='before')
+    @field_validator("authorships", mode="before")
     def valid_authorships(cls, authorships: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Skip authorships that do not contain enough data."""
-        return [authorship for authorship in authorships if authorship['author'].get("id") is not None]
+        return [authorship for authorship in authorships if authorship["author"].get("id") is not None]

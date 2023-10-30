@@ -22,7 +22,7 @@ INSTITUTION: dict[str, Any] = {
         "mag": "916541031",
         "grid": "grid.412887.0",
         "wikipedia": "https://en.wikipedia.org/wiki/University%20of%20Colima",
-        "wikidata": "https://www.wikidata.org/wiki/Q2495731"
+        "wikidata": "https://www.wikidata.org/wiki/Q2495731",
     },
     "display_name": DISPLAY_NAME,
     "country_code": "MX",
@@ -31,27 +31,11 @@ INSTITUTION: dict[str, Any] = {
     "works_count": 5347,
     "cited_by_count": 40292,
     "counts_by_year": [
-        {
-            "year": 2023,
-            "works_count": 188,
-            "cited_by_count": 3525
-        },
-        {
-            "year": 2022,
-            "works_count": 341,
-            "cited_by_count": 5876
-        },
-        {
-            "year": 2021,
-            "works_count": 354,
-            "cited_by_count": 5267
-        }
+        {"year": 2023, "works_count": 188, "cited_by_count": 3525},
+        {"year": 2022, "works_count": 341, "cited_by_count": 5876},
+        {"year": 2021, "works_count": 354, "cited_by_count": 5267},
     ],
-    "summary_stats": {
-        "2yr_mean_citedness": 2.366178428761651,
-        "h_index": 78,
-        "i10_index": 959
-    },
+    "summary_stats": {"2yr_mean_citedness": 2.366178428761651, "h_index": 78, "i10_index": 959},
     "geo": {
         "city": "Colima",
         "geonames_city_id": "4013516",
@@ -59,26 +43,14 @@ INSTITUTION: dict[str, Any] = {
         "country_code": "MX",
         "country": "Mexico",
         "latitude": 19.265818,
-        "longitude": -103.74164
+        "longitude": -103.74164,
     },
     "roles": [
-        {
-            "role": "publisher",
-            "id": "https://openalex.org/P4310319647",
-            "works_count": 1164
-        },
-        {
-            "role": "institution",
-            "id": "https://openalex.org/I916541031",
-            "works_count": 5347
-        },
-        {
-            "role": "funder",
-            "id": "https://openalex.org/F4320318845",
-            "works_count": 3
-        }
+        {"role": "publisher", "id": "https://openalex.org/P4310319647", "works_count": 1164},
+        {"role": "institution", "id": "https://openalex.org/I916541031", "works_count": 5347},
+        {"role": "funder", "id": "https://openalex.org/F4320318845", "works_count": 3},
     ],
-    "works_api_url": "https://api.openalex.org/works?filter=institutions.id:I916541031"
+    "works_api_url": "https://api.openalex.org/works?filter=institutions.id:I916541031",
 }
 
 INSTITUTION_RESULT: dict[str, Any] = {
@@ -88,7 +60,7 @@ INSTITUTION_RESULT: dict[str, Any] = {
     "cited_by_count": 40292,
     "works_count": 5347,
     "entity_type": "institution",
-    "external_id": "https://ror.org/04znxe670"
+    "external_id": "https://ror.org/04znxe670",
 }
 
 DEHYDRATED_INSTITUTION: dict[str, Any] = {
@@ -96,7 +68,7 @@ DEHYDRATED_INSTITUTION: dict[str, Any] = {
     "ror": "https://ror.org/04znxe670",
     "display_name": DISPLAY_NAME,
     "country_code": "MX",
-    "type": "education"
+    "type": "education",
 }
 
 

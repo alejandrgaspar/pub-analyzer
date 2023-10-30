@@ -96,11 +96,11 @@ class CreateReportWidget(Static):
             self.query_one(LoadingIndicator).display = False
             status_error = f"HTTP Exception for url: {exc.request.url}. Status code: {exc.response.status_code}"
             self.app.notify(
-                    title="Error making report!",
-                    message=f"The report could not be generated due to a problem with the OpenAlex API. {status_error}",
-                    severity="error",
-                    timeout=20.0
-                )
+                title="Error making report!",
+                message=f"The report could not be generated due to a problem with the OpenAlex API. {status_error}",
+                severity="error",
+                timeout=20.0,
+            )
             return None
 
         container = self.query_one(Container)
@@ -115,9 +115,13 @@ class CreateAuthorReportWidget(CreateReportWidget):
     """Widget Author report wrapper to load data from API."""
 
     def __init__(
-            self, author: Author, pub_from_date: datetime.datetime | None = None, pub_to_date: datetime.datetime | None = None,
-            cited_from_date: datetime.datetime | None = None, cited_to_date: datetime.datetime | None = None
-        ) -> None:
+        self,
+        author: Author,
+        pub_from_date: datetime.datetime | None = None,
+        pub_to_date: datetime.datetime | None = None,
+        cited_from_date: datetime.datetime | None = None,
+        cited_to_date: datetime.datetime | None = None,
+    ) -> None:
         self.author = author
 
         # Author publication date range
@@ -139,8 +143,11 @@ class CreateAuthorReportWidget(CreateReportWidget):
         cited_to_date = ToDate(self.cited_to_date) if self.cited_to_date else None
 
         report = await make_author_report(
-            author=self.author, pub_from_date=pub_from_date, pub_to_date=pub_to_date,
-            cited_from_date=cited_from_date, cited_to_date=cited_to_date
+            author=self.author,
+            pub_from_date=pub_from_date,
+            pub_to_date=pub_to_date,
+            cited_from_date=cited_from_date,
+            cited_to_date=cited_to_date,
         )
         return AuthorReportWidget(report=report)
 
@@ -149,12 +156,16 @@ class CreateInstitutionReportWidget(CreateReportWidget):
     """Widget Institution report wrapper to load data from API."""
 
     def __init__(
-            self, institution: Institution, pub_from_date: datetime.datetime | None = None, pub_to_date: datetime.datetime | None = None,
-            cited_from_date: datetime.datetime | None = None, cited_to_date: datetime.datetime | None = None
-        ) -> None:
+        self,
+        institution: Institution,
+        pub_from_date: datetime.datetime | None = None,
+        pub_to_date: datetime.datetime | None = None,
+        cited_from_date: datetime.datetime | None = None,
+        cited_to_date: datetime.datetime | None = None,
+    ) -> None:
         self.institution = institution
 
-         # Institution publication date range
+        # Institution publication date range
         self.pub_from_date = pub_from_date
         self.pub_to_date = pub_to_date
 
@@ -173,8 +184,11 @@ class CreateInstitutionReportWidget(CreateReportWidget):
         cited_to_date = ToDate(self.cited_to_date) if self.cited_to_date else None
 
         report = await make_institution_report(
-            institution=self.institution, pub_from_date=pub_from_date, pub_to_date=pub_to_date,
-            cited_from_date=cited_from_date, cited_to_date=cited_to_date
+            institution=self.institution,
+            pub_from_date=pub_from_date,
+            pub_to_date=pub_to_date,
+            cited_from_date=cited_from_date,
+            cited_to_date=cited_to_date,
         )
         return InstitutionReportWidget(report=report)
 
@@ -235,11 +249,11 @@ class LoadReportWidget(Static):
                     main_content.update_title(title=institution_report.institution.display_name)
         except ValidationError:
             self.app.notify(
-                    title="Error loading report!",
-                    message="The report does not have the correct structure. This may be because it is an old version or because it is not of the specified type.",  # noqa: E501
-                    severity="error",
-                    timeout=10.0
-                )
+                title="Error loading report!",
+                message="The report does not have the correct structure. This may be because it is an old version or because it is not of the specified type.",  # noqa: E501
+                severity="error",
+                timeout=10.0,
+            )
 
     @on(Select.Changed)
     async def on_select_entity(self, event: Select.Changed) -> None:
@@ -257,7 +271,13 @@ class LoadReportWidget(Static):
         with Horizontal(classes="filesystem-selector-container"):
             entity_options = [(name.title(), endpoint) for name, endpoint in self.EntityType.__members__.items()]
 
-            yield FileSystemSelector(path=pathlib.Path.home(), only_dir=False, extension=[".json",])
+            yield FileSystemSelector(
+                path=pathlib.Path.home(),
+                only_dir=False,
+                extension=[
+                    ".json",
+                ],
+            )
             yield self.EntityTypeSelector(options=entity_options, value=self.entity_handler, allow_blank=False)
 
         with Horizontal(classes="button-container"):

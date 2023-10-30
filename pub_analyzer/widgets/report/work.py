@@ -41,16 +41,16 @@ class CitedByTable(Static):
 
     def compose(self) -> ComposeResult:
         """Compose Table."""
-        citations_table = Table(title='Cited By', expand=True, show_lines=True)
+        citations_table = Table(title="Cited By", expand=True, show_lines=True)
 
         # Define Columns
-        citations_table.add_column('', justify='center', vertical='middle')
-        citations_table.add_column('Title', ratio=3)
-        citations_table.add_column('Type', ratio=2)
-        citations_table.add_column('DOI')
-        citations_table.add_column('Cite Type', justify='center')
-        citations_table.add_column('Publication Date')
-        citations_table.add_column('Cited by count')
+        citations_table.add_column("", justify="center", vertical="middle")
+        citations_table.add_column("Title", ratio=3)
+        citations_table.add_column("Type", ratio=2)
+        citations_table.add_column("DOI")
+        citations_table.add_column("Cite Type", justify="center")
+        citations_table.add_column("Publication Date")
+        citations_table.add_column("Cited by count")
 
         # Yield Rows
         for idx, cited_by_work in enumerate(self.citations_list):
@@ -66,15 +66,15 @@ class CitedByTable(Static):
 
             citations_table.add_row(
                 str(idx),
-                Text.from_markup(title, overflow='ellipsis'),
+                Text.from_markup(title, overflow="ellipsis"),
                 work.type,
-                Text.from_markup(doi_url, overflow='ellipsis'),
+                Text.from_markup(doi_url, overflow="ellipsis"),
                 citation_type,
                 work.publication_date,
-                str(work.cited_by_count)
+                str(work.cited_by_count),
             )
 
-        yield Static(citations_table, classes='citations-table')
+        yield Static(citations_table, classes="citations-table")
 
 
 class WorkModal(Modal[None]):
@@ -88,16 +88,16 @@ class WorkModal(Modal[None]):
     @on(events.Key)
     def exit_modal(self, message: events.Key) -> None:
         """Exit from the modal with esc KEY."""
-        if message.key == 'escape':
+        if message.key == "escape":
             self.app.pop_screen()
 
     def compose(self) -> ComposeResult:
         """Compose metrics and Cited by Table."""
-        with VerticalScroll(id='dialog'):
-            yield Label(self.work_report.work.title, classes='dialog-title')
+        with VerticalScroll(id="dialog"):
+            yield Label(self.work_report.work.title, classes="dialog-title")
 
             # Cards
-            with Horizontal(classes='cards-container'):
+            with Horizontal(classes="cards-container"):
                 # Authorships
                 yield AuthorshipCard(work=self.work_report.work, author=self.author)
 
@@ -165,12 +165,12 @@ class WorksTable(Static):
             title = "Works"
 
         work_table = Table(title=title, expand=True, show_lines=True)
-        work_table.add_column('', justify='center', vertical='middle')
-        work_table.add_column('Title', ratio=3)
-        work_table.add_column('Type', ratio=2)
-        work_table.add_column('DOI')
-        work_table.add_column('Publication Date')
-        work_table.add_column('Cited by count')
+        work_table.add_column("", justify="center", vertical="middle")
+        work_table.add_column("Title", ratio=3)
+        work_table.add_column("Type", ratio=2)
+        work_table.add_column("DOI")
+        work_table.add_column("Publication Date")
+        work_table.add_column("Cited by count")
 
         for idx, work_report in enumerate(self.report.works):
             work = work_report.work
@@ -179,11 +179,11 @@ class WorksTable(Static):
 
             work_table.add_row(
                 str(f"""[@click=open_work_details({idx})]{idx}[/]"""),
-                Text(work.title, overflow='ellipsis'),
+                Text(work.title, overflow="ellipsis"),
                 Text(work.type),
-                Text.from_markup(doi_url, overflow='ellipsis'),
+                Text.from_markup(doi_url, overflow="ellipsis"),
                 Text(work.publication_date),
-                str(len(work_report.cited_by))
+                str(len(work_report.cited_by)),
             )
 
         yield self._WorksTableRenderer(work_table, report=self.report)

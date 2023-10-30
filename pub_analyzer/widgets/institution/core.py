@@ -30,7 +30,7 @@ class _InstitutionResumeWidget(Static):
 
         # Compose Cards
         with Vertical(classes="block-container"):
-            yield Label('[bold]Institution info:[/bold]', classes="block-title")
+            yield Label("[bold]Institution info:[/bold]", classes="block-title")
 
             with Horizontal(classes="cards-container"):
                 yield RolesCard(institution=self.institution)
@@ -39,11 +39,11 @@ class _InstitutionResumeWidget(Static):
 
         # Work realeted info
         with Vertical(classes="block-container"):
-            yield Label('[bold]Work Info:[/bold]', classes="block-title")
+            yield Label("[bold]Work Info:[/bold]", classes="block-title")
 
             with Horizontal(classes="info-container"):
-                yield Label(f'[bold]Cited by count:[/bold] {self.institution.cited_by_count}')
-                yield Label(f'[bold]Works count:[/bold] {self.institution.works_count}')
+                yield Label(f"[bold]Cited by count:[/bold] {self.institution.cited_by_count}")
+                yield Label(f"[bold]Works count:[/bold] {self.institution.works_count}")
 
         # Count by year table section
         with Container(classes="table-container"):
@@ -51,7 +51,7 @@ class _InstitutionResumeWidget(Static):
 
         # Make report section
         with Vertical(classes="block-container", disabled=is_report_not_available):
-            yield Label('[bold]Make report:[/bold]', classes="block-title")
+            yield Label("[bold]Make report:[/bold]", classes="block-title")
 
             # Filters
             with Collapsible(title="Report filters.", classes="filter-collapsible"):
@@ -111,10 +111,10 @@ class InstitutionResumeWidget(VerticalScroll):
         cited_date_range = self.query_one("#cited-date-range-filter", DateRangeFilter)
 
         if not pub_date_range.filter_disabled:
-            filters.update({"pub_from_date": pub_date_range.from_date, "pub_to_date":pub_date_range.to_date})
+            filters.update({"pub_from_date": pub_date_range.from_date, "pub_to_date": pub_date_range.to_date})
 
         if not cited_date_range.filter_disabled:
-            filters.update({"cited_from_date": cited_date_range.from_date, "cited_to_date":cited_date_range.to_date})
+            filters.update({"cited_from_date": cited_date_range.from_date, "cited_to_date": cited_date_range.to_date})
 
         report_widget = CreateInstitutionReportWidget(institution=self.institution, **filters)
         await self.app.query_one("MainContent").mount(report_widget)

@@ -23,14 +23,16 @@ from pub_analyzer.models.report import (
 )
 from pub_analyzer.models.work import Authorship, Work
 
-FromDate = NewType('FromDate', datetime.datetime)
+FromDate = NewType("FromDate", datetime.datetime)
 """DateTime marker for works published from this date."""
 
-ToDate = NewType('ToDate', datetime.datetime)
+ToDate = NewType("ToDate", datetime.datetime)
 """DateTime marker for works published up to this date."""
 
 
-def _get_author_profiles_keys(author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None) -> list[AuthorOpenAlexKey]:  # noqa: E501
+def _get_author_profiles_keys(
+    author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None
+) -> list[AuthorOpenAlexKey]:
     """Create a list of profiles IDs joining main author profile and extra author profiles.
 
     Args:
@@ -46,9 +48,10 @@ def _get_author_profiles_keys(author: Author, extra_profiles: list[Author | Auth
     else:
         return [identifier.get_author_id(author)]
 
+
 def _get_institution_keys(
-        institution: Institution, extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None
-    ) -> list[InstitutionOpenAlexKey]:
+    institution: Institution, extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None
+) -> list[InstitutionOpenAlexKey]:
     """Create a list of profiles IDs joining main institution profile and extra institution profiles.
 
     Args:
@@ -134,7 +137,7 @@ def _get_valid_works(works: list[dict[str, Any]]) -> list[dict[str, Any]]:
         In response, we have chosen to exclude such works at this stage, thus avoiding
         the need to handle exceptions within the Model validators.
     """
-    return [_add_work_abstract(work) for work in works if work['title'] is not None]
+    return [_add_work_abstract(work) for work in works if work["title"] is not None]
 
 
 async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
@@ -159,7 +162,7 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     meta_info = json_response["meta"]
     page_count = math.ceil(meta_info["count"] / meta_info["per_page"])
 
-    works_data = list(_get_valid_works(json_response["results"]),)
+    works_data = list(_get_valid_works(json_response["results"]))
 
     for page_number in range(1, page_count):
         page_result = (await client.get(url + f"&page={page_number + 1}")).json()
@@ -169,10 +172,13 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
 
 
 async def make_author_report(
-        author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None = None,
-        pub_from_date: FromDate | None = None, pub_to_date: ToDate | None = None,
-        cited_from_date: FromDate | None = None, cited_to_date: ToDate | None = None
-    ) -> AuthorReport:
+    author: Author,
+    extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None = None,
+    pub_from_date: FromDate | None = None,
+    pub_to_date: ToDate | None = None,
+    cited_from_date: FromDate | None = None,
+    cited_to_date: ToDate | None = None,
+) -> AuthorReport:
     """Make a scientific production report by Author.
 
     Args:
@@ -196,7 +202,9 @@ async def make_author_report(
 
     pub_from_filter = f",from_publication_date:{pub_from_date:%Y-%m-%d}" if pub_from_date else ""
     pub_to_filter = f",to_publication_date:{pub_to_date:%Y-%m-%d}" if pub_to_date else ""
-    url = f"https://api.openalex.org/works?filter=author.id:{profiles_query_parameter}{pub_from_filter}{pub_to_filter}&sort=publication_date"
+    url = (
+        f"https://api.openalex.org/works?filter=author.id:{profiles_query_parameter}{pub_from_filter}{pub_to_filter}&sort=publication_date"
+    )
 
     async with httpx.AsyncClient() as client:
         # Getting all the author works.
@@ -217,7 +225,9 @@ async def make_author_report(
         for author_work in author_works:
             work_id = identifier.get_work_id(author_work)
             work_authors = _get_authors_list(authorships=author_work.authorships)
-            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
+            cited_by_api_url = (
+                f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
+            )
 
             # Adding the type of OpenAccess in the counter.
             open_access_resume.add_oa_type(author_work.open_access.oa_status)
@@ -255,15 +265,18 @@ async def make_author_report(
         citation_resume=report_citation_resume,
         open_access_resume=open_access_resume,
         works_type_resume=works_type_counter,
-        sources_resume=sources_resume
+        sources_resume=sources_resume,
     )
 
 
 async def make_institution_report(
-        institution: Institution, extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None = None,
-        pub_from_date: FromDate | None = None, pub_to_date: ToDate | None = None,
-        cited_from_date: FromDate | None = None, cited_to_date: ToDate | None = None
-    ) -> InstitutionReport:
+    institution: Institution,
+    extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None = None,
+    pub_from_date: FromDate | None = None,
+    pub_to_date: ToDate | None = None,
+    cited_from_date: FromDate | None = None,
+    cited_to_date: ToDate | None = None,
+) -> InstitutionReport:
     """Make a scientific production report by Institution.
 
     Args:
@@ -308,7 +321,9 @@ async def make_institution_report(
         for institution_work in institution_works:
             work_id = identifier.get_work_id(institution_work)
             work_authors = _get_authors_list(authorships=institution_work.authorships)
-            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
+            cited_by_api_url = (
+                f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
+            )
 
             # Adding the type of OpenAccess in the counter.
             open_access_resume.add_oa_type(institution_work.open_access.oa_status)
@@ -346,5 +361,5 @@ async def make_institution_report(
         citation_resume=report_citation_resume,
         open_access_resume=open_access_resume,
         works_type_resume=works_type_counter,
-        sources_resume=sources_resume
+        sources_resume=sources_resume,
     )

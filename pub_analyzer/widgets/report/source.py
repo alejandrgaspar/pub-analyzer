@@ -28,19 +28,21 @@ class SourcesTable(Static):
 
     def compose(self) -> ComposeResult:
         """Compose Table."""
-        sources_table = Table(title='Sources', expand=True, show_lines=True)
+        sources_table = Table(title="Sources", expand=True, show_lines=True)
 
         # Define Columns
-        sources_table.add_column('', justify='center', vertical='middle')
-        sources_table.add_column('Name', ratio=3)
-        sources_table.add_column('Publisher or institution', ratio=2)
-        sources_table.add_column('Type')
-        sources_table.add_column('ISSN-L')
-        sources_table.add_column('Is Open Access')
+        sources_table.add_column("", justify="center", vertical="middle")
+        sources_table.add_column("Name", ratio=3)
+        sources_table.add_column("Publisher or institution", ratio=2)
+        sources_table.add_column("Type")
+        sources_table.add_column("ISSN-L")
+        sources_table.add_column("Is Open Access")
 
         for idx, source in enumerate(self.sources_list):
             if source.host_organization_name:
-                host_organization = f"""[@click=app.open_link('{quote(str(source.host_organization))}')][u]{source.host_organization_name}[/u][/]"""  # noqa: E501
+                host_organization = (
+                    f"""[@click=app.open_link('{quote(str(source.host_organization))}')][u]{source.host_organization_name}[/u][/]"""
+                )
             else:
                 host_organization = "-"
 
@@ -51,15 +53,14 @@ class SourcesTable(Static):
 
             sources_table.add_row(
                 str(idx),
-                Text.from_markup(title, overflow='ellipsis'),
+                Text.from_markup(title, overflow="ellipsis"),
                 Text.from_markup(host_organization),
                 Text.from_markup(type_source),
                 Text.from_markup(issn_l),
                 Text.from_markup(is_open_access),
             )
 
-        yield Static(sources_table, classes='sources-table')
-
+        yield Static(sources_table, classes="sources-table")
 
 
 class SourcesReportPane(VerticalScroll):

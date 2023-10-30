@@ -3,8 +3,11 @@ run := poetry run
 typecheck:
 	$(run) mypy pub_analyzer tests
 
-format:
+lint:
 	$(run) ruff check pub_analyzer tests
+
+format:
+	$(run) ruff format pub_analyzer tests
 
 dev:
 	$(run) textual run --dev pub_analyzer.main:PubAnalyzerApp

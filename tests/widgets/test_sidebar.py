@@ -34,11 +34,11 @@ async def test_sidebar_toggle() -> None:
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    ['button_id', 'widget_expected'],
+    ["button_id", "widget_expected"],
     [
-        ['#search-sidebar-button', FinderWidget],
-        ['#load-sidebar-button', LoadReportWidget],
-    ]
+        ["#search-sidebar-button", FinderWidget],
+        ["#load-sidebar-button", LoadReportWidget],
+    ],
 )
 async def test_sidebar_menu_options(button_id: str, widget_expected: type[ExpectType]) -> None:
     """Test sidebar options update Main content correctly."""

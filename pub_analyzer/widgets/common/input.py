@@ -38,7 +38,7 @@ class Input(TextualInput):
     @on(Key)
     def exit_focus(self, event: Key) -> None:
         """Unfocus from the input with esc KEY."""
-        if event.key == 'escape':
+        if event.key == "escape":
             self.screen.set_focus(None)
 
 
@@ -56,6 +56,7 @@ class DateSuggester(Suggester):
 
             return f"{year}-{month}-{day}"
         return None
+
 
 class DateInput(Input):
     """Input with Date validation."""
@@ -76,13 +77,20 @@ class DateInput(Input):
         suggester = DateSuggester()
 
         super().__init__(
-            value, placeholder, highlighter, password, suggester=suggester,
-            validators=validators, name=name, id=id, classes=classes, disabled=disabled
+            value,
+            placeholder,
+            highlighter,
+            password,
+            suggester=suggester,
+            validators=validators,
+            name=name,
+            id=id,
+            classes=classes,
+            disabled=disabled,
         )
 
         self.validators.append(
             Regex(
-                regex=r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$",
-                failure_description="Input must be formatted as `yyyy-mm-dd`"
+                regex=r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$", failure_description="Input must be formatted as `yyyy-mm-dd`"
             )
         )

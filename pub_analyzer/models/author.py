@@ -12,6 +12,7 @@ AuthorOpenAlexID: TypeAlias = HttpUrl
 AuthorOpenAlexKey: TypeAlias = str
 """OpenAlex author entity Key with the format `A000000000`"""
 
+
 class AuthorIDs(BaseModel):
     """IDs from an Author."""
 

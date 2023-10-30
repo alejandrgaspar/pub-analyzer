@@ -60,10 +60,7 @@ class PubAnalyzerApp(App[DOMNode]):
         """Take Screenshot."""
         file_path = self.app.save_screenshot()
         self.app.notify(
-            title="Screenshot saved!",
-            message=f"You can see the screenshot at {file_path}",
-            severity="information",
-            timeout=10.0
+            title="Screenshot saved!", message=f"You can see the screenshot at {file_path}", severity="information", timeout=10.0
         )
 
     def action_open_link(self, link: str) -> None:

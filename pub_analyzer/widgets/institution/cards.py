@@ -19,12 +19,12 @@ class CitationMetricsCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        yield Label('[italic]Citation metrics:[/italic]', classes="card-title")
+        yield Label("[italic]Citation metrics:[/italic]", classes="card-title")
 
-        with Vertical(classes='card-container'):
-            yield Label(f'[bold]2-year mean:[/bold] {self.institution.summary_stats.two_yr_mean_citedness:.5f}')
-            yield Label(f'[bold]h-index:[/bold] {self.institution.summary_stats.h_index}')
-            yield Label(f'[bold]i10 index:[/bold] {self.institution.summary_stats.i10_index}')
+        with Vertical(classes="card-container"):
+            yield Label(f"[bold]2-year mean:[/bold] {self.institution.summary_stats.two_yr_mean_citedness:.5f}")
+            yield Label(f"[bold]h-index:[/bold] {self.institution.summary_stats.h_index}")
+            yield Label(f"[bold]i10 index:[/bold] {self.institution.summary_stats.i10_index}")
 
 
 class IdentifiersCard(Card):
@@ -36,7 +36,7 @@ class IdentifiersCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        yield Label('[italic]Identifiers:[/italic]', classes="card-title")
+        yield Label("[italic]Identifiers:[/italic]", classes="card-title")
 
         for platform, platform_url in self.institution.ids.model_dump().items():
             if platform_url:
@@ -55,11 +55,11 @@ class GeoCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        yield Label('[italic]Geo:[/italic]', classes="card-title")
+        yield Label("[italic]Geo:[/italic]", classes="card-title")
 
-        with Vertical(classes='card-container'):
-            yield Label(f'[bold]City:[/bold] {self.institution.geo.city}')
-            yield Label(f'[bold]Country:[/bold] {self.institution.geo.country}')
+        with Vertical(classes="card-container"):
+            yield Label(f"[bold]City:[/bold] {self.institution.geo.city}")
+            yield Label(f"[bold]Country:[/bold] {self.institution.geo.country}")
 
 
 class RolesCard(Card):
@@ -71,10 +71,8 @@ class RolesCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        yield Label('[italic]Works by roles:[/italic]', classes="card-title")
+        yield Label("[italic]Works by roles:[/italic]", classes="card-title")
 
-        with Vertical(classes='card-container'):
+        with Vertical(classes="card-container"):
             for role in self.institution.roles:
-                yield Label(
-                    f"""[@click=app.open_link('{quote(str(role.id))}')]{role.role.value.title()}[/]: {role.works_count}"""
-                )
+                yield Label(f"""[@click=app.open_link('{quote(str(role.id))}')]{role.role.value.title()}[/]: {role.works_count}""")

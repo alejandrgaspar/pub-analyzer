@@ -62,5 +62,5 @@ class Select(TextualSelect[SelectType]):
     @on(Key)
     def exit_focus(self, event: Key) -> None:
         """Unfocus from the input with esc KEY."""
-        if event.key == 'escape':
+        if event.key == "escape":
             self.screen.set_focus(None)

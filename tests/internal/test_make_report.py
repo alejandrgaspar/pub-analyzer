@@ -20,33 +20,35 @@ class ExpectedReportData(BaseModel):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-        ['author_openalex_id', 'expected_report'],
+    ["author_openalex_id", "expected_report"],
+    [
         [
-            [
-                "A5015201707",
-                ExpectedReportData(
-                    citation_resume = CitationResume(type_a_count=5, type_b_count=1),
-                    open_access_resume = OpenAccessResume(gold=1, green=1, hybrid=0, bronze=0, closed=13),
-                    works_type_resume=[WorkTypeCounter(type_name="article", count=15),],
-                )
-            ],
-            [
-                "A5088021854",
-                ExpectedReportData(
-                    citation_resume = CitationResume(type_a_count=3, type_b_count=1),
-                    open_access_resume = OpenAccessResume(gold=4, green=0, hybrid=1, bronze=0, closed=7),
-                    works_type_resume=[WorkTypeCounter(type_name="article", count=11), WorkTypeCounter(type_name="book-chapter", count=1)],
-                )
-            ],
-            [
-                "A5058237853",
-                ExpectedReportData(
-                    citation_resume = CitationResume(type_a_count=3, type_b_count=0),
-                    open_access_resume = OpenAccessResume(gold=0, green=0, hybrid=1, bronze=1, closed=0),
-                    works_type_resume=[WorkTypeCounter(type_name="article", count=1), WorkTypeCounter(type_name="book-chapter", count=1)],
-                )
-            ],
+            "A5015201707",
+            ExpectedReportData(
+                citation_resume=CitationResume(type_a_count=5, type_b_count=1),
+                open_access_resume=OpenAccessResume(gold=1, green=1, hybrid=0, bronze=0, closed=13),
+                works_type_resume=[
+                    WorkTypeCounter(type_name="article", count=15),
+                ],
+            ),
         ],
+        [
+            "A5088021854",
+            ExpectedReportData(
+                citation_resume=CitationResume(type_a_count=3, type_b_count=1),
+                open_access_resume=OpenAccessResume(gold=4, green=0, hybrid=1, bronze=0, closed=7),
+                works_type_resume=[WorkTypeCounter(type_name="article", count=11), WorkTypeCounter(type_name="book-chapter", count=1)],
+            ),
+        ],
+        [
+            "A5058237853",
+            ExpectedReportData(
+                citation_resume=CitationResume(type_a_count=3, type_b_count=0),
+                open_access_resume=OpenAccessResume(gold=0, green=0, hybrid=1, bronze=1, closed=0),
+                works_type_resume=[WorkTypeCounter(type_name="article", count=1), WorkTypeCounter(type_name="book-chapter", count=1)],
+            ),
+        ],
+    ],
 )
 @pytest.mark.vcr
 async def test_make_author_report(author_openalex_id: str, expected_report: ExpectedReportData) -> None:
@@ -61,8 +63,13 @@ async def test_make_author_report(author_openalex_id: str, expected_report: Expe
     # Assert report resumes are correct
     assert report.citation_resume.model_dump() == expected_report.citation_resume.model_dump()
     assert report.open_access_resume.model_dump() == expected_report.open_access_resume.model_dump()
-    assert [work_type.model_dump() for work_type in report.works_type_resume] == [work_type.model_dump() for work_type in expected_report.works_type_resume]  # noqa: E501
+    assert [work_type.model_dump() for work_type in report.works_type_resume] == [
+        work_type.model_dump() for work_type in expected_report.works_type_resume
+    ]
 
     # Assert resume counts are equal to number of works
-    assert sum([len(work.cited_by) for work in report.works]) == expected_report.citation_resume.type_a_count + expected_report.citation_resume.type_b_count  # noqa: E501
+    assert (
+        sum([len(work.cited_by) for work in report.works])
+        == expected_report.citation_resume.type_a_count + expected_report.citation_resume.type_b_count
+    )
     assert sum([len(report.works)]) == sum(expected_report.open_access_resume.model_dump().values())
