@@ -91,6 +91,7 @@ class DateInput(Input):
 
         self.validators.append(
             Regex(
-                regex=r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$", failure_description="Input must be formatted as `yyyy-mm-dd`"
+                regex=r"^(?P<year>\d{4})-((?P<longMonth>(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|(?P<shortMonth>(0[469]|11)-(0[1-9]|[12][0-9]|30))|(?P<februaryMonth>(02)-([01][1-9]|[2][0-8])))$",
+                failure_description="Input must be formatted as `yyyy-mm-dd`",
             )
         )
