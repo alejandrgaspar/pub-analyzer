@@ -49,11 +49,11 @@ jinja2 = "3.1.2"
 [tool.poetry.group.dev.dependencies]
 textual-dev = "1.2.1"
 
-pre-commit = "3.4.0"
-mypy = "1.5.1"
-ruff = "0.0.287"
+pre-commit = "3.5.0"
+mypy = "1.6.1"
+ruff = "0.1.3"
 
-pytest = "7.4.2"
+pytest = "7.4.3"
 pytest-asyncio = "0.21.1"
 respx = "0.20.2"
 vcrpy = "5.1.0"
