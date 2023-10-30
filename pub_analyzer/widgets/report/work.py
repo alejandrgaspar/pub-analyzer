@@ -183,7 +183,7 @@ class WorksTable(Static):
                 Text(work.type),
                 Text.from_markup(doi_url, overflow='ellipsis'),
                 Text(work.publication_date),
-                str(work.cited_by_count)
+                str(len(work_report.cited_by))
             )
 
         yield self._WorksTableRenderer(work_table, report=self.report)

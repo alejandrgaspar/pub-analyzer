@@ -38,3 +38,7 @@ Footer > .footer--key {
 LoadingIndicator {
     color: $primary-color-accent;
 }
+
+LoadingIndicator.-overlay {
+    background: transparent;
+}

@@ -46,12 +46,16 @@ InstitutionResumeWidget .info-container Label {
 }
 
 /* Filter Container */
-InstitutionResumeWidget .filter-container Input {
-    width: 3fr;
+InstitutionResumeWidget CollapsibleTitle {
+    padding: 0;
 }
 
-InstitutionResumeWidget .filter-container Checkbox {
-    width: 1fr;
+InstitutionResumeWidget .filter-collapsible {
+    margin-top: 1;
+}
+
+InstitutionResumeWidget .filter-collapsible DateRangeFilter {
+    margin-top: 1;
 }
 
 /* Cards */

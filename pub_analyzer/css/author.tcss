@@ -46,12 +46,16 @@ AuthorResumeWidget .info-container Label {
 }
 
 /* Filter Container */
-AuthorResumeWidget .filter-container Input {
-    width: 3fr;
+AuthorResumeWidget CollapsibleTitle {
+    padding: 0;
 }
 
-AuthorResumeWidget .filter-container Checkbox {
-    width: 1fr;
+AuthorResumeWidget .filter-collapsible {
+    margin-top: 1;
+}
+
+AuthorResumeWidget .filter-collapsible DateRangeFilter {
+    margin-top: 1;
 }
 
 /* Cards */

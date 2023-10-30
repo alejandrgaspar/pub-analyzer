@@ -1,9 +1,16 @@
 """Authors models from OpenAlex API Schema definition."""
 
+from typing import TypeAlias
+
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator
 
 from pub_analyzer.models.institution import DehydratedInstitution
 
+AuthorOpenAlexID: TypeAlias = HttpUrl
+"""OpenAlex ID for Author Objects with the format `https://openalex.org/A000000000`"""
+
+AuthorOpenAlexKey: TypeAlias = str
+"""OpenAlex author entity Key with the format `A000000000`"""
 
 class AuthorIDs(BaseModel):
     """IDs from an Author."""
@@ -42,7 +49,7 @@ class AuthorSummaryStats(BaseModel):
 class Author(BaseModel):
     """Author Model Object from OpenAlex API definition."""
 
-    id: HttpUrl
+    id: AuthorOpenAlexID
     ids: AuthorIDs
     orcid: str | None = ""
 
@@ -63,7 +70,7 @@ class Author(BaseModel):
 class DehydratedAuthor(BaseModel):
     """Stripped-down Author Model."""
 
-    id: HttpUrl
+    id: AuthorOpenAlexID
     display_name: str | None = None
     orcid: HttpUrl | None = None
 
@@ -71,7 +78,7 @@ class DehydratedAuthor(BaseModel):
 class AuthorResult(BaseModel):
     """Author result Model resulting from a search in OpenAlex."""
 
-    id: HttpUrl
+    id: AuthorOpenAlexID
     display_name: str
     hint: str | None = ""
     cited_by_count: int
