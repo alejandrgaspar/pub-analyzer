@@ -64,7 +64,7 @@ mkdocs = "1.5.3"
 mkdocs-material = "9.4.7"
 
 mkdocstrings = {extras = ["python"], version = "0.23.0"}
-mkdocstrings-python = "1.7.3"
+mkdocstrings-python = "1.7.4"
 
 [tool.mypy]
 strict = true
