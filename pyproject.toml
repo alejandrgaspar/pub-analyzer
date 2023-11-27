@@ -62,10 +62,10 @@ pytest-recording = "0.13.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "1.5.3"
-mkdocs-material = "9.4.8"
+mkdocs-material = "9.4.14"
 
-mkdocstrings = {extras = ["python"], version = "0.23.0"}
-mkdocstrings-python = "1.7.4"
+mkdocstrings = {extras = ["python"], version = "0.24.0"}
+mkdocstrings-python = "1.7.5"
 
 [tool.mypy]
 strict = true
