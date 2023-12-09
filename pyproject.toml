@@ -39,11 +39,11 @@ pub-analyzer = "pub_analyzer.main:run"
 [tool.poetry.dependencies]
 python = "^3.10"
 
-textual = "0.41.0"
-httpx = "0.25.1"
-pydantic = "2.5.0"
+textual = "0.44.1"
+httpx = "0.25.2"
+pydantic = "2.5.2"
 
-typst = "0.8.0"
+typst = "0.10.0"
 jinja2 = "3.1.2"
 
 [tool.poetry.group.dev.dependencies]
