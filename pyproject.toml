@@ -50,7 +50,7 @@ jinja2 = "3.1.2"
 textual-dev = "1.2.1"
 aiohttp = "3.9.1"
 
-pre-commit = "3.5.0"
+pre-commit = "3.6.0"
 mypy = "1.7.1"
 ruff = "0.1.7"
 
@@ -58,7 +58,7 @@ pytest = "7.4.3"
 pytest-asyncio = "0.23.2"
 respx = "0.20.2"
 vcrpy = "5.1.0"
-pytest-recording = "0.13.0"
+pytest-recording = "0.13.1"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "1.5.3"
