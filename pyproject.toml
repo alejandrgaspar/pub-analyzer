@@ -39,7 +39,7 @@ pub-analyzer = "pub_analyzer.main:run"
 [tool.poetry.dependencies]
 python = "^3.10"
 
-textual = "0.44.1"
+textual = "0.46.0"
 httpx = "0.25.2"
 pydantic = "2.5.2"
 
