@@ -46,6 +46,11 @@ jobs:
           source $VENV
           ruff check pub_analyzer tests
           mypy pub_analyzer tests
+      # Run Formatter
+      - name: Run format
+        run: |
+          source $VENV
+          ruff format --check pub_analyzer tests
       # Run test suite
       - name: Run tests
         run: |
