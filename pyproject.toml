@@ -40,7 +40,7 @@ pub-analyzer = "pub_analyzer.main:run"
 python = "^3.10"
 
 textual = "0.46.0"
-httpx = "0.25.2"
+httpx = "0.26.0"
 pydantic = "2.5.2"
 
 typst = "0.10.0"
