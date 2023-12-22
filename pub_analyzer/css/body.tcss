@@ -48,6 +48,10 @@ SideBar .sidebar-option {
     width: 100%;
 }
 
+SideBar Button {
+    text-align: start;
+}
+
 /* Main Content CSS */
 MainContent {
     background: $bg-main-color;

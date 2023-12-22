@@ -79,4 +79,5 @@ AuthorResumeWidget .table-container {
 /* Buttons */
 AuthorResumeWidget .button-container {
     align: center middle;
+    height: 5;
 }

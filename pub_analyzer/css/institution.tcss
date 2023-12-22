@@ -79,4 +79,5 @@ InstitutionResumeWidget .table-container {
 /* Buttons */
 InstitutionResumeWidget .button-container {
     align: center middle;
+    height: 5;
 }

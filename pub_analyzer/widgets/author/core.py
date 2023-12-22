@@ -62,7 +62,7 @@ class _AuthorResumeWidget(Static):
                 yield DateRangeFilter(checkbox_label="Cited date range:", id="cited-date-range-filter")
 
             # Button
-            with Vertical(classes="block-container button-container"):
+            with Vertical(classes="button-container"):
                 yield Button("Make Report", variant="primary", id="make-report-button")
 
 

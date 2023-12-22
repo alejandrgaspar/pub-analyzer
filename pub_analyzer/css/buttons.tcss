@@ -3,10 +3,6 @@ $primary-color: #b91c1c;
 $primary-color-accent: #991b1b;
 $primary-color-highlight: #dc2626;
 
-Button {
-    text-align: start;
-}
-
 /* Primary variant */
 Button.-primary {
     background: $primary-color;
