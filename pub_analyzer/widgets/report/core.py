@@ -3,12 +3,15 @@
 import datetime
 import pathlib
 from enum import Enum
+from typing import ClassVar
 
 import httpx
 from pydantic import TypeAdapter, ValidationError
 from textual import on
 from textual.app import ComposeResult
+from textual.binding import Binding, BindingType
 from textual.containers import Container, Horizontal
+from textual.reactive import reactive
 from textual.widget import Widget
 from textual.widgets import Button, LoadingIndicator, Static, TabbedContent, TabPane
 
@@ -27,6 +30,17 @@ from .work import WorkReportPane
 
 class ReportWidget(Static):
     """Base report widget."""
+
+    BINDINGS: ClassVar[list[BindingType]] = [
+        Binding(key="ctrl+y", action="toggle_works", description="Toggle empty works"),
+    ]
+
+    show_empty_works: reactive[bool] = reactive(True)
+
+    async def action_toggle_works(self) -> None:
+        """Toggle show empty works attribute."""
+        self.show_empty_works = not self.show_empty_works
+        await self.query_one(WorkReportPane).toggle_empty_works()
 
 
 class AuthorReportWidget(ReportWidget):

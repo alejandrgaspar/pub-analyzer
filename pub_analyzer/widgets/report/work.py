@@ -136,8 +136,9 @@ class WorksTable(Static):
     }
     """
 
-    def __init__(self, report: AuthorReport | InstitutionReport) -> None:
+    def __init__(self, report: AuthorReport | InstitutionReport, show_empty_works: bool = True) -> None:
         self.report = report
+        self.show_empty_works = show_empty_works
         super().__init__()
 
     class _WorksTableRenderer(Static):
@@ -174,6 +175,9 @@ class WorksTable(Static):
 
         for idx, work_report in enumerate(self.report.works):
             work = work_report.work
+            if not self.show_empty_works and len(work_report.cited_by) < 1:
+                continue
+
             doi = work.ids.doi
             doi_url = f"""[@click=app.open_link("{quote(str(doi))}")]DOI[/]""" if doi else "-"
 
@@ -203,6 +207,17 @@ class WorkReportPane(VerticalScroll):
     def __init__(self, report: AuthorReport | InstitutionReport) -> None:
         self.report = report
         super().__init__()
+
+    async def toggle_empty_works(self) -> None:
+        """Hide/show works if cites are cero."""
+        report_works_status: bool = self.app.query_one("ReportWidget").show_empty_works  # type: ignore
+        table_works_status = self.query_one(WorksTable).show_empty_works
+
+        if self.report.works and (report_works_status != table_works_status):
+            self.loading = True
+            await self.query_one(WorksTable).remove()
+            await self.mount(WorksTable(report=self.report, show_empty_works=report_works_status))
+            self.loading = False
 
     def compose(self) -> ComposeResult:
         """Compose content pane."""
