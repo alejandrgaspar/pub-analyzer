@@ -35,9 +35,11 @@ class SideBar(Static):
         """Show/Hide Sidebar."""
         if self.has_class("-hidden"):
             self.remove_class("-hidden")
+            self.styles.animate("width", value=0.0, duration=0.5)
         else:
             if self.query("*:focus"):
                 self.screen.set_focus(None)
+            self.styles.animate("width", value=20, duration=0.5)
             self.add_class("-hidden")
 
     async def _replace_main_content(self, new_title: str, new_widget: Widget) -> None:

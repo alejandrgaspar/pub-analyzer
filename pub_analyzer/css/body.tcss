@@ -14,16 +14,11 @@ SideBar {
 
     background: $bg-secondary-color;
     color: $text-primary-color;
-    transition: width 250ms in_out_cubic;
 }
 
 .-dark-mode SideBar {
     background: $bg-secondary-color-darken;
     color: $text-primary-color-darken;
-}
-
-SideBar.-hidden {
-    width: 0;
 }
 
 SideBar .sidebar-options-column {
