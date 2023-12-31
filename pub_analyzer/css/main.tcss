@@ -39,6 +39,6 @@ LoadingIndicator {
     color: $primary-color-accent;
 }
 
-LoadingIndicator.-overlay {
+LoadingIndicator.-textual-loading-indicator {
     background: transparent;
 }
