@@ -72,6 +72,21 @@ class ArticleProcessingCharge(BaseModel):
     value_usd: int | None
 
 
+class Grant(BaseModel):
+    """Grant Model Object from OpenAlex API definition."""
+
+    funder: HttpUrl
+    funder_display_name: str
+    award_id: str | None = None
+
+
+class Keyword(BaseModel):
+    """Keyword extracted from the work's title and confidence score."""
+
+    keyword: str
+    score: float
+
+
 class Work(BaseModel):
     """Work Model Object from OpenAlex API definition."""
 
@@ -96,6 +111,9 @@ class Work(BaseModel):
     """This number comes from the OpenAlex API, represents ALL citations to this work, and may not always be correct.
        To use a verified number that respects the applied filters use [WorkReport][pub_analyzer.models.report.WorkReport].
     """
+
+    grants: list[Grant]
+    keywords: list[Keyword]
 
     referenced_works: list[HttpUrl]
     cited_by_api_url: HttpUrl

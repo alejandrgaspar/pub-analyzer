@@ -50,6 +50,23 @@ WORK: dict[str, Any] = {
             "author": {"id": "https://openalex.org/A4346008987", "display_name": "F. Sherwood Rowland", "orcid": None},
         },
     ],
+    "grants": [
+        {
+            "funder": "https://openalex.org/F4320306076",
+            "funder_display_name": "National Science Foundation",
+            "award_id": "ABI 1661218",
+        },
+        {
+            "funder": "https://openalex.org/F4320306084",
+            "funder_display_name": "U.S. Department of Energy",
+            "award_id": None,
+        },
+    ],
+    "keywords": [
+        {"keyword": "coastal marine ecosystems", "score": 0.5626},
+        {"keyword": "kelp detritus", "score": 0.5403},
+        {"keyword": "secondary production", "score": 0.3469},
+    ],
     "apc_list": {
         "value": 9750,
         "currency": "EUR",

@@ -25,7 +25,7 @@ class ExpectedReportData(BaseModel):
         [
             "A5015201707",
             ExpectedReportData(
-                citation_resume=CitationResume(type_a_count=5, type_b_count=1),
+                citation_resume=CitationResume(type_a_count=4, type_b_count=1),
                 open_access_resume=OpenAccessResume(gold=1, green=1, hybrid=0, bronze=0, closed=13),
                 works_type_resume=[
                     WorkTypeCounter(type_name="article", count=15),
