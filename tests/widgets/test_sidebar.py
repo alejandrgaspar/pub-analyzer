@@ -25,10 +25,12 @@ async def test_sidebar_toggle() -> None:
 
         # When pressing ctrl+s the sidebar is hidden
         await pilot.press("ctrl+s")
+        await pilot.wait_for_animation()
         assert sidebar.content_size.width == 0
 
         # Pressing ctrl+s again shows sidebar
         await pilot.press("ctrl+s")
+        await pilot.wait_for_animation()
         assert sidebar.content_size.width != 0
 
 
