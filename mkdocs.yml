@@ -74,6 +74,7 @@ plugins:
           docstring_style: google
           show_root_toc_entry: false
           separate_signature: true
+          show_signature_annotations: true
 
 # Social links
 extra:
@@ -106,6 +107,7 @@ nav:
       - "api/internal/report.md"
     - Models:
       - "api/models/author.md"
+      - "api/models/concept.md"
       - "api/models/institution.md"
       - "api/models/report.md"
       - "api/models/source.md"

@@ -6,6 +6,7 @@ from typing import Any
 from pydantic import BaseModel, HttpUrl, field_validator
 
 from .author import DehydratedAuthor
+from .concept import DehydratedConcept
 from .source import DehydratedSource
 
 
@@ -114,6 +115,7 @@ class Work(BaseModel):
 
     grants: list[Grant]
     keywords: list[Keyword]
+    concepts: list[DehydratedConcept]
 
     referenced_works: list[HttpUrl]
     cited_by_api_url: HttpUrl
