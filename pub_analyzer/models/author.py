@@ -2,7 +2,7 @@
 
 from typing import TypeAlias
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator
+from pydantic import BaseModel, Field, HttpUrl
 
 from pub_analyzer.models.institution import DehydratedInstitution
 
@@ -16,19 +16,11 @@ AuthorOpenAlexKey: TypeAlias = str
 class AuthorIDs(BaseModel):
     """IDs from an Author."""
 
-    openalex: str
-    orcid: str | None = ""
-    scopus: str | None = ""
-    twitter: str | None = ""
-    wikipedia: str | None = ""
-
-    # Allowing a value to be assigned during validation.
-    model_config = ConfigDict(validate_assignment=True)
-
-    @field_validator("scopus", "twitter", "wikipedia")
-    def set_default(cls, value: str) -> str:
-        """Define a default text."""
-        return value or ""
+    openalex: AuthorOpenAlexID
+    orcid: HttpUrl | None = None
+    scopus: HttpUrl | None = None
+    twitter: HttpUrl | None = None
+    wikipedia: HttpUrl | None = None
 
 
 class AuthorYearCount(BaseModel):
@@ -61,6 +53,7 @@ class Author(BaseModel):
     cited_by_count: int
 
     last_known_institution: DehydratedInstitution | None
+    last_known_institutions: list[DehydratedInstitution]
     counts_by_year: list[AuthorYearCount]
 
     summary_stats: AuthorSummaryStats
@@ -81,16 +74,8 @@ class AuthorResult(BaseModel):
 
     id: AuthorOpenAlexID
     display_name: str
-    hint: str | None = ""
+    hint: str | None = None
     cited_by_count: int
     works_count: int
     entity_type: str
-    external_id: str | None = ""
-
-    # Allowing a value to be assigned during validation.
-    model_config = ConfigDict(validate_assignment=True)
-
-    @field_validator("hint", "external_id")
-    def set_default(cls, value: str) -> str:
-        """Define a default text."""
-        return value or ""
+    external_id: str | None = None
