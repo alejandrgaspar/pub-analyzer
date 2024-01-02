@@ -77,6 +77,12 @@ class InstitutionRole(BaseModel):
     works_count: int
 
 
+class International(BaseModel):
+    """The institution's display name in different languages."""
+
+    display_name: dict[str, str]
+
+
 class Institution(BaseModel):
     """Universities and other organizations to which authors claim affiliations."""
 
@@ -87,11 +93,15 @@ class Institution(BaseModel):
     country_code: str
     type: InstitutionType
     homepage_url: HttpUrl | None = None
+    image_url: HttpUrl | None = None
+
+    display_name_acronyms: list[str]
+    international: International
 
     works_count: int
     cited_by_count: int
-    counts_by_year: list[InstitutionYearCount]
     summary_stats: InstitutionSummaryStats
+    counts_by_year: list[InstitutionYearCount]
 
     geo: InstitutionGeo
     roles: list[InstitutionRole]

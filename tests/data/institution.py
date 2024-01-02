@@ -28,6 +28,25 @@ INSTITUTION: dict[str, Any] = {
     "country_code": "MX",
     "type": "education",
     "homepage_url": "http://www.ucol.mx/",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Logo_de_la_Universidad_de_Colima.svg",
+    "display_name_acronyms": [],
+    "international": {
+        "display_name": {
+            "ca": "Universitat de Colima",
+            "cy": "Prifysgol Colima",
+            "de": "Universidad de Colima",
+            "en": "University of Colima",
+            "es": "Universidad de Colima",
+            "fr": "université de Colima",
+            "ga": "Ollscoil Colima",
+            "it": "Università de Colima",
+            "nl": "University of Colima",
+            "zh": "科利马大学",
+            "zh-cn": "科利马大学",
+            "zh-hans": "科利马大学",
+            "zh-hant": "科利馬大學",
+        }
+    },
     "works_count": 5347,
     "cited_by_count": 40292,
     "counts_by_year": [
@@ -50,6 +69,7 @@ INSTITUTION: dict[str, Any] = {
         {"role": "institution", "id": "https://openalex.org/I916541031", "works_count": 5347},
         {"role": "funder", "id": "https://openalex.org/F4320318845", "works_count": 3},
     ],
+    "repositories": [],
     "works_api_url": "https://api.openalex.org/works?filter=institutions.id:I916541031",
 }
 
