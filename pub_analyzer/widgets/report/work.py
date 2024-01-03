@@ -22,6 +22,7 @@ from pub_analyzer.widgets.report.cards import (
     WorksTypeResumeCard,
 )
 
+from .grants import GrantsTable
 from .locations import LocationsTable
 
 
@@ -120,6 +121,12 @@ class WorkModal(Modal[None]):
                         yield LocationsTable(self.work_report.work.locations)
                     else:
                         yield Label("No sources found.")
+                # Grants Table
+                with TabPane("Grants"):
+                    if len(self.work_report.work.grants):
+                        yield GrantsTable(self.work_report.work.grants)
+                    else:
+                        yield Label("No Grants found.")
                 # Abtract if exists
                 if self.work_report.work.abstract:
                     with TabPane("Abstract"):
