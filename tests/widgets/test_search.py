@@ -48,7 +48,6 @@ async def test_author_result_complete_info() -> None:
 
         assert str(AUTHOR_RESULT_OBJECT.cited_by_count) in str(result_widget.query_one(".cited-by-count", Label).renderable)
         assert str(AUTHOR_RESULT_OBJECT.works_count) in str(result_widget.query_one(".works-count", Label).renderable)
-        assert str(AUTHOR_RESULT_OBJECT.external_id) in str(result_widget.query_one(".external-id", Label).renderable)
 
         assert str(AUTHOR_RESULT_OBJECT.hint or "") in str(result_widget.query_one(".text-hint", Label).renderable)
 

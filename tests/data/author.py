@@ -30,6 +30,15 @@ AUTHOR: dict[str, Any] = {
         "country_code": "US",
         "type": "education",
     },
+    "last_known_institutions": [
+        {
+            "id": "https://openalex.org/I36258959",
+            "ror": "https://ror.org/0168r3w48",
+            "display_name": "University of California, San Diego",
+            "country_code": "US",
+            "type": "education",
+        }
+    ],
     "counts_by_year": [
         {"year": 2023, "works_count": 0, "cited_by_count": 914},
         {"year": 2022, "works_count": 0, "cited_by_count": 1894},
@@ -45,7 +54,7 @@ AUTHOR_RESULT: dict[str, Any] = {
     "cited_by_count": 19275,
     "works_count": 185,
     "entity_type": "author",
-    "external_id": None,
+    "external_id": OPEN_ALEX_ID_URL,
     "filter_key": None,
 }
 
