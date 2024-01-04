@@ -7,4 +7,6 @@ Works are scholarly documents like journal articles, books, datasets, and theses
 
 ::: pub_analyzer.models.work
     options:
-      show_if_no_docstring: true
+        show_if_no_docstring: true
+        show_source: false
+        members_order: source

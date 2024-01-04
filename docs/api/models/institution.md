@@ -7,4 +7,6 @@ Institutions are universities and other organizations to which authors claim aff
 
 ::: pub_analyzer.models.institution
     options:
-      show_if_no_docstring: true
+        show_if_no_docstring: true
+        show_source: false
+        members_order: source
