@@ -22,3 +22,5 @@ with open('demo.pdf', mode="wb") as file:
     Currently, I have not discovered an efficient approach to generate a complete PDF summary for institutions, covering the huge volume of data in the reports. I am open to new ideas and suggestions about it.
 
 ::: pub_analyzer.internal.render
+    options:
+        show_source: false

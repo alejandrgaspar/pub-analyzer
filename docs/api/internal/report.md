@@ -35,4 +35,4 @@ with open("report.json", mode="w", encoding="utf-8") as file:
 
 ::: pub_analyzer.internal.report
     options:
-      filters: []
+        show_source: false

@@ -13,3 +13,5 @@ Hence, the subsequent functions have been devised. They accept entity models as 
     You can deduce the entity's type from the ID itself. This is possible because all keys commence with a letter that corresponds to the entity's type: **W**(ork), **A**(uthor), **S**(ource), **I**(nstitution), **C**(oncept), **P**(ublisher), or **F**(under). Quite convenient, isn't it?
 
 ::: pub_analyzer.internal.identifier
+    options:
+        show_source: false
