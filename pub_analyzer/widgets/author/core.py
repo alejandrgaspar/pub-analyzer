@@ -5,12 +5,13 @@ from typing import Any
 import httpx
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import Container, Horizontal, Vertical, VerticalScroll
+from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Button, Collapsible, Label, Static
 
 from pub_analyzer.internal.identifier import get_author_id
 from pub_analyzer.models.author import Author, AuthorResult
 from pub_analyzer.widgets.common.filters import DateRangeFilter, Filter
+from pub_analyzer.widgets.common.resume import ResumeWidget
 from pub_analyzer.widgets.report.core import CreateAuthorReportWidget
 
 from .cards import CitationMetricsCard, IdentifiersCard, LastInstitutionCard
@@ -66,7 +67,7 @@ class _AuthorResumeWidget(Static):
                 yield Button("Make Report", variant="primary", id="make-report-button")
 
 
-class AuthorResumeWidget(VerticalScroll):
+class AuthorResumeWidget(ResumeWidget):
     """Author info resume container."""
 
     def __init__(self, author_result: AuthorResult) -> None:

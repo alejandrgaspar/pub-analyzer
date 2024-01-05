@@ -1,0 +1,75 @@
+/* COLORS */
+$bg-main-color: white;
+$bg-secondary-color: #e5e7eb;
+$bg-secondary-color-accent: #d1d5db;
+$text-primary-color: black;
+
+$bg-main-color-darken: #1e293b;
+$bg-secondary-color-darken: #0f172a;
+$text-primary-color-darken: black;
+
+ResumeWidget {
+    height: 1fr;
+    margin: 1 2;
+
+    /* Titles */
+    .block-title {
+        text-align: center;
+        width: 100%;
+        border-bottom: solid $text-primary-color;
+    }
+
+    /* Block Container */
+    .block-container {
+        padding: 1;
+        height: auto;
+    }
+
+    /* Cards */
+    .cards-container {
+        height: auto;
+        margin: 1 0 0 0 ;
+
+        layout: grid;
+        grid-size: 3 1;
+        grid-rows: 14;
+        grid-columns: 1fr;
+        grid-gutter: 1 2;
+    }
+
+    /* Info Container */
+    .info-container {
+        height: auto;
+
+        Label {
+            text-align: center;
+            width: 1fr;
+        }
+    }
+
+    /* Table */
+    .table-container {
+        height: auto;
+        margin: 1 0 0 0;
+    }
+
+    /* Filter Container */
+    .filter-collapsible {
+        margin-top: 1;
+
+        DateRangeFilter {
+            margin-top: 1;
+        }
+    }
+
+    /* Buttons */
+    .button-container {
+        align: center middle;
+        height: 5;
+    }
+}
+
+.-dark-mode ResumeWidget {
+    color: $text-primary-color-darken;
+    background: $bg-secondary-color;
+}

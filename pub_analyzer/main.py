@@ -19,15 +19,14 @@ class PubAnalyzerApp(App[DOMNode]):
     """Pub Analyzer App entrypoint."""
 
     CSS_PATH: ClassVar[CSSPathType | None] = [
-        "css/author.tcss",
         "css/body.tcss",
         "css/buttons.tcss",
         "css/checkbox.tcss",
         "css/collapsible.tcss",
         "css/datatable.tcss",
-        "css/institution.tcss",
         "css/main.tcss",
         "css/report.tcss",
+        "css/resume.tcss",
         "css/search.tcss",
         "css/tabs.tcss",
         "css/tree.tcss",
