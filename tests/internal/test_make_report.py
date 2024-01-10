@@ -7,15 +7,15 @@ from pydantic import BaseModel, TypeAdapter
 
 from pub_analyzer.internal.report import make_author_report
 from pub_analyzer.models.author import Author
-from pub_analyzer.models.report import AuthorReport, CitationResume, OpenAccessResume, WorkTypeCounter
+from pub_analyzer.models.report import AuthorReport, CitationSummary, OpenAccessSummary, WorkTypeCounter
 
 
 class ExpectedReportData(BaseModel):
     """Data expected in reports model."""
 
-    citation_resume: CitationResume
-    open_access_resume: OpenAccessResume
-    works_type_resume: list[WorkTypeCounter]
+    citation_summary: CitationSummary
+    open_access_summary: OpenAccessSummary
+    works_type_summary: list[WorkTypeCounter]
 
 
 @pytest.mark.asyncio
@@ -25,9 +25,9 @@ class ExpectedReportData(BaseModel):
         [
             "A5015201707",
             ExpectedReportData(
-                citation_resume=CitationResume(type_a_count=4, type_b_count=1),
-                open_access_resume=OpenAccessResume(gold=1, green=1, hybrid=0, bronze=0, closed=13),
-                works_type_resume=[
+                citation_summary=CitationSummary(type_a_count=4, type_b_count=1),
+                open_access_summary=OpenAccessSummary(gold=1, green=1, hybrid=0, bronze=0, closed=13),
+                works_type_summary=[
                     WorkTypeCounter(type_name="article", count=15),
                 ],
             ),
@@ -35,17 +35,17 @@ class ExpectedReportData(BaseModel):
         [
             "A5088021854",
             ExpectedReportData(
-                citation_resume=CitationResume(type_a_count=3, type_b_count=1),
-                open_access_resume=OpenAccessResume(gold=4, green=0, hybrid=1, bronze=0, closed=7),
-                works_type_resume=[WorkTypeCounter(type_name="article", count=11), WorkTypeCounter(type_name="book-chapter", count=1)],
+                citation_summary=CitationSummary(type_a_count=3, type_b_count=1),
+                open_access_summary=OpenAccessSummary(gold=4, green=0, hybrid=1, bronze=0, closed=7),
+                works_type_summary=[WorkTypeCounter(type_name="article", count=11), WorkTypeCounter(type_name="book-chapter", count=1)],
             ),
         ],
         [
             "A5058237853",
             ExpectedReportData(
-                citation_resume=CitationResume(type_a_count=3, type_b_count=0),
-                open_access_resume=OpenAccessResume(gold=0, green=0, hybrid=1, bronze=1, closed=0),
-                works_type_resume=[WorkTypeCounter(type_name="article", count=1), WorkTypeCounter(type_name="book-chapter", count=1)],
+                citation_summary=CitationSummary(type_a_count=3, type_b_count=0),
+                open_access_summary=OpenAccessSummary(gold=0, green=0, hybrid=1, bronze=1, closed=0),
+                works_type_summary=[WorkTypeCounter(type_name="article", count=1), WorkTypeCounter(type_name="book-chapter", count=1)],
             ),
         ],
     ],
@@ -60,16 +60,16 @@ async def test_make_author_report(author_openalex_id: str, expected_report: Expe
 
     report: AuthorReport = await make_author_report(author=author)
 
-    # Assert report resumes are correct
-    assert report.citation_resume.model_dump() == expected_report.citation_resume.model_dump()
-    assert report.open_access_resume.model_dump() == expected_report.open_access_resume.model_dump()
-    assert [work_type.model_dump() for work_type in report.works_type_resume] == [
-        work_type.model_dump() for work_type in expected_report.works_type_resume
+    # Assert report summary is correct
+    assert report.citation_summary.model_dump() == expected_report.citation_summary.model_dump()
+    assert report.open_access_summary.model_dump() == expected_report.open_access_summary.model_dump()
+    assert [work_type.model_dump() for work_type in report.works_type_summary] == [
+        work_type.model_dump() for work_type in expected_report.works_type_summary
     ]
 
-    # Assert resume counts are equal to number of works
+    # Assert summary counts are equal to number of works
     assert (
         sum([len(work.cited_by) for work in report.works])
-        == expected_report.citation_resume.type_a_count + expected_report.citation_resume.type_b_count
+        == expected_report.citation_summary.type_a_count + expected_report.citation_summary.type_b_count
     )
-    assert sum([len(report.works)]) == sum(expected_report.open_access_resume.model_dump().values())
+    assert sum([len(report.works)]) == sum(expected_report.open_access_summary.model_dump().values())

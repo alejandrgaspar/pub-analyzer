@@ -24,7 +24,7 @@ class CitationReport(BaseModel):
     citation_type: CitationType
 
 
-class CitationResume(BaseModel):
+class CitationSummary(BaseModel):
     """Summary of citation information in all works."""
 
     type_a_count: int = 0
@@ -38,7 +38,7 @@ class CitationResume(BaseModel):
             self.type_b_count += 1
 
 
-class OpenAccessResume(BaseModel):
+class OpenAccessSummary(BaseModel):
     """Open Access Type counter."""
 
     gold: int = 0
@@ -75,10 +75,10 @@ class WorkReport(BaseModel):
     work: Work
     cited_by: list[CitationReport]
 
-    citation_resume: CitationResume
+    citation_summary: CitationSummary
 
 
-class SourcesResume(BaseModel):
+class SourcesSummary(BaseModel):
     """Sources model with stats."""
 
     sources: list[DehydratedSource]
@@ -90,10 +90,10 @@ class AuthorReport(BaseModel):
     author: Author
     works: list[WorkReport]
 
-    citation_resume: CitationResume
-    open_access_resume: OpenAccessResume
-    works_type_resume: list[WorkTypeCounter]
-    sources_resume: SourcesResume
+    citation_summary: CitationSummary
+    open_access_summary: OpenAccessSummary
+    works_type_summary: list[WorkTypeCounter]
+    sources_summary: SourcesSummary
 
 
 class InstitutionReport(BaseModel):
@@ -102,7 +102,7 @@ class InstitutionReport(BaseModel):
     institution: Institution
     works: list[WorkReport]
 
-    citation_resume: CitationResume
-    open_access_resume: OpenAccessResume
-    works_type_resume: list[WorkTypeCounter]
-    sources_resume: SourcesResume
+    citation_summary: CitationSummary
+    open_access_summary: OpenAccessSummary
+    works_type_summary: list[WorkTypeCounter]
+    sources_summary: SourcesSummary

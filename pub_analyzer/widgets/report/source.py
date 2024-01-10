@@ -80,4 +80,4 @@ class SourcesReportPane(VerticalScroll):
 
     def compose(self) -> ComposeResult:
         """Compose content pane."""
-        yield SourcesTable(sources_list=self.report.sources_resume.sources)
+        yield SourcesTable(sources_list=self.report.sources_summary.sources)

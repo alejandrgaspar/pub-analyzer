@@ -9,7 +9,7 @@
   [], [*Name*], [*Publisher or institution*], [*Type*], [*ISSN-L*], [*Is Open Access*],
 
   // Content
-  {% for source in report.sources_resume.sources %}
+  {% for source in report.sources_summary.sources %}
   [{{ loop.index }}],
   [#underline([#link("{{ source.id }}")[#"{{ source.display_name }}"]])],
   [{{ source.host_organization_name or "-" }}],

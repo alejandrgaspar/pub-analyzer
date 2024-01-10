@@ -6,9 +6,9 @@ from textual.widgets import Button, Label
 
 from pub_analyzer.main import PubAnalyzerApp
 from pub_analyzer.widgets import search
-from pub_analyzer.widgets.author.core import AuthorResumeWidget
+from pub_analyzer.widgets.author.core import AuthorSummaryWidget
 from pub_analyzer.widgets.body import MainContent
-from pub_analyzer.widgets.institution.core import InstitutionResumeWidget
+from pub_analyzer.widgets.institution.core import InstitutionSummaryWidget
 from tests.data.author import AUTHOR_RESULT_OBJECT
 from tests.data.institution import INSTITUTION_RESULT_OBJECT
 
@@ -75,7 +75,7 @@ async def test_institution_result_complete_info() -> None:
 
 @pytest.mark.asyncio
 async def test_author_result_button_redirect() -> None:
-    """Test Author result widget button redirect to AuthorResumeWidget."""
+    """Test Author result widget button redirect to AuthorSummaryWidget."""
     async with PubAnalyzerApp().run_test() as pilot:
         # Switch to FinderWidget View and mounting a result.
         await pilot.click("#search-sidebar-button")
@@ -93,12 +93,12 @@ async def test_author_result_button_redirect() -> None:
 
         # Check main content update.
         main_content = pilot.app.query_one(MainContent)
-        main_content.get_child_by_type(AuthorResumeWidget)
+        main_content.get_child_by_type(AuthorSummaryWidget)
 
 
 @pytest.mark.asyncio
 async def test_institution_result_button_redirect() -> None:
-    """Test Institution result widget button redirect to InstitutionResumeWidget."""
+    """Test Institution result widget button redirect to InstitutionSummaryWidget."""
     async with PubAnalyzerApp().run_test() as pilot:
         # Switch to FinderWidget View and mounting a result.
         await pilot.click("#search-sidebar-button")
@@ -116,4 +116,4 @@ async def test_institution_result_button_redirect() -> None:
 
         # Check main content update.
         main_content = pilot.app.query_one(MainContent)
-        main_content.get_child_by_type(InstitutionResumeWidget)
+        main_content.get_child_by_type(InstitutionSummaryWidget)

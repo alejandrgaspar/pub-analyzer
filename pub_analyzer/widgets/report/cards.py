@@ -11,9 +11,8 @@ from pub_analyzer.models.report import AuthorReport, InstitutionReport, WorkRepo
 from pub_analyzer.models.work import Work
 from pub_analyzer.widgets.common import Card
 
+
 # Works pane cards.
-
-
 class ReportCitationMetricsCard(Card):
     """Citation metrics for this report."""
 
@@ -26,8 +25,8 @@ class ReportCitationMetricsCard(Card):
         yield Label("[italic]Citation metrics:[/italic]", classes="card-title")
 
         with Vertical(classes="card-container"):
-            type_a_count = self.report.citation_resume.type_a_count
-            type_b_count = self.report.citation_resume.type_b_count
+            type_a_count = self.report.citation_summary.type_a_count
+            type_b_count = self.report.citation_summary.type_b_count
             cited_by_count = type_a_count + type_b_count
 
             yield Label(f"[bold]Count:[/bold] {cited_by_count}")
@@ -35,8 +34,8 @@ class ReportCitationMetricsCard(Card):
             yield Label(f"[bold]Type B:[/bold] {type_b_count}")
 
 
-class WorksTypeResumeCard(Card):
-    """Works Type Counters Resume Card."""
+class WorksTypeSummaryCard(Card):
+    """Works Type Counters Summary Card."""
 
     def __init__(self, report: AuthorReport | InstitutionReport) -> None:
         self.report = report
@@ -47,11 +46,11 @@ class WorksTypeResumeCard(Card):
         yield Label("[italic]Work Type[/italic]", classes="card-title")
 
         with VerticalScroll(classes="card-container"):
-            for work_type_counter in self.report.works_type_resume:
+            for work_type_counter in self.report.works_type_summary:
                 yield Label(f"[bold]{work_type_counter.type_name}:[/bold] {work_type_counter.count}")
 
 
-class OpenAccessResumeCard(Card):
+class OpenAccessSummaryCard(Card):
     """Open Access counts for this report."""
 
     def __init__(self, report: AuthorReport | InstitutionReport) -> None:
@@ -63,7 +62,7 @@ class OpenAccessResumeCard(Card):
         yield Label("[italic]Open Access[/italic]", classes="card-title")
 
         with VerticalScroll(classes="card-container"):
-            for status, count in self.report.open_access_resume.model_dump().items():
+            for status, count in self.report.open_access_summary.model_dump().items():
                 yield Label(f"[bold]{status}:[/bold] {count}")
 
 
@@ -120,8 +119,8 @@ class CitationMetricsCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        type_a_count = self.work_report.citation_resume.type_a_count
-        type_b_count = self.work_report.citation_resume.type_b_count
+        type_a_count = self.work_report.citation_summary.type_a_count
+        type_b_count = self.work_report.citation_summary.type_b_count
         cited_by_count = type_a_count + type_b_count
 
         yield Label("[italic]Citation[/italic]", classes="card-title")

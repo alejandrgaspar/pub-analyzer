@@ -39,9 +39,9 @@
   [
     #align(center)[_Citation_]
     #parbreak()
-    - *Count:* {{ work.citation_resume.type_a_count + work.citation_resume.type_b_count }}
-    - *Type A:* {{ work.citation_resume.type_a_count }}
-    - *Type B:* {{ work.citation_resume.type_b_count }}
+    - *Count:* {{ work.citation_summary.type_a_count + work.citation_summary.type_b_count }}
+    - *Type A:* {{ work.citation_summary.type_a_count }}
+    - *Type B:* {{ work.citation_summary.type_b_count }}
   ],
 )
 

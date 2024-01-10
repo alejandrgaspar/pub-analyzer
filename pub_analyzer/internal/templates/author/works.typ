@@ -9,14 +9,14 @@
   [
     #align(center)[_Citation metrics_]
     #parbreak()
-    - *Count:* {{ report.citation_resume.type_a_count + report.citation_resume.type_b_count }}
-    - *Type A:* {{ report.citation_resume.type_a_count }}
-    - *Type B:* {{ report.citation_resume.type_b_count }}
+    - *Count:* {{ report.citation_summary.type_a_count + report.citation_summary.type_b_count }}
+    - *Type A:* {{ report.citation_summary.type_a_count }}
+    - *Type B:* {{ report.citation_summary.type_b_count }}
   ],
   [
     #align(center)[_Work Type_]
     #parbreak()
-    {% for work_type in report.works_type_resume %}
+    {% for work_type in report.works_type_summary %}
     - *{{ work_type.type_name }}:* {{ work_type.count }}
     {% endfor %}
   ],
@@ -27,13 +27,13 @@
       columns: (1fr, 1fr),
       column-gutter: 15pt,
       [
-        - *gold:* {{report.open_access_resume.gold}}
-        - *green:* {{report.open_access_resume.green}}
-        - *hybrid:* {{report.open_access_resume.hybrid}}
+        - *gold:* {{report.open_access_summary.gold}}
+        - *green:* {{report.open_access_summary.green}}
+        - *hybrid:* {{report.open_access_summary.hybrid}}
       ],
       [
-        - *bronze:* {{report.open_access_resume.bronze}}
-        - *closed:* {{report.open_access_resume.closed}}
+        - *bronze:* {{report.open_access_summary.bronze}}
+        - *closed:* {{report.open_access_summary.closed}}
       ],
     )
   ],
@@ -56,9 +56,9 @@
   [{{ work.work.type }}],
   [{% if work.work.ids.doi %}#underline([#link("{{ work.work.ids.doi }}")[DOI]]){% else %}-{% endif %}],
   [{{ work.work.publication_date }}],
-  [{{ work.citation_resume.type_a_count + work.citation_resume.type_b_count }}],
-  [{{ work.citation_resume.type_a_count }}],
-  [{{ work.citation_resume.type_b_count }}],
+  [{{ work.citation_summary.type_a_count + work.citation_summary.type_b_count }}],
+  [{{ work.citation_summary.type_a_count }}],
+  [{{ work.citation_summary.type_b_count }}],
   [{{ work.work.open_access.oa_status.value }}],
   {% endfor %}
 )

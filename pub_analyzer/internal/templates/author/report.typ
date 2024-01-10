@@ -44,7 +44,7 @@
   {% endif %}
 )
 
-{% include 'author_resume.typ' %}
+{% include 'author_summary.typ' %}
 
 {% include 'works.typ' %}
 

@@ -8,7 +8,7 @@ $bg-main-color-darken: #1e293b;
 $bg-secondary-color-darken: #0f172a;
 $text-primary-color-darken: black;
 
-ResumeWidget {
+SummaryWidget {
     height: 1fr;
     margin: 1 2;
 
@@ -69,7 +69,7 @@ ResumeWidget {
     }
 }
 
-.-dark-mode ResumeWidget {
+.-dark-mode SummaryWidget {
     color: $text-primary-color-darken;
     background: $bg-secondary-color;
 }

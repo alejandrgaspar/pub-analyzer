@@ -11,15 +11,15 @@ from textual.widgets import Button, Collapsible, Label, Static
 from pub_analyzer.internal.identifier import get_institution_id
 from pub_analyzer.models.institution import Institution, InstitutionResult
 from pub_analyzer.widgets.common.filters import DateRangeFilter, Filter
-from pub_analyzer.widgets.common.resume import ResumeWidget
+from pub_analyzer.widgets.common.summary import SummaryWidget
 from pub_analyzer.widgets.report.core import CreateInstitutionReportWidget
 
 from .cards import CitationMetricsCard, IdentifiersCard, RolesCard
 from .tables import InstitutionWorksByYearTable
 
 
-class _InstitutionResumeWidget(Static):
-    """Institution info resume."""
+class _InstitutionSummaryWidget(Static):
+    """Institution info summary."""
 
     def __init__(self, institution: Institution) -> None:
         self.institution = institution
@@ -67,8 +67,8 @@ class _InstitutionResumeWidget(Static):
                 yield Button("Make Report", variant="primary", id="make-report-button")
 
 
-class InstitutionResumeWidget(ResumeWidget):
-    """Institution info resume container."""
+class InstitutionSummaryWidget(SummaryWidget):
+    """Institution info summary container."""
 
     def __init__(self, institution_result: InstitutionResult) -> None:
         self.institution_result = institution_result
@@ -92,17 +92,17 @@ class InstitutionResumeWidget(ResumeWidget):
     async def load_data(self) -> None:
         """Query OpenAlex API and composing the widget."""
         await self._get_info()
-        await self.mount(_InstitutionResumeWidget(institution=self.institution))
+        await self.mount(_InstitutionSummaryWidget(institution=self.institution))
 
         self.loading = False
 
     @on(Filter.Changed)
     def filter_change(self) -> None:
         """Handle filter changes."""
-        filters = [filter for filter in self.query("_InstitutionResumeWidget Filter").results(Filter) if not filter.filter_disabled]
+        filters = [filter for filter in self.query("_InstitutionSummaryWidget Filter").results(Filter) if not filter.filter_disabled]
         all_filters_valid = all(filter.validation_state for filter in filters)
 
-        self.query_one("_InstitutionResumeWidget #make-report-button", Button).disabled = not all_filters_valid
+        self.query_one("_InstitutionSummaryWidget #make-report-button", Button).disabled = not all_filters_valid
 
     @on(Button.Pressed, "#make-report-button")
     async def make_report(self) -> None:
@@ -119,4 +119,4 @@ class InstitutionResumeWidget(ResumeWidget):
 
         report_widget = CreateInstitutionReportWidget(institution=self.institution, **filters)
         await self.app.query_one("MainContent").mount(report_widget)
-        await self.app.query_one("InstitutionResumeWidget").remove()
+        await self.app.query_one("InstitutionSummaryWidget").remove()

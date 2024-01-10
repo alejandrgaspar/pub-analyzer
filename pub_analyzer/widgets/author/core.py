@@ -11,15 +11,15 @@ from textual.widgets import Button, Collapsible, Label, Static
 from pub_analyzer.internal.identifier import get_author_id
 from pub_analyzer.models.author import Author, AuthorResult
 from pub_analyzer.widgets.common.filters import DateRangeFilter, Filter
-from pub_analyzer.widgets.common.resume import ResumeWidget
+from pub_analyzer.widgets.common.summary import SummaryWidget
 from pub_analyzer.widgets.report.core import CreateAuthorReportWidget
 
 from .cards import CitationMetricsCard, IdentifiersCard, LastInstitutionCard
 from .tables import AuthorWorksByYearTable
 
 
-class _AuthorResumeWidget(Static):
-    """Author info resume."""
+class _AuthorSummaryWidget(Static):
+    """Author info summary."""
 
     def __init__(self, author: Author) -> None:
         self.author = author
@@ -67,8 +67,8 @@ class _AuthorResumeWidget(Static):
                 yield Button("Make Report", variant="primary", id="make-report-button")
 
 
-class AuthorResumeWidget(ResumeWidget):
-    """Author info resume container."""
+class AuthorSummaryWidget(SummaryWidget):
+    """Author info summary container."""
 
     def __init__(self, author_result: AuthorResult) -> None:
         self.author_result = author_result
@@ -92,17 +92,17 @@ class AuthorResumeWidget(ResumeWidget):
     async def load_data(self) -> None:
         """Query OpenAlex API and composing the widget."""
         await self._get_info()
-        await self.mount(_AuthorResumeWidget(author=self.author))
+        await self.mount(_AuthorSummaryWidget(author=self.author))
 
         self.loading = False
 
     @on(Filter.Changed)
     def filter_change(self) -> None:
         """Handle filter changes."""
-        filters = [filter for filter in self.query("_AuthorResumeWidget Filter").results(Filter) if not filter.filter_disabled]
+        filters = [filter for filter in self.query("_AuthorSummaryWidget Filter").results(Filter) if not filter.filter_disabled]
         all_filters_valid = all(filter.validation_state for filter in filters)
 
-        self.query_one("_AuthorResumeWidget #make-report-button", Button).disabled = not all_filters_valid
+        self.query_one("_AuthorSummaryWidget #make-report-button", Button).disabled = not all_filters_valid
 
     @on(Button.Pressed, "#make-report-button")
     async def make_report(self) -> None:
@@ -119,4 +119,4 @@ class AuthorResumeWidget(ResumeWidget):
 
         report_widget = CreateAuthorReportWidget(author=self.author, **filters)
         await self.app.query_one("MainContent").mount(report_widget)
-        await self.app.query_one("AuthorResumeWidget").remove()
+        await self.app.query_one("AuthorSummaryWidget").remove()

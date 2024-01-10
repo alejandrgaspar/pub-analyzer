@@ -17,9 +17,9 @@ from pub_analyzer.widgets.report.cards import (
     AuthorshipCard,
     CitationMetricsCard,
     OpenAccessCard,
-    OpenAccessResumeCard,
+    OpenAccessSummaryCard,
     ReportCitationMetricsCard,
-    WorksTypeResumeCard,
+    WorksTypeSummaryCard,
 )
 
 from .grants import GrantsTable
@@ -230,8 +230,8 @@ class WorkReportPane(VerticalScroll):
         """Compose content pane."""
         with Horizontal(classes="cards-container"):
             yield ReportCitationMetricsCard(report=self.report)
-            yield WorksTypeResumeCard(report=self.report)
-            yield OpenAccessResumeCard(report=self.report)
+            yield WorksTypeSummaryCard(report=self.report)
+            yield OpenAccessSummaryCard(report=self.report)
 
         if self.report.works:
             yield WorksTable(report=self.report)

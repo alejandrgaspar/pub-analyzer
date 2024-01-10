@@ -1,4 +1,4 @@
-// Author Resume
+// Author Summary
 = Author.
 
 // Cards

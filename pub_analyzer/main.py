@@ -26,7 +26,7 @@ class PubAnalyzerApp(App[DOMNode]):
         "css/datatable.tcss",
         "css/main.tcss",
         "css/report.tcss",
-        "css/resume.tcss",
+        "css/summary.tcss",
         "css/search.tcss",
         "css/tabs.tcss",
         "css/tree.tcss",

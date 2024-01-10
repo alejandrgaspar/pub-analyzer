@@ -8,8 +8,8 @@ from textual.widgets import Button, Label, Static
 
 from pub_analyzer.models.author import AuthorResult
 from pub_analyzer.models.institution import InstitutionResult
-from pub_analyzer.widgets.author.core import AuthorResumeWidget
-from pub_analyzer.widgets.institution.core import InstitutionResumeWidget
+from pub_analyzer.widgets.author.core import AuthorSummaryWidget
+from pub_analyzer.widgets.institution.core import InstitutionSummaryWidget
 
 
 class ResultWidget(Static):
@@ -39,14 +39,14 @@ class AuthorResultWidget(ResultWidget):
             yield Label(self.author_result.hint or "", classes="text-hint")
 
     async def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Go to the Author resume page."""
+        """Go to the Author summary page."""
         from pub_analyzer.widgets.body import MainContent
 
-        author_resume_widget = AuthorResumeWidget(author_result=self.author_result)
+        author_summary_widget = AuthorSummaryWidget(author_result=self.author_result)
 
         main_content = self.app.query_one(MainContent)
         main_content.update_title(title=self.author_result.display_name)
-        await main_content.mount(author_resume_widget)
+        await main_content.mount(author_summary_widget)
 
         await self.app.query_one("FinderWidget").remove()
 
@@ -74,13 +74,13 @@ class InstitutionResultWidget(ResultWidget):
             yield Label(self.institution_result.hint or "", classes="text-hint")
 
     async def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Go to the Institution resume page."""
+        """Go to the Institution summary page."""
         from pub_analyzer.widgets.body import MainContent
 
-        institution_resume_widget = InstitutionResumeWidget(institution_result=self.institution_result)
+        institution_summary_widget = InstitutionSummaryWidget(institution_result=self.institution_result)
 
         main_content = self.app.query_one(MainContent)
         main_content.update_title(title=self.institution_result.display_name)
-        await main_content.mount(institution_resume_widget)
+        await main_content.mount(institution_summary_widget)
 
         await self.app.query_one("FinderWidget").remove()

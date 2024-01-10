@@ -13,11 +13,11 @@ from pub_analyzer.models.institution import DehydratedInstitution, Institution, 
 from pub_analyzer.models.report import (
     AuthorReport,
     CitationReport,
-    CitationResume,
+    CitationSummary,
     CitationType,
     InstitutionReport,
-    OpenAccessResume,
-    SourcesResume,
+    OpenAccessSummary,
+    SourcesSummary,
     WorkReport,
     WorkTypeCounter,
 )
@@ -216,10 +216,10 @@ async def make_author_report(
 
         # Report fields.
         works: list[WorkReport] = []
-        report_citation_resume = CitationResume()
-        open_access_resume = OpenAccessResume()
+        report_citation_summary = CitationSummary()
+        open_access_summary = OpenAccessSummary()
         works_type_counter: list[WorkTypeCounter] = []
-        sources_resume = SourcesResume(sources=[])
+        sources_summary = SourcesSummary(sources=[])
 
         # Getting all works that have cited the author.
         for author_work in author_works:
@@ -230,7 +230,7 @@ async def make_author_report(
             )
 
             # Adding the type of OpenAccess in the counter.
-            open_access_resume.add_oa_type(author_work.open_access.oa_status)
+            open_access_summary.add_oa_type(author_work.open_access.oa_status)
 
             # Adding the work type to works type counter.
             work_type = next((work_type for work_type in works_type_counter if work_type.type_name == author_work.type), None)
@@ -241,31 +241,31 @@ async def make_author_report(
 
             # Add Sources to global list.
             for location in author_work.locations:
-                if location.source and not any(source.display_name == location.source.display_name for source in sources_resume.sources):
-                    sources_resume.sources.append(location.source)
+                if location.source and not any(source.display_name == location.source.display_name for source in sources_summary.sources):
+                    sources_summary.sources.append(location.source)
 
             cited_by_works = await _get_works(client, cited_by_api_url)
             cited_by: list[CitationReport] = []
-            work_citation_resume = CitationResume()
+            work_citation_summary = CitationSummary()
             for cited_by_work in cited_by_works:
                 cited_authors = _get_authors_list(authorships=cited_by_work.authorships)
                 citation_type = _get_citation_type(work_authors, cited_authors)
 
                 # Adding the type of cites in the counters.
-                report_citation_resume.add_cite_type(citation_type)
-                work_citation_resume.add_cite_type(citation_type)
+                report_citation_summary.add_cite_type(citation_type)
+                work_citation_summary.add_cite_type(citation_type)
 
                 cited_by.append(CitationReport(work=cited_by_work, citation_type=citation_type))
 
-            works.append(WorkReport(work=author_work, cited_by=cited_by, citation_resume=work_citation_resume))
+            works.append(WorkReport(work=author_work, cited_by=cited_by, citation_summary=work_citation_summary))
 
     return AuthorReport(
         author=author,
         works=works,
-        citation_resume=report_citation_resume,
-        open_access_resume=open_access_resume,
-        works_type_resume=works_type_counter,
-        sources_resume=sources_resume,
+        citation_summary=report_citation_summary,
+        open_access_summary=open_access_summary,
+        works_type_summary=works_type_counter,
+        sources_summary=sources_summary,
     )
 
 
@@ -312,10 +312,10 @@ async def make_institution_report(
 
         # Report fields.
         works: list[WorkReport] = []
-        report_citation_resume = CitationResume()
-        open_access_resume = OpenAccessResume()
+        report_citation_summary = CitationSummary()
+        open_access_summary = OpenAccessSummary()
         works_type_counter: list[WorkTypeCounter] = []
-        sources_resume = SourcesResume(sources=[])
+        sources_summary = SourcesSummary(sources=[])
 
         # Getting all works that have cited a work.
         for institution_work in institution_works:
@@ -326,7 +326,7 @@ async def make_institution_report(
             )
 
             # Adding the type of OpenAccess in the counter.
-            open_access_resume.add_oa_type(institution_work.open_access.oa_status)
+            open_access_summary.add_oa_type(institution_work.open_access.oa_status)
 
             # Adding the work type to works type counter.
             work_type = next((work_type for work_type in works_type_counter if work_type.type_name == institution_work.type), None)
@@ -337,29 +337,29 @@ async def make_institution_report(
 
             # Add Sources to global list.
             for location in institution_work.locations:
-                if location.source and not any(source.display_name == location.source.display_name for source in sources_resume.sources):
-                    sources_resume.sources.append(location.source)
+                if location.source and not any(source.display_name == location.source.display_name for source in sources_summary.sources):
+                    sources_summary.sources.append(location.source)
 
             cited_by_works = await _get_works(client, cited_by_api_url)
             cited_by: list[CitationReport] = []
-            work_citation_resume = CitationResume()
+            work_citation_summary = CitationSummary()
             for cited_by_work in cited_by_works:
                 cited_authors = _get_authors_list(authorships=cited_by_work.authorships)
                 citation_type = _get_citation_type(work_authors, cited_authors)
 
                 # Adding the type of cites in the counters.
-                report_citation_resume.add_cite_type(citation_type)
-                work_citation_resume.add_cite_type(citation_type)
+                report_citation_summary.add_cite_type(citation_type)
+                work_citation_summary.add_cite_type(citation_type)
 
                 cited_by.append(CitationReport(work=cited_by_work, citation_type=citation_type))
 
-            works.append(WorkReport(work=institution_work, cited_by=cited_by, citation_resume=work_citation_resume))
+            works.append(WorkReport(work=institution_work, cited_by=cited_by, citation_summary=work_citation_summary))
 
     return InstitutionReport(
         institution=institution,
         works=works,
-        citation_resume=report_citation_resume,
-        open_access_resume=open_access_resume,
-        works_type_resume=works_type_counter,
-        sources_resume=sources_resume,
+        citation_summary=report_citation_summary,
+        open_access_summary=open_access_summary,
+        works_type_summary=works_type_counter,
+        sources_summary=sources_summary,
     )
