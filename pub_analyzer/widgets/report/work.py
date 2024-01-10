@@ -22,6 +22,7 @@ from pub_analyzer.widgets.report.cards import (
     WorksTypeSummaryCard,
 )
 
+from .concept import ConceptsTable
 from .grants import GrantsTable
 from .locations import LocationsTable
 
@@ -109,28 +110,34 @@ class WorkModal(Modal[None]):
                 yield CitationMetricsCard(work_report=self.work_report)
 
             with TabbedContent(id="tables-container"):
+                # Abtract if exists
+                if self.work_report.work.abstract:
+                    with TabPane("Abstract"):
+                        yield Label(self.work_report.work.abstract, classes="abstract")
                 # Citations Table
                 with TabPane("Cited By Works"):
                     if len(self.work_report.cited_by):
                         yield CitedByTable(citations_list=self.work_report.cited_by)
                     else:
                         yield Label("No works found.")
-                # Locations Table
-                with TabPane("Locations"):
-                    if len(self.work_report.work.locations):
-                        yield LocationsTable(self.work_report.work.locations)
+                # Concepts Table
+                with TabPane("Concepts"):
+                    if len(self.work_report.work.concepts):
+                        yield ConceptsTable(self.work_report.work.concepts)
                     else:
-                        yield Label("No sources found.")
+                        yield Label("No Concepts found.")
                 # Grants Table
                 with TabPane("Grants"):
                     if len(self.work_report.work.grants):
                         yield GrantsTable(self.work_report.work.grants)
                     else:
                         yield Label("No Grants found.")
-                # Abtract if exists
-                if self.work_report.work.abstract:
-                    with TabPane("Abstract"):
-                        yield Label(self.work_report.work.abstract, classes="abstract")
+                # Locations Table
+                with TabPane("Locations"):
+                    if len(self.work_report.work.locations):
+                        yield LocationsTable(self.work_report.work.locations)
+                    else:
+                        yield Label("No sources found.")
 
 
 class WorksTable(Static):
