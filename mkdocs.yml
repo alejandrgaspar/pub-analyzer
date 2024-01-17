@@ -72,9 +72,10 @@ plugins:
       python:
         options:
           docstring_style: google
-          show_root_toc_entry: false
           separate_signature: true
+          show_root_toc_entry: false
           show_signature_annotations: true
+          signature_crossrefs: true
 
 # Social links
 extra:
