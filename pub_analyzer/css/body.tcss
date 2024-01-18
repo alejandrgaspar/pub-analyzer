@@ -14,37 +14,51 @@ SideBar {
 
     background: $bg-secondary-color;
     color: $text-primary-color;
+
+    Button {
+        text-align: start;
+    }
+
+    #sidebar-title {
+        width: 100%;
+        content-align: left middle;
+        text-style: bold;
+        border-bottom: heavy $text-primary-color;
+    }
+
+    .sidebar-options-column {
+        margin: 1;
+        padding: 1 1;
+    }
+
+    .sidebar-buttons-column {
+        height: 1fr;
+
+        .sidebar-option {
+            content-align: left middle;
+            margin: 1 0;
+            width: 100%;
+        }
+    }
+
+    #module-version-label {
+        color: $text-primary-color 25%;
+        text-align: center;
+        width: 100%;
+    }
 }
 
 .-dark-mode SideBar {
     background: $bg-secondary-color-darken;
     color: $text-primary-color-darken;
-}
 
-SideBar .sidebar-options-column {
-    margin: 1;
-    padding: 1 1;
-}
+    #sidebar-title {
+        border-bottom: heavy $text-primary-color-darken;
+    }
 
-SideBar #sidebar-title {
-    width: 100%;
-    content-align: left middle;
-    text-style: bold;
-    border-bottom: heavy $text-primary-color;
-}
-
-.-dark-mode SideBar #sidebar-title {
-    border-bottom: heavy $text-primary-color-darken;
-}
-
-SideBar .sidebar-option {
-    content-align: left middle;
-    margin: 1 0;
-    width: 100%;
-}
-
-SideBar Button {
-    text-align: start;
+    #module-version-label {
+        color: $text-primary-color-darken 25%;
+    }
 }
 
 /* Main Content CSS */
@@ -54,20 +68,20 @@ MainContent {
 
     padding: 2 1 0 1;
     height: 100%;
+
+    .title {
+        content-align: left middle;
+        text-style: bold;
+        border-bottom: heavy $text-primary-color;
+        width: 100%
+    }
 }
 
 .-dark-mode MainContent {
     background: $bg-main-color-darken;
     color: $text-primary-color-darken;
-}
 
-MainContent .title {
-    content-align: left middle;
-    text-style: bold;
-    border-bottom: heavy $text-primary-color;
-    width: 100%
-}
-
-.-dark-mode MainContent .title {
-    border-bottom: heavy $text-primary-color-darken;
+    .title {
+        border-bottom: heavy $text-primary-color-darken;
+    }
 }

@@ -1,5 +1,6 @@
 """Sidebar components and options."""
 from enum import Enum
+from importlib.metadata import version
 
 from textual import on
 from textual.app import ComposeResult
@@ -28,8 +29,11 @@ class SideBar(Static):
         with Vertical(classes="sidebar-options-column"):
             yield Label("Menu", id="sidebar-title")
 
-            yield Button(SideBarOptionsName.SEARCH.value, variant="primary", id="search-sidebar-button", classes="sidebar-option")
-            yield Button(SideBarOptionsName.LOAD_REPORT.value, variant="primary", id="load-sidebar-button", classes="sidebar-option")
+            with Vertical(classes="sidebar-buttons-column"):
+                yield Button(SideBarOptionsName.SEARCH.value, variant="primary", id="search-sidebar-button", classes="sidebar-option")
+                yield Button(SideBarOptionsName.LOAD_REPORT.value, variant="primary", id="load-sidebar-button", classes="sidebar-option")
+
+            yield Label(f"v{version("pub-analyzer")}", id="module-version-label")
 
     def toggle(self) -> None:
         """Show/Hide Sidebar."""

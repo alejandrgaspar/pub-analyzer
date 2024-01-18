@@ -18,6 +18,8 @@ from pub_analyzer.widgets.sidebar import SideBar
 class PubAnalyzerApp(App[DOMNode]):
     """Pub Analyzer App entrypoint."""
 
+    TITLE = "Pub Analyzer"
+
     CSS_PATH: ClassVar[CSSPathType | None] = [
         "css/body.tcss",
         "css/buttons.tcss",
