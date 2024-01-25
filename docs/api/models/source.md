@@ -8,6 +8,10 @@ Sources are where works are hosted. There are several types, including journals,
 ::: pub_analyzer.models.source
     options:
         show_source: false
+        inherited_members: true
         members_order: source
         members:
+            - Source
             - DehydratedSource
+            - SourceSummaryStats
+            - SourceYearCount

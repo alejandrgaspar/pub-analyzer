@@ -2,6 +2,7 @@
 
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult
+from pub_analyzer.models.source import DehydratedSource, Source
 from pub_analyzer.models.work import Work
 
 
@@ -76,5 +77,30 @@ def get_work_id(work: Work) -> str:
     """
     if work.id.path:
         return work.id.path.rpartition("/")[2]
+    else:
+        return ""
+
+
+def get_source_id(source: DehydratedSource | Source) -> str:
+    """Extract OpenAlex ID from Source Model.
+
+    Args:
+        source: Source model instance.
+
+    Returns:
+        Source OpenAlex ID.
+
+    Example:
+        ```python
+        from pub_analyzer.internal.identifier import get_source_id
+        from pub_analyzer.models.source import Source
+
+        source = Source(id="https://openalex.org/S000000000", **kwargs)
+        print(get_source_id(source))
+        # 'S000000000'
+        ```
+    """
+    if source.id.path:
+        return source.id.path.rpartition("/")[2]
     else:
         return ""

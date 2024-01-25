@@ -1,6 +1,28 @@
 """Sources models from OpenAlex API Schema definition."""
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, Field, HttpUrl
+
+
+class SourceSummaryStats(BaseModel):
+    """Citation metrics for this Source."""
+
+    two_yr_mean_citedness: float = Field(..., alias="2yr_mean_citedness")
+    """The 2-year mean citedness for this source. Also known as impact factor."""
+    h_index: int
+    """The h-index for this source."""
+    i10_index: int
+    """The i-10 index for this source."""
+
+
+class SourceYearCount(BaseModel):
+    """Summary of published papers and number of citations in a year."""
+
+    year: int
+    """Year."""
+    works_count: int
+    """The number of Works this source hosts in this year."""
+    cited_by_count: int
+    """The total number of Works that cite a Work hosted in this source in this year."""
 
 
 class DehydratedSource(BaseModel):
@@ -37,3 +59,19 @@ class DehydratedSource(BaseModel):
     """The type of source, which will be one of: `journal`, `repository`, `conference`,
        `ebook platform`, or `book series`.
     """
+
+
+class Source(DehydratedSource):
+    """Where works are hosted."""
+
+    homepage_url: HttpUrl | None = None
+    """The homepage for this source's website."""
+
+    is_in_doaj: bool
+    """Whether this is a journal listed in the Directory of Open Access Journals (DOAJ)."""
+
+    summary_stats: SourceSummaryStats
+    """Citation metrics for this source."""
+
+    counts_by_year: list[SourceYearCount]
+    """works_count and cited_by_count for each of the last ten years, binned by year."""

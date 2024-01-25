@@ -21,6 +21,7 @@ from pub_analyzer.models.report import (
     WorkReport,
     WorkTypeCounter,
 )
+from pub_analyzer.models.source import DehydratedSource, Source
 from pub_analyzer.models.work import Authorship, Work
 
 FromDate = NewType("FromDate", datetime.datetime)
@@ -171,6 +172,25 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     return TypeAdapter(list[Work]).validate_python(works_data)
 
 
+async def _get_source(client: httpx.AsyncClient, url: str) -> Source:
+    """Get source given a URL.
+
+    Args:
+        client: HTTPX asynchronous client to be used to make the requests.
+        url: URL of works with all filters.
+
+    Returns:
+        Source Model.
+
+    Raises:
+        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+    """
+    response = await client.get(url=url)
+    response.raise_for_status()
+
+    return Source(**response.json())
+
+
 async def make_author_report(
     author: Author,
     extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None = None,
@@ -219,7 +239,7 @@ async def make_author_report(
         report_citation_summary = CitationSummary()
         open_access_summary = OpenAccessSummary()
         works_type_counter: list[WorkTypeCounter] = []
-        sources_summary = SourcesSummary(sources=[])
+        dehydrated_sources: list[DehydratedSource] = []
 
         # Getting all works that have cited the author.
         for author_work in author_works:
@@ -241,8 +261,8 @@ async def make_author_report(
 
             # Add Sources to global list.
             for location in author_work.locations:
-                if location.source and not any(source.display_name == location.source.display_name for source in sources_summary.sources):
-                    sources_summary.sources.append(location.source)
+                if location.source and not any(source.display_name == location.source.display_name for source in dehydrated_sources):
+                    dehydrated_sources.append(location.source)
 
             cited_by_works = await _get_works(client, cited_by_api_url)
             cited_by: list[CitationReport] = []
@@ -258,6 +278,15 @@ async def make_author_report(
                 cited_by.append(CitationReport(work=cited_by_work, citation_type=citation_type))
 
             works.append(WorkReport(work=author_work, cited_by=cited_by, citation_summary=work_citation_summary))
+
+        # Get sources full info.
+        sources: list[Source] = []
+        for dehydrated_source in dehydrated_sources:
+            source_id = identifier.get_source_id(dehydrated_source)
+            source_url = f"https://api.openalex.org/sources/{source_id}"
+            sources.append(await _get_source(client, source_url))
+
+        sources_summary = SourcesSummary(sources=sources)
 
     return AuthorReport(
         author=author,
@@ -315,7 +344,7 @@ async def make_institution_report(
         report_citation_summary = CitationSummary()
         open_access_summary = OpenAccessSummary()
         works_type_counter: list[WorkTypeCounter] = []
-        sources_summary = SourcesSummary(sources=[])
+        dehydrated_sources: list[DehydratedSource] = []
 
         # Getting all works that have cited a work.
         for institution_work in institution_works:
@@ -337,8 +366,8 @@ async def make_institution_report(
 
             # Add Sources to global list.
             for location in institution_work.locations:
-                if location.source and not any(source.display_name == location.source.display_name for source in sources_summary.sources):
-                    sources_summary.sources.append(location.source)
+                if location.source and not any(source.display_name == location.source.display_name for source in dehydrated_sources):
+                    dehydrated_sources.append(location.source)
 
             cited_by_works = await _get_works(client, cited_by_api_url)
             cited_by: list[CitationReport] = []
@@ -354,6 +383,15 @@ async def make_institution_report(
                 cited_by.append(CitationReport(work=cited_by_work, citation_type=citation_type))
 
             works.append(WorkReport(work=institution_work, cited_by=cited_by, citation_summary=work_citation_summary))
+
+        # Get sources full info.
+        sources: list[Source] = []
+        for dehydrated_source in dehydrated_sources:
+            source_id = identifier.get_source_id(dehydrated_source)
+            source_url = f"https://api.openalex.org/sources/{source_id}"
+            sources.append(await _get_source(client, source_url))
+
+        sources_summary = SourcesSummary(sources=sources)
 
     return InstitutionReport(
         institution=institution,

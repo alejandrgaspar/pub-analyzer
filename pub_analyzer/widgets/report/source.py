@@ -9,7 +9,7 @@ from textual.containers import VerticalScroll
 from textual.widgets import Static
 
 from pub_analyzer.models.report import AuthorReport, InstitutionReport
-from pub_analyzer.models.source import DehydratedSource
+from pub_analyzer.models.source import Source
 
 
 class SourcesTable(Static):
@@ -22,7 +22,7 @@ class SourcesTable(Static):
     }
     """
 
-    def __init__(self, sources_list: list[DehydratedSource]) -> None:
+    def __init__(self, sources_list: list[Source]) -> None:
         self.sources_list = sources_list
         super().__init__()
 

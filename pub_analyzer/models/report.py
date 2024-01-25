@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 from .author import Author
 from .institution import Institution
-from .source import DehydratedSource
+from .source import Source
 from .work import OpenAccessStatus, Work
 
 
@@ -81,7 +81,7 @@ class WorkReport(BaseModel):
 class SourcesSummary(BaseModel):
     """Sources model with stats."""
 
-    sources: list[DehydratedSource]
+    sources: list[Source]
 
 
 class AuthorReport(BaseModel):

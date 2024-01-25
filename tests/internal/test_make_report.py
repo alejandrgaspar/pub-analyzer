@@ -26,9 +26,10 @@ class ExpectedReportData(BaseModel):
             "A5015201707",
             ExpectedReportData(
                 citation_summary=CitationSummary(type_a_count=4, type_b_count=1),
-                open_access_summary=OpenAccessSummary(gold=1, green=1, hybrid=0, bronze=0, closed=13),
+                open_access_summary=OpenAccessSummary(gold=1, green=1, hybrid=0, bronze=0, closed=14),
                 works_type_summary=[
                     WorkTypeCounter(type_name="article", count=15),
+                    WorkTypeCounter(type_name="book-chapter", count=1),
                 ],
             ),
         ],
