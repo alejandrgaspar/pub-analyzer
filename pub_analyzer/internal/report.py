@@ -261,7 +261,7 @@ async def make_author_report(
 
             # Add Sources to global list.
             for location in author_work.locations:
-                if location.source and not any(source.display_name == location.source.display_name for source in dehydrated_sources):
+                if location.source and not any(source.id == location.source.id for source in dehydrated_sources):
                     dehydrated_sources.append(location.source)
 
             cited_by_works = await _get_works(client, cited_by_api_url)
@@ -366,7 +366,7 @@ async def make_institution_report(
 
             # Add Sources to global list.
             for location in institution_work.locations:
-                if location.source and not any(source.display_name == location.source.display_name for source in dehydrated_sources):
+                if location.source and not any(source.id == location.source.id for source in dehydrated_sources):
                     dehydrated_sources.append(location.source)
 
             cited_by_works = await _get_works(client, cited_by_api_url)

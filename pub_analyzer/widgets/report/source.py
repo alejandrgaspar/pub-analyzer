@@ -36,7 +36,9 @@ class SourcesTable(Static):
         sources_table.add_column("Publisher or institution", ratio=2)
         sources_table.add_column("Type")
         sources_table.add_column("ISSN-L")
-        sources_table.add_column("Is Open Access")
+        sources_table.add_column("Impact factor")
+        sources_table.add_column("h-index")
+        sources_table.add_column("Is OA")
 
         for idx, source in enumerate(self.sources_list):
             if source.host_organization_name:
@@ -49,6 +51,9 @@ class SourcesTable(Static):
             title = f"""[@click=app.open_link('{quote(str(source.id))}')][u]{source.display_name}[/u][/]"""
             type_source = source.type
             issn_l = source.issn_l if source.issn_l else "-"
+            impact_factor = f"{source.summary_stats.two_yr_mean_citedness:.3f}"
+            h_index = f"{source.summary_stats.h_index}"
+
             is_open_access = "[#909d63]True[/]" if source.is_oa else "[#bc5653]False[/]"
 
             sources_table.add_row(
@@ -57,6 +62,8 @@ class SourcesTable(Static):
                 Text.from_markup(host_organization),
                 Text.from_markup(type_source),
                 Text.from_markup(issn_l),
+                Text.from_markup(impact_factor),
+                Text.from_markup(h_index),
                 Text.from_markup(is_open_access),
             )
 

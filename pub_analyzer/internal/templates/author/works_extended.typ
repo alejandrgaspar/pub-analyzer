@@ -83,7 +83,7 @@
   // Content
   {% for location in work.work.locations %}
   {% if location.source %}
-  [{{ loop.index }}],
+  [#underline([#link(label("source_{{ location.source.id.path.rpartition("/")[2] }}"))[{{ loop.index }}]])],
   [#underline([#link("{{ location.landing_page_url }}")[#"{{ location.source.display_name }}"]])],
   [{{ location.source.host_organization_name or "-" }}],
   [{{ location.source.type }}],
