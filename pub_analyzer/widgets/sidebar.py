@@ -1,4 +1,5 @@
 """Sidebar components and options."""
+
 from enum import Enum
 from importlib.metadata import version
 

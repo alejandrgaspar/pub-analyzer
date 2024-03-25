@@ -1,6 +1,5 @@
 """Integration test of the make_report function from pub_analyzer/internal/report.py."""
 
-
 import httpx
 import pytest
 from pydantic import BaseModel, TypeAdapter
