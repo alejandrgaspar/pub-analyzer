@@ -25,9 +25,9 @@ class ExpectedReportData(BaseModel):
             "A5015201707",
             ExpectedReportData(
                 citation_summary=CitationSummary(type_a_count=4, type_b_count=1),
-                open_access_summary=OpenAccessSummary(gold=1, green=1, hybrid=0, bronze=0, closed=14),
+                open_access_summary=OpenAccessSummary(gold=2, green=1, hybrid=0, bronze=0, closed=14),
                 works_type_summary=[
-                    WorkTypeCounter(type_name="article", count=15),
+                    WorkTypeCounter(type_name="article", count=16),
                     WorkTypeCounter(type_name="book-chapter", count=1),
                 ],
             ),
@@ -43,7 +43,7 @@ class ExpectedReportData(BaseModel):
         [
             "A5058237853",
             ExpectedReportData(
-                citation_summary=CitationSummary(type_a_count=3, type_b_count=0),
+                citation_summary=CitationSummary(type_a_count=4, type_b_count=0),
                 open_access_summary=OpenAccessSummary(gold=0, green=0, hybrid=1, bronze=1, closed=0),
                 works_type_summary=[WorkTypeCounter(type_name="article", count=1), WorkTypeCounter(type_name="book-chapter", count=1)],
             ),

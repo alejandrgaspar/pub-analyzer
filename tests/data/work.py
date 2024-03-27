@@ -97,6 +97,16 @@ WORK: dict[str, Any] = {
             "score": 0,
         },
     ],
+    "topics": [
+        {
+            "id": "https://openalex.org/T10102",
+            "display_name": "Bibliometric Analysis and Research Evaluation",
+            "score": 0.9969,
+            "subfield": {"id": "https://openalex.org/subfields/1804", "display_name": "Statistics, Probability and Uncertainty"},
+            "field": {"id": "https://openalex.org/fields/18", "display_name": "Decision Sciences"},
+            "domain": {"id": "https://openalex.org/domains/2", "display_name": "Social Sciences"},
+        },
+    ],
     "apc_list": {
         "value": 9750,
         "currency": "EUR",

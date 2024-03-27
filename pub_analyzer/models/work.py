@@ -8,6 +8,7 @@ from pydantic import BaseModel, HttpUrl, field_validator
 from .author import DehydratedAuthor
 from .concept import DehydratedConcept
 from .source import DehydratedSource
+from .topic import DehydratedTopic
 
 
 class WorkIDs(BaseModel):
@@ -116,6 +117,7 @@ class Work(BaseModel):
     grants: list[Grant]
     keywords: list[Keyword]
     concepts: list[DehydratedConcept]
+    topics: list[DehydratedTopic]
 
     referenced_works: list[HttpUrl]
     cited_by_api_url: HttpUrl

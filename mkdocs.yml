@@ -112,6 +112,7 @@ nav:
       - "api/models/institution.md"
       - "api/models/report.md"
       - "api/models/source.md"
+      - "api/models/topic.md"
       - "api/models/work.md"
   - Roadmap:
     - roadmap/index.md

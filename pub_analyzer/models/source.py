@@ -39,13 +39,13 @@ class DehydratedSource(BaseModel):
     """
     issn: list[str] | None = None
     """The ISSNs used by this source. An ISSN identifies all continuing resources, irrespective
-       of their medium (print or electronic). [More info](https://www.issn.org/).
+       of their medium (print or electronic). [More info](https://www.issn.org/){target=_blank}.
     """
 
     is_oa: bool
     """Whether this is currently fully-open-access source."""
     is_in_doaj: bool
-    """Whether this is a journal listed in the [Directory of Open Access Journals](https://doaj.org) (DOAJ)."""
+    """Whether this is a journal listed in the [Directory of Open Access Journals](https://doaj.org){target=_blank} (DOAJ)."""
 
     host_organization: HttpUrl | None = None
     """The host organization for this source as an OpenAlex ID. This will be an
