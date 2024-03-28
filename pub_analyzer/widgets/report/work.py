@@ -25,6 +25,7 @@ from pub_analyzer.widgets.report.cards import (
 from .concept import ConceptsTable
 from .grants import GrantsTable
 from .locations import LocationsTable
+from .topic import TopicsTable
 
 
 class CitedByTable(Static):
@@ -138,6 +139,12 @@ class WorkModal(Modal[None]):
                         yield LocationsTable(self.work_report.work.locations)
                     else:
                         yield Label("No sources found.")
+                # Topics Table
+                with TabPane("Topics"):
+                    if len(self.work_report.work.topics):
+                        yield TopicsTable(self.work_report.work.topics)
+                    else:
+                        yield Label("No Topics found.")
 
 
 class WorksTable(Static):
