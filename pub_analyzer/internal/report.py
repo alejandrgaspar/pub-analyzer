@@ -286,7 +286,9 @@ async def make_author_report(
             source_url = f"https://api.openalex.org/sources/{source_id}"
             sources.append(await _get_source(client, source_url))
 
-        sources_summary = SourcesSummary(sources=sources)
+        # Sort sources by h_index
+        sources_sorted = sorted(sources, key=lambda source: source.summary_stats.two_yr_mean_citedness, reverse=True)
+        sources_summary = SourcesSummary(sources=sources_sorted)
 
     return AuthorReport(
         author=author,
@@ -391,7 +393,9 @@ async def make_institution_report(
             source_url = f"https://api.openalex.org/sources/{source_id}"
             sources.append(await _get_source(client, source_url))
 
-        sources_summary = SourcesSummary(sources=sources)
+        # Sort sources by h_index
+        sources_sorted = sorted(sources, key=lambda source: source.summary_stats.two_yr_mean_citedness, reverse=True)
+        sources_summary = SourcesSummary(sources=sources_sorted)
 
     return InstitutionReport(
         institution=institution,
