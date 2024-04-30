@@ -1,7 +1,7 @@
 # Pub Analyzer
 
 <p align="center">
-    <img src="docs/assets/img/logo.png" alt="PubAnalyzer" width="275">
+    <img src="https://raw.githubusercontent.com/alejandrgaspar/pub-analyzer/main/docs/assets/img/logo.png" alt="PubAnalyzer splash image" width="275">
 </p>
 
 <p align="center">
