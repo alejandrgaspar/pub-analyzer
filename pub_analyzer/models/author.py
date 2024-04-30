@@ -52,7 +52,6 @@ class Author(BaseModel):
     works_count: int
     cited_by_count: int
 
-    last_known_institution: DehydratedInstitution | None
     last_known_institutions: list[DehydratedInstitution]
     counts_by_year: list[AuthorYearCount]
 

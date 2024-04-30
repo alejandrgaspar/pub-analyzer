@@ -23,13 +23,6 @@ AUTHOR: dict[str, Any] = {
     "cited_by_count": 19275,
     "summary_stats": {"2yr_mean_citedness": 37.375, "h_index": 57, "i10_index": 125},
     "ids": {"openalex": OPEN_ALEX_ID_URL},
-    "last_known_institution": {
-        "id": "https://openalex.org/I36258959",
-        "ror": "https://ror.org/0168r3w48",
-        "display_name": "University of California, San Diego",
-        "country_code": "US",
-        "type": "education",
-    },
     "last_known_institutions": [
         {
             "id": "https://openalex.org/I36258959",

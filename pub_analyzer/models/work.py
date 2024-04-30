@@ -85,7 +85,8 @@ class Grant(BaseModel):
 class Keyword(BaseModel):
     """Keyword extracted from the work's title and confidence score."""
 
-    keyword: str
+    id: HttpUrl
+    display_name: str
     score: float
 
 

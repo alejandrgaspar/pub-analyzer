@@ -54,11 +54,12 @@ class LastInstitutionCard(Card):
         """Compose card."""
         yield Label("[italic]Last Institution:[/italic]", classes="card-title")
 
-        if self.author.last_known_institution:
-            ror = self.author.last_known_institution.ror
-            institution_name = self.author.last_known_institution.display_name
+        if self.author.last_known_institutions:
+            last_known_institution = self.author.last_known_institutions[0]
+            ror = last_known_institution.ror
+            institution_name = last_known_institution.display_name
 
             with Vertical(classes="card-container"):
                 yield Label(f"""[bold]Name:[/bold] [@click=app.open_link('{quote(str(ror))}')]{institution_name}[/]""")
-                yield Label(f"[bold]Country:[/bold] {self.author.last_known_institution.country_code}")
-                yield Label(f"[bold]Type:[/bold] {self.author.last_known_institution.type.value}")
+                yield Label(f"[bold]Country:[/bold] {last_known_institution.country_code}")
+                yield Label(f"[bold]Type:[/bold] {last_known_institution.type.value}")

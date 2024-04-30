@@ -63,9 +63,8 @@ WORK: dict[str, Any] = {
         },
     ],
     "keywords": [
-        {"keyword": "coastal marine ecosystems", "score": 0.5626},
-        {"keyword": "kelp detritus", "score": 0.5403},
-        {"keyword": "secondary production", "score": 0.3469},
+        {"id": "https://openalex.org/keywords/open-access-publishing", "display_name": "Open Access Publishing", "score": 0.539724},
+        {"id": "https://openalex.org/keywords/open-access-publishing", "display_name": "Open Access Publishing", "score": 0.539724},
     ],
     "concepts": [
         {

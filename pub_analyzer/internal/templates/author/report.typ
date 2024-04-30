@@ -39,8 +39,9 @@
   columns: (1fr),
   row-gutter: 11pt,
   [#align(center, text(size: 17pt, weight: "bold")[{{ report.author.display_name }}])],
-  {% if report.author.last_known_institution %}
-  [#align(center, text(size: 15pt, weight: "thin")[{{ report.author.last_known_institution.display_name }}])],
+  {% if report.author.last_known_institutions %}
+  {% set last_known_institution = report.author.last_known_institutions[0] %}
+  [#align(center, text(size: 15pt, weight: "thin")[{{ last_known_institution.display_name }}])],
   {% endif %}
 )
 

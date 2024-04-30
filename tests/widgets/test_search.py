@@ -74,6 +74,7 @@ async def test_institution_result_complete_info() -> None:
 
 
 @pytest.mark.asyncio
+@pytest.mark.vcr
 async def test_author_result_button_redirect() -> None:
     """Test Author result widget button redirect to AuthorSummaryWidget."""
     async with PubAnalyzerApp().run_test() as pilot:
@@ -97,6 +98,7 @@ async def test_author_result_button_redirect() -> None:
 
 
 @pytest.mark.asyncio
+@pytest.mark.vcr
 async def test_institution_result_button_redirect() -> None:
     """Test Institution result widget button redirect to InstitutionSummaryWidget."""
     async with PubAnalyzerApp().run_test() as pilot:

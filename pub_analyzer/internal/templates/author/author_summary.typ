@@ -22,8 +22,9 @@
         [#align(center)[#text(size: 12pt)[Last institution:]]],
 
         // Card content
-        {% if report.author.last_known_institution %}
-        [#align(left)[#text(size: 10pt)[- *Name:* {{ report.author.last_known_institution.display_name }}]]],
+        {% if report.author.last_known_institutions%}
+        {% set last_known_institution = report.author.last_known_institutions[0] %}
+        [#align(left)[#text(size: 10pt)[- *Name:* {{ last_known_institution.display_name }}]]],
         [#align(left)[#text(size: 10pt)[- *Country:* MX]]],
         [#align(left)[#text(size: 10pt)[- *Type:* education]]],
         {% endif %}
