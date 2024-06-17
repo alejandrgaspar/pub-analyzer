@@ -43,8 +43,12 @@ class PubAnalyzerApp(App[DOMNode]):
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
+        footer = Footer()
+        footer.upper_case_keys = True
+        footer.ctrl_to_caret = False
+
         yield Body()
-        yield Footer()
+        yield footer
 
     def action_toggle_dark(self) -> None:
         """Toggle dark mode."""

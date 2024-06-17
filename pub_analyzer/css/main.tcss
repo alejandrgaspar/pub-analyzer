@@ -19,20 +19,26 @@ Body {
 Footer {
     dock: bottom;
     background: $primary-color;
-}
 
-Footer > .footer--highlight {
-    background: $primary-color-accent;
-}
+    FooterKey {
+        background: $primary-color;
+        color: white;
 
-Footer > .footer--highlight-key {
-    background: $primary-color-highlight;
-    text-style: bold;
-}
+        .footer-key--key {
+            text-style: bold;
+            color: white;
+            background: $primary-color-accent;
+        }
 
-Footer > .footer--key {
-    text-style: bold;
-    background: $primary-color-accent
+        &:hover {
+            background: $primary-color-highlight;
+            color: white;
+            text-style: bold;
+            .footer-key--key {
+                background: $primary-color-accent;
+            }
+        }
+    }
 }
 
 LoadingIndicator {
