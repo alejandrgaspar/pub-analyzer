@@ -10,7 +10,7 @@
 
   // Content
   {% for source in report.sources_summary.sources %}
-  [#underline[3.{{ loop.index }}. #label("source_{{ source.id.path.rpartition("/")[2] }}")]],
+  [3.{{ loop.index }}. #label("source_{{ source.id.path.rpartition("/")[2] }}")],
   [#underline([#link("{{ source.homepage_url }}")[#"{{ source.display_name }}"]])],
   [{{ source.host_organization_name or "-" }}],
   [{{source.type }}],

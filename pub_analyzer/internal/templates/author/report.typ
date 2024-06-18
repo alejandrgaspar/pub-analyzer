@@ -1,6 +1,8 @@
 // This document was generated using Pub Analyzer.
 // https://pub-analyzer.com
 
+// Packages
+#import "@preview/cetz:0.2.2": canvas, plot
 
 // Page Layoput
 #set page("us-letter")

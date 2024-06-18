@@ -1,11 +1,10 @@
-== Extended info.
 {% for work in report.works %}
 
 {% if not loop.first %}
 #pagebreak()
 {% endif %}
 
-=== #text()[#"{{ work.work.title.replace('"', '\\"') }}"] <work_{{ loop.index }}>
+== #text()[#"{{ work.work.title.replace('"', '\\"') }}"] <work_{{ loop.index }}>
 
 #linebreak()
 
