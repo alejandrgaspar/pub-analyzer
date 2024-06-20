@@ -17,6 +17,8 @@ from tests.data.institution import INSTITUTION_RESULT_OBJECT
 async def test_author_search_bar_exit_focus() -> None:
     """Test sidebar toggle binding."""
     async with PubAnalyzerApp().run_test() as pilot:
+        await pilot.wait_for_scheduled_animations()
+
         # Switch to AuthorFinder View.
         await pilot.click("#search-sidebar-button")
         search_bar = pilot.app.query_one(search.SearchBar)
@@ -35,6 +37,8 @@ async def test_author_search_bar_exit_focus() -> None:
 async def test_author_result_complete_info() -> None:
     """Test Author result widget contains all info."""
     async with PubAnalyzerApp().run_test() as pilot:
+        await pilot.wait_for_scheduled_animations()
+
         # Switch to Search View and mounting an author result.
         await pilot.click("#search-sidebar-button")
 
@@ -56,6 +60,8 @@ async def test_author_result_complete_info() -> None:
 async def test_institution_result_complete_info() -> None:
     """Test Institution result widget contains all info."""
     async with PubAnalyzerApp().run_test() as pilot:
+        await pilot.wait_for_scheduled_animations()
+
         # Switch to Search View and mounting a institution result.
         await pilot.click("#search-sidebar-button")
 
@@ -78,6 +84,8 @@ async def test_institution_result_complete_info() -> None:
 async def test_author_result_button_redirect() -> None:
     """Test Author result widget button redirect to AuthorSummaryWidget."""
     async with PubAnalyzerApp().run_test() as pilot:
+        await pilot.wait_for_scheduled_animations()
+
         # Switch to FinderWidget View and mounting a result.
         await pilot.click("#search-sidebar-button")
 
@@ -102,6 +110,8 @@ async def test_author_result_button_redirect() -> None:
 async def test_institution_result_button_redirect() -> None:
     """Test Institution result widget button redirect to InstitutionSummaryWidget."""
     async with PubAnalyzerApp().run_test() as pilot:
+        await pilot.wait_for_scheduled_animations()
+
         # Switch to FinderWidget View and mounting a result.
         await pilot.click("#search-sidebar-button")
 
