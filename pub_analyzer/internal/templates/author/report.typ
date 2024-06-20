@@ -2,7 +2,17 @@
 // https://pub-analyzer.com
 
 // Packages
-#import "@preview/cetz:0.2.2": canvas, plot
+#import "@preview/cetz:0.2.2": canvas, plot, chart, palette
+
+// Colors
+#let BLUE = rgb("#42a2f8")
+#let GREEN = rgb("#82d452")
+#let GRAY = rgb("#929292")
+#let YELLOW = rgb("#f0bb40")
+#let RED = rgb("#eb4025")
+#let PURPLE = rgb("#c33375")
+
+#let colors = (BLUE, GREEN, GRAY, YELLOW, RED, PURPLE)
 
 // Page Layoput
 #set page("us-letter")

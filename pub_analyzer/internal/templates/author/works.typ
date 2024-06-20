@@ -1,45 +1,132 @@
 // Works
 = Works.
 
-#linebreak()
+#let works_metrics_card(title: "Title", graph, body) = {
+  grid(
+    rows: (18pt, 175pt, 60pt),
+    columns: 100%,
+
+    [
+      #block(width: 100%, height: 100%)[
+        #align(center + horizon)[#text(style: "italic")[#title]]
+      ]
+    ],
+    [
+      #block(width: 100%, height: 100%)[
+        #align(center + horizon)[#graph]
+      ]
+    ],
+    [
+      #block(width: 100%, height: 100%, inset: (x: 5pt, y: 10pt))[#body]
+    ],
+  )
+}
 
 #grid(
   columns: (1fr, 1fr, 1fr),
-  column-gutter: 30pt,
+  column-gutter: 15pt,
   [
-    #align(center)[_Citation metrics_]
-    #parbreak()
-    - *Count:* {{ report.citation_summary.type_a_count + report.citation_summary.type_b_count }}
-    - *Type A:* {{ report.citation_summary.type_a_count }}
-    - *Type B:* {{ report.citation_summary.type_b_count }}
+    #let graph = {
+      canvas(length: 35%, {
+        chart.piechart(
+          (
+            {{ report.citation_summary.type_a_count }}, // Type A
+            {{ report.citation_summary.type_b_count }}  // Type B
+          ),
+          radius: 1,
+          slice-style: (BLUE, GREEN),
+          outer-label: (content: "%", radius: 115%),
+        )
+      })
+    }
+
+    #works_metrics_card(title: "Citation metrics", graph)[
+      #grid(
+        rows: auto, row-gutter: 10pt,
+        columns: (1fr, 1fr),
+
+        grid.cell(colspan: 2)[
+          *Count:* {{ report.citation_summary.type_a_count + report.citation_summary.type_b_count }}
+        ],
+        [#box(height: 7pt, width: 7pt, fill: BLUE) *Type A:* {{ report.citation_summary.type_a_count }}],
+        [#box(height: 7pt, width: 7pt, fill: GREEN) *Type B:* {{ report.citation_summary.type_b_count }}],
+      )
+    ]
   ],
   [
-    #align(center)[_Work Type_]
-    #parbreak()
-    {% for work_type in report.works_type_summary %}
-    - *{{ work_type.type_name }}:* {{ work_type.count }}
-    {% endfor %}
+    #let graph = {
+      canvas(length: 35%, {
+        chart.columnchart(
+          size: (2.45, 2.0),
+          y-grid: false,
+          bar-style: palette.new(
+            base: (stroke: none, fill: none),
+            colors: colors
+          ),
+          (
+            {% for work_type in report.works_type_summary[:4] %}
+            ("{{ work_type.type_name[:2]|capitalize }}", {{ work_type.count }}),
+            {% endfor %}
+          )
+        )
+      })
+    }
+    #works_metrics_card(title: "Work Type", graph)[
+      #grid(
+        rows: auto, row-gutter: 10pt,
+        columns: (1fr, 1fr),
+        column-gutter: 5pt,
+
+        grid.cell(colspan: 2)[
+          *Count:* {{ report.open_access_summary.model_dump().items()|sum(attribute="1") }}
+        ],
+
+        {% for work_type in report.works_type_summary[:4] %}
+        [
+          #box(height: 7pt, width: 7pt, fill: colors.at({{ loop.index0 }})) *{{ work_type.type_name|capitalize }}:* {{ work_type.count }}
+        ],
+        {% endfor %}
+      )
+    ]
   ],
   [
-    #align(center)[_Open Access_]
-    #parbreak()
-    #grid(
-      columns: (1fr, 1fr),
-      column-gutter: 15pt,
-      [
-        - *gold:* {{report.open_access_summary.gold}}
-        - *green:* {{report.open_access_summary.green}}
-        - *hybrid:* {{report.open_access_summary.hybrid}}
-      ],
-      [
-        - *bronze:* {{report.open_access_summary.bronze}}
-        - *closed:* {{report.open_access_summary.closed}}
-      ],
-    )
+    #let graph = {
+      canvas(length: 35%, {
+        chart.piechart(
+          (
+            {{report.open_access_summary.gold}},   // Gold
+            {{report.open_access_summary.green}},  // Green
+            {{report.open_access_summary.hybrid}}, // Hybrid
+            {{report.open_access_summary.bronze}}, // Bronze
+            {{report.open_access_summary.closed}}, // Closed
+          ),
+          radius: 1,
+          inner-radius: .4,
+          slice-style: (YELLOW, GREEN, RED, BLUE, GRAY),
+          outer-label: (content: "%", radius: 115%),
+        )
+      })
+    }
+    #works_metrics_card(title: "Open Access", graph)[
+      #grid(
+        rows: auto, row-gutter: 10pt,
+        columns: (1fr, 1fr, 1fr),
+        column-gutter: 5pt,
+
+        grid.cell(colspan: 3)[
+          *Count:* {{ report.open_access_summary.model_dump().items()|sum(attribute="1") }}
+        ],
+
+        [#box(height: 7pt, width: 7pt, fill: YELLOW) *Gold:* {{report.open_access_summary.gold}}],
+        [#box(height: 7pt, width: 7pt, fill: GREEN) *Green:* {{report.open_access_summary.green}}],
+        [#box(height: 7pt, width: 7pt, fill: BLUE) *Bronze:* {{report.open_access_summary.bronze}}],
+
+        [#box(height: 7pt, width: 7pt, fill: GRAY) *Closed:* {{report.open_access_summary.closed}}],
+        [#box(height: 7pt, width: 7pt, fill: RED) *Hybrid:* {{report.open_access_summary.hybrid}}],
+      )
+    ]
   ],
 )
-
-#linebreak()
 
 #align(center, text(11pt)[Works from {{ report.works[0].work.publication_year }} to {{ report.works[-1].work.publication_year }}])
 #table(
