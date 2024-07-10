@@ -41,6 +41,7 @@ class CitationSummary(BaseModel):
 class OpenAccessSummary(BaseModel):
     """Open Access Type counter."""
 
+    diamond: int = 0
     gold: int = 0
     green: int = 0
     hybrid: int = 0
@@ -50,6 +51,8 @@ class OpenAccessSummary(BaseModel):
     def add_oa_type(self, open_access_type: OpenAccessStatus) -> None:
         """Add the type of Open Access in the corresponding counter."""
         match open_access_type:
+            case OpenAccessStatus.diamond:
+                self.diamond += 1
             case OpenAccessStatus.gold:
                 self.gold += 1
             case OpenAccessStatus.green:

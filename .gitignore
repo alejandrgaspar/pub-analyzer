@@ -1,6 +1,7 @@
 # Common
 .vscode
 .DS_Store
+.idea
 
 # Environments
 .env

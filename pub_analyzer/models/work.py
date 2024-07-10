@@ -42,6 +42,7 @@ class Location(BaseModel):
 class OpenAccessStatus(str, Enum):
     """The Open Access (OA) status of this work."""
 
+    diamond = "diamond"
     gold = "gold"
     green = "green"
     hybrid = "hybrid"

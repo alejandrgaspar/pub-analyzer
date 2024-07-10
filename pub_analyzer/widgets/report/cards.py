@@ -63,7 +63,7 @@ class OpenAccessSummaryCard(Card):
 
         with VerticalScroll(classes="card-container"):
             for status, count in self.report.open_access_summary.model_dump().items():
-                yield Label(f"[bold]{status}:[/bold] {count}")
+                yield Label(f"[bold]{status.capitalize()}:[/bold] {count}")
 
 
 # Work Info cards.
@@ -105,7 +105,7 @@ class OpenAccessCard(Card):
         work_url = self.work.open_access.oa_url
 
         yield Label("[italic]Open Access[/italic]", classes="card-title")
-        yield Label(f"[bold]Status:[/bold] {self.work.open_access.oa_status.value}")
+        yield Label(f"[bold]Status:[/bold] {self.work.open_access.oa_status.value.capitalize()}")
         if work_url:
             yield Label(f"""[bold]URL:[/bold] [@click=app.open_link('{quote(str(work_url))}')]{work_url}[/]""")
 

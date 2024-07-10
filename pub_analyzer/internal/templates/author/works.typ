@@ -17,7 +17,7 @@
       ]
     ],
     [
-      #block(width: 100%, height: 100%, inset: (x: 5pt, y: 10pt))[#body]
+      #block(width: 100%, height: 100%, inset: (x: 0pt, y: 10pt))[#body]
     ],
   )
 }
@@ -94,6 +94,7 @@
       canvas(length: 35%, {
         chart.piechart(
           (
+            {{report.open_access_summary.diamond}},   // diamond
             {{report.open_access_summary.gold}},   // Gold
             {{report.open_access_summary.green}},  // Green
             {{report.open_access_summary.hybrid}}, // Hybrid
@@ -117,9 +118,10 @@
           *Count:* {{ report.open_access_summary.model_dump().items()|sum(attribute="1") }}
         ],
 
+        [#box(height: 7pt, width: 7pt, fill: BLUE) *Diamond:* {{report.open_access_summary.gold}}],
         [#box(height: 7pt, width: 7pt, fill: YELLOW) *Gold:* {{report.open_access_summary.gold}}],
         [#box(height: 7pt, width: 7pt, fill: GREEN) *Green:* {{report.open_access_summary.green}}],
-        [#box(height: 7pt, width: 7pt, fill: BLUE) *Bronze:* {{report.open_access_summary.bronze}}],
+        [#box(height: 7pt, width: 7pt, fill: PURPLE) *Bronze:* {{report.open_access_summary.bronze}}],
 
         [#box(height: 7pt, width: 7pt, fill: GRAY) *Closed:* {{report.open_access_summary.closed}}],
         [#box(height: 7pt, width: 7pt, fill: RED) *Hybrid:* {{report.open_access_summary.hybrid}}],
