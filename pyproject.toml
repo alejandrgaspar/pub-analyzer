@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pub-analyzer"
-version = "0.4.0"
+version = "0.4.1"
 description = "A text user interface, written in python, which automates the generation of scientific production reports using OpenAlex"
 
 authors = ["Alejandro Gaspar <alejandro@gaspar.land>"]
