@@ -13,7 +13,7 @@ InstitutionOpenAlexKey: TypeAlias = str
 
 
 class InstitutionIDs(BaseModel):
-    """IDs from a Institution."""
+    """IDs from an Institution."""
 
     openalex: InstitutionOpenAlexID
     grid: str | None = None

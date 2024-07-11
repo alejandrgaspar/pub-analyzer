@@ -144,5 +144,5 @@ class Work(BaseModel):
 
     @field_validator("authorships", mode="before")
     def valid_authorships(cls, authorships: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        """Skip authorships that do not contain enough data."""
+        """Skip authorship's that do not contain enough data."""
         return [authorship for authorship in authorships if authorship["author"].get("id") is not None]

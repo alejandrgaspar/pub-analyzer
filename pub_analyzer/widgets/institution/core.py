@@ -38,7 +38,7 @@ class _InstitutionSummaryWidget(Static):
                 yield IdentifiersCard(institution=self.institution)
                 yield CitationMetricsCard(institution=self.institution)
 
-        # Work realeted info
+        # Work related info
         with Vertical(classes="block-container"):
             yield Label("[bold]Work Info:[/bold]", classes="block-title")
 

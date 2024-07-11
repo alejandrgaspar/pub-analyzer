@@ -101,7 +101,7 @@ class WorkModal(Modal[None]):
 
             # Cards
             with Horizontal(classes="cards-container"):
-                # Authorships
+                # Authorship's
                 yield AuthorshipCard(work=self.work_report.work, author=self.author)
 
                 # OpenAccess Info
@@ -111,7 +111,7 @@ class WorkModal(Modal[None]):
                 yield CitationMetricsCard(work_report=self.work_report)
 
             with TabbedContent(id="tables-container"):
-                # Abtract if exists
+                # Abstract if exists
                 if self.work_report.work.abstract:
                     with TabPane("Abstract"):
                         yield Label(self.work_report.work.abstract, classes="abstract")

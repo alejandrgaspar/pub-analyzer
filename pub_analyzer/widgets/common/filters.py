@@ -24,7 +24,7 @@ class Filter(Static):
 
     @property
     def validation_state(self) -> bool:
-        """Return true if all valitadtion passes."""
+        """Return true if all validation passes."""
         raise NotImplementedError
 
 

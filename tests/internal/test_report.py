@@ -87,12 +87,12 @@ def test_get_institution_keys(
 
 def test_get_authors_list() -> None:
     """Test _get_authors_list function."""
-    frist_author = DehydratedAuthor(id=HttpUrl("https://openalex.org/A4356032281"))
+    first_author = DehydratedAuthor(id=HttpUrl("https://openalex.org/A4356032281"))
     middle_author = DehydratedAuthor(id=HttpUrl("https://openalex.org/A2642025319"))
     last_author = DehydratedAuthor(id=HttpUrl("https://openalex.org/A4356881717"))
 
     authorships = [
-        Authorship(author_position="first", author=frist_author),
+        Authorship(author_position="first", author=first_author),
         Authorship(author_position="middle", author=middle_author),
         Authorship(author_position="last", author=last_author),
     ]

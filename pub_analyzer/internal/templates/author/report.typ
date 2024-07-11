@@ -14,7 +14,7 @@
 
 #let colors = (BLUE, GREEN, GRAY, YELLOW, RED, PURPLE)
 
-// Page Layoput
+// Page Layout
 #set page("us-letter")
 #set page(flipped: true)
 

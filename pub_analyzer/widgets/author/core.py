@@ -38,7 +38,7 @@ class _AuthorSummaryWidget(Static):
                 yield IdentifiersCard(author=self.author)
                 yield CitationMetricsCard(author=self.author)
 
-        # Work realeted info
+        # Work related info
         with Vertical(classes="block-container"):
             yield Label("[bold]Work Info:[/bold]", classes="block-title")
 

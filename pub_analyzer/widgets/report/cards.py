@@ -68,7 +68,7 @@ class OpenAccessSummaryCard(Card):
 
 # Work Info cards.
 class AuthorshipCard(Card):
-    """Card that enumerate the authorships of a work."""
+    """Card that enumerate the authorship's of a work."""
 
     def __init__(self, work: Work, author: Author | None) -> None:
         self.work = work
@@ -77,7 +77,7 @@ class AuthorshipCard(Card):
 
     def compose(self) -> ComposeResult:
         """Compose card."""
-        yield Label("[italic]Authorships[/italic]", classes="card-title")
+        yield Label("[italic]Authorship's[/italic]", classes="card-title")
 
         with VerticalScroll(classes="card-container"):
             for authorship in self.work.authorships:

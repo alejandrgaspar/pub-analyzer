@@ -70,7 +70,7 @@ def _get_institution_keys(
 
 
 def _get_authors_list(authorships: list[Authorship]) -> list[str]:
-    """Collect OpenAlex IDs from authors in a list of authorships.
+    """Collect OpenAlex IDs from authors in a list of authorship's.
 
     Args:
         authorships: List of authorships.
@@ -108,7 +108,7 @@ def _get_citation_type(original_work_authors: list[str], cited_work_authors: lis
 
 
 def _add_work_abstract(work: dict[str, Any]) -> dict[str, Any]:
-    """Get work abtract from abstract_inverted_index and insert new key `abstract`.
+    """Get work abstract from abstract_inverted_index and insert new key `abstract`.
 
     Args:
         work: Raw work.
