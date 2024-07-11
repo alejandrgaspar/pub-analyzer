@@ -15,19 +15,15 @@ $primary-color-highlight: #dc2626;
 ReportWidget {
     height: 1fr;
     margin: 1 2;
+
+    #main-container {
+        height: 100%;
+    }
 }
 
 .-dark-mode ReportWidget {
     background: $bg-secondary-color;
     color: $text-primary-color-darken;
-}
-
-ReportWidget #main-container {
-    height: 100%;
-}
-
-ContentSwitcher {
-    height: 1fr;
 }
 
 /* Common */

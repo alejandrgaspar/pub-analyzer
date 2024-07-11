@@ -32,6 +32,30 @@ AUTHOR: dict[str, Any] = {
             "type": "education",
         }
     ],
+    "affiliations": [
+        {
+            "institution": {
+                "id": "https://openalex.org/I4210088718",
+                "ror": "https://ror.org/003mpdt17",
+                "display_name": "Universidad Católica Silva Henríquez",
+                "country_code": "CL",
+                "type": "education",
+                "lineage": ["https://openalex.org/I4210088718"],
+            },
+            "years": [2023],
+        },
+        {
+            "institution": {
+                "id": "https://openalex.org/I36258959",
+                "ror": "https://ror.org/0168r3w48",
+                "display_name": "University of California, San Diego",
+                "country_code": "US",
+                "type": "education",
+                "lineage": ["https://openalex.org/I36258959"],
+            },
+            "years": [2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011],
+        },
+    ],
     "counts_by_year": [
         {"year": 2023, "works_count": 0, "cited_by_count": 914},
         {"year": 2022, "works_count": 0, "cited_by_count": 1894},

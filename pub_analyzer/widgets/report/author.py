@@ -1,11 +1,12 @@
 """Author Report Widgets."""
 
 from textual.app import ComposeResult
-from textual.containers import Container, Horizontal, VerticalScroll
+from textual.containers import Horizontal, VerticalScroll
+from textual.widgets import TabbedContent, TabPane
 
 from pub_analyzer.models.report import AuthorReport
 from pub_analyzer.widgets.author.cards import CitationMetricsCard, IdentifiersCard, LastInstitutionCard
-from pub_analyzer.widgets.author.tables import AuthorWorksByYearTable
+from pub_analyzer.widgets.author.tables import AffiliationsTable, AuthorWorksByYearTable
 
 
 class AuthorReportPane(VerticalScroll):
@@ -16,11 +17,11 @@ class AuthorReportPane(VerticalScroll):
         layout: vertical;
         overflow-x: hidden;
         overflow-y: auto;
-    }
 
-    AuthorReportPane .table-container {
-        margin: 1 0 0 0 ;
-        height: auto;
+        .author-tables-container {
+            margin: 1 0 0 0 ;
+            height: auto;
+        }
     }
     """
 
@@ -35,5 +36,8 @@ class AuthorReportPane(VerticalScroll):
             yield IdentifiersCard(author=self.report.author)
             yield CitationMetricsCard(author=self.report.author)
 
-        with Container(classes="table-container"):
-            yield AuthorWorksByYearTable(author=self.report.author)
+        with TabbedContent(id="author-tables-container"):
+            with TabPane("Citation Metrics"):
+                yield AuthorWorksByYearTable(author=self.report.author)
+            with TabPane("Institutions"):
+                yield AffiliationsTable(author=self.report.author)

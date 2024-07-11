@@ -39,6 +39,13 @@ class AuthorSummaryStats(BaseModel):
     i10_index: int
 
 
+class AuthorAffiliation(BaseModel):
+    """List of affiliations this author has claimed in their publications."""
+
+    institution: DehydratedInstitution
+    years: list[int]
+
+
 class Author(BaseModel):
     """Author Model Object from OpenAlex API definition."""
 
@@ -48,13 +55,13 @@ class Author(BaseModel):
 
     display_name: str
     display_name_alternatives: list[str]
+    last_known_institutions: list[DehydratedInstitution]
+    affiliations: list[AuthorAffiliation]
 
     works_count: int
     cited_by_count: int
 
-    last_known_institutions: list[DehydratedInstitution]
     counts_by_year: list[AuthorYearCount]
-
     summary_stats: AuthorSummaryStats
 
     works_api_url: str
