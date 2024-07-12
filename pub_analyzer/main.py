@@ -4,6 +4,7 @@ import urllib.parse
 import webbrowser
 from typing import ClassVar
 
+from textual import log
 from textual._path import CSSPathType
 from textual.app import App, ComposeResult
 from textual.binding import Binding, BindingType
@@ -70,9 +71,11 @@ class PubAnalyzerApp(App[DOMNode]):
 
     def action_open_link(self, link: str) -> None:
         """Open a link in the browser."""
-        self.app.bell()
-        if link:
+        log.info(f"Opening link: {link}")
+        if link and (link != "None"):
             webbrowser.open(urllib.parse.unquote(link))
+        else:
+            log.warning("Link cannot be empty!")
 
 
 def run() -> None:

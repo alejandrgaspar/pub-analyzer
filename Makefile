@@ -15,6 +15,9 @@ dev:
 console:
 	$(run) textual console
 
+debug-console:
+	$(run) textual console -x EVENT -x DEBUG -x SYSTEM -x WORKER
+
 test:
 	$(run) pytest -vv --block-network
 

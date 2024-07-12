@@ -27,13 +27,19 @@ class AuthorResultWidget(ResultWidget):
 
     def compose(self) -> ComposeResult:
         """Compose Author result widget."""
+        orcid_link = self.author_result.external_id
+
         yield Button(label=self.author_result.display_name)
         with Vertical(classes="vertical-content"):
             # Main info
             with Horizontal(classes="main-info-container"):
                 yield Label(f"[bold]Cited by count:[/bold] {self.author_result.cited_by_count}", classes="cited-by-count")
                 yield Label(f"[bold]Works count:[/bold] {self.author_result.works_count}", classes="works-count")
-                yield Label(f"""[@click=app.open_link('{quote(str(self.author_result.external_id))}')]ORCID[/]""", classes="external-id")
+
+                if orcid_link:
+                    yield Label(f"""[@click=app.open_link('{quote(str(orcid_link))}')]ORCID[/]""", classes="external-id")
+                else:
+                    yield Label(f"""[@click=app.open_link('{quote(str(self.author_result.id))}')]OpenAlexID[/]""", classes="external-id")
 
             # Author hint
             yield Label(self.author_result.hint or "", classes="text-hint")
