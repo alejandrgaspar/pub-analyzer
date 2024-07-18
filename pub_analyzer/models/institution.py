@@ -56,9 +56,13 @@ class InstitutionGeo(BaseModel):
 
     city: str
     geonames_city_id: str
+
     region: str | None = None
     country_code: str
     country: str
+
+    latitude: float
+    longitude: float
 
 
 class InstitutionRoleType(str, Enum):
