@@ -95,7 +95,7 @@
       plot.plot(
         size: (0.90, 0.48),
         axis-style: "scientific-auto",
-        plot-style: (stroke: (1pt + BLUE),),
+        plot-style: (stroke: (1pt + PALETTE.at(0)),),
         x-min: auto, x-max: auto,
         x-tick-step: 1, y-tick-step: auto,
         x-label: none, y-label: none,

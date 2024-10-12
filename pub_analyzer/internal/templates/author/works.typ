@@ -34,7 +34,7 @@
             {{ report.citation_summary.type_b_count }}  // Type B
           ),
           radius: 1,
-          slice-style: (BLUE, GREEN),
+          slice-style: (PALETTE.at(0), PALETTE.at(1)),
           outer-label: (content: "%", radius: 115%),
         )
       })
@@ -48,8 +48,8 @@
         grid.cell(colspan: 2)[
           *Count:* {{ report.citation_summary.type_a_count + report.citation_summary.type_b_count }}
         ],
-        [#box(height: 7pt, width: 7pt, fill: BLUE) *Type A:* {{ report.citation_summary.type_a_count }}],
-        [#box(height: 7pt, width: 7pt, fill: GREEN) *Type B:* {{ report.citation_summary.type_b_count }}],
+        [#box(height: 7pt, width: 7pt, fill: PALETTE.at(0)) *Type A:* {{ report.citation_summary.type_a_count }}],
+        [#box(height: 7pt, width: 7pt, fill: PALETTE.at(1)) *Type B:* {{ report.citation_summary.type_b_count }}],
       )
     ]
   ],
@@ -61,7 +61,7 @@
           y-grid: false,
           bar-style: palette.new(
             base: (stroke: none, fill: none),
-            colors: colors
+            colors: PALETTE
           ),
           (
             {% for work_type in report.works_type_summary[:4] %}
@@ -83,7 +83,7 @@
 
         {% for work_type in report.works_type_summary[:4] %}
         [
-          #box(height: 7pt, width: 7pt, fill: colors.at({{ loop.index0 }})) *{{ work_type.type_name|capitalize }}:* {{ work_type.count }}
+          #box(height: 7pt, width: 7pt, fill: PALETTE.at({{ loop.index0 }})) *{{ work_type.type_name|capitalize }}:* {{ work_type.count }}
         ],
         {% endfor %}
       )
@@ -103,7 +103,7 @@
           ),
           radius: 1,
           inner-radius: .4,
-          slice-style: (BLUE, YELLOW, GREEN, RED, PURPLE, GRAY),
+          slice-style: (PALETTE.at(0), PALETTE.at(3), PALETTE.at(1), PALETTE.at(4), PALETTE.at(5), PALETTE.at(2)),
           outer-label: (content: "%", radius: 115%),
         )
       })
@@ -118,12 +118,12 @@
           *Count:* {{ report.open_access_summary.model_dump().items()|sum(attribute="1") }}
         ],
 
-        [#box(height: 7pt, width: 7pt, fill: BLUE) *Diamond:* {{report.open_access_summary.diamond}}],
-        [#box(height: 7pt, width: 7pt, fill: YELLOW) *Gold:* {{report.open_access_summary.gold}}],
-        [#box(height: 7pt, width: 7pt, fill: GREEN) *Green:* {{report.open_access_summary.green}}],
-        [#box(height: 7pt, width: 7pt, fill: PURPLE) *Bronze:* {{report.open_access_summary.bronze}}],
-        [#box(height: 7pt, width: 7pt, fill: GRAY) *Closed:* {{report.open_access_summary.closed}}],
-        [#box(height: 7pt, width: 7pt, fill: RED) *Hybrid:* {{report.open_access_summary.hybrid}}],
+        [#box(height: 7pt, width: 7pt, fill: PALETTE.at(0)) *Diamond:* {{report.open_access_summary.diamond}}],
+        [#box(height: 7pt, width: 7pt, fill: PALETTE.at(3)) *Gold:* {{report.open_access_summary.gold}}],
+        [#box(height: 7pt, width: 7pt, fill: PALETTE.at(1)) *Green:* {{report.open_access_summary.green}}],
+        [#box(height: 7pt, width: 7pt, fill: PALETTE.at(5)) *Bronze:* {{report.open_access_summary.bronze}}],
+        [#box(height: 7pt, width: 7pt, fill: PALETTE.at(2)) *Closed:* {{report.open_access_summary.closed}}],
+        [#box(height: 7pt, width: 7pt, fill: PALETTE.at(4)) *Hybrid:* {{report.open_access_summary.hybrid}}],
       )
     ]
   ],
@@ -148,6 +148,7 @@
   [{{ work.citation_summary.type_a_count }}],
   [{{ work.citation_summary.type_b_count }}],
   [{{ work.work.open_access.oa_status.value }}],
+
   {% endfor %}
 )
 #pagebreak()

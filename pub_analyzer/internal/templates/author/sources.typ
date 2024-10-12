@@ -17,6 +17,6 @@
   [{{ source.issn_l or "-" }}],
   [{{ source.summary_stats.two_yr_mean_citedness|round(3) }}],
   [{{ source.summary_stats.h_index }}],
-  [{% if source.is_oa %}#text(rgb("909d63"))[True]{% else %}#text(rgb("bc5653"))[False]{% endif %}],
+  [{% if source.is_oa %}#text(rgb(SUCCESS))[True]{% else %}#text(rgb(ERROR))[False]{% endif %}],
   {% endfor %}
 )

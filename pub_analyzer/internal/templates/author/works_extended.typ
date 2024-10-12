@@ -23,7 +23,7 @@
     #align(center)[_Authorships_]
     #parbreak()
     {% for authorship in work.work.authorships[:10] %}
-    - *{{ authorship.author_position }}:* #underline([#link("{{ authorship.author.orcid or authorship.author.id }}")[#text({% if authorship.author.display_name == report.author.display_name %}rgb("909d63"){% endif %})[{{ authorship.author.display_name }}]]])
+    - *{{ authorship.author_position }}:* #underline([#link("{{ authorship.author.orcid or authorship.author.id }}")[#text({% if authorship.author.display_name == report.author.display_name %}rgb(SUCCESS){% endif %})[{{ authorship.author.display_name }}]]])
     {% endfor %}
     {% if work.work.authorships|length > 10 %}
     - *...*
@@ -62,7 +62,7 @@
   [#"{{ cited_by_work.work.title.replace('"', '\\"') }}"],
   [{{ cited_by_work.work.type }}],
   [{% if cited_by_work.work.ids.doi %}#underline([#link("{{ cited_by_work.work.ids.doi }}")[DOI]]){% else %}-{% endif %}],
-  [{% if cited_by_work.citation_type.value == 0 %}#text(rgb("909d63"))[Type A]{% else %}#text(rgb("bc5653"))[Type B]{% endif %}],
+  [{% if cited_by_work.citation_type.value == 0 %}#text(rgb(SUCCESS))[Type A]{% else %}#text(rgb(ERROR))[Type B]{% endif %}],
   [{{ cited_by_work.work.publication_date }}],
   [{{ cited_by_work.work.cited_by_count }}],
   {% endfor %}
@@ -87,7 +87,7 @@
   [{{ location.source.host_organization_name or "-" }}],
   [{{ location.source.type }}],
   [{{ location.source.issn_l or "-" }}],
-  [{% if location.is_oa %}#text(rgb("909d63"))[True]{% else %}#text(rgb("bc5653"))[False]{% endif %}],
+  [{% if location.is_oa %}#text(rgb(SUCCESS))[True]{% else %}#text(rgb(ERROR))[False]{% endif %}],
   [{{ location.license or "-" }}],
   [{{ location.version.name or "-" }}],
   {% else %}
@@ -96,7 +96,7 @@
   [-],
   [-],
   [-],
-  [{% if location.is_oa %}#text(rgb("909d63"))[True]{% else %}#text(rgb("bc5653"))[False]{% endif %}],
+  [{% if location.is_oa %}#text(rgb(SUCCESS))[True]{% else %}#text(rgb(ERROR))[False]{% endif %}],
   [{{ location.license or "-" }}],
   [{{ location.version.name or "-" }}],
   {% endif %}
