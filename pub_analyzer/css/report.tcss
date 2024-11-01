@@ -33,7 +33,7 @@ ReportWidget .cards-container {
 
     layout: grid;
     grid-size: 3 1;
-    grid-rows: 12;
+    grid-rows: 13;
     grid-columns: 1fr;
     grid-gutter: 1 2;
 }
