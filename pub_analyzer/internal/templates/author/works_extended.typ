@@ -9,7 +9,7 @@
 #linebreak()
 
 {% if work.work.abstract %}
-#text()[#"{{ work.work.abstract.replace('"', '\\"') }}"]
+#text()[#"{{ work.work.abstract.replace('"', '\\"')|truncate(1000) }}"]
 
 #linebreak()
 
