@@ -71,7 +71,7 @@ class ArticleProcessingCharge(BaseModel):
 
     value: int
     currency: str
-    provenance: str
+    provenance: str | None = None
     value_usd: int | None
 
 

@@ -32,6 +32,7 @@ class InstitutionType(str, Enum):
     Nonprofit = "nonprofit"
     Government = "government"
     Facility = "facility"
+    Funder = "funder"
     Other = "other"
 
 
