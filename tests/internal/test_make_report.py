@@ -17,7 +17,7 @@ class ExpectedReportData(BaseModel):
     works_type_summary: list[WorkTypeCounter]
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 @pytest.mark.parametrize(
     ["author_openalex_id", "expected_report"],
     [

@@ -13,7 +13,7 @@ from tests.data.author import AUTHOR_RESULT_OBJECT
 from tests.data.institution import INSTITUTION_RESULT_OBJECT
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_author_search_bar_exit_focus() -> None:
     """Test sidebar toggle binding."""
     async with PubAnalyzerApp().run_test() as pilot:
@@ -33,7 +33,7 @@ async def test_author_search_bar_exit_focus() -> None:
         assert pilot.app.focused is not search_bar
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_author_result_complete_info() -> None:
     """Test Author result widget contains all info."""
     async with PubAnalyzerApp().run_test() as pilot:
@@ -56,7 +56,7 @@ async def test_author_result_complete_info() -> None:
         assert str(AUTHOR_RESULT_OBJECT.hint or "") in str(result_widget.query_one(".text-hint", Label).renderable)
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_institution_result_complete_info() -> None:
     """Test Institution result widget contains all info."""
     async with PubAnalyzerApp().run_test() as pilot:
@@ -79,7 +79,7 @@ async def test_institution_result_complete_info() -> None:
         assert str(INSTITUTION_RESULT_OBJECT.hint or "") in str(result_widget.query_one(".text-hint", Label).renderable)
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 @pytest.mark.vcr
 async def test_author_result_button_redirect() -> None:
     """Test Author result widget button redirect to AuthorSummaryWidget."""
@@ -105,7 +105,7 @@ async def test_author_result_button_redirect() -> None:
         main_content.get_child_by_type(AuthorSummaryWidget)
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 @pytest.mark.vcr
 async def test_institution_result_button_redirect() -> None:
     """Test Institution result widget button redirect to InstitutionSummaryWidget."""

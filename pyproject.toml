@@ -55,7 +55,7 @@ mypy = "1.15.0"
 ruff = "0.9.6"
 
 pytest = "8.3.4"
-pytest-asyncio = "0.25.3"
+anyio = "4.8.0"
 respx = "0.22.0"
 vcrpy = "7.0.0"
 pytest-recording = "0.13.2"
@@ -113,6 +113,3 @@ convention = "google"
 [tool.ruff.format]
 indent-style = "space"
 quote-style = "double"
-
-[tool.pytest.ini_options]
-asyncio_default_fixture_loop_scope = "session"

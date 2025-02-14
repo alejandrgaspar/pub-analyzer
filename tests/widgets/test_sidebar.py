@@ -14,7 +14,7 @@ from pub_analyzer.widgets.sidebar import SideBar
 ExpectType = TypeVar("ExpectType", bound="Widget")
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_sidebar_toggle() -> None:
     """Test sidebar toggle binding."""
     async with PubAnalyzerApp().run_test() as pilot:
@@ -34,7 +34,7 @@ async def test_sidebar_toggle() -> None:
         assert sidebar.content_size.width != 0
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 @pytest.mark.parametrize(
     ["button_id", "widget_expected"],
     [
