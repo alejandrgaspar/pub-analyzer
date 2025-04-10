@@ -6,6 +6,7 @@ from typing import Any, NewType
 
 import httpx
 from pydantic import TypeAdapter
+from textual import log
 
 from pub_analyzer.internal import identifier
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
@@ -138,7 +139,14 @@ def _get_valid_works(works: list[dict[str, Any]]) -> list[dict[str, Any]]:
         In response, we have chosen to exclude such works at this stage, thus avoiding
         the need to handle exceptions within the Model validators.
     """
-    return [_add_work_abstract(work) for work in works if work["title"] is not None]
+    valid_works = []
+    for work in works:
+        if work["title"] is not None:
+            valid_works.append(_add_work_abstract(work))
+        else:
+            log.warning(f"Discarded work: {work['id']}")
+
+    return valid_works
 
 
 async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
@@ -156,7 +164,7 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
-    response = await client.get(url=url)
+    response = await client.get(url=url, follow_redirects=True)
     response.raise_for_status()
 
     json_response = response.json()
@@ -166,7 +174,7 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     works_data = list(_get_valid_works(json_response["results"]))
 
     for page_number in range(1, page_count):
-        page_result = (await client.get(url + f"&page={page_number + 1}")).json()
+        page_result = (await client.get(url + f"&page={page_number + 1}", follow_redirects=True)).json()
         works_data.extend(_get_valid_works(page_result["results"]))
 
     return TypeAdapter(list[Work]).validate_python(works_data)
@@ -185,10 +193,17 @@ async def _get_source(client: httpx.AsyncClient, url: str) -> Source:
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
-    response = await client.get(url=url)
+    response = await client.get(url=url, follow_redirects=True)
     response.raise_for_status()
 
-    return Source(**response.json())
+    json_response = response.json()
+    hp_url = json_response["homepage_url"]
+    if isinstance(hp_url, str):
+        if not hp_url.startswith(("http", "https")):
+            json_response["homepage_url"] = None
+            log.warning(f"Discarted source homepage url: {url}")
+
+    return Source(**json_response)
 
 
 async def make_author_report(
@@ -242,8 +257,11 @@ async def make_author_report(
         dehydrated_sources: list[DehydratedSource] = []
 
         # Getting all works that have cited the author.
-        for author_work in author_works:
+        author_works_count = len(author_works)
+        for idx_work, author_work in enumerate(author_works, 1):
             work_id = identifier.get_work_id(author_work)
+            log.info(f"[{work_id}] Work [{idx_work}/{author_works_count}]")
+
             work_authors = _get_authors_list(authorships=author_work.authorships)
             cited_by_api_url = (
                 f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
@@ -281,9 +299,12 @@ async def make_author_report(
 
         # Get sources full info.
         sources: list[Source] = []
-        for dehydrated_source in dehydrated_sources:
+        sources_count = len(dehydrated_sources)
+        for idx, dehydrated_source in enumerate(dehydrated_sources, 1):
             source_id = identifier.get_source_id(dehydrated_source)
             source_url = f"https://api.openalex.org/sources/{source_id}"
+
+            log.info(f"Getting Sources... [{idx}/{sources_count}]")
             sources.append(await _get_source(client, source_url))
 
         # Sort sources by h_index
@@ -349,8 +370,11 @@ async def make_institution_report(
         dehydrated_sources: list[DehydratedSource] = []
 
         # Getting all works that have cited a work.
-        for institution_work in institution_works:
+        institution_works_count = len(institution_works)
+        for idx_work, institution_work in enumerate(institution_works, 1):
             work_id = identifier.get_work_id(institution_work)
+            log.info(f"[{work_id}] Work [{idx_work}/{institution_works_count}]")
+
             work_authors = _get_authors_list(authorships=institution_work.authorships)
             cited_by_api_url = (
                 f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
@@ -388,9 +412,12 @@ async def make_institution_report(
 
         # Get sources full info.
         sources: list[Source] = []
-        for dehydrated_source in dehydrated_sources:
+        sources_count = len(dehydrated_sources)
+        for idx, dehydrated_source in enumerate(dehydrated_sources, 1):
             source_id = identifier.get_source_id(dehydrated_source)
             source_url = f"https://api.openalex.org/sources/{source_id}"
+
+            log.debug(f"[{work_id}] Getting Sources... [{idx}/{sources_count}]")
             sources.append(await _get_source(client, source_url))
 
         # Sort sources by h_index
