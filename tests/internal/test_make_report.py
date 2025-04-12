@@ -58,18 +58,18 @@ async def test_make_author_report(author_openalex_id: str, expected_report: Expe
         result = (await client.get(url)).json()
         author: Author = TypeAdapter(Author).validate_python(result)
 
-    # report: AuthorReport = await make_author_report(author=author)
+    report: AuthorReport = await make_author_report(author=author)
 
-    # # Assert report summary is correct
-    # assert report.citation_summary.model_dump() == expected_report.citation_summary.model_dump()
-    # assert report.open_access_summary.model_dump() == expected_report.open_access_summary.model_dump()
-    # assert [work_type.model_dump() for work_type in report.works_type_summary] == [
-    #     work_type.model_dump() for work_type in expected_report.works_type_summary
-    # ]
+    # Assert report summary is correct
+    assert report.citation_summary.model_dump() == expected_report.citation_summary.model_dump()
+    assert report.open_access_summary.model_dump() == expected_report.open_access_summary.model_dump()
+    assert [work_type.model_dump() for work_type in report.works_type_summary] == [
+        work_type.model_dump() for work_type in expected_report.works_type_summary
+    ]
 
-    # # Assert summary counts are equal to number of works
-    # assert (
-    #     sum([len(work.cited_by) for work in report.works])
-    #     == expected_report.citation_summary.type_a_count + expected_report.citation_summary.type_b_count
-    # )
-    # assert sum([len(report.works)]) == sum(expected_report.open_access_summary.model_dump().values())
+    # Assert summary counts are equal to number of works
+    assert (
+        sum([len(work.cited_by) for work in report.works])
+        == expected_report.citation_summary.type_a_count + expected_report.citation_summary.type_b_count
+    )
+    assert sum([len(report.works)]) == sum(expected_report.open_access_summary.model_dump().values())
