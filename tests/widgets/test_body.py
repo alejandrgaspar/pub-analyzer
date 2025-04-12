@@ -7,7 +7,7 @@ from pub_analyzer.main import PubAnalyzerApp
 from pub_analyzer.widgets.body import MainContent
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_main_content_update_title() -> None:
     """Test update title in MainContent Widget."""
     async with PubAnalyzerApp().run_test() as pilot:

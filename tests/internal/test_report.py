@@ -167,7 +167,7 @@ def test_get_valid_works(works: list[dict[str, Any]], expected_works: list[dict[
     assert report._get_valid_works(works) == expected_works
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     ["author_id", "works"],
     [
