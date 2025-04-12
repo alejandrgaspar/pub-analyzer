@@ -1,18 +1,22 @@
 """Works Report Widgets."""
 
-from urllib.parse import quote
+import pathlib
+import re
+from urllib.parse import quote, urlparse
 
+import httpx
 from rich.console import RenderableType
 from rich.table import Table
 from rich.text import Text
-from textual import events, on
+from textual import events, on, work
 from textual.app import ComposeResult
-from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Label, Static, TabbedContent, TabPane
+from textual.containers import Horizontal, Vertical, VerticalScroll
+from textual.widgets import Button, Label, Static, TabbedContent, TabPane
 
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import AuthorReport, CitationReport, CitationType, InstitutionReport, WorkReport
-from pub_analyzer.widgets.common import Modal
+from pub_analyzer.models.work import Location
+from pub_analyzer.widgets.common import FileSystemSelector, Input, Modal, Select
 from pub_analyzer.widgets.report.cards import (
     AuthorshipCard,
     CitationMetricsCard,
@@ -80,12 +84,133 @@ class CitedByTable(Static):
         yield Static(citations_table, classes="citations-table")
 
 
+class DownloadPane(VerticalScroll):
+    """Download Work pane widget."""
+
+    def __init__(self, work_report: WorkReport, locations: list[Location]) -> None:
+        self.work_report = work_report
+        self.locations = locations
+        super().__init__()
+
+    @on(FileSystemSelector.FileSelected)
+    def enable_button(self, event: FileSystemSelector.FileSelected) -> None:
+        """Enable button on file select."""
+        if event.file_selected:
+            self.query_one(Button).disabled = False
+        else:
+            self.query_one(Button).disabled = True
+
+    @on(Button.Pressed, "#export-report-button")
+    async def export_report(self) -> None:
+        """Handle export report button."""
+        export_path = self.query_one(FileSystemSelector).path_selected
+        file_name = self.query_one(Input).value
+        pdf_url = self.query_one(Select).value
+
+        if export_path and file_name:
+            file_path = export_path.joinpath(file_name)
+            self.download_work(file_path=file_path, pdf_url=pdf_url)
+            self.query_one(Button).disabled = True
+
+    @work(exclusive=True)
+    async def download_work(self, file_path: pathlib.Path, pdf_url: str) -> None:
+        """Download PDF."""
+        async with httpx.AsyncClient() as client:
+            try:
+                self.log.info(f"Starting downloading: {pdf_url}")
+                response = await client.get(url=pdf_url, timeout=300, follow_redirects=True)
+                response.raise_for_status()
+                with open(file_path, mode="wb") as f:
+                    f.write(response.content)
+
+                self.app.notify(
+                    title="PDF downloaded successfully!",
+                    message=f"The file was downloaded successfully. You can go see it at [i]{file_path}[/]",
+                    timeout=20.0,
+                )
+            except httpx.RequestError:
+                self.app.notify(
+                    title="Network problems!",
+                    message="An error occurred while requesting. Please check your connection and try again.",
+                    severity="error",
+                    timeout=20.0,
+                )
+            except httpx.HTTPStatusError as exec:
+                status_code = exec.response.status_code
+                title = f"HTTP Error! Status {status_code} ({httpx.codes.get_reason_phrase(status_code)})."
+
+                if status_code == httpx.codes.FORBIDDEN:
+                    msg = (
+                        "Sometimes servers forbid robots from accessing their websites."
+                        + "Try to download it from your browser using the following link: "
+                        + f"""[@click=app.open_link('{quote(pdf_url)}')][u]{pdf_url}[/u][/]"""
+                    )
+                    self.app.notify(
+                        title=title,
+                        message=msg,
+                        severity="error",
+                        timeout=30.0,
+                    )
+                else:
+                    msg = (
+                        "Try to download it from your browser using the following link: "
+                        + f"""[@click=app.open_link('{quote(pdf_url)}')][u]{pdf_url}[/u][/]"""
+                    )
+                    self.app.notify(
+                        title=title,
+                        message=msg,
+                        severity="error",
+                        timeout=30.0,
+                    )
+
+    def safe_filename(self, title: str) -> str:
+        """Create a safe filename."""
+        no_tags = re.sub(r"<[^>]+>", "", title)
+        hyphenated = re.sub(r"\s+", "-", no_tags.strip())
+        safe = re.sub(r"[^a-zA-Z0-9\-_]", "", hyphenated)
+        return safe[:20]
+
+    def compose(self) -> ComposeResult:
+        """Compose content pane."""
+        filename = self.safe_filename(self.work_report.work.title)
+        suggest_file_name = f"{filename}.pdf"
+        with Vertical(id="export-form"):
+            with Vertical(classes="export-form-input-container"):
+                yield Label("[b]Name File:[/]", classes="export-form-label")
+
+                with Horizontal(classes="file-selector-container"):
+                    options = []
+                    for location in self.locations:
+                        if location.source:
+                            options.append((location.source.display_name, location.pdf_url))
+                        else:
+                            hostname = str(urlparse(location.pdf_url).hostname)
+                            options.append((hostname, location.pdf_url))
+
+                    yield Input(value=suggest_file_name, placeholder="work.pdf", classes="export-form-input")
+                    yield Select(
+                        options=options,
+                        allow_blank=False,
+                    )
+
+            with Vertical(classes="export-form-input-container"):
+                yield Label("[b]Export Directory:[/]", classes="export-form-label")
+                yield FileSystemSelector(path=pathlib.Path.home(), only_dir=True)
+
+            with Horizontal(classes="export-form-buttons"):
+                yield Button("Download", variant="primary", disabled=True, id="export-report-button")
+
+
 class WorkModal(Modal[None]):
     """Summary of the statistics of a work."""
 
     def __init__(self, work_report: WorkReport, author: Author | None) -> None:
         self.work_report = work_report
         self.author = author
+
+        locations = self.work_report.work.locations
+        self.locations_with_pdf_available = [location for location in locations if location.pdf_url]
+
         super().__init__()
 
     @on(events.Key)
@@ -145,6 +270,11 @@ class WorkModal(Modal[None]):
                         yield TopicsTable(self.work_report.work.topics)
                     else:
                         yield Label("No Topics found.")
+                # Download
+                location = self.work_report.work.best_oa_location
+                if location and location.pdf_url:
+                    with TabPane("Download"):
+                        yield DownloadPane(work_report=self.work_report, locations=self.locations_with_pdf_available)
 
 
 class WorksTable(Static):

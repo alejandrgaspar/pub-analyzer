@@ -67,29 +67,29 @@ LoadReportWidget .button-container {
 }
 
 /* Export Report Pane */
-ExportReportPane #export-form {
+#export-form {
     height: auto;
 }
 
-ExportReportPane .export-form-input-container {
+.export-form-input-container {
     height: auto;
     margin-bottom: 2;
 }
 
-ExportReportPane .export-form-label {
+.export-form-label {
     width: 25vw;
     border-bottom: solid $text-primary-color;
 }
 
-ExportReportPane .file-selector-container {
+.file-selector-container {
     height: 3;
 }
 
-ExportReportPane .export-form-input {
+.export-form-input {
     width: 50vw;
 }
 
-ExportReportPane .export-form-buttons {
+.export-form-buttons {
     align: center middle;
     height: 3;
 }
