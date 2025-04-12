@@ -150,10 +150,14 @@ def test_add_work_abstract(work: dict[str, Any], expected_abstract: str | None) 
     ["works", "expected_works"],
     [
         [
-            [{"title": "Title1", "language": "en"}, {"title": "Title2", "language": None}, {"title": None, "language": "es"}],
             [
-                {"title": "Title1", "language": "en", "abstract": None},
-                {"title": "Title2", "language": None, "abstract": None},
+                {"id": "W4356881717", "title": "Title1", "language": "en"},
+                {"id": "W2058179313", "title": "Title2", "language": None},
+                {"id": "W1956475281", "title": None, "language": "es"},
+            ],
+            [
+                {"id": "W4356881717", "title": "Title1", "language": "en", "abstract": None},
+                {"id": "W2058179313", "title": "Title2", "language": None, "abstract": None},
             ],
         ],
     ],
