@@ -49,12 +49,7 @@ class AuthorResultWidget(ResultWidget):
         from pub_analyzer.widgets.body import MainContent
 
         author_summary_widget = AuthorSummaryWidget(author_result=self.author_result)
-
-        main_content = self.app.query_one(MainContent)
-        main_content.update_title(title=self.author_result.display_name)
-        await main_content.mount(author_summary_widget)
-
-        await self.app.query_one("FinderWidget").remove()
+        self.post_message(MainContent.UpdateMainContent(new_widget=author_summary_widget, title=self.author_result.display_name))
 
 
 class InstitutionResultWidget(ResultWidget):
@@ -84,9 +79,4 @@ class InstitutionResultWidget(ResultWidget):
         from pub_analyzer.widgets.body import MainContent
 
         institution_summary_widget = InstitutionSummaryWidget(institution_result=self.institution_result)
-
-        main_content = self.app.query_one(MainContent)
-        main_content.update_title(title=self.institution_result.display_name)
-        await main_content.mount(institution_summary_widget)
-
-        await self.app.query_one("FinderWidget").remove()
+        self.post_message(MainContent.UpdateMainContent(new_widget=institution_summary_widget, title=self.institution_result.display_name))

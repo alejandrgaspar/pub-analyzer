@@ -20,6 +20,7 @@ class PubAnalyzerApp(App[DOMNode]):
     """Pub Analyzer App entrypoint."""
 
     TITLE = "Pub Analyzer"
+    ENABLE_COMMAND_PALETTE = False
 
     CSS_PATH: ClassVar[CSSPathType | None] = [
         "css/body.tcss",
@@ -37,19 +38,14 @@ class PubAnalyzerApp(App[DOMNode]):
     BINDINGS: ClassVar[list[BindingType]] = [
         Binding(key="ctrl+d", action="toggle_dark", description="Dark mode"),
         Binding(key="ctrl+s", action="toggle_sidebar", description="Sidebar"),
-        Binding(key="ctrl+p", action="save_screenshot", description="Screenshot"),
     ]
 
     dark: Reactive[bool] = Reactive(False)
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
-        footer = Footer()
-        footer.upper_case_keys = True
-        footer.ctrl_to_caret = False
-
         yield Body()
-        yield footer
+        yield Footer(show_command_palette=False)
 
     def action_toggle_dark(self) -> None:
         """Toggle dark mode."""
