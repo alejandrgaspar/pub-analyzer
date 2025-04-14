@@ -33,7 +33,7 @@ async def render_template_report(report: AuthorReport | InstitutionReport) -> st
     return await env.get_template("report.typ").render_async(report=report, version=version("pub-analyzer"))
 
 
-async def render_report(report: AuthorReport | InstitutionReport, file_path: pathlib.Path) -> bytes:
+def render_report(report: AuthorReport | InstitutionReport, file_path: pathlib.Path) -> bytes:
     """Render report to PDF.
 
     The specified path is not where the PDF file will be saved. The path is where the typst
@@ -51,18 +51,12 @@ async def render_report(report: AuthorReport | InstitutionReport, file_path: pat
     Raises:
         SyntaxError: If typst compiler syntax error.
     """
-    template_render = await render_template_report(report=report)
+    if isinstance(report, AuthorReport):
+        templates_path = pathlib.Path(__file__).parent.resolve().joinpath("templates/author")
+        typst_file = templates_path / "main.typ"
+    if isinstance(report, InstitutionReport):
+        raise NotImplementedError
 
-    # Write template to typst file
-    root = file_path.parent
-    temp_file = open(root.joinpath(file_path.stem + ".typ"), mode="w", encoding="utf-8")
-    temp_file.write(template_render)
-    temp_file.close()
-
-    # Render typst file
-    pdf_render = typst.compile(temp_file.name)
-
-    if isinstance(pdf_render, bytes):
-        return pdf_render
-    else:
-        raise SyntaxError
+    sys_inputs = {"report": report.model_dump_json(by_alias=True), "version": version("pub-analyzer")}
+    pdf_render = typst.compile(input=typst_file, sys_inputs=sys_inputs)
+    return pdf_render
