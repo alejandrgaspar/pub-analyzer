@@ -53,7 +53,7 @@ def render_report(report: AuthorReport | InstitutionReport, file_path: pathlib.P
     """
     if isinstance(report, AuthorReport):
         templates_path = pathlib.Path(__file__).parent.resolve().joinpath("templates/author")
-        typst_file = templates_path / "main.typ"
+        typst_file = templates_path / "author_report.typ"
     if isinstance(report, InstitutionReport):
         raise NotImplementedError
 

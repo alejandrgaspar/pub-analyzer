@@ -390,7 +390,7 @@
     // Content
     ..works.enumerate().map(
       ((idx, work)) => (
-        table.cell([#idx]),
+        table.cell([#underline[#link(label("work_" + str(idx)))[#ref(label("work_" + str(idx)))]]]),
         table.cell([#work.work.title]),
         table.cell([#work.work.type]),
         table.cell([#if work.work.ids.doi != none [#underline[#link(work.work.ids.doi)[DOI]]] else [#align(center)[-]]]),
@@ -404,6 +404,7 @@
   )
 }
 
+// Works Extended
 #let work_driven_version = (
   submittedVersion: "submitted",
   acceptedVersion: "accepted",
@@ -413,7 +414,7 @@
   #let work = work_report.work
 
   #pagebreak()
-  == #work.title #label("work_" + str(idx))
+  #heading(level: 2)[#work.title] #label("work_" + str(idx))
 
 
   #if work.abstract != none [
@@ -436,7 +437,7 @@
           } else {
             authorship.author.id
           }
-          - *#authorship.author_position:* #underline[#link(author_link)[#authorship.author.display_name]]
+          - *#authorship.author_position:* #underline[#link(author_link)[#if authorship.author.display_name == author.display_name [#text(rgb(SUCCESS))[#authorship.author.display_name]] else [#authorship.author.display_name]]]
         ]
         #if work.authorships.len() > 10 [- *...*]
       ]
@@ -468,7 +469,7 @@
       [], [*Title*], [*Type*], [*DOI*], [*Cite Type*], [*Publication Date*], [*Cited by count*],
 
       // Content
-      ..work_report.cited_by.enumerate().map(
+      ..work_report.cited_by.enumerate(start: 1).map(
         ((idx, cited_by)) => (
           table.cell([#idx]),
           table.cell([#cited_by.work.title]),
@@ -486,16 +487,16 @@
   #if work.locations.len() >= 1 [
     #align(center, text(11pt)[_Sources_])
     #table(
-      columns: (auto, 3fr, 2.5fr, 1fr, auto, auto, auto, auto),
+      columns: (auto, 3fr, 2.5fr, 1fr, auto, auto, 1.2fr, auto),
       inset: 8pt,
       align: horizon,
       // Headers
       [], [*Name*], [*Publisher or institution*], [*Type*], [*ISSN-L*], [*Is OA*], [*License*], [*Version*],
 
       // Content
-      ..work.locations.enumerate().filter((location => location.last().source != none)).map(
+      ..work.locations.enumerate(start: 1).filter((location => location.last().source != none)).map(
           ((idx, location)) => (
-            table.cell([#idx]),
+            table.cell([#underline[#link(label("source_" + location.source.id.find(regex("S\d+$"))))[#idx]]]),
             table.cell([#location.source.display_name]),
             table.cell([#if location.source.host_organization_name != none [#location.source.host_organization_name] else [-]]),
             table.cell([#location.source.type]),
@@ -505,7 +506,7 @@
             table.cell([#if location.version != none [#work_driven_version.at(location.version)]]),
           )
         ).flatten(),
-      ..work.locations.enumerate().filter((location => location.last().source == none)).map(
+      ..work.locations.enumerate(start: 1).filter((location => location.last().source == none)).map(
           ((idx, location)) => (
             table.cell([#idx]),
             table.cell([#underline([#link(location.landing_page_url)[#location.landing_page_url]])]),
@@ -527,16 +528,16 @@
 = Sources.
 
 #table(
-  columns: (auto, 2.8fr, 2.55fr, 1.2fr, auto, auto, auto, auto),
+  columns: (auto, 2.7fr, 2.56fr, 1.2fr, auto, auto, auto, auto),
   inset: 8pt,
   align: horizon,
   // Headers
   [], [*Name*], [*Publisher or institution*], [*Type*], [*ISSN-L*], [*Impact factor*], [*h-index*], [*Is OA*],
 
   // Content
-  ..sources_summary.sources.enumerate().map(
+  ..sources_summary.sources.enumerate(start: 1).map(
     ((idx, source)) => (
-      table.cell([#idx]),
+      table.cell([3.#idx. #label("source_" + source.id.find(regex("S\d+$")))]),
       table.cell([#if source.homepage_url != none [#underline[#link(source.homepage_url)[#source.display_name]]] else [#underline[#link(source.id)[#source.display_name]]]]),
       table.cell([#if source.host_organization_name != none [#source.host_organization_name] else [-]]),
       table.cell([#source.type]),
