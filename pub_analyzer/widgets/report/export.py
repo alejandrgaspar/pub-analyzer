@@ -67,9 +67,7 @@ class ExportReportPane(VerticalScroll):
                 with open(file_path, mode="w", encoding="utf-8") as file:
                     file.write(self.report.model_dump_json(indent=2, by_alias=True))
             case self.ExportFileType.PDF:
-                report_bytes = render_report(report=self.report, file_path=file_path)
-                with open(file_path, mode="wb") as file:
-                    file.write(report_bytes)
+                render_report(report=self.report, file_path=file_path)
 
         self.app.call_from_thread(
             self.app.notify,
