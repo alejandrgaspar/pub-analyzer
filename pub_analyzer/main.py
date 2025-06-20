@@ -28,10 +28,11 @@ class PubAnalyzerApp(App[DOMNode]):
         "css/checkbox.tcss",
         "css/collapsible.tcss",
         "css/datatable.tcss",
+        "css/editor.tcss",
         "css/main.tcss",
         "css/report.tcss",
-        "css/summary.tcss",
         "css/search.tcss",
+        "css/summary.tcss",
         "css/tabs.tcss",
         "css/tree.tcss",
     ]

@@ -1,0 +1,58 @@
+/* COLORS */
+$bg-main-color: white;
+$bg-secondary-color: #e5e7eb;
+$bg-secondary-color-accent: #d1d5db;
+$text-primary-color: black;
+
+$bg-main-color-darken: #1e293b;
+$bg-secondary-color-darken: #0f172a;
+$text-primary-color-darken: black;
+
+$primary-color: #b91c1c;
+$primary-color-accent: #991b1b;
+$primary-color-highlight: #dc2626;
+
+TextEditor {
+    #dialog {
+        margin: 10 10;
+    }
+
+    #text-editor-container {
+        height: 1fr;
+    }
+
+    TextArea{
+        height: auto;
+        padding: 1 3;
+
+        background: $bg-main-color;
+        border: none;
+
+        .text-area--cursor {
+            background: $primary-color;
+        }
+        .text-area--cursor-gutter {
+            color: $bg-main-color;
+            background: $primary-color-accent;
+        }
+        .text-area--cursor-line {
+            background: $bg-main-color;
+        }
+        .text-area--matching-bracket {
+            background: $primary-color-highlight 30%;
+        }
+
+    }
+
+    #actions-buttons {
+        height: 3;
+        margin-top: 1;
+        margin-bottom: 2;
+
+        align: center middle;
+
+        Button {
+            margin: 0 5;
+        }
+    }
+}
