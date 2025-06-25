@@ -113,6 +113,15 @@ WorkModal #dialog .abstract {
     padding: 1 2;
 }
 
+WorkModal TabPane EditWidget {
+    height: 3;
+    margin-top: 1;
+
+    Horizontal {
+        align: center middle;
+    }
+}
+
 WorkModal #dialog #tables-container {
     margin: 1 0;
 }

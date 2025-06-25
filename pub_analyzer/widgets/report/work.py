@@ -16,7 +16,7 @@ from textual.widgets import Button, Label, Static, TabbedContent, TabPane
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import AuthorReport, CitationReport, CitationType, InstitutionReport, WorkReport
 from pub_analyzer.models.work import Location
-from pub_analyzer.widgets.common import FileSystemSelector, Input, Modal, Select
+from pub_analyzer.widgets.common import FileSystemSelector, Input, Modal, ReactiveLabel, Select
 from pub_analyzer.widgets.report.cards import (
     AuthorshipCard,
     CitationMetricsCard,
@@ -25,6 +25,7 @@ from pub_analyzer.widgets.report.cards import (
     ReportCitationMetricsCard,
     WorksTypeSummaryCard,
 )
+from pub_analyzer.widgets.report.editor import EditWidget
 
 from .concept import ConceptsTable
 from .grants import GrantsTable
@@ -239,7 +240,15 @@ class WorkModal(Modal[None]):
                 # Abstract if exists
                 if self.work_report.work.abstract:
                     with TabPane("Abstract"):
-                        yield Label(self.work_report.work.abstract, classes="abstract")
+                        label = ReactiveLabel(self.work_report.work.abstract, classes="abstract")
+                        yield label
+                        yield EditWidget(
+                            display_name="abstract",
+                            field_name="abstract",
+                            model=self.work_report.work,
+                            widget=label,
+                            widget_field="renderable",
+                        )
                 # Citations Table
                 with TabPane("Cited By Works"):
                     if len(self.work_report.cited_by):

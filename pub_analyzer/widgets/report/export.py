@@ -60,16 +60,14 @@ class ExportReportPane(VerticalScroll):
             self.query_one(Button).disabled = True
 
     @work(exclusive=True, thread=True)
-    async def _export_report(self, file_type: ExportFileType, file_path: pathlib.Path) -> None:
+    def _export_report(self, file_type: ExportFileType, file_path: pathlib.Path) -> None:
         """Export report."""
         match file_type:
             case self.ExportFileType.JSON:
                 with open(file_path, mode="w", encoding="utf-8") as file:
                     file.write(self.report.model_dump_json(indent=2, by_alias=True))
             case self.ExportFileType.PDF:
-                report_bytes = await render_report(report=self.report, file_path=file_path)
-                with open(file_path, mode="wb") as file:
-                    file.write(report_bytes)
+                render_report(report=self.report, file_path=file_path)
 
         self.app.call_from_thread(
             self.app.notify,

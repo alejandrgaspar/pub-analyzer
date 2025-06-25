@@ -44,8 +44,7 @@ textual = "0.85.2"
 httpx = "0.27.2"
 pydantic = "2.11.3"
 
-typst = "0.11.1"
-jinja2 = "3.1.6"
+typst = "0.13.2"
 
 [tool.poetry.group.dev.dependencies]
 textual-dev = "1.5.1"

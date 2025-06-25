@@ -9,7 +9,7 @@ from pub_analyzer.internal.render import render_report
 from pub_analyzer.models.report import AuthorReport
 
 report = AuthorReport(**kwargs) # (1)!
-pdf_bytes = asyncio.run(render_report(report=report, file_path='demo.typ'))
+pdf_bytes = render_report(report=report)
 
 with open('demo.pdf', mode="wb") as file:
     file.write(pdf_bytes)
