@@ -14,7 +14,9 @@ $primary-color-highlight: #dc2626;
 
 TextEditor {
     #dialog {
-        margin: 10 10;
+        margin: 0 10;
+        min-height: 10vh;
+        max-height: 60vh;
     }
 
     #text-editor-container {
