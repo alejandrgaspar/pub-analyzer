@@ -44,6 +44,7 @@ class AffiliationsTable(Static):
                 else f"{institution.display_name}"
             )
             years = ",".join([str(year) for year in affiliation.years])
-            table.add_row(str(institution_name), str(institution.country_code.upper()), str(institution.type.name), str(years))
+            country_code = institution.country_code.upper() if institution.country_code else "-"
+            table.add_row(str(institution_name), str(country_code), str(institution.type.name), str(years))
 
         yield Static(table)

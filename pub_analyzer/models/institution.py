@@ -59,7 +59,7 @@ class InstitutionGeo(BaseModel):
     geonames_city_id: str
 
     region: str | None = None
-    country_code: str
+    country_code: str | None = None
     country: str
 
     latitude: float
@@ -95,7 +95,7 @@ class Institution(BaseModel):
     ids: InstitutionIDs
 
     display_name: str
-    country_code: str
+    country_code: str | None = None
     type: InstitutionType
     homepage_url: HttpUrl | None = None
     image_url: HttpUrl | None = None
@@ -120,7 +120,7 @@ class DehydratedInstitution(BaseModel):
     id: InstitutionOpenAlexID
     ror: str
     display_name: str
-    country_code: str
+    country_code: str | None = None
     type: InstitutionType
 
 

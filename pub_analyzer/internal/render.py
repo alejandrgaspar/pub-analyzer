@@ -24,7 +24,7 @@ def render_report(report: AuthorReport | InstitutionReport, file_path: pathlib.P
         SyntaxError: If typst compiler syntax error.
     """
     if isinstance(report, AuthorReport):
-        templates_path = pathlib.Path(__file__).parent.resolve().joinpath("templates/author")
+        templates_path = pathlib.Path(__file__).parent.resolve().joinpath("templates")
         typst_file = templates_path / "author_report.typ"
     if isinstance(report, InstitutionReport):
         raise NotImplementedError
