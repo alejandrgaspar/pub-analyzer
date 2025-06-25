@@ -47,17 +47,17 @@ pydantic = "2.11.3"
 typst = "0.13.2"
 
 [tool.poetry.group.dev.dependencies]
-textual-dev = "1.5.1"
+textual-dev = "1.6.1"
 
-pre-commit = "4.1.0"
-mypy = "1.15.0"
-ruff = "0.9.6"
+pre-commit = "4.2.0"
+mypy = "1.16.1"
+ruff = "0.12.0"
 
-pytest = "8.3.5"
-pytest-asyncio = "0.21.2"
+pytest = "8.4.1"
+pytest-asyncio = "1.0.0"
 respx = "0.22.0"
 vcrpy = "7.0.0"
-pytest-recording = "0.13.2"
+pytest-recording = "0.13.4"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "1.6.1"
