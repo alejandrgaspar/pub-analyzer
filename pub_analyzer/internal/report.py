@@ -9,6 +9,7 @@ from pydantic import TypeAdapter
 from textual import log
 
 from pub_analyzer.internal import identifier
+from pub_analyzer.internal.limiter import RateLimiter
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult
 from pub_analyzer.models.report import (
@@ -30,6 +31,10 @@ FromDate = NewType("FromDate", datetime.datetime)
 
 ToDate = NewType("ToDate", datetime.datetime)
 """DateTime marker for works published up to this date."""
+
+REQUEST_RATE_PER_SECOND = 8
+"""The OpenAlex API requires a maximum of 10 requests per second. We limit this to 8 per second."""
+PER_PAGE_SIZE = 100
 
 
 def _get_author_profiles_keys(
@@ -149,7 +154,7 @@ def _get_valid_works(works: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return valid_works
 
 
-async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
+async def _get_works(client: httpx.AsyncClient, url: str, limiter: RateLimiter) -> list[Work]:
     """Get all works given a URL.
 
     Iterate over all pages of the URL
@@ -164,6 +169,7 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
+    await limiter.acquire()
     response = await client.get(url=url, follow_redirects=True)
     response.raise_for_status()
 
@@ -174,13 +180,14 @@ async def _get_works(client: httpx.AsyncClient, url: str) -> list[Work]:
     works_data = list(_get_valid_works(json_response["results"]))
 
     for page_number in range(1, page_count):
+        await limiter.acquire()
         page_result = (await client.get(url + f"&page={page_number + 1}", follow_redirects=True)).json()
         works_data.extend(_get_valid_works(page_result["results"]))
 
     return TypeAdapter(list[Work]).validate_python(works_data)
 
 
-async def _get_source(client: httpx.AsyncClient, url: str) -> Source:
+async def _get_source(client: httpx.AsyncClient, url: str, limiter: RateLimiter) -> Source:
     """Get source given a URL.
 
     Args:
@@ -193,6 +200,7 @@ async def _get_source(client: httpx.AsyncClient, url: str) -> Source:
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
+    await limiter.acquire()
     response = await client.get(url=url, follow_redirects=True)
     response.raise_for_status()
 
@@ -237,13 +245,12 @@ async def make_author_report(
 
     pub_from_filter = f",from_publication_date:{pub_from_date:%Y-%m-%d}" if pub_from_date else ""
     pub_to_filter = f",to_publication_date:{pub_to_date:%Y-%m-%d}" if pub_to_date else ""
-    url = (
-        f"https://api.openalex.org/works?filter=author.id:{profiles_query_parameter}{pub_from_filter}{pub_to_filter}&sort=publication_date"
-    )
+    url = f"https://api.openalex.org/works?filter=author.id:{profiles_query_parameter}{pub_from_filter}{pub_to_filter}&sort=publication_date&per-page={PER_PAGE_SIZE}"
 
-    async with httpx.AsyncClient() as client:
+    limiter = RateLimiter(rate=REQUEST_RATE_PER_SECOND, per_second=1.0)
+    async with httpx.AsyncClient(http2=True, timeout=None) as client:
         # Getting all the author works.
-        author_works = await _get_works(client, url)
+        author_works = await _get_works(client, url, limiter)
 
         # Extra filters
         cited_from_filter = f",from_publication_date:{cited_from_date:%Y-%m-%d}" if cited_from_date else ""
@@ -263,9 +270,7 @@ async def make_author_report(
             log.info(f"[{work_id}] Work [{idx_work}/{author_works_count}]")
 
             work_authors = _get_authors_list(authorships=author_work.authorships)
-            cited_by_api_url = (
-                f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
-            )
+            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date&per-page={PER_PAGE_SIZE}"
 
             # Adding the type of OpenAccess in the counter.
             open_access_summary.add_oa_type(author_work.open_access.oa_status)
@@ -282,7 +287,7 @@ async def make_author_report(
                 if location.source and not any(source.id == location.source.id for source in dehydrated_sources):
                     dehydrated_sources.append(location.source)
 
-            cited_by_works = await _get_works(client, cited_by_api_url)
+            cited_by_works = await _get_works(client, cited_by_api_url, limiter)
             cited_by: list[CitationReport] = []
             work_citation_summary = CitationSummary()
             for cited_by_work in cited_by_works:
@@ -305,7 +310,7 @@ async def make_author_report(
             source_url = f"https://api.openalex.org/sources/{source_id}"
 
             log.info(f"Getting Sources... [{idx}/{sources_count}]")
-            sources.append(await _get_source(client, source_url))
+            sources.append(await _get_source(client, source_url, limiter))
 
         # Sort sources by h_index
         sources_sorted = sorted(sources, key=lambda source: source.summary_stats.two_yr_mean_citedness, reverse=True)
@@ -352,11 +357,12 @@ async def make_institution_report(
 
     pub_from_filter = f",from_publication_date:{pub_from_date:%Y-%m-%d}" if pub_from_date else ""
     pub_to_filter = f",to_publication_date:{pub_to_date:%Y-%m-%d}" if pub_to_date else ""
-    url = f"https://api.openalex.org/works?filter=institutions.id:{institution_query_parameter}{pub_from_filter}{pub_to_filter}&sort=publication_date"
+    url = f"https://api.openalex.org/works?filter=institutions.id:{institution_query_parameter}{pub_from_filter}{pub_to_filter}&sort=publication_date&per-page={PER_PAGE_SIZE}"
 
-    async with httpx.AsyncClient() as client:
+    limiter = RateLimiter(rate=REQUEST_RATE_PER_SECOND, per_second=1.0)
+    async with httpx.AsyncClient(http2=True, timeout=None) as client:
         # Getting all the institution works.
-        institution_works = await _get_works(client=client, url=url)
+        institution_works = await _get_works(client=client, url=url, limiter=limiter)
 
         # Extra filters
         cited_from_filter = f",from_publication_date:{cited_from_date:%Y-%m-%d}" if cited_from_date else ""
@@ -376,9 +382,7 @@ async def make_institution_report(
             log.info(f"[{work_id}] Work [{idx_work}/{institution_works_count}]")
 
             work_authors = _get_authors_list(authorships=institution_work.authorships)
-            cited_by_api_url = (
-                f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date"
-            )
+            cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date&per-page={PER_PAGE_SIZE}"
 
             # Adding the type of OpenAccess in the counter.
             open_access_summary.add_oa_type(institution_work.open_access.oa_status)
@@ -395,7 +399,7 @@ async def make_institution_report(
                 if location.source and not any(source.id == location.source.id for source in dehydrated_sources):
                     dehydrated_sources.append(location.source)
 
-            cited_by_works = await _get_works(client, cited_by_api_url)
+            cited_by_works = await _get_works(client, cited_by_api_url, limiter)
             cited_by: list[CitationReport] = []
             work_citation_summary = CitationSummary()
             for cited_by_work in cited_by_works:
@@ -418,7 +422,7 @@ async def make_institution_report(
             source_url = f"https://api.openalex.org/sources/{source_id}"
 
             log.debug(f"[{work_id}] Getting Sources... [{idx}/{sources_count}]")
-            sources.append(await _get_source(client, source_url))
+            sources.append(await _get_source(client, source_url, limiter))
 
         # Sort sources by h_index
         sources_sorted = sorted(sources, key=lambda source: source.summary_stats.two_yr_mean_citedness, reverse=True)

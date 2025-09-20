@@ -3,6 +3,7 @@
 import datetime
 import pathlib
 from enum import Enum
+from time import time
 from typing import ClassVar
 
 import httpx
@@ -105,7 +106,9 @@ class CreateReportWidget(Static):
     async def mount_report(self) -> None:
         """Mount report."""
         try:
+            start = time()
             report_widget = await self.make_report()
+            elapsed = time() - start
         except httpx.HTTPStatusError as exc:
             self.query_one(LoadingIndicator).display = False
             status_error = f"HTTP Exception for url: {exc.request.url}. Status code: {exc.response.status_code}"
@@ -116,6 +119,13 @@ class CreateReportWidget(Static):
                 timeout=20.0,
             )
             return None
+
+        self.app.notify(
+            title="Report created!",
+            message=f"Elapsed {elapsed:.2f}s",
+            severity="information",
+            timeout=20.0,
+        )
 
         container = self.query_one(Container)
         await container.mount(report_widget)

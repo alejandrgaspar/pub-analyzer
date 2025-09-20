@@ -25,10 +25,11 @@ class ExpectedReportData(BaseModel):
             "A5015201707",
             ExpectedReportData(
                 citation_summary=CitationSummary(type_a_count=5, type_b_count=1),
-                open_access_summary=OpenAccessSummary(diamond=1, gold=2, green=1, hybrid=0, bronze=0, closed=14),
+                open_access_summary=OpenAccessSummary(diamond=1, gold=2, green=1, hybrid=0, bronze=0, closed=16),
                 works_type_summary=[
                     WorkTypeCounter(type_name="article", count=17),
-                    WorkTypeCounter(type_name="book-chapter", count=1),
+                    WorkTypeCounter(type_name="book-chapter", count=2),
+                    WorkTypeCounter(type_name="book", count=1),
                 ],
             ),
         ],
@@ -36,14 +37,14 @@ class ExpectedReportData(BaseModel):
             "A5088021854",
             ExpectedReportData(
                 citation_summary=CitationSummary(type_a_count=11, type_b_count=2),
-                open_access_summary=OpenAccessSummary(diamond=3, gold=3, green=0, hybrid=1, bronze=0, closed=8),
-                works_type_summary=[WorkTypeCounter(type_name="article", count=14), WorkTypeCounter(type_name="book-chapter", count=1)],
+                open_access_summary=OpenAccessSummary(diamond=4, gold=3, green=0, hybrid=1, bronze=0, closed=8),
+                works_type_summary=[WorkTypeCounter(type_name="article", count=15), WorkTypeCounter(type_name="book-chapter", count=1)],
             ),
         ],
         [
             "A5058237853",
             ExpectedReportData(
-                citation_summary=CitationSummary(type_a_count=7, type_b_count=0),
+                citation_summary=CitationSummary(type_a_count=8, type_b_count=0),
                 open_access_summary=OpenAccessSummary(gold=0, green=0, hybrid=1, bronze=1, closed=0),
                 works_type_summary=[WorkTypeCounter(type_name="article", count=1), WorkTypeCounter(type_name="book-chapter", count=1)],
             ),

@@ -10,6 +10,7 @@ import respx
 from pydantic import HttpUrl
 
 from pub_analyzer.internal import report
+from pub_analyzer.internal.limiter import RateLimiter
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult, InstitutionType
 from pub_analyzer.models.report import CitationType
@@ -195,4 +196,5 @@ async def test_get_works(author_id: str, works: dict[str, Any]) -> None:
             )
 
         client = httpx.AsyncClient()
-        await report._get_works(url=base_url, client=client)
+        limiter = RateLimiter(rate=8, per_second=1.0)
+        await report._get_works(url=base_url, client=client, limiter=limiter)
