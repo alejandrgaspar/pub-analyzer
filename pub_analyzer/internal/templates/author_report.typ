@@ -191,7 +191,7 @@
       [*Year*], [*Works count*], [*Cited by count*],
 
       // Content
-      ..author.at("counts_by_year").slice(0, 8).map(
+      ..author.at("counts_by_year").slice(0, calc.min(author.at("counts_by_year").len(), 8)).map(
         ((year, works_count, cited_by_count)) => (
           table.cell([#year]),
           table.cell([#works_count]),
@@ -216,7 +216,7 @@
         x-label: none, y-label: none,
         {
           plot.add((
-            ..author.at("counts_by_year").slice(0, 8).map(
+            ..author.at("counts_by_year").slice(0, calc.min(author.at("counts_by_year").len(), 8)).map(
               ((year, works_count, cited_by_count)) => (
                 (year, cited_by_count)
               )
