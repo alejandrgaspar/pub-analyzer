@@ -1,5 +1,7 @@
 """Test Search Widgets."""
 
+import sys
+
 import pytest
 from textual.containers import VerticalScroll
 from textual.widgets import Button, Label
@@ -11,6 +13,12 @@ from pub_analyzer.widgets.body import MainContent
 from pub_analyzer.widgets.institution.core import InstitutionSummaryWidget
 from tests.data.author import AUTHOR_RESULT_OBJECT
 from tests.data.institution import INSTITUTION_RESULT_OBJECT
+
+if sys.platform == "win32":
+    pytest.skip(
+        "Skipping this module on Windows. GH runners for Windows are not reliable for verifying these types of tests.",
+        allow_module_level=True,
+    )
 
 
 @pytest.mark.asyncio

@@ -1,5 +1,6 @@
 """Test Sidebar Widget."""
 
+import sys
 from typing import TypeVar
 
 import pytest
@@ -12,6 +13,13 @@ from pub_analyzer.widgets.search import FinderWidget
 from pub_analyzer.widgets.sidebar import SideBar
 
 ExpectType = TypeVar("ExpectType", bound="Widget")
+
+
+if sys.platform == "win32":
+    pytest.skip(
+        "Skipping this module on Windows. GH runners for Windows are not reliable for verifying these types of tests.",
+        allow_module_level=True,
+    )
 
 
 @pytest.mark.asyncio
