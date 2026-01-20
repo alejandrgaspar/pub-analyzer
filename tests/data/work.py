@@ -62,6 +62,7 @@ WORK: dict[str, Any] = {
             "award_id": None,
         },
     ],
+    "awards": [],
     "keywords": [
         {"id": "https://openalex.org/keywords/open-access-publishing", "display_name": "Open Access Publishing", "score": 0.539724},
         {"id": "https://openalex.org/keywords/open-access-publishing", "display_name": "Open Access Publishing", "score": 0.539724},
