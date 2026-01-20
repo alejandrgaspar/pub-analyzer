@@ -17,7 +17,7 @@ Pub Analyzer is a **cross-platform** app, this means it runs on Linux, macOS, an
 All Linux distributions come with a terminal emulator that can run Pub Analyzer properly. Nothing to worry about here.
 
 ### MacOS
-The default Terminal app is limited to 256 colors, resulting in inaccurate color representation (Trust me, the app doesn't look good at all :melting_face:). So we recommend that you use [iTerm2](https://iterm2.com/){target=_blank}.
+The default Terminal app is limited to 256 colors, resulting in inaccurate color representation (Trust me, the app doesn't look good at all :melting_face:). So we recommend that you use [Ghostty](https://ghostty.org){target=_blank}.
 
 ### Windows
 There's really not much to say. You should definitely go straight for the new [Windows Terminal](https://apps.microsoft.com/store/detail/9N0DX20HK701){target=_blank}, you will have a better experience.
@@ -27,7 +27,7 @@ There's really not much to say. You should definitely go straight for the new [W
 Install Pub Analyzer via PyPI, with the following command in the terminal:
 
 ```
-pip install pub-analyzer
+python -m pip install pub-analyzer
 ```
 
 We aim to maintain a minimal list of dependencies, but keep in mind that the project is in a very early stage, and significant changes might occur. You may prefer to keep the installation in an isolated environment using [venv](https://docs.python.org/3/library/venv.html){target=_blank}.
@@ -35,7 +35,7 @@ We aim to maintain a minimal list of dependencies, but keep in mind that the pro
 If a new version is released, you can update using pip with the following command:
 
 ```
-pip install -U pub-analyzer
+python -m pip install -U pub-analyzer
 ```
 
 ## Run it
@@ -43,7 +43,7 @@ pip install -U pub-analyzer
 Everything is ready to go :rocket:. Open the app with the following command:
 
 ```
-pub-analyzer
+python -m pub_analyzer
 ```
 
 You should see the following:

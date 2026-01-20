@@ -25,7 +25,7 @@ test-record:
 	$(run) pytest --record-mode=once
 
 docs-serve:
-	$(run) mkdocs serve
+	$(run) mkdocs serve --livereload
 
 docs-clean-screenshot-cache:
 	rm -rf .screenshot_cache
