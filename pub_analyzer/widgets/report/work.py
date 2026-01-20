@@ -26,9 +26,9 @@ from pub_analyzer.widgets.report.cards import (
     WorksTypeSummaryCard,
 )
 from pub_analyzer.widgets.report.editor import EditWidget
+from pub_analyzer.widgets.report.grants import AwardsTable
 
 from .concept import ConceptsTable
-from .grants import GrantsTable
 from .locations import LocationsTable
 from .topic import TopicsTable
 
@@ -261,12 +261,12 @@ class WorkModal(Modal[None]):
                         yield ConceptsTable(self.work_report.work.concepts)
                     else:
                         yield Label("No Concepts found.")
-                # Grants Table
-                with TabPane("Grants"):
-                    if len(self.work_report.work.grants):
-                        yield GrantsTable(self.work_report.work.grants)
+                # Awards Table
+                with TabPane("Awards"):
+                    if len(self.work_report.work.awards):
+                        yield AwardsTable(self.work_report.work.awards)
                     else:
-                        yield Label("No Grants found.")
+                        yield Label("No Awards found.")
                 # Locations Table
                 with TabPane("Locations"):
                     if len(self.work_report.work.locations):
@@ -319,8 +319,8 @@ class WorksTable(Static):
     def compose(self) -> ComposeResult:
         """Generate Table."""
         if self.report.works:
-            first_pub_year = self.report.works[0].work.publication_year
-            last_pub_year = self.report.works[-1].work.publication_year
+            first_pub_year = next((w.work.publication_year for w in self.report.works if w.work.publication_year is not None), "-")
+            last_pub_year = next((w.work.publication_year for w in reversed(self.report.works) if w.work.publication_year is not None), "-")
             title = f"Works from {first_pub_year} to {last_pub_year}"
         else:
             title = "Works"
@@ -340,13 +340,14 @@ class WorksTable(Static):
 
             doi = work.ids.doi
             doi_url = f"""[@click=app.open_link("{quote(str(doi))}")]DOI[/]""" if doi else "-"
+            publication_date = work.publication_date if work.publication_date else "-"
 
             work_table.add_row(
                 str(f"""[@click=open_work_details({idx})]{idx}[/]"""),
                 Text(work.title, overflow="ellipsis"),
                 Text(work.type),
                 Text.from_markup(doi_url, overflow="ellipsis"),
-                Text(work.publication_date),
+                Text(publication_date),
                 str(len(work_report.cited_by)),
             )
 

@@ -55,7 +55,7 @@ class Author(BaseModel):
 
     display_name: str
     display_name_alternatives: list[str]
-    last_known_institutions: list[DehydratedInstitution]
+    last_known_institutions: list[DehydratedInstitution] | None = Field(default_factory=list)
     affiliations: list[AuthorAffiliation]
 
     works_count: int

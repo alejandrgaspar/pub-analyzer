@@ -49,7 +49,7 @@ class SourcesTable(Static):
                 host_organization = "-"
 
             title = f"""[@click=app.open_link('{quote(str(source.id))}')][u]{source.display_name}[/u][/]"""
-            type_source = source.type
+            type_source = source.type or "-"
             issn_l = source.issn_l if source.issn_l else "-"
             impact_factor = f"{source.summary_stats.two_yr_mean_citedness:.3f}"
             h_index = f"{source.summary_stats.h_index}"

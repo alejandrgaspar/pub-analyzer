@@ -421,8 +421,12 @@ async def make_institution_report(
             source_id = identifier.get_source_id(dehydrated_source)
             source_url = f"https://api.openalex.org/sources/{source_id}"
 
-            log.debug(f"[{work_id}] Getting Sources... [{idx}/{sources_count}]")
-            sources.append(await _get_source(client, source_url, limiter))
+            log.info(f"[{source_id}] Getting Sources... [{idx}/{sources_count}]")
+
+            try:
+                sources.append(await _get_source(client, source_url, limiter))
+            except httpx.HTTPStatusError as exc:
+                log.warning(f"Fail to retrive {source_id}: {exc}")
 
         # Sort sources by h_index
         sources_sorted = sorted(sources, key=lambda source: source.summary_stats.two_yr_mean_citedness, reverse=True)

@@ -55,7 +55,7 @@ class WorkAccessInfo(BaseModel):
 
     is_oa: bool
     oa_status: OpenAccessStatus
-    oa_url: HttpUrl | None = None
+    oa_url: str | None = None
     any_repository_has_fulltext: bool
 
 
@@ -83,6 +83,17 @@ class Grant(BaseModel):
     award_id: str | None = None
 
 
+class Award(BaseModel):
+    """Award work details."""
+
+    id: HttpUrl
+    display_name: str | None = None
+    funder_award_id: str | None = None
+    funder_id: HttpUrl
+    funder_display_name: str
+    doi: str | None = None
+
+
 class Keyword(BaseModel):
     """Keyword extracted from the work's title and confidence score."""
 
@@ -99,8 +110,8 @@ class Work(BaseModel):
 
     title: str
     abstract: str | None = None
-    publication_year: int
-    publication_date: str
+    publication_year: int | None = None
+    publication_date: str | None = None
     language: str | None = None
     type: str
 
@@ -116,13 +127,12 @@ class Work(BaseModel):
        To use a verified number that respects the applied filters use [WorkReport][pub_analyzer.models.report.WorkReport].
     """
 
-    grants: list[Grant]
+    awards: list[Award]
     keywords: list[Keyword]
     concepts: list[DehydratedConcept]
     topics: list[DehydratedTopic]
 
     referenced_works: list[HttpUrl]
-    cited_by_api_url: HttpUrl
 
     apc_list: ArticleProcessingCharge | None = None
     """The price as listed by the journal's publisher."""
