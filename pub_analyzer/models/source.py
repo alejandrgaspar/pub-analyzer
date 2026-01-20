@@ -55,7 +55,7 @@ class DehydratedSource(BaseModel):
     host_organization_name: str | None = None
     """The display_name from the host_organization."""
 
-    type: str
+    type: str | None = None
     """The type of source, which will be one of: `journal`, `repository`, `conference`,
        `ebook platform`, or `book series`.
     """

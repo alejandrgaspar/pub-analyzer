@@ -85,7 +85,7 @@ class InstitutionRole(BaseModel):
 class International(BaseModel):
     """The institution's display name in different languages."""
 
-    display_name: dict[str, str]
+    display_name: dict[str, str] | None = None
 
 
 class Institution(BaseModel):

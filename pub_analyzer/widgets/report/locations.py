@@ -42,7 +42,7 @@ class LocationsTable(Static):
             if location.source:
                 source = location.source
                 title = f"""[@click=app.open_link('{quote(str(location.landing_page_url))}')][u]{source.display_name}[/u][/]"""
-                type = source.type
+                type = source.type or "-"
                 issn_l = source.issn_l if source.issn_l else "-"
 
                 if source.host_organization_name and source.host_organization:

@@ -191,7 +191,7 @@
       [*Year*], [*Works count*], [*Cited by count*],
 
       // Content
-      ..author.at("counts_by_year").slice(0, calc.min(author.at("counts_by_year").len(), 8)).map(
+      ..author.at("counts_by_year").rev().slice(0, calc.min(author.at("counts_by_year").len(), 8)).map(
         ((year, works_count, cited_by_count)) => (
           table.cell([#year]),
           table.cell([#works_count]),
@@ -216,7 +216,7 @@
         x-label: none, y-label: none,
         {
           plot.add((
-            ..author.at("counts_by_year").slice(0, calc.min(author.at("counts_by_year").len(), 8)).map(
+            ..author.at("counts_by_year").rev().slice(0, calc.min(author.at("counts_by_year").len(), 8)).map(
               ((year, works_count, cited_by_count)) => (
                 (year, cited_by_count)
               )
@@ -371,10 +371,28 @@
   ]
 )
 
+#let first-pub-year(works, default: "-") = {
+  for w in works {
+    if w.work.publication_year != none {
+      return w.work.publication_year
+    }
+  }
+  default
+}
+
+#let last-pub-year(works, default: "-") = {
+  for w in works.rev() {
+    if w.work.publication_year != none {
+      return w.work.publication_year
+    }
+  }
+  default
+}
+
 #align(
   center,
   text(11pt)[
-    Works from #str(works.first().work.publication_year) to #str(works.last().work.publication_year)
+    Works from #first-pub-year(works) to #last-pub-year(works)
   ]
 )
 
@@ -540,7 +558,7 @@
       table.cell([3.#idx. #label("source_" + source.id.find(regex("S\d+$")))]),
       table.cell([#if source.homepage_url != none [#underline[#link(source.homepage_url)[#source.display_name]]] else [#underline[#link(source.id)[#source.display_name]]]]),
       table.cell([#if source.host_organization_name != none [#source.host_organization_name] else [-]]),
-      table.cell([#source.type]),
+      table.cell([#if source.type != none [#source.type] else [-]]),
       table.cell([#if source.issn_l != none [#source.issn_l] else [-]]),
       table.cell([#calc.round(source.summary_stats.at("2yr_mean_citedness"), digits: 3)]),
       table.cell([#source.summary_stats.h_index]),
