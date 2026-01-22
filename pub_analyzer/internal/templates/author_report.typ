@@ -98,7 +98,7 @@
   [
     #text(size: 17pt, weight: "bold")[#author.at("display_name")]
   ],
-  if author.at("last_known_institutions").len() >= 1 [
+  if author.at("last_known_institutions") != none and author.at("last_known_institutions").len() >= 1 [
     #let last_known_institution = author.at("last_known_institutions").first()
     #text(size: 15pt, weight: "thin")[#last_known_institution.at("display_name")]
   ]
@@ -128,7 +128,7 @@
   // Last institution.
   [
     #summary-card(title:"Last institution:")[
-      #if author.at("last_known_institutions").len() >= 1 [
+      #if author.at("last_known_institutions") != none and author.at("last_known_institutions").len() >= 1 [
         #let last_known_institution = author.at("last_known_institutions").first()
         #let institution_type_name = capitalize(last_known_institution.at("type"))
 
@@ -139,6 +139,8 @@
           [*Country:* #last_known_institution.at("country_code")],
           [*Type:* #institution_type_name],
         )
+      ] else [
+        #text(size: 9pt, fill: luma(50%))[No associated institutions were found.]
       ]
     ]
   ],
@@ -263,17 +265,32 @@
 
   [
     #let graph = {
-      cetz.canvas(length: 35%, {
-        chart.piechart(
-          (
-            citation_summary.at("type_a_count"), // Type A
-            citation_summary.at("type_b_count")  // Type B
-          ),
-          radius: 1,
-          slice-style: (PALETTE.at(0), PALETTE.at(1)),
-          outer-label: (content: "%", radius: 115%),
-        )
-      })
+      let type_a = citation_summary.at("type_a_count")
+      let type_b = citation_summary.at("type_b_count")
+      let total = type_a + type_b
+
+      if total == 0 {
+        cetz.canvas(length: 35%, {
+          cetz.draw.circle(
+            (0,0),
+            radius: 1,
+            stroke: luma(90%),
+            fill: luma(98%),
+          )
+          cetz.draw.content(
+            (0, 0), text("No citations found", size: 9pt, fill: luma(50%))
+          )
+        })
+      } else {
+        cetz.canvas(length: 35%, {
+          chart.piechart(
+            (type_a, type_b),
+            radius: 1,
+            slice-style: (PALETTE.at(0), PALETTE.at(1)),
+            outer-label: (content: "%", radius: 115%),
+          )
+        })
+      }
     }
 
     #works_metrics_card(title: "Citation metrics", graph)[
