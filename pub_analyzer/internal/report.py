@@ -10,8 +10,14 @@ from textual import log
 
 from pub_analyzer.internal import identifier
 from pub_analyzer.internal.limiter import RateLimiter
-from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
-from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult
+from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, AuthorYearCount, DehydratedAuthor
+from pub_analyzer.models.institution import (
+    DehydratedInstitution,
+    Institution,
+    InstitutionOpenAlexKey,
+    InstitutionResult,
+    InstitutionYearCount,
+)
 from pub_analyzer.models.report import (
     AuthorReport,
     CitationReport,
@@ -154,6 +160,13 @@ def _get_valid_works(works: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return valid_works
 
 
+def _get_year_counter(
+    counts_by_year: list[AuthorYearCount] | list[InstitutionYearCount], work_publication_year: int
+) -> AuthorYearCount | InstitutionYearCount | None:
+    """Iterate over the counts_by_year and return the corresponding year counter."""
+    return next((year_counter for year_counter in counts_by_year if year_counter.year == work_publication_year), None)
+
+
 async def _get_works(client: httpx.AsyncClient, url: str, limiter: RateLimiter) -> list[Work]:
     """Get all works given a URL.
 
@@ -214,7 +227,7 @@ async def _get_source(client: httpx.AsyncClient, url: str, limiter: RateLimiter)
     return Source(**json_response)
 
 
-async def make_author_report(
+async def make_author_report(  # noqa: C901
     author: Author,
     extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None = None,
     pub_from_date: FromDate | None = None,
@@ -262,6 +275,7 @@ async def make_author_report(
         open_access_summary = OpenAccessSummary()
         works_type_counter: list[WorkTypeCounter] = []
         dehydrated_sources: list[DehydratedSource] = []
+        counts_by_year: list[AuthorYearCount] = []
 
         # Getting all works that have cited the author.
         author_works_count = len(author_works)
@@ -271,6 +285,14 @@ async def make_author_report(
 
             work_authors = _get_authors_list(authorships=author_work.authorships)
             cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date&per-page={PER_PAGE_SIZE}"
+
+            # Add work to the count by year
+            if author_work.publication_year:
+                year_counter = _get_year_counter(counts_by_year, author_work.publication_year)
+                if year_counter:
+                    year_counter.works_count += 1
+                else:
+                    counts_by_year.append(AuthorYearCount(year=author_work.publication_year, works_count=1, cited_by_count=0))
 
             # Adding the type of OpenAccess in the counter.
             open_access_summary.add_oa_type(author_work.open_access.oa_status)
@@ -298,9 +320,21 @@ async def make_author_report(
                 report_citation_summary.add_cite_type(citation_type)
                 work_citation_summary.add_cite_type(citation_type)
 
+                # Add work to the count by year
+                if cited_by_work.publication_year:
+                    year_counter = _get_year_counter(counts_by_year, cited_by_work.publication_year)
+                    if year_counter:
+                        year_counter.cited_by_count += 1
+                    else:
+                        counts_by_year.append(AuthorYearCount(year=cited_by_work.publication_year, works_count=0, cited_by_count=1))
+
                 cited_by.append(CitationReport(work=cited_by_work, citation_type=citation_type))
 
             works.append(WorkReport(work=author_work, cited_by=cited_by, citation_summary=work_citation_summary))
+
+        # Replace counts by year
+        counts_by_year.sort(key=lambda c: c.year)
+        author.counts_by_year = counts_by_year
 
         # Get sources full info.
         sources: list[Source] = []
@@ -326,7 +360,7 @@ async def make_author_report(
     )
 
 
-async def make_institution_report(
+async def make_institution_report(  # noqa: C901
     institution: Institution,
     extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None = None,
     pub_from_date: FromDate | None = None,
@@ -374,6 +408,7 @@ async def make_institution_report(
         open_access_summary = OpenAccessSummary()
         works_type_counter: list[WorkTypeCounter] = []
         dehydrated_sources: list[DehydratedSource] = []
+        counts_by_year: list[InstitutionYearCount] = []
 
         # Getting all works that have cited a work.
         institution_works_count = len(institution_works)
@@ -383,6 +418,14 @@ async def make_institution_report(
 
             work_authors = _get_authors_list(authorships=institution_work.authorships)
             cited_by_api_url = f"https://api.openalex.org/works?filter=cites:{work_id}{cited_from_filter}{cited_to_filter}&sort=publication_date&per-page={PER_PAGE_SIZE}"
+
+            # Add work to the count by year
+            if institution_work.publication_year:
+                year_counter = _get_year_counter(counts_by_year, institution_work.publication_year)
+                if year_counter:
+                    year_counter.works_count += 1
+                else:
+                    counts_by_year.append(InstitutionYearCount(year=institution_work.publication_year, works_count=1, cited_by_count=0))
 
             # Adding the type of OpenAccess in the counter.
             open_access_summary.add_oa_type(institution_work.open_access.oa_status)
@@ -410,9 +453,21 @@ async def make_institution_report(
                 report_citation_summary.add_cite_type(citation_type)
                 work_citation_summary.add_cite_type(citation_type)
 
+                # Add work to the count by year
+                if cited_by_work.publication_year:
+                    year_counter = _get_year_counter(counts_by_year, cited_by_work.publication_year)
+                    if year_counter:
+                        year_counter.cited_by_count += 1
+                    else:
+                        counts_by_year.append(InstitutionYearCount(year=cited_by_work.publication_year, works_count=0, cited_by_count=1))
+
                 cited_by.append(CitationReport(work=cited_by_work, citation_type=citation_type))
 
             works.append(WorkReport(work=institution_work, cited_by=cited_by, citation_summary=work_citation_summary))
+
+        # Replace counts by year
+        counts_by_year.sort(key=lambda c: c.year)
+        institution.counts_by_year = counts_by_year
 
         # Get sources full info.
         sources: list[Source] = []
