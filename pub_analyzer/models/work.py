@@ -56,7 +56,7 @@ class WorkAccessInfo(BaseModel):
     is_oa: bool
     oa_status: OpenAccessStatus
     oa_url: str | None = None
-    any_repository_has_fulltext: bool
+    any_repository_has_fulltext: bool | None = False
 
 
 class Authorship(BaseModel):

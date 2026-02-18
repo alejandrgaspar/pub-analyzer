@@ -47,7 +47,7 @@ class DehydratedSource(BaseModel):
     is_in_doaj: bool
     """Whether this is a journal listed in the [Directory of Open Access Journals](https://doaj.org){target=_blank} (DOAJ)."""
 
-    host_organization: HttpUrl | None = None
+    host_organization: str | None = None
     """The host organization for this source as an OpenAlex ID. This will be an
        [Institution.id][pub_analyzer.models.institution.Institution.id] if the source is a repository,
        and a Publisher.id if the source is a journal, conference, or eBook platform
