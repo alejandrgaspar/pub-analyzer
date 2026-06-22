@@ -67,7 +67,6 @@ plugins:
   search:
   autorefs:
   mkdocstrings:
-    custom_templates: docs/_templates
     handlers:
       python:
         options:
@@ -93,27 +92,27 @@ extra:
 # Nav paths
 nav:
   - Introduction:
-    - "index.md"
-    - "getting_started.md"
-    - "acknowledgement.md"
-    - "help.md"
+      - "index.md"
+      - "getting_started.md"
+      - "acknowledgement.md"
+      - "help.md"
   - User Guide:
-    - "user/index.md"
+      - "user/index.md"
   - Dev Guide:
-    - "dev/index.md"
+      - "dev/index.md"
   - API:
-    - Internal:
-      - "api/internal/identifier.md"
-      - "api/internal/render.md"
-      - "api/internal/report.md"
-    - Models:
-      - "api/models/author.md"
-      - "api/models/concept.md"
-      - "api/models/institution.md"
-      - "api/models/report.md"
-      - "api/models/source.md"
-      - "api/models/topic.md"
-      - "api/models/work.md"
+      - Internal:
+          - "api/internal/identifier.md"
+          - "api/internal/render.md"
+          - "api/internal/report.md"
+      - Models:
+          - "api/models/author.md"
+          - "api/models/concept.md"
+          - "api/models/institution.md"
+          - "api/models/report.md"
+          - "api/models/source.md"
+          - "api/models/topic.md"
+          - "api/models/work.md"
   - Roadmap:
-    - roadmap/index.md
+      - roadmap/index.md
   - Author's website: https://gaspar.land
