@@ -49,8 +49,8 @@ pub-analyzer = "pub_analyzer.main:run"
 [dependency-groups]
 dev = [
     "textual-dev==1.5.1",
-    "pre-commit==4.2.0",
-    "mypy==1.16.1",
+    "pre-commit==4.6.0",
+    "mypy==2.1.0",
     "ruff==0.15.18",
     "pytest==9.1.1",
     "pytest-asyncio==1.4.0",
