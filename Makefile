@@ -1,4 +1,4 @@
-run := poetry run
+run := uv run
 
 typecheck:
 	$(run) mypy pub_analyzer tests

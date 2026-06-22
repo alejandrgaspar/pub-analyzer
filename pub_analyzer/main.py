@@ -13,7 +13,6 @@ from textual.reactive import Reactive
 from textual.widgets import Footer
 
 from pub_analyzer.widgets.body import Body
-from pub_analyzer.widgets.sidebar import SideBar
 
 
 class PubAnalyzerApp(App[DOMNode]):
@@ -38,7 +37,6 @@ class PubAnalyzerApp(App[DOMNode]):
     ]
     BINDINGS: ClassVar[list[BindingType]] = [
         Binding(key="ctrl+d", action="toggle_dark", description="Dark mode"),
-        Binding(key="ctrl+s", action="toggle_sidebar", description="Sidebar"),
     ]
 
     dark: Reactive[bool] = Reactive(False)
@@ -51,13 +49,6 @@ class PubAnalyzerApp(App[DOMNode]):
     def action_toggle_dark(self) -> None:
         """Toggle dark mode."""
         self.dark = not self.dark
-
-    def action_toggle_sidebar(self) -> None:
-        """Toggle sidebar."""
-        self.set_focus(None)
-
-        sidebar = self.query_one(SideBar)
-        sidebar.toggle()
 
     def action_save_screenshot(self) -> None:
         """Take Screenshot."""

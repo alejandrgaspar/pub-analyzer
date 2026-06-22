@@ -10,7 +10,6 @@ from pub_analyzer.main import PubAnalyzerApp
 from pub_analyzer.widgets.body import MainContent
 from pub_analyzer.widgets.report.core import LoadReportWidget
 from pub_analyzer.widgets.search import FinderWidget
-from pub_analyzer.widgets.sidebar import SideBar
 
 ExpectType = TypeVar("ExpectType", bound="Widget")
 
@@ -20,26 +19,6 @@ if sys.platform == "win32":
         "Skipping this module on Windows. GH runners for Windows are not reliable for verifying these types of tests.",
         allow_module_level=True,
     )
-
-
-@pytest.mark.asyncio
-async def test_sidebar_toggle() -> None:
-    """Test sidebar toggle binding."""
-    async with PubAnalyzerApp().run_test() as pilot:
-        sidebar = pilot.app.query_one(SideBar)
-
-        # At the beginning of the application the sidebar is visible
-        assert sidebar.content_size.width != 0
-
-        # When pressing ctrl+s the sidebar is hidden
-        await pilot.press("ctrl+s")
-        await pilot.wait_for_animation()
-        assert sidebar.content_size.width == 0
-
-        # Pressing ctrl+s again shows sidebar
-        await pilot.press("ctrl+s")
-        await pilot.wait_for_animation()
-        assert sidebar.content_size.width != 0
 
 
 @pytest.mark.asyncio
