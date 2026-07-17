@@ -28,10 +28,10 @@ classifiers = [
 ]
 
 dependencies = [
-    "textual==0.85.2",
+    "textual==8.2.8",
     "httpx[http2]==0.28.1",
-    "pydantic==2.12.5",
-    "typst==0.13.2",
+    "pydantic==2.13.4",
+    "typst==0.15.0",
 ]
 
 [project.urls]
@@ -64,7 +64,7 @@ dev = [
 docs = [
     "mkdocs==1.6.1",
     "mkdocs-material==9.7.6",
-    "mkdocstrings[python]==1.0.4",
+    "mkdocstrings[python]==1.0.6",
     "mkdocstrings-python==2.0.5",
 ]
 
