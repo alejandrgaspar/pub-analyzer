@@ -1,7 +1,7 @@
 run := uv run
 
 typecheck:
-	$(run) mypy pub_analyzer tests
+	$(run) ty check pub_analyzer tests
 
 lint:
 	$(run) ruff check pub_analyzer tests
