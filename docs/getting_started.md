@@ -51,6 +51,21 @@ You should see the following:
 ```{.textual path="pub_analyzer/main.py" columns=90}
 ```
 
+## OpenAlex API key
+
+Pub Analyzer builds reports from the [OpenAlex](https://openalex.org){target=_blank} API, and **OpenAlex has required an API key on every call since February 2026**. Without one you get a small daily allowance that runs out before even a modest report finishes, so you need a key to use Pub Analyzer.
+
+Get a free key at [openalex.org/settings/api](https://openalex.org/settings/api){target=_blank}, then set the `PUB_ANALYZER_API_KEY` environment variable:
+
+```bash
+export PUB_ANALYZER_API_KEY="your-key"
+```
+
+To avoid setting it on every session, add that line to your shell profile (`~/.bashrc`, `~/.zshrc`, or the equivalent).
+
+!!! Warning "Keep your key private"
+    The key is sent to OpenAlex as a query parameter. Pub Analyzer never writes it to its logs, but treat it like a password: do not commit it, and do not paste it into bug reports.
+
 ## Need help?
 
 The [User Guide](./user/index.md) section is the best place to understand how to use Pub Analyzer. If you have more questions, go to the [Help](./help.md) section.

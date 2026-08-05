@@ -24,10 +24,11 @@ class ExpectedReportData(BaseModel):
         [
             "A5015201707",
             ExpectedReportData(
-                citation_summary=CitationSummary(type_a_count=6, type_b_count=1),
+                citation_summary=CitationSummary(type_a_count=7, type_b_count=1),
                 open_access_summary=OpenAccessSummary(diamond=3, gold=1, green=4, hybrid=0, bronze=0, closed=12),
                 works_type_summary=[
-                    WorkTypeCounter(type_name="article", count=17),
+                    WorkTypeCounter(type_name="article", count=15),
+                    WorkTypeCounter(type_name="preprint", count=2),
                     WorkTypeCounter(type_name="book-chapter", count=2),
                     WorkTypeCounter(type_name="book", count=1),
                 ],
@@ -36,15 +37,19 @@ class ExpectedReportData(BaseModel):
         [
             "A5088021854",
             ExpectedReportData(
-                citation_summary=CitationSummary(type_a_count=11, type_b_count=2),
-                open_access_summary=OpenAccessSummary(diamond=6, gold=1, green=3, hybrid=1, bronze=0, closed=5),
-                works_type_summary=[WorkTypeCounter(type_name="article", count=15), WorkTypeCounter(type_name="book-chapter", count=1)],
+                citation_summary=CitationSummary(type_a_count=16, type_b_count=3),
+                open_access_summary=OpenAccessSummary(diamond=6, gold=1, green=4, hybrid=2, bronze=0, closed=4),
+                works_type_summary=[
+                    WorkTypeCounter(type_name="article", count=15),
+                    WorkTypeCounter(type_name="book", count=1),
+                    WorkTypeCounter(type_name="book-chapter", count=1),
+                ],
             ),
         ],
         [
             "A5058237853",
             ExpectedReportData(
-                citation_summary=CitationSummary(type_a_count=11, type_b_count=0),
+                citation_summary=CitationSummary(type_a_count=10, type_b_count=0),
                 open_access_summary=OpenAccessSummary(gold=1, green=0, hybrid=0, bronze=1, closed=0),
                 works_type_summary=[WorkTypeCounter(type_name="article", count=1), WorkTypeCounter(type_name="book-chapter", count=1)],
             ),
@@ -68,9 +73,9 @@ async def test_make_author_report(author_openalex_id: str, expected_report: Expe
         work_type.model_dump() for work_type in expected_report.works_type_summary
     ]
 
-    # Assert summary counts are equal to number of works
-    assert (
-        sum([len(work.cited_by) for work in report.works])
-        == expected_report.citation_summary.type_a_count + expected_report.citation_summary.type_b_count
-    )
-    assert sum([len(report.works)]) == sum(expected_report.open_access_summary.model_dump().values())
+    # Assert the summaries stay consistent with the works they describe. Unlike the counts
+    # above, these hold no matter how the OpenAlex data drifts between recordings.
+    assert sum(len(work.cited_by) for work in report.works) == (report.citation_summary.type_a_count + report.citation_summary.type_b_count)
+    assert len(report.works) == sum(report.open_access_summary.model_dump().values())
+    assert len(report.works) == sum(work_type.count for work_type in report.works_type_summary)
+    assert [counts.year for counts in report.author.counts_by_year] == sorted(counts.year for counts in report.author.counts_by_year)

@@ -1,14 +1,10 @@
 """Orchestration of the requests and aggregation that make up a report."""
 
-import math
-
 import httpx
-from pydantic import TypeAdapter
 from textual import log
 
 from pub_analyzer.internal import identifier
-from pub_analyzer.internal.limiter import RateLimiter
-from pub_analyzer.internal.openalex.parsing import get_valid_works
+from pub_analyzer.internal.openalex.client import OpenAlexClient, create_client
 from pub_analyzer.internal.openalex.urls import (
     AUTHOR_FILTER_KEY,
     INSTITUTION_FILTER_KEY,
@@ -30,9 +26,6 @@ from pub_analyzer.models.institution import (
 from pub_analyzer.models.report import AuthorReport, InstitutionReport, WorkReport
 from pub_analyzer.models.source import Source
 from pub_analyzer.models.work import Work
-
-REQUEST_RATE_PER_SECOND = 8
-"""The OpenAlex API requires a maximum of 10 requests per second. We limit this to 8 per second."""
 
 
 def _get_author_profiles_keys(
@@ -69,71 +62,8 @@ def _get_institution_keys(
     return [identifier.get_institution_id(profile) for profile in profiles]
 
 
-async def _get_works(client: httpx.AsyncClient, url: str, limiter: RateLimiter) -> list[Work]:
-    """Get all works given a URL.
-
-    Iterate over all pages of the URL
-
-    Args:
-        client: HTTPX asynchronous client to be used to make the requests.
-        url: URL of works with all filters and sorting applied.
-        limiter: Rate limiter shared by every request of a report.
-
-    Returns:
-        List of Works Models.
-
-    Raises:
-        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
-    """
-    await limiter.acquire()
-    response = await client.get(url=url, follow_redirects=True)
-    response.raise_for_status()
-
-    json_response = response.json()
-    meta_info = json_response["meta"]
-    page_count = math.ceil(meta_info["count"] / meta_info["per_page"])
-
-    works_data = list(get_valid_works(json_response["results"]))
-
-    for page_number in range(1, page_count):
-        await limiter.acquire()
-        page_result = (await client.get(url + f"&page={page_number + 1}", follow_redirects=True)).json()
-        works_data.extend(get_valid_works(page_result["results"]))
-
-    return TypeAdapter(list[Work]).validate_python(works_data)
-
-
-async def _get_source(client: httpx.AsyncClient, url: str, limiter: RateLimiter) -> Source:
-    """Get source given a URL.
-
-    Args:
-        client: HTTPX asynchronous client to be used to make the requests.
-        url: URL of the source.
-        limiter: Rate limiter shared by every request of a report.
-
-    Returns:
-        Source Model.
-
-    Raises:
-        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
-    """
-    await limiter.acquire()
-    response = await client.get(url=url, follow_redirects=True)
-    response.raise_for_status()
-
-    json_response = response.json()
-    hp_url = json_response["homepage_url"]
-    if isinstance(hp_url, str):
-        if not hp_url.startswith(("http", "https")):
-            json_response["homepage_url"] = None
-            log.warning(f"Discarted source homepage url: {url}")
-
-    return Source(**json_response)
-
-
 async def _get_works_reports(
-    client: httpx.AsyncClient,
-    limiter: RateLimiter,
+    client: OpenAlexClient,
     works: list[Work],
     cited_from_date: FromDate | None,
     cited_to_date: ToDate | None,
@@ -141,8 +71,7 @@ async def _get_works_reports(
     """Retrieve the citations of every work and classify them.
 
     Args:
-        client: HTTPX asynchronous client to be used to make the requests.
-        limiter: Rate limiter shared by every request of a report.
+        client: Client used to reach the OpenAlex API.
         works: Works being evaluated.
         cited_from_date: Filter citing works published from this date.
         cited_to_date: Filter citing works published up to this date.
@@ -161,11 +90,40 @@ async def _get_works_reports(
         log.info(f"[{work_id}] Work [{index}/{works_count}]")
 
         cited_by_url = build_cited_by_url(work_id, cited_from_date, cited_to_date)
-        citing_works = await _get_works(client, cited_by_url, limiter)
+        citing_works = await client.get_works(cited_by_url)
 
         works_reports.append(aggregate.build_work_report(work=work, citing_works=citing_works))
 
     return works_reports
+
+
+async def _get_sources(client: OpenAlexClient, works: list[Work]) -> list[Source]:
+    """Retrieve the full info of every source hosting the given works.
+
+    Sources that cannot be retrieved are skipped: a single missing source is not worth
+    discarding an otherwise complete report.
+
+    Args:
+        client: Client used to reach the OpenAlex API.
+        works: Works whose locations point at the sources.
+
+    Returns:
+        Sources successfully retrieved.
+    """
+    sources: list[Source] = []
+
+    dehydrated_sources = aggregate.collect_dehydrated_sources(works)
+    sources_count = len(dehydrated_sources)
+    for index, dehydrated_source in enumerate(dehydrated_sources, 1):
+        source_id = identifier.get_source_id(dehydrated_source)
+        log.info(f"[{source_id}] Getting Sources... [{index}/{sources_count}]")
+
+        try:
+            sources.append(await client.get_source(build_source_url(source_id)))
+        except (httpx.HTTPStatusError, httpx.TransportError) as exc:
+            log.warning(f"Fail to retrive {source_id}: {exc}")
+
+    return sources
 
 
 async def make_author_report(
@@ -201,20 +159,12 @@ async def make_author_report(
         to_date=pub_to_date,
     )
 
-    limiter = RateLimiter(rate=REQUEST_RATE_PER_SECOND, per_second=1.0)
-    async with httpx.AsyncClient(http2=True, timeout=None) as client:
-        author_works = await _get_works(client, url, limiter)
-        works_reports = await _get_works_reports(client, limiter, author_works, cited_from_date, cited_to_date)
+    async with create_client() as http_client:
+        client = OpenAlexClient(http_client)
 
-        # Get sources full info.
-        sources: list[Source] = []
-        dehydrated_sources = aggregate.collect_dehydrated_sources(author_works)
-        sources_count = len(dehydrated_sources)
-        for index, dehydrated_source in enumerate(dehydrated_sources, 1):
-            source_id = identifier.get_source_id(dehydrated_source)
-
-            log.info(f"Getting Sources... [{index}/{sources_count}]")
-            sources.append(await _get_source(client, build_source_url(source_id), limiter))
+        author_works = await client.get_works(url)
+        works_reports = await _get_works_reports(client, author_works, cited_from_date, cited_to_date)
+        sources = await _get_sources(client, author_works)
 
     author.counts_by_year = [AuthorYearCount(**counts._asdict()) for counts in aggregate.count_by_year(works_reports)]
 
@@ -261,26 +211,12 @@ async def make_institution_report(
         to_date=pub_to_date,
     )
 
-    limiter = RateLimiter(rate=REQUEST_RATE_PER_SECOND, per_second=1.0)
-    async with httpx.AsyncClient(http2=True, timeout=None) as client:
-        institution_works = await _get_works(client, url, limiter)
-        works_reports = await _get_works_reports(client, limiter, institution_works, cited_from_date, cited_to_date)
+    async with create_client() as http_client:
+        client = OpenAlexClient(http_client)
 
-        # Get sources full info.
-        sources = []
-        dehydrated_sources = aggregate.collect_dehydrated_sources(institution_works)
-        sources_count = len(dehydrated_sources)
-        for index, dehydrated_source in enumerate(dehydrated_sources, 1):
-            source_id = identifier.get_source_id(dehydrated_source)
-
-            log.info(f"[{source_id}] Getting Sources... [{index}/{sources_count}]")
-
-            # TODO(phase 2): make_author_report has no such guard, unify both once the
-            # client layer grows retries and error handling.
-            try:
-                sources.append(await _get_source(client, build_source_url(source_id), limiter))
-            except httpx.HTTPStatusError as exc:
-                log.warning(f"Fail to retrive {source_id}: {exc}")
+        institution_works = await client.get_works(url)
+        works_reports = await _get_works_reports(client, institution_works, cited_from_date, cited_to_date)
+        sources = await _get_sources(client, institution_works)
 
     institution.counts_by_year = [InstitutionYearCount(**counts._asdict()) for counts in aggregate.count_by_year(works_reports)]
 

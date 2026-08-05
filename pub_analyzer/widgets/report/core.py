@@ -16,6 +16,12 @@ from textual.reactive import reactive
 from textual.widget import Widget
 from textual.widgets import Button, LoadingIndicator, Static, TabbedContent, TabPane
 
+from pub_analyzer.internal.openalex.client import (
+    API_KEY_ENV_VAR,
+    API_KEY_SETTINGS_URL,
+    AUTHENTICATION_STATUS_CODES,
+    redact_api_key,
+)
 from pub_analyzer.internal.report import FromDate, ToDate, make_author_report, make_institution_report
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.institution import Institution
@@ -27,6 +33,31 @@ from .export import ExportReportPane
 from .institution import InstitutionReportPane
 from .source import SourcesReportPane
 from .work import WorkReportPane
+
+
+def build_report_error_message(exc: httpx.HTTPStatusError | httpx.TransportError) -> str:
+    """Explain why a report could not be generated.
+
+    Args:
+        exc: Failure raised while talking to the OpenAlex API.
+
+    Returns:
+        Message to show the user, never containing the API key.
+    """
+    if isinstance(exc, httpx.TransportError):
+        return f"The report could not be generated because the OpenAlex API could not be reached. {exc}"
+
+    url = redact_api_key(exc.request.url)
+    status_error = f"HTTP Exception for url: {url}. Status code: {exc.response.status_code}"
+
+    if exc.response.status_code in AUTHENTICATION_STATUS_CODES:
+        return (
+            "OpenAlex rejected the request. This usually means the API key is missing, invalid,"
+            f" or out of credits for today. Set {API_KEY_ENV_VAR} to a key from {API_KEY_SETTINGS_URL}"
+            f" and try again. {status_error}"
+        )
+
+    return f"The report could not be generated due to a problem with the OpenAlex API. {status_error}"
 
 
 class ReportWidget(Static):
@@ -109,12 +140,11 @@ class CreateReportWidget(Static):
             start = time()
             report_widget = await self.make_report()
             elapsed = time() - start
-        except httpx.HTTPStatusError as exc:
+        except (httpx.HTTPStatusError, httpx.TransportError) as exc:
             self.query_one(LoadingIndicator).display = False
-            status_error = f"HTTP Exception for url: {exc.request.url}. Status code: {exc.response.status_code}"
             self.app.notify(
                 title="Error making report!",
-                message=f"The report could not be generated due to a problem with the OpenAlex API. {status_error}",
+                message=build_report_error_message(exc),
                 severity="error",
                 timeout=20.0,
             )
