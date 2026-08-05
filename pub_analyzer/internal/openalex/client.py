@@ -15,9 +15,10 @@ from pub_analyzer.internal.openalex.parsing import get_valid_works, validate_wor
 from pub_analyzer.models.source import Source
 from pub_analyzer.models.work import Work
 
-REQUEST_RATE_PER_SECOND = 8
+REQUEST_RATE_PER_SECOND = 20
 """The OpenAlex API allows a maximum of 100 requests per second. We stay well below that,
-since the daily credit allowance runs out long before the per-second limit is reached."""
+both to leave the service room and because the daily credit allowance runs out long
+before the per-second limit is reached."""
 
 DEFAULT_TIMEOUT = httpx.Timeout(30.0, connect=10.0)
 """Per-request timeout. Requests that expire are retried, so this stays well below the

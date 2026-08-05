@@ -12,7 +12,7 @@ from pub_analyzer.internal.openalex.client import API_KEY_ENV_VAR, OpenAlexClien
 from tests.data.source import SOURCE
 from tests.data.work import WORK
 
-WORKS_URL = "https://api.openalex.org/works?filter=author.id:A0&sort=publication_date&per-page=100"
+WORKS_URL = "https://api.openalex.org/works?filter=author.id:A0&sort=publication_date&per-page=200"
 SOURCE_URL = "https://api.openalex.org/sources/S137773608"
 
 

@@ -199,6 +199,80 @@ async def test_make_author_report_survives_an_unreachable_source() -> None:
 
 
 @pytest.mark.asyncio
+async def test_uncited_works_cost_no_request() -> None:
+    """A work OpenAlex reports as never cited is not queried at all."""
+    uncited = dict(WORK) | {"cited_by_count": 0, "locations": []}
+
+    with respx.mock(assert_all_called=True) as respx_mock:
+        works_route = respx_mock.get(url__startswith="https://api.openalex.org/works").mock(
+            return_value=httpx.Response(status_code=httpx.codes.OK, json=_works_page([uncited]))
+        )
+
+        report = await builder.make_author_report(author=Author(**AUTHOR))
+
+    # Only the request listing the author's works, none for its citations.
+    assert works_route.call_count == 1
+    assert all(not call.request.url.params["filter"].startswith("cites:") for call in works_route.calls)
+    assert report.works[0].cited_by == []
+    assert report.citation_summary.type_a_count == 0
+
+
+@pytest.mark.asyncio
+async def test_cited_works_are_still_queried() -> None:
+    """The shortcut must not swallow works that do have citations."""
+    cited = dict(WORK) | {"cited_by_count": 5, "locations": []}
+
+    def works_handler(request: httpx.Request) -> httpx.Response:
+        """Serve the author's works, then the works citing them."""
+        works_filter = request.url.params.get("filter", "")
+        results = [cited] if works_filter.startswith("author.id:") else []
+
+        return httpx.Response(status_code=httpx.codes.OK, json=_works_page(results))
+
+    with respx.mock(assert_all_called=True) as respx_mock:
+        works_route = respx_mock.get(url__startswith="https://api.openalex.org/works").mock(side_effect=works_handler)
+
+        await builder.make_author_report(author=Author(**AUTHOR))
+
+    assert any(call.request.url.params["filter"].startswith("cites:") for call in works_route.calls)
+
+
+@pytest.mark.asyncio
+async def test_works_reports_keep_their_order_under_concurrency() -> None:
+    """Requests overlap, but the reports come back in the order the works arrived."""
+    works = [
+        dict(WORK) | {"id": f"https://openalex.org/W{index}", "ids": {"openalex": f"https://openalex.org/W{index}"}, "locations": []}
+        for index in range(10)
+    ]
+
+    def works_handler(request: httpx.Request) -> httpx.Response:
+        """Serve the author's works, then a citation carrying the cited work's key."""
+        works_filter = request.url.params.get("filter", "")
+        if works_filter.startswith("author.id:"):
+            return httpx.Response(status_code=httpx.codes.OK, json=_works_page(works))
+
+        cited_key = works_filter.removeprefix("cites:")
+        citing = dict(WORK) | {
+            "id": f"https://openalex.org/C{cited_key}",
+            "ids": {"openalex": f"https://openalex.org/C{cited_key}"},
+            "authorships": [{"author_position": "first", "author": {"id": "https://openalex.org/A999"}}],
+        }
+
+        return httpx.Response(status_code=httpx.codes.OK, json=_works_page([citing]))
+
+    with respx.mock(assert_all_called=True) as respx_mock:
+        respx_mock.get(url__startswith="https://api.openalex.org/works").mock(side_effect=works_handler)
+
+        report = await builder.make_author_report(author=Author(**AUTHOR))
+
+    assert [str(work_report.work.id) for work_report in report.works] == [f"https://openalex.org/W{index}" for index in range(10)]
+    # Each citation names the work it cites, so a shuffle would show up here too.
+    assert [str(work_report.cited_by[0].work.id) for work_report in report.works] == [
+        f"https://openalex.org/CW{index}" for index in range(10)
+    ]
+
+
+@pytest.mark.asyncio
 async def test_make_author_report_keeps_the_author_details() -> None:
     """Replacing the year counts leaves every other field untouched."""
     author = Author(**AUTHOR)

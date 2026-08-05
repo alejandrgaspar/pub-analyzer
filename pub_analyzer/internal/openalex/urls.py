@@ -13,8 +13,8 @@ ToDate = NewType("ToDate", datetime.datetime)
 BASE_URL = "https://api.openalex.org"
 """Root of the OpenAlex API."""
 
-PER_PAGE_SIZE = 100
-"""Results per page requested from the API."""
+PER_PAGE_SIZE = 200
+"""Results per page requested from the API, which is the maximum OpenAlex allows."""
 
 AUTHOR_FILTER_KEY = "author.id"
 """Works filter selecting by author."""

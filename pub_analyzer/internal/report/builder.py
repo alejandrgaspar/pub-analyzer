@@ -1,7 +1,8 @@
 """Orchestration of the requests and aggregation that make up a report."""
 
-from collections.abc import Callable, Sequence
-from typing import NamedTuple, TypeVar
+import asyncio
+from collections.abc import Callable, Coroutine, Iterable, Sequence
+from typing import Any, NamedTuple, TypeVar
 
 import httpx
 from textual import log
@@ -29,11 +30,75 @@ from pub_analyzer.models.report import (
     WorkReport,
     WorkTypeCounter,
 )
-from pub_analyzer.models.source import Source
+from pub_analyzer.models.source import DehydratedSource, Source
 from pub_analyzer.models.work import Work
 
 ProfileT = TypeVar("ProfileT")
 """Any OpenAlex profile a report can be built from."""
+
+ResultT = TypeVar("ResultT")
+"""Whatever one concurrent step of a report produces."""
+
+MAX_CONCURRENT_REQUESTS = 10
+"""How many requests of a report may be in flight at once.
+
+The rate limiter still decides the pace; this only bounds how many connections and
+pending responses are held open while waiting for it.
+"""
+
+
+class _ProgressCounter:
+    """Counts finished steps so concurrent work still reports orderly progress."""
+
+    def __init__(self, total: int) -> None:
+        self.total = total
+        self.done = 0
+
+    def advance(self, label: str) -> None:
+        """Record one finished step.
+
+        Args:
+            label: What just finished, written before the counter.
+        """
+        self.done += 1
+        log.info(f"{label} [{self.done}/{self.total}]")
+
+
+async def _gather_bounded(
+    coroutines: Iterable[Coroutine[Any, Any, ResultT]],
+    limit: int = MAX_CONCURRENT_REQUESTS,
+) -> list[ResultT]:
+    """Run coroutines concurrently, keeping the results in the order they were given.
+
+    Args:
+        coroutines: Work to run.
+        limit: How many may run at once.
+
+    Returns:
+        One result per coroutine, in input order.
+
+    Raises:
+        BaseException: The first failure, re-raised once every coroutine has settled.
+
+    Danger:
+        Failures surface only after everything else finishes. Bailing out early would
+        leave requests running against a client that is about to be closed.
+    """
+    semaphore = asyncio.Semaphore(limit)
+
+    async def bounded(coroutine: Coroutine[Any, Any, ResultT]) -> ResultT:
+        async with semaphore:
+            return await coroutine
+
+    results = await asyncio.gather(*(bounded(coroutine) for coroutine in coroutines), return_exceptions=True)
+
+    values: list[ResultT] = []
+    for result in results:
+        if isinstance(result, BaseException):
+            raise result
+        values.append(result)
+
+    return values
 
 
 class _ReportParts(NamedTuple):
@@ -64,6 +129,34 @@ def _get_profiles_keys(profiles: Sequence[ProfileT], get_id: Callable[[ProfileT]
     return [get_id(profile) for profile in profiles]
 
 
+async def _get_citing_works(
+    client: OpenAlexClient,
+    work: Work,
+    cited_from_date: FromDate | None,
+    cited_to_date: ToDate | None,
+) -> list[Work]:
+    """Retrieve the works citing a given work.
+
+    Args:
+        client: Client used to reach the OpenAlex API.
+        work: Work being evaluated.
+        cited_from_date: Filter citing works published from this date.
+        cited_to_date: Filter citing works published up to this date.
+
+    Returns:
+        Works citing the evaluated work.
+
+    Raises:
+        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+    """
+    if work.cited_by_count < 1:
+        return []
+
+    cited_by_url = build_cited_by_url(identifier.get_work_id(work), cited_from_date, cited_to_date)
+
+    return await client.get_works(cited_by_url)
+
+
 async def _get_works_reports(
     client: OpenAlexClient,
     works: list[Work],
@@ -79,24 +172,20 @@ async def _get_works_reports(
         cited_to_date: Filter citing works published up to this date.
 
     Returns:
-        One report per evaluated work.
+        One report per evaluated work, in the order the works were given.
 
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
-    works_reports: list[WorkReport] = []
+    progress = _ProgressCounter(total=len(works))
 
-    works_count = len(works)
-    for index, work in enumerate(works, 1):
-        work_id = identifier.get_work_id(work)
-        log.info(f"[{work_id}] Work [{index}/{works_count}]")
+    async def build_report(work: Work) -> WorkReport:
+        citing_works = await _get_citing_works(client, work, cited_from_date, cited_to_date)
+        progress.advance(f"[{identifier.get_work_id(work)}] Work")
 
-        cited_by_url = build_cited_by_url(work_id, cited_from_date, cited_to_date)
-        citing_works = await client.get_works(cited_by_url)
+        return aggregate.build_work_report(work=work, citing_works=citing_works)
 
-        works_reports.append(aggregate.build_work_report(work=work, citing_works=citing_works))
-
-    return works_reports
+    return await _gather_bounded(build_report(work) for work in works)
 
 
 async def _get_sources(client: OpenAlexClient, works: list[Work]) -> list[Source]:
@@ -110,22 +199,26 @@ async def _get_sources(client: OpenAlexClient, works: list[Work]) -> list[Source
         works: Works whose locations point at the sources.
 
     Returns:
-        Sources successfully retrieved.
+        Sources successfully retrieved, in the order they were first seen.
     """
-    sources: list[Source] = []
-
     dehydrated_sources = aggregate.collect_dehydrated_sources(works)
-    sources_count = len(dehydrated_sources)
-    for index, dehydrated_source in enumerate(dehydrated_sources, 1):
-        source_id = identifier.get_source_id(dehydrated_source)
-        log.info(f"[{source_id}] Getting Sources... [{index}/{sources_count}]")
+    progress = _ProgressCounter(total=len(dehydrated_sources))
 
+    async def get_source(dehydrated_source: DehydratedSource) -> Source | None:
+        source_id = identifier.get_source_id(dehydrated_source)
         try:
-            sources.append(await client.get_source(build_source_url(source_id)))
+            source = await client.get_source(build_source_url(source_id))
         except (httpx.HTTPStatusError, httpx.TransportError) as exc:
             log.warning(f"Fail to retrive {source_id}: {exc}")
+            return None
 
-    return sources
+        progress.advance(f"[{source_id}] Getting Sources...")
+
+        return source
+
+    retrieved = await _gather_bounded(get_source(dehydrated_source) for dehydrated_source in dehydrated_sources)
+
+    return [source for source in retrieved if source is not None]
 
 
 async def _build_report(

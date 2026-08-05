@@ -32,14 +32,14 @@ def test_build_publication_date_filters(from_date: urls.FromDate | None, to_date
 def test_build_works_url_single_entity() -> None:
     """A single entity key produces a plain filter."""
     assert urls.build_works_url(urls.AUTHOR_FILTER_KEY, ["A0"]) == (
-        "https://api.openalex.org/works?filter=author.id:A0&sort=publication_date&per-page=100"
+        "https://api.openalex.org/works?filter=author.id:A0&sort=publication_date&per-page=200"
     )
 
 
 def test_build_works_url_joins_entities() -> None:
     """Several entity keys are joined with the OpenAlex OR separator."""
     assert urls.build_works_url(urls.INSTITUTION_FILTER_KEY, ["I0", "I1", "I2"]) == (
-        "https://api.openalex.org/works?filter=institutions.id:I0|I1|I2&sort=publication_date&per-page=100"
+        "https://api.openalex.org/works?filter=institutions.id:I0|I1|I2&sort=publication_date&per-page=200"
     )
 
 
@@ -48,13 +48,13 @@ def test_build_works_url_with_dates() -> None:
     assert urls.build_works_url(urls.AUTHOR_FILTER_KEY, ["A0"], FROM_DATE, TO_DATE) == (
         "https://api.openalex.org/works?filter=author.id:A0"
         ",from_publication_date:2020-01-02,to_publication_date:2023-11-30"
-        "&sort=publication_date&per-page=100"
+        "&sort=publication_date&per-page=200"
     )
 
 
 def test_build_cited_by_url() -> None:
     """Test build_cited_by_url function."""
-    assert urls.build_cited_by_url("W0") == ("https://api.openalex.org/works?filter=cites:W0&sort=publication_date&per-page=100")
+    assert urls.build_cited_by_url("W0") == ("https://api.openalex.org/works?filter=cites:W0&sort=publication_date&per-page=200")
 
 
 def test_build_cited_by_url_with_dates() -> None:
@@ -62,7 +62,7 @@ def test_build_cited_by_url_with_dates() -> None:
     assert urls.build_cited_by_url("W0", FROM_DATE, TO_DATE) == (
         "https://api.openalex.org/works?filter=cites:W0"
         ",from_publication_date:2020-01-02,to_publication_date:2023-11-30"
-        "&sort=publication_date&per-page=100"
+        "&sort=publication_date&per-page=200"
     )
 
 
