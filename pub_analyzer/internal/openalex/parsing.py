@@ -1,9 +1,14 @@
 """Normalization of raw OpenAlex payloads, applied before Model validation."""
 
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from typing import Any
 
+from pydantic import TypeAdapter, ValidationError
 from textual import log
+
+from pub_analyzer.models.work import Work
+
+_WORK_ADAPTER = TypeAdapter(Work)
 
 
 def reconstruct_abstract(abstract_inverted_index: Mapping[str, list[int]] | None) -> str | None:
@@ -67,3 +72,22 @@ def get_valid_works(works: list[dict[str, Any]]) -> list[dict[str, Any]]:
             log.warning(f"Discarded work: {work['id']}")
 
     return valid_works
+
+
+def validate_works(works: Iterable[dict[str, Any]]) -> list[Work]:
+    """Turn raw works into Models, skipping the ones that do not validate.
+
+    Args:
+        works: Raw works that already passed [get_valid_works][pub_analyzer.internal.openalex.parsing.get_valid_works].
+
+    Returns:
+        Works that validated successfully.
+    """
+    validated: list[Work] = []
+    for work in works:
+        try:
+            validated.append(_WORK_ADAPTER.validate_python(work))
+        except ValidationError as exc:
+            log.warning(f"Discarded work: {work.get('id')}. Does not validate: {exc}")
+
+    return validated

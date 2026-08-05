@@ -1,5 +1,8 @@
 """Orchestration of the requests and aggregation that make up a report."""
 
+from collections.abc import Callable, Sequence
+from typing import NamedTuple, TypeVar
+
 import httpx
 from textual import log
 
@@ -15,51 +18,50 @@ from pub_analyzer.internal.openalex.urls import (
     build_works_url,
 )
 from pub_analyzer.internal.report import aggregate
-from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, AuthorYearCount, DehydratedAuthor
-from pub_analyzer.models.institution import (
-    DehydratedInstitution,
-    Institution,
-    InstitutionOpenAlexKey,
-    InstitutionResult,
-    InstitutionYearCount,
+from pub_analyzer.models.author import Author, AuthorResult, AuthorYearCount, DehydratedAuthor
+from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionResult, InstitutionYearCount
+from pub_analyzer.models.report import (
+    AuthorReport,
+    CitationSummary,
+    InstitutionReport,
+    OpenAccessSummary,
+    SourcesSummary,
+    WorkReport,
+    WorkTypeCounter,
 )
-from pub_analyzer.models.report import AuthorReport, InstitutionReport, WorkReport
 from pub_analyzer.models.source import Source
 from pub_analyzer.models.work import Work
 
+ProfileT = TypeVar("ProfileT")
+"""Any OpenAlex profile a report can be built from."""
 
-def _get_author_profiles_keys(
-    author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None
-) -> list[AuthorOpenAlexKey]:
-    """Create a list of profiles IDs joining main author profile and extra author profiles.
+
+class _ReportParts(NamedTuple):
+    """Everything a report is made of, before it is attached to an entity.
+
+    Author and institution reports differ only in the entity they describe and in the
+    Model their year counts use, so the work of building one is shared.
+    """
+
+    works: list[WorkReport]
+    citation_summary: CitationSummary
+    open_access_summary: OpenAccessSummary
+    works_type_summary: list[WorkTypeCounter]
+    sources_summary: SourcesSummary
+    counts_by_year: list[aggregate.YearCount]
+
+
+def _get_profiles_keys(profiles: Sequence[ProfileT], get_id: Callable[[ProfileT], str]) -> list[str]:
+    """Extract the OpenAlex key of every profile a report covers.
 
     Args:
-        author: Main OpenAlex author object.
-        extra_profiles: Extra OpenAlex authors objects related with the main author.
+        profiles: Main OpenAlex profile followed by the extra profiles whose works are attached.
+        get_id: Extracts the OpenAlex key from a profile.
 
     Returns:
-        List of Author OpenAlex Keys.
+        List of OpenAlex Keys.
     """
-    profiles: list[Author | AuthorResult | DehydratedAuthor] = [author, *(extra_profiles or [])]
-
-    return [identifier.get_author_id(profile) for profile in profiles]
-
-
-def _get_institution_keys(
-    institution: Institution, extra_profiles: list[Institution | InstitutionResult | DehydratedInstitution] | None
-) -> list[InstitutionOpenAlexKey]:
-    """Create a list of profiles IDs joining main institution profile and extra institution profiles.
-
-    Args:
-        institution: Main OpenAlex institution object.
-        extra_profiles: Extra OpenAlex institutions objects related with the main institution.
-
-    Returns:
-        List of Institution OpenAlex Keys.
-    """
-    profiles: list[Institution | InstitutionResult | DehydratedInstitution] = [institution, *(extra_profiles or [])]
-
-    return [identifier.get_institution_id(profile) for profile in profiles]
+    return [get_id(profile) for profile in profiles]
 
 
 async def _get_works_reports(
@@ -126,6 +128,51 @@ async def _get_sources(client: OpenAlexClient, works: list[Work]) -> list[Source
     return sources
 
 
+async def _build_report(
+    filter_key: str,
+    entity_keys: Sequence[str],
+    pub_from_date: FromDate | None,
+    pub_to_date: ToDate | None,
+    cited_from_date: FromDate | None,
+    cited_to_date: ToDate | None,
+) -> _ReportParts:
+    """Retrieve everything a report needs and summarize it.
+
+    Args:
+        filter_key: OpenAlex filter selecting the entity, e.g. `"author.id"`.
+        entity_keys: OpenAlex keys of the entity profiles the report covers.
+
+        pub_from_date: Filter works published from this date.
+        pub_to_date: Filter works published up to this date.
+
+        cited_from_date: Filter citing works published from this date.
+        cited_to_date: Filter citing works published up to this date.
+
+    Returns:
+        The parts every report Model is assembled from.
+
+    Raises:
+        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+    """
+    url = build_works_url(filter_key=filter_key, entity_keys=entity_keys, from_date=pub_from_date, to_date=pub_to_date)
+
+    async with create_client() as http_client:
+        client = OpenAlexClient(http_client)
+
+        works = await client.get_works(url)
+        works_reports = await _get_works_reports(client, works, cited_from_date, cited_to_date)
+        sources = await _get_sources(client, works)
+
+    return _ReportParts(
+        works=works_reports,
+        citation_summary=aggregate.summarize_citations(works_reports),
+        open_access_summary=aggregate.summarize_open_access(works),
+        works_type_summary=aggregate.summarize_work_types(works),
+        sources_summary=aggregate.build_sources_summary(sources),
+        counts_by_year=aggregate.count_by_year(works_reports),
+    )
+
+
 async def make_author_report(
     author: Author,
     extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None = None,
@@ -151,30 +198,31 @@ async def make_author_report(
 
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+
+    Info:
+        The Author in the report carries the year counts observed while building it, which
+        respect the date filters applied. The Author passed in is left untouched.
     """
-    url = build_works_url(
+    profiles: list[Author | AuthorResult | DehydratedAuthor] = [author, *(extra_profiles or [])]
+
+    parts = await _build_report(
         filter_key=AUTHOR_FILTER_KEY,
-        entity_keys=_get_author_profiles_keys(author, extra_profiles),
-        from_date=pub_from_date,
-        to_date=pub_to_date,
+        entity_keys=_get_profiles_keys(profiles, identifier.get_author_id),
+        pub_from_date=pub_from_date,
+        pub_to_date=pub_to_date,
+        cited_from_date=cited_from_date,
+        cited_to_date=cited_to_date,
     )
 
-    async with create_client() as http_client:
-        client = OpenAlexClient(http_client)
-
-        author_works = await client.get_works(url)
-        works_reports = await _get_works_reports(client, author_works, cited_from_date, cited_to_date)
-        sources = await _get_sources(client, author_works)
-
-    author.counts_by_year = [AuthorYearCount(**counts._asdict()) for counts in aggregate.count_by_year(works_reports)]
+    counts_by_year = [AuthorYearCount(**counts._asdict()) for counts in parts.counts_by_year]
 
     return AuthorReport(
-        author=author,
-        works=works_reports,
-        citation_summary=aggregate.summarize_citations(works_reports),
-        open_access_summary=aggregate.summarize_open_access(author_works),
-        works_type_summary=aggregate.summarize_work_types(author_works),
-        sources_summary=aggregate.build_sources_summary(sources),
+        author=author.model_copy(update={"counts_by_year": counts_by_year}),
+        works=parts.works,
+        citation_summary=parts.citation_summary,
+        open_access_summary=parts.open_access_summary,
+        works_type_summary=parts.works_type_summary,
+        sources_summary=parts.sources_summary,
     )
 
 
@@ -203,28 +251,29 @@ async def make_institution_report(
 
     Raises:
         httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+
+    Info:
+        The Institution in the report carries the year counts observed while building it,
+        which respect the date filters applied. The Institution passed in is left untouched.
     """
-    url = build_works_url(
+    profiles: list[Institution | InstitutionResult | DehydratedInstitution] = [institution, *(extra_profiles or [])]
+
+    parts = await _build_report(
         filter_key=INSTITUTION_FILTER_KEY,
-        entity_keys=_get_institution_keys(institution, extra_profiles),
-        from_date=pub_from_date,
-        to_date=pub_to_date,
+        entity_keys=_get_profiles_keys(profiles, identifier.get_institution_id),
+        pub_from_date=pub_from_date,
+        pub_to_date=pub_to_date,
+        cited_from_date=cited_from_date,
+        cited_to_date=cited_to_date,
     )
 
-    async with create_client() as http_client:
-        client = OpenAlexClient(http_client)
-
-        institution_works = await client.get_works(url)
-        works_reports = await _get_works_reports(client, institution_works, cited_from_date, cited_to_date)
-        sources = await _get_sources(client, institution_works)
-
-    institution.counts_by_year = [InstitutionYearCount(**counts._asdict()) for counts in aggregate.count_by_year(works_reports)]
+    counts_by_year = [InstitutionYearCount(**counts._asdict()) for counts in parts.counts_by_year]
 
     return InstitutionReport(
-        institution=institution,
-        works=works_reports,
-        citation_summary=aggregate.summarize_citations(works_reports),
-        open_access_summary=aggregate.summarize_open_access(institution_works),
-        works_type_summary=aggregate.summarize_work_types(institution_works),
-        sources_summary=aggregate.build_sources_summary(sources),
+        institution=institution.model_copy(update={"counts_by_year": counts_by_year}),
+        works=parts.works,
+        citation_summary=parts.citation_summary,
+        open_access_summary=parts.open_access_summary,
+        works_type_summary=parts.works_type_summary,
+        sources_summary=parts.sources_summary,
     )

@@ -8,7 +8,7 @@ from pub_analyzer.models.author import DehydratedAuthor
 from pub_analyzer.models.report import CitationType
 from pub_analyzer.models.source import Source
 from pub_analyzer.models.work import Authorship, OpenAccessStatus
-from tests.data.builders import make_work
+from tests.data.builders import make_location, make_work
 from tests.data.source import SOURCE
 
 
@@ -210,9 +210,18 @@ def test_collect_dehydrated_sources_deduplicates() -> None:
     ]
 
 
-def test_collect_dehydrated_sources_ignores_locations_without_source() -> None:
-    """Works with no located source contribute nothing."""
+def test_collect_dehydrated_sources_ignores_works_without_locations() -> None:
+    """Works with no locations contribute nothing."""
     assert aggregate.collect_dehydrated_sources([make_work(sources=[]), make_work(sources=[])]) == []
+
+
+def test_collect_dehydrated_sources_skips_locations_without_a_source() -> None:
+    """A location can exist while naming no source, and is passed over."""
+    unsourced = make_location(source=None).model_dump(mode="json")
+    work = make_work(locations=[unsourced])
+
+    assert work.locations, "the work should still carry the location"
+    assert aggregate.collect_dehydrated_sources([work]) == []
 
 
 def _source_with_citedness(citedness: float) -> Source:

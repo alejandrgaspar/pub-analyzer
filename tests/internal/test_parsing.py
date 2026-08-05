@@ -5,6 +5,7 @@ from typing import Any
 import pytest
 
 from pub_analyzer.internal.openalex import parsing
+from tests.data.work import WORK
 
 
 @pytest.mark.parametrize(
@@ -83,3 +84,25 @@ def test_add_work_abstract(work: dict[str, Any], expected_abstract: str | None) 
 def test_get_valid_works(works: list[dict[str, Any]], expected_works: list[dict[str, Any]]) -> None:
     """Test get_valid_works function."""
     assert parsing.get_valid_works(works) == expected_works
+
+
+def test_validate_works() -> None:
+    """Test validate_works function."""
+    works = parsing.validate_works([dict(WORK), dict(WORK)])
+
+    assert len(works) == 2
+    assert all(work.title == WORK["title"] for work in works)
+
+
+def test_validate_works_skips_the_malformed_ones() -> None:
+    """One unusable record must not cost the works retrieved alongside it."""
+    malformed = dict(WORK) | {"open_access": {"is_oa": "not-a-bool", "oa_status": "nonsense"}}
+
+    works = parsing.validate_works([dict(WORK), malformed, dict(WORK)])
+
+    assert len(works) == 2, "the valid works should survive a malformed neighbour"
+
+
+def test_validate_works_empty() -> None:
+    """Nothing in, nothing out."""
+    assert parsing.validate_works([]) == []

@@ -8,11 +8,10 @@ from typing import Any
 from urllib.parse import quote
 
 import httpx
-from pydantic import TypeAdapter
 from textual import log
 
 from pub_analyzer.internal.limiter import RateLimiter
-from pub_analyzer.internal.openalex.parsing import get_valid_works
+from pub_analyzer.internal.openalex.parsing import get_valid_works, validate_works
 from pub_analyzer.models.source import Source
 from pub_analyzer.models.work import Work
 
@@ -284,7 +283,7 @@ class OpenAlexClient:
             works_data.extend(get_valid_works(json_response["results"]))
             cursor = json_response["meta"].get("next_cursor")
 
-        return TypeAdapter(list[Work]).validate_python(works_data)
+        return validate_works(works_data)
 
     async def get_source(self, url: str) -> Source:
         """Get a single source.
