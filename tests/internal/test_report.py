@@ -1,4 +1,4 @@
-"""Test report functions from pub_analyzer/internal/report.py."""
+"""Test builder functions from pub_analyzer/internal/report/builder.py."""
 
 import copy
 import math
@@ -9,26 +9,30 @@ import pytest
 import respx
 from pydantic import HttpUrl
 
-from pub_analyzer.internal import report
 from pub_analyzer.internal.limiter import RateLimiter
+from pub_analyzer.internal.report import builder
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult, InstitutionType
-from pub_analyzer.models.report import CitationType
-from pub_analyzer.models.work import Authorship
 from tests.data.work import WORK
+
+
+def _dehydrated_institution(institution_id: str) -> DehydratedInstitution:
+    """Build a DehydratedInstitution from a bare OpenAlex key."""
+    return DehydratedInstitution(
+        id=HttpUrl(f"https://openalex.org/{institution_id}"),
+        ror="",
+        display_name="",
+        country_code="",
+        type=InstitutionType.Education,
+    )
 
 
 @pytest.mark.parametrize(
     ["main_author", "extra_profiles", "expected_keys"],
     [
-        [
-            DehydratedAuthor(id=HttpUrl("https://openalex.org/A0")),
-            None,
-            [
-                "A0",
-            ],
-        ],
-        [
+        pytest.param(DehydratedAuthor(id=HttpUrl("https://openalex.org/A0")), None, ["A0"], id="no-extra-profiles"),
+        pytest.param(DehydratedAuthor(id=HttpUrl("https://openalex.org/A0")), [], ["A0"], id="empty-extra-profiles"),
+        pytest.param(
             DehydratedAuthor(id=HttpUrl("https://openalex.org/A0")),
             [
                 DehydratedAuthor(id=HttpUrl("https://openalex.org/A1")),
@@ -36,45 +40,28 @@ from tests.data.work import WORK
                 DehydratedAuthor(id=HttpUrl("https://openalex.org/A3")),
             ],
             ["A0", "A1", "A2", "A3"],
-        ],
+            id="with-extra-profiles",
+        ),
     ],
 )
 def test_get_author_profiles_keys(
     main_author: Author, extra_profiles: list[Author | AuthorResult | DehydratedAuthor] | None, expected_keys: list[AuthorOpenAlexKey]
 ) -> None:
     """Test _get_author_profiles_keys function."""
-    assert report._get_author_profiles_keys(main_author, extra_profiles) == expected_keys
+    assert builder._get_author_profiles_keys(main_author, extra_profiles) == expected_keys
 
 
 @pytest.mark.parametrize(
     ["main_institution", "extra_profiles", "expected_keys"],
     [
-        [
-            DehydratedInstitution(
-                id=HttpUrl("https://openalex.org/I0"), ror="", display_name="", country_code="", type=InstitutionType.Education
-            ),
-            None,
-            [
-                "I0",
-            ],
-        ],
-        [
-            DehydratedInstitution(
-                id=HttpUrl("https://openalex.org/I0"), ror="", display_name="", country_code="", type=InstitutionType.Education
-            ),
-            [
-                DehydratedInstitution(
-                    id=HttpUrl("https://openalex.org/I1"), ror="", display_name="", country_code="", type=InstitutionType.Education
-                ),
-                DehydratedInstitution(
-                    id=HttpUrl("https://openalex.org/I2"), ror="", display_name="", country_code="", type=InstitutionType.Education
-                ),
-                DehydratedInstitution(
-                    id=HttpUrl("https://openalex.org/I3"), ror="", display_name="", country_code="", type=InstitutionType.Education
-                ),
-            ],
+        pytest.param(_dehydrated_institution("I0"), None, ["I0"], id="no-extra-profiles"),
+        pytest.param(_dehydrated_institution("I0"), [], ["I0"], id="empty-extra-profiles"),
+        pytest.param(
+            _dehydrated_institution("I0"),
+            [_dehydrated_institution("I1"), _dehydrated_institution("I2"), _dehydrated_institution("I3")],
             ["I0", "I1", "I2", "I3"],
-        ],
+            id="with-extra-profiles",
+        ),
     ],
 )
 def test_get_institution_keys(
@@ -83,89 +70,7 @@ def test_get_institution_keys(
     expected_keys: list[InstitutionOpenAlexKey],
 ) -> None:
     """Test _get_institution_keys function."""
-    assert report._get_institution_keys(main_institution, extra_profiles) == expected_keys
-
-
-def test_get_authors_list() -> None:
-    """Test _get_authors_list function."""
-    first_author = DehydratedAuthor(id=HttpUrl("https://openalex.org/A4356032281"))
-    middle_author = DehydratedAuthor(id=HttpUrl("https://openalex.org/A2642025319"))
-    last_author = DehydratedAuthor(id=HttpUrl("https://openalex.org/A4356881717"))
-
-    authorships = [
-        Authorship(author_position="first", author=first_author),
-        Authorship(author_position="middle", author=middle_author),
-        Authorship(author_position="last", author=last_author),
-    ]
-
-    open_ids_list = report._get_authors_list(authorships=authorships)
-    assert open_ids_list == ["A4356032281", "A2642025319", "A4356881717"]
-
-
-@pytest.mark.parametrize(
-    ["original_authors", "cited_authors", "expected_cite_type"],
-    [
-        [("A4358557189", "A2750800828"), ("A4356997054", "A4354328133"), CitationType.TypeA],
-        [("A4358557189", "A2750800828"), ("A2750800828", "A4354328133"), CitationType.TypeB],
-    ],
-)
-def test_get_citation_type(original_authors: list[str], cited_authors: list[str], expected_cite_type: CitationType) -> None:
-    """Test _get_citation_type function."""
-    function_cite_type = report._get_citation_type(original_authors, cited_authors)
-
-    assert function_cite_type == expected_cite_type
-
-
-@pytest.mark.parametrize(
-    ["work", "expected_abstract"],
-    [
-        [
-            {
-                "abstract_inverted_index": {
-                    "Fear": [
-                        0,
-                    ],
-                    "is": [
-                        1,
-                    ],
-                    "the": [
-                        2,
-                    ],
-                    "mind-killer.": [
-                        3,
-                    ],
-                }
-            },
-            "Fear is the mind-killer.",
-        ],
-        [{"abstract_inverted_index": None}, None],
-    ],
-)
-def test_add_work_abstract(work: dict[str, Any], expected_abstract: str | None) -> None:
-    """Test _add_work_abstract function."""
-    work = report._add_work_abstract(work)
-    assert work["abstract"] == expected_abstract
-
-
-@pytest.mark.parametrize(
-    ["works", "expected_works"],
-    [
-        [
-            [
-                {"id": "W4356881717", "title": "Title1", "language": "en"},
-                {"id": "W2058179313", "title": "Title2", "language": None},
-                {"id": "W1956475281", "title": None, "language": "es"},
-            ],
-            [
-                {"id": "W4356881717", "title": "Title1", "language": "en", "abstract": None},
-                {"id": "W2058179313", "title": "Title2", "language": None, "abstract": None},
-            ],
-        ],
-    ],
-)
-def test_get_valid_works(works: list[dict[str, Any]], expected_works: list[dict[str, Any]]) -> None:
-    """Test _get_valid_works function."""
-    assert report._get_valid_works(works) == expected_works
+    assert builder._get_institution_keys(main_institution, extra_profiles) == expected_keys
 
 
 @pytest.mark.asyncio
@@ -197,4 +102,47 @@ async def test_get_works(author_id: str, works: dict[str, Any]) -> None:
 
         client = httpx.AsyncClient()
         limiter = RateLimiter(rate=8, per_second=1.0)
-        await report._get_works(url=base_url, client=client, limiter=limiter)
+        retrieved_works = await builder._get_works(url=base_url, client=client, limiter=limiter)
+
+    assert len(retrieved_works) == page_count * len(works["results"])
+
+
+@pytest.mark.asyncio
+async def test_get_works_raises_on_error_status() -> None:
+    """An error status on the first page surfaces as an HTTPStatusError."""
+    base_url = "https://api.openalex.org/works?filter=author.id:A0&sort=publication_date"
+
+    with respx.mock(assert_all_called=True, assert_all_mocked=True) as respx_mock:
+        respx_mock.get(base_url).mock(return_value=httpx.Response(status_code=httpx.codes.INTERNAL_SERVER_ERROR))
+
+        client = httpx.AsyncClient()
+        limiter = RateLimiter(rate=8, per_second=1.0)
+
+        with pytest.raises(httpx.HTTPStatusError):
+            await builder._get_works(url=base_url, client=client, limiter=limiter)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    ["homepage_url", "expected_homepage_url"],
+    [
+        pytest.param("https://example.org", "https://example.org/", id="valid-url-kept"),
+        pytest.param("www.example.org", None, id="schemeless-url-discarded"),
+        pytest.param(None, None, id="missing-url"),
+    ],
+)
+async def test_get_source_homepage_url(homepage_url: str | None, expected_homepage_url: str | None) -> None:
+    """Sources carrying a homepage URL without scheme have it discarded."""
+    from tests.data.source import SOURCE
+
+    url = "https://api.openalex.org/sources/S137773608"
+    payload = dict(SOURCE) | {"homepage_url": homepage_url}
+
+    with respx.mock(assert_all_called=True, assert_all_mocked=True) as respx_mock:
+        respx_mock.get(url).mock(return_value=httpx.Response(status_code=httpx.codes.OK, json=payload))
+
+        client = httpx.AsyncClient()
+        limiter = RateLimiter(rate=8, per_second=1.0)
+        source = await builder._get_source(url=url, client=client, limiter=limiter)
+
+    assert (str(source.homepage_url) if source.homepage_url else None) == expected_homepage_url

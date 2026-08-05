@@ -24,6 +24,15 @@ test:
 test-record:
 	$(run) pytest --record-mode=once
 
+coverage:
+	$(run) pytest --block-network --cov --cov-report=term-missing
+
+# Coverage excluding the cassette-backed integration test, to track how much
+# of the codebase is reachable without recorded network traffic.
+coverage-offline:
+	$(run) pytest --block-network --cov --cov-report=term-missing \
+		--ignore=tests/internal/test_make_report.py
+
 docs-serve:
 	$(run) mkdocs serve --livereload
 

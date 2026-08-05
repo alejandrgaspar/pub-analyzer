@@ -20,6 +20,10 @@ __pycache__
 # PyTest
 .pytest_cache
 
+# Coverage
+.coverage
+htmlcov/
+
 # MkDocs documentation
 /site
 

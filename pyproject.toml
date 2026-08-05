@@ -57,6 +57,7 @@ dev = [
     "respx==0.23.1",
     "vcrpy==8.2.1",
     "pytest-recording==0.13.4",
+    "pytest-cov==7.0.0",
 ]
 
 [project.optional-dependencies]
@@ -71,6 +72,17 @@ docs = [
 [tool.uv.build-backend]
 module-name = "pub_analyzer"
 module-root = ""
+
+[tool.coverage.run]
+source = ["pub_analyzer"]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "@overload",
+]
 
 [tool.mypy]
 strict = true
