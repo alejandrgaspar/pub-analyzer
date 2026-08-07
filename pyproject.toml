@@ -40,7 +40,7 @@ Repository = "https://github.com/alejandrgaspar/pub-analyzer"
 Documentation = "https://pub-analyzer.com/"
 
 [build-system]
-requires = ["uv_build>=0.11.23,<0.12"]
+requires = ["uv_build>=0.11.23,<0.13"]
 build-backend = "uv_build"
 
 [project.scripts]
@@ -49,13 +49,13 @@ pub-analyzer = "pub_analyzer.main:run"
 [dependency-groups]
 dev = [
     "textual-dev==1.5.1",
-    "prek==0.4.3",
-    "ty==0.0.65",
-    "ruff==0.15.18",
+    "prek==0.4.12",
+    "ty==0.0.66",
+    "ruff==0.16.1",
     "pytest==9.1.1",
     "pytest-asyncio==1.4.0",
     "respx==0.23.1",
-    "vcrpy==8.2.1",
+    "vcrpy==8.3.0",
     "pytest-recording==0.13.4",
 ]
 
