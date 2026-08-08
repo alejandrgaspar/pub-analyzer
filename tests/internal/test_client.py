@@ -1,5 +1,6 @@
 """Test the OpenAlex client from pub_analyzer/internal/openalex/client.py."""
 
+import logging
 from typing import Any
 
 import httpx
@@ -102,27 +103,10 @@ def test_api_key_is_url_encoded() -> None:
     assert authenticated == "https://api.openalex.org/works?filter=x&api_key=a%26b%3Dc%20d"
 
 
-class _RecordingLog:
-    """Stand-in for the Textual logger, capturing what would be written."""
-
-    def __init__(self) -> None:
-        self.messages: list[str] = []
-
-    def warning(self, message: object) -> None:
-        """Record a warning."""
-        self.messages.append(str(message))
-
-    def info(self, message: object) -> None:
-        """Record an informational message."""
-        self.messages.append(str(message))
-
-
 @pytest.mark.asyncio
-async def test_api_key_never_reaches_the_log(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_api_key_never_reaches_the_log(caplog: pytest.LogCaptureFixture) -> None:
     """Failures log the plain URL, never the authenticated one."""
-    recording_log = _RecordingLog()
-    monkeypatch.setattr(openalex_client, "log", recording_log)
-    logged = recording_log.messages
+    caplog.set_level(logging.WARNING, logger=openalex_client.__name__)
 
     with respx.mock(assert_all_called=True) as respx_mock:
         respx_mock.get(url__startswith=SOURCE_URL).mock(return_value=httpx.Response(status_code=httpx.codes.SERVICE_UNAVAILABLE))
@@ -130,8 +114,8 @@ async def test_api_key_never_reaches_the_log(monkeypatch: pytest.MonkeyPatch) ->
         with pytest.raises(httpx.HTTPStatusError):
             await build_client(max_attempts=2, api_key="secret-key").get_json(SOURCE_URL)
 
-    assert logged, "expected the failures to be logged"
-    assert not any("secret-key" in message for message in logged)
+    assert caplog.records, "expected the failures to be logged"
+    assert not any("secret-key" in record.getMessage() for record in caplog.records)
 
 
 @pytest.mark.parametrize(

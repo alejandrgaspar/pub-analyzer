@@ -1,6 +1,7 @@
 """HTTP access to the OpenAlex API."""
 
 import asyncio
+import logging
 import os
 import random
 from importlib.metadata import PackageNotFoundError, version
@@ -8,12 +9,13 @@ from typing import Any
 from urllib.parse import quote
 
 import httpx
-from textual import log
 
 from pub_analyzer.internal.limiter import RateLimiter
 from pub_analyzer.internal.openalex.parsing import get_valid_works, validate_works
 from pub_analyzer.models.source import Source
 from pub_analyzer.models.work import Work
+
+logger = logging.getLogger(__name__)
 
 REQUEST_RATE_PER_SECOND = 20
 """The OpenAlex API allows a maximum of 100 requests per second. We stay well below that,
@@ -234,7 +236,7 @@ class OpenAlexClient:
                 response = await self.client.get(url=request_url, follow_redirects=True)
             except httpx.TransportError as exc:
                 last_error = exc
-                log.warning(f"Request to {url} failed [{attempt}/{self.max_attempts}]: {exc}")
+                logger.warning(f"Request to {url} failed [{attempt}/{self.max_attempts}]: {exc}")
             else:
                 if response.status_code not in RETRYABLE_STATUS_CODES:
                     # Raises for any other error status, so callers fail fast on a 404.
@@ -246,7 +248,7 @@ class OpenAlexClient:
                 last_error = httpx.HTTPStatusError(
                     f"Retryable status {response.status_code} for url: {url}", request=response.request, response=response
                 )
-                log.warning(f"Request to {url} returned {response.status_code} [{attempt}/{self.max_attempts}]")
+                logger.warning(f"Request to {url} returned {response.status_code} [{attempt}/{self.max_attempts}]")
 
             if attempt < self.max_attempts:
                 await asyncio.sleep(self._backoff_delay(attempt, retry_after))
@@ -304,6 +306,6 @@ class OpenAlexClient:
         homepage_url = json_response.get("homepage_url")
         if isinstance(homepage_url, str) and not homepage_url.startswith(("http", "https")):
             json_response["homepage_url"] = None
-            log.warning(f"Discarted source homepage url: {url}")
+            logger.warning(f"Discarted source homepage url: {url}")
 
         return Source(**json_response)

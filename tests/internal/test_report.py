@@ -9,6 +9,7 @@ from pydantic import HttpUrl
 
 from pub_analyzer.internal import identifier
 from pub_analyzer.internal.report import builder
+from pub_analyzer.internal.report.progress import ReportProgress, ReportStage
 from pub_analyzer.models.author import Author, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionResult, InstitutionType
 from tests.data.author import AUTHOR
@@ -270,6 +271,73 @@ async def test_works_reports_keep_their_order_under_concurrency() -> None:
     assert [str(work_report.cited_by[0].work.id) for work_report in report.works] == [
         f"https://openalex.org/CW{index}" for index in range(10)
     ]
+
+
+@pytest.mark.asyncio
+async def test_report_progress_is_reported_in_order() -> None:
+    """Every stage is announced, and each one counts up to its own total."""
+    author_work = dict(WORK) | {"cited_by_count": 1, "locations": [LOCATION]}
+
+    def works_handler(request: httpx.Request) -> httpx.Response:
+        """Serve one work, then one work citing it."""
+        works_filter = request.url.params.get("filter", "")
+        results = [author_work] if works_filter.startswith("author.id:") else [dict(WORK)]
+
+        return httpx.Response(status_code=httpx.codes.OK, json=_works_page(results))
+
+    updates: list[ReportProgress] = []
+
+    with respx.mock(assert_all_called=True) as respx_mock:
+        respx_mock.get(url__startswith="https://api.openalex.org/works").mock(side_effect=works_handler)
+        respx_mock.get(url__startswith=f"https://api.openalex.org/sources/{SOURCE_KEY}").mock(
+            return_value=httpx.Response(status_code=httpx.codes.OK, json=dict(SOURCE))
+        )
+
+        await builder.make_author_report(author=Author(**AUTHOR), on_progress=updates.append)
+
+    assert [update.stage for update in updates] == [
+        ReportStage.works,
+        ReportStage.citations,
+        ReportStage.citations,
+        ReportStage.sources,
+        ReportStage.sources,
+    ]
+    # Each measured stage starts at zero and finishes at its total.
+    assert [(update.done, update.total) for update in updates[1:]] == [(0, 1), (1, 1), (0, 1), (1, 1)]
+    assert updates[-1].description == "Retrieving sources 1/1"
+
+
+@pytest.mark.asyncio
+async def test_skipped_sources_still_advance_progress() -> None:
+    """A source that cannot be retrieved must not leave the bar short of its total."""
+    author_work = dict(WORK) | {"cited_by_count": 0, "locations": [LOCATION]}
+
+    updates: list[ReportProgress] = []
+
+    with respx.mock(assert_all_called=True) as respx_mock:
+        respx_mock.get(url__startswith="https://api.openalex.org/works").mock(
+            return_value=httpx.Response(status_code=httpx.codes.OK, json=_works_page([author_work]))
+        )
+        respx_mock.get(url__startswith=f"https://api.openalex.org/sources/{SOURCE_KEY}").mock(
+            return_value=httpx.Response(status_code=httpx.codes.NOT_FOUND)
+        )
+
+        report = await builder.make_author_report(author=Author(**AUTHOR), on_progress=updates.append)
+
+    assert report.sources_summary.sources == []
+
+    sources_updates = [update for update in updates if update.stage is ReportStage.sources]
+    assert sources_updates[-1].done == sources_updates[-1].total == 1
+
+
+@pytest.mark.asyncio
+async def test_report_works_without_a_progress_callback() -> None:
+    """The callback is optional."""
+    with respx.mock(assert_all_called=True) as respx_mock:
+        _mock_empty_report(respx_mock)
+        report = await builder.make_author_report(author=Author(**AUTHOR))
+
+    assert report.works == []
 
 
 @pytest.mark.asyncio

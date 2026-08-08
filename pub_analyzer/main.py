@@ -1,5 +1,6 @@
 """Entry Point."""
 
+import logging
 import urllib.parse
 import webbrowser
 from typing import ClassVar
@@ -9,6 +10,7 @@ from textual._path import CSSPathType
 from textual.app import App, ComposeResult
 from textual.binding import Binding, BindingType
 from textual.dom import DOMNode
+from textual.logging import TextualHandler
 from textual.reactive import Reactive
 from textual.widgets import Footer
 
@@ -68,5 +70,7 @@ class PubAnalyzerApp(App[DOMNode]):
 
 def run() -> None:
     """Run Pub Analyzer App."""
+    logging.basicConfig(level=logging.INFO, handlers=[TextualHandler()])
+
     app = PubAnalyzerApp()
     app.run()

@@ -1,13 +1,15 @@
 """Render reports."""
 
+import logging
 import pathlib
 import time
 from importlib.metadata import version
 
 import typst
-from textual import log
 
 from pub_analyzer.models.report import AuthorReport, InstitutionReport
+
+logger = logging.getLogger(__name__)
 
 
 def render_report(report: AuthorReport | InstitutionReport, file_path: pathlib.Path | None) -> bytes | None:
@@ -37,5 +39,5 @@ def render_report(report: AuthorReport | InstitutionReport, file_path: pathlib.P
     else:
         result = typst.compile(input=typst_file, sys_inputs=sys_inputs)
 
-    log.info(f"Typst compile time: {round((time.time() - start_time), 2)} seconds.")
+    logger.info(f"Typst compile time: {round((time.time() - start_time), 2)} seconds.")
     return result

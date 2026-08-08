@@ -129,3 +129,25 @@ WorkModal #dialog #tables-container {
 WorkModal #dialog ContentSwitcher {
     height: auto;
 }
+
+
+ReportProgressWidget {
+    align: center middle;
+    height: 1fr;
+
+    .report-progress-container {
+        align: center middle;
+        height: auto;
+        width: 60;
+    }
+
+    .report-progress-description {
+        width: 100%;
+        text-align: center;
+        margin: 0 0 1 0;
+    }
+
+    ProgressBar {
+        margin: 0 12;
+    }
+}

@@ -11,10 +11,10 @@ from pydantic import TypeAdapter, ValidationError
 from textual import on
 from textual.app import ComposeResult
 from textual.binding import Binding, BindingType
-from textual.containers import Container, Horizontal
+from textual.containers import Container, Horizontal, Vertical
 from textual.reactive import reactive
 from textual.widget import Widget
-from textual.widgets import Button, LoadingIndicator, Static, TabbedContent, TabPane
+from textual.widgets import Button, Label, ProgressBar, Static, TabbedContent, TabPane
 
 from pub_analyzer.internal.openalex.client import (
     API_KEY_ENV_VAR,
@@ -23,6 +23,7 @@ from pub_analyzer.internal.openalex.client import (
     redact_api_key,
 )
 from pub_analyzer.internal.report import FromDate, ToDate, make_author_report, make_institution_report
+from pub_analyzer.internal.report.progress import ReportProgress
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.institution import Institution
 from pub_analyzer.models.report import AuthorReport, InstitutionReport
@@ -117,12 +118,33 @@ class InstitutionReportWidget(ReportWidget):
                 yield ExportReportPane(report=self.report, suggest_prefix=suggest_prefix)
 
 
+class ReportProgressWidget(Static):
+    """Shows how far along a report is while it is being built."""
+
+    def compose(self) -> ComposeResult:
+        """Compose the description and the bar tracking it."""
+        with Vertical(classes="report-progress-container"):
+            yield Label("Starting report...", classes="report-progress-description")
+            yield ProgressBar(total=None, show_eta=False)
+
+    def update_progress(self, progress: ReportProgress) -> None:
+        """Show a progress update.
+
+        Args:
+            progress: How far along the report is.
+        """
+        self.query_one(Label).update(progress.description)
+
+        progress_bar = self.query_one(ProgressBar)
+        progress_bar.update(total=progress.total if progress.is_measurable else None, progress=progress.done)
+
+
 class CreateReportWidget(Static):
     """Base Widget report wrapper to load data from API."""
 
     def compose(self) -> ComposeResult:
-        """Create main info container and showing a loading animation."""
-        yield LoadingIndicator()
+        """Create main info container and show the report progress."""
+        yield ReportProgressWidget()
         yield Container()
 
     def on_mount(self) -> None:
@@ -134,6 +156,18 @@ class CreateReportWidget(Static):
         """Make report and create the widget."""
         raise NotImplementedError
 
+    def report_progress(self, progress: ReportProgress) -> None:
+        """Forward a progress update to the widget showing it.
+
+        Args:
+            progress: How far along the report is.
+
+        Info:
+            Called from the worker building the report, which runs on the event loop, so
+            the widget can be updated directly.
+        """
+        self.query_one(ReportProgressWidget).update_progress(progress)
+
     async def mount_report(self) -> None:
         """Mount report."""
         try:
@@ -141,12 +175,12 @@ class CreateReportWidget(Static):
             report_widget = await self.make_report()
             elapsed = time() - start
         except (httpx.HTTPStatusError, httpx.TransportError) as exc:
-            self.query_one(LoadingIndicator).display = False
+            self.query_one(ReportProgressWidget).display = False
             self.app.notify(
                 title="Error making report!",
                 message=build_report_error_message(exc),
                 severity="error",
-                timeout=20.0,
+                timeout=60.0,
             )
             return None
 
@@ -161,7 +195,7 @@ class CreateReportWidget(Static):
         await container.mount(report_widget)
 
         # Show results
-        self.query_one(LoadingIndicator).display = False
+        self.query_one(ReportProgressWidget).display = False
         container.display = True
 
 
@@ -198,6 +232,7 @@ class CreateAuthorReportWidget(CreateReportWidget):
 
         report = await make_author_report(
             author=self.author,
+            on_progress=self.report_progress,
             pub_from_date=pub_from_date,
             pub_to_date=pub_to_date,
             cited_from_date=cited_from_date,
@@ -239,6 +274,7 @@ class CreateInstitutionReportWidget(CreateReportWidget):
 
         report = await make_institution_report(
             institution=self.institution,
+            on_progress=self.report_progress,
             pub_from_date=pub_from_date,
             pub_to_date=pub_to_date,
             cited_from_date=cited_from_date,

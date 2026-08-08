@@ -1,12 +1,14 @@
 """Normalization of raw OpenAlex payloads, applied before Model validation."""
 
+import logging
 from collections.abc import Iterable, Mapping
 from typing import Any
 
 from pydantic import TypeAdapter, ValidationError
-from textual import log
 
 from pub_analyzer.models.work import Work
+
+logger = logging.getLogger(__name__)
 
 _WORK_ADAPTER = TypeAdapter(Work)
 
@@ -69,7 +71,7 @@ def get_valid_works(works: list[dict[str, Any]]) -> list[dict[str, Any]]:
         if work["title"] is not None:
             valid_works.append(add_work_abstract(work))
         else:
-            log.warning(f"Discarded work: {work['id']}")
+            logger.warning(f"Discarded work: {work['id']}")
 
     return valid_works
 
@@ -88,6 +90,6 @@ def validate_works(works: Iterable[dict[str, Any]]) -> list[Work]:
         try:
             validated.append(_WORK_ADAPTER.validate_python(work))
         except ValidationError as exc:
-            log.warning(f"Discarded work: {work.get('id')}. Does not validate: {exc}")
+            logger.warning(f"Discarded work: {work.get('id')}. Does not validate: {exc}")
 
     return validated

@@ -48,3 +48,11 @@ LoadingIndicator {
 LoadingIndicator.-textual-loading-indicator {
     background: transparent;
 }
+
+.bar--bar {
+    color: $primary-color-accent;
+}
+
+.bar--indeterminate {
+    color: $primary-color-accent;
+}
