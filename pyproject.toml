@@ -29,7 +29,7 @@ classifiers = [
 
 dependencies = [
     "textual==0.85.2",
-    "httpx[http2]==0.28.1",
+    "httpx2[http2]==2.14.0",
     "pydantic==2.12.5",
     "typst==0.13.2",
 ]
@@ -54,8 +54,7 @@ dev = [
     "ruff==0.15.18",
     "pytest==9.1.1",
     "pytest-asyncio==1.4.0",
-    "respx==0.23.1",
-    "vcrpy==8.2.1",
+    "vcrpy==8.5.0",
     "pytest-recording==0.13.4",
     "pytest-cov==7.0.0",
 ]

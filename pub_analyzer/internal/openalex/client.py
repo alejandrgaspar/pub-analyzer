@@ -8,7 +8,7 @@ from importlib.metadata import PackageNotFoundError, version
 from typing import Any
 from urllib.parse import quote
 
-import httpx
+import httpx2
 
 from pub_analyzer.internal.limiter import RateLimiter
 from pub_analyzer.internal.openalex.parsing import get_valid_works, validate_works
@@ -22,7 +22,7 @@ REQUEST_RATE_PER_SECOND = 20
 both to leave the service room and because the daily credit allowance runs out long
 before the per-second limit is reached."""
 
-DEFAULT_TIMEOUT = httpx.Timeout(30.0, connect=10.0)
+DEFAULT_TIMEOUT = httpx2.Timeout(30.0, connect=10.0)
 """Per-request timeout. Requests that expire are retried, so this stays well below the
 time a user is willing to wait on a frozen screen."""
 
@@ -37,23 +37,23 @@ MAX_BACKOFF_SECONDS = 30.0
 
 RETRYABLE_STATUS_CODES = frozenset(
     {
-        httpx.codes.REQUEST_TIMEOUT,
-        httpx.codes.TOO_EARLY,
-        httpx.codes.TOO_MANY_REQUESTS,
-        httpx.codes.INTERNAL_SERVER_ERROR,
-        httpx.codes.BAD_GATEWAY,
-        httpx.codes.SERVICE_UNAVAILABLE,
-        httpx.codes.GATEWAY_TIMEOUT,
+        httpx2.codes.REQUEST_TIMEOUT,
+        httpx2.codes.TOO_EARLY,
+        httpx2.codes.TOO_MANY_REQUESTS,
+        httpx2.codes.INTERNAL_SERVER_ERROR,
+        httpx2.codes.BAD_GATEWAY,
+        httpx2.codes.SERVICE_UNAVAILABLE,
+        httpx2.codes.GATEWAY_TIMEOUT,
     }
 )
 """Statuses worth attempting again. Every other error status fails immediately."""
 
 AUTHENTICATION_STATUS_CODES = frozenset(
     {
-        httpx.codes.UNAUTHORIZED,
-        httpx.codes.FORBIDDEN,
-        httpx.codes.CONFLICT,
-        httpx.codes.TOO_MANY_REQUESTS,
+        httpx2.codes.UNAUTHORIZED,
+        httpx2.codes.FORBIDDEN,
+        httpx2.codes.CONFLICT,
+        httpx2.codes.TOO_MANY_REQUESTS,
     }
 )
 """Statuses OpenAlex answers with when a key is missing, rejected, or out of credits."""
@@ -101,7 +101,7 @@ def redact_api_key(url: object) -> str:
         # 'https://api.openalex.org/works?api_key=REDACTED'
         ```
     """
-    parsed = httpx.URL(str(url))
+    parsed = httpx2.URL(str(url))
     if API_KEY_PARAM not in parsed.params:
         return str(parsed)
 
@@ -122,16 +122,16 @@ def build_user_agent() -> str:
     return f"pub-analyzer/{package_version} (+{PROJECT_URL})"
 
 
-def create_client() -> httpx.AsyncClient:
-    """Create the HTTPX client used for every request of a report.
+def create_client() -> httpx2.AsyncClient:
+    """Create the HTTPX2 client used for every request of a report.
 
     Returns:
         Asynchronous client, configured with a timeout and an identifying User-Agent.
     """
-    return httpx.AsyncClient(http2=True, timeout=DEFAULT_TIMEOUT, headers={"User-Agent": build_user_agent()})
+    return httpx2.AsyncClient(http2=True, timeout=DEFAULT_TIMEOUT, headers={"User-Agent": build_user_agent()})
 
 
-def _parse_retry_after(response: httpx.Response) -> float | None:
+def _parse_retry_after(response: httpx2.Response) -> float | None:
     """Read the delay a server asked us to wait for.
 
     Args:
@@ -154,13 +154,13 @@ def _parse_retry_after(response: httpx.Response) -> float | None:
 class OpenAlexClient:
     """Reads entities from the OpenAlex API, retrying transient failures.
 
-    Wraps an HTTPX client with the rate limiting, pagination and retry behaviour every
+    Wraps an HTTPX2 client with the rate limiting, pagination and retry behaviour every
     OpenAlex call in a report needs.
     """
 
     def __init__(
         self,
-        client: httpx.AsyncClient,
+        client: httpx2.AsyncClient,
         limiter: RateLimiter | None = None,
         max_attempts: int = MAX_ATTEMPTS,
         initial_backoff: float = INITIAL_BACKOFF_SECONDS,
@@ -219,13 +219,13 @@ class OpenAlexClient:
             Decoded JSON body.
 
         Raises:
-            httpx.HTTPStatusError: The API answered with an error status, either one we do
+            httpx2.HTTPStatusError: The API answered with an error status, either one we do
                 not retry or one that kept failing until attempts ran out.
-            httpx.TransportError: The request kept failing to reach the API.
+            httpx2.TransportError: The request kept failing to reach the API.
         """
         last_error: Exception
 
-        # Carries the API key, so it is passed to HTTPX but never to the log.
+        # Carries the API key, so it is passed to HTTPX2 but never to the log.
         request_url = self._authenticated_url(url)
 
         for attempt in range(1, self.max_attempts + 1):
@@ -234,7 +234,7 @@ class OpenAlexClient:
             await self.limiter.acquire()
             try:
                 response = await self.client.get(url=request_url, follow_redirects=True)
-            except httpx.TransportError as exc:
+            except httpx2.TransportError as exc:
                 last_error = exc
                 logger.warning(f"Request to {url} failed [{attempt}/{self.max_attempts}]: {exc}")
             else:
@@ -245,7 +245,7 @@ class OpenAlexClient:
                     return json_response
 
                 retry_after = _parse_retry_after(response)
-                last_error = httpx.HTTPStatusError(
+                last_error = httpx2.HTTPStatusError(
                     f"Retryable status {response.status_code} for url: {url}", request=response.request, response=response
                 )
                 logger.warning(f"Request to {url} returned {response.status_code} [{attempt}/{self.max_attempts}]")
@@ -265,8 +265,8 @@ class OpenAlexClient:
             List of Works Models.
 
         Raises:
-            httpx.HTTPStatusError: A response from the OpenAlex API had an error status.
-            httpx.TransportError: A request kept failing to reach the API.
+            httpx2.HTTPStatusError: A response from the OpenAlex API had an error status.
+            httpx2.TransportError: A request kept failing to reach the API.
 
         Info:
             Paging uses a cursor rather than page numbers, because page numbers cannot
@@ -298,8 +298,8 @@ class OpenAlexClient:
             Source Model.
 
         Raises:
-            httpx.HTTPStatusError: A response from the OpenAlex API had an error status.
-            httpx.TransportError: A request kept failing to reach the API.
+            httpx2.HTTPStatusError: A response from the OpenAlex API had an error status.
+            httpx2.TransportError: A request kept failing to reach the API.
         """
         json_response = await self.get_json(url)
 

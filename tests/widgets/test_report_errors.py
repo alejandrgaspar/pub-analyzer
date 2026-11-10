@@ -1,6 +1,6 @@
 """Test the failure messages shown when a report cannot be generated."""
 
-import httpx
+import httpx2 as httpx
 import pytest
 
 from pub_analyzer.internal.openalex.client import API_KEY_ENV_VAR

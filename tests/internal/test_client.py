@@ -3,13 +3,13 @@
 import logging
 from typing import Any
 
-import httpx
+import httpx2 as httpx
 import pytest
-import respx
 
 from pub_analyzer.internal.limiter import RateLimiter
 from pub_analyzer.internal.openalex import client as openalex_client
 from pub_analyzer.internal.openalex.client import API_KEY_ENV_VAR, OpenAlexClient
+from tests import http_mock as respx
 from tests.data.source import SOURCE
 from tests.data.work import WORK
 

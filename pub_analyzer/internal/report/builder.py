@@ -5,7 +5,7 @@ import logging
 from collections.abc import Callable, Coroutine, Iterable, Sequence
 from typing import Any, NamedTuple, TypeVar
 
-import httpx
+import httpx2
 
 from pub_analyzer.internal import identifier
 from pub_analyzer.internal.openalex.client import OpenAlexClient, create_client
@@ -160,7 +160,7 @@ async def _get_citing_works(
         Works citing the evaluated work.
 
     Raises:
-        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+        httpx2.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
     if work.cited_by_count < 1:
         return []
@@ -190,7 +190,7 @@ async def _get_works_reports(
         One report per evaluated work, in the order the works were given.
 
     Raises:
-        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+        httpx2.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
     progress = _ProgressCounter(stage=ReportStage.citations, total=len(works), on_progress=on_progress)
 
@@ -224,7 +224,7 @@ async def _get_sources(client: OpenAlexClient, works: list[Work], on_progress: P
         source_id = identifier.get_source_id(dehydrated_source)
         try:
             source = await client.get_source(build_source_url(source_id))
-        except (httpx.HTTPStatusError, httpx.TransportError) as exc:
+        except (httpx2.HTTPStatusError, httpx2.TransportError) as exc:
             logger.warning(f"Fail to retrive {source_id}: {exc}")
             progress.advance(f"[{source_id}] Skipped source")
             return None
@@ -265,7 +265,7 @@ async def _build_report(
         The parts every report Model is assembled from.
 
     Raises:
-        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+        httpx2.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
     """
     url = build_works_url(filter_key=filter_key, entity_keys=entity_keys, from_date=pub_from_date, to_date=pub_to_date)
 
@@ -316,7 +316,7 @@ async def make_author_report(
         Author's scientific production report Model.
 
     Raises:
-        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+        httpx2.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
 
     Info:
         The Author in the report carries the year counts observed while building it, which
@@ -373,7 +373,7 @@ async def make_institution_report(
         Institution's scientific production report Model.
 
     Raises:
-        httpx.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
+        httpx2.HTTPStatusError: One response from OpenAlex API had an error HTTP status of 4xx or 5xx.
 
     Info:
         The Institution in the report carries the year counts observed while building it,

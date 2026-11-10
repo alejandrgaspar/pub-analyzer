@@ -4,7 +4,7 @@ import pathlib
 import re
 from urllib.parse import quote, urlparse
 
-import httpx
+import httpx2
 from rich.console import RenderableType
 from rich.table import Table
 from rich.text import Text
@@ -116,7 +116,7 @@ class DownloadPane(VerticalScroll):
     @work(exclusive=True)
     async def download_work(self, file_path: pathlib.Path, pdf_url: str) -> None:
         """Download PDF."""
-        async with httpx.AsyncClient() as client:
+        async with httpx2.AsyncClient() as client:
             try:
                 self.log.info(f"Starting downloading: {pdf_url}")
                 response = await client.get(url=pdf_url, timeout=300, follow_redirects=True)
@@ -129,18 +129,18 @@ class DownloadPane(VerticalScroll):
                     message=f"The file was downloaded successfully. You can go see it at [i]{file_path}[/]",
                     timeout=20.0,
                 )
-            except httpx.RequestError:
+            except httpx2.RequestError:
                 self.app.notify(
                     title="Network problems!",
                     message="An error occurred while requesting. Please check your connection and try again.",
                     severity="error",
                     timeout=20.0,
                 )
-            except httpx.HTTPStatusError as exec:
+            except httpx2.HTTPStatusError as exec:
                 status_code = exec.response.status_code
-                title = f"HTTP Error! Status {status_code} ({httpx.codes.get_reason_phrase(status_code)})."
+                title = f"HTTP Error! Status {status_code} ({httpx2.codes.get_reason_phrase(status_code)})."
 
-                if status_code == httpx.codes.FORBIDDEN:
+                if status_code == httpx2.codes.FORBIDDEN:
                     msg = (
                         "Sometimes servers forbid robots from accessing their websites."
                         + "Try to download it from your browser using the following link: "

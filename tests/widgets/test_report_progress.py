@@ -2,9 +2,8 @@
 
 import sys
 
-import httpx
+import httpx2 as httpx
 import pytest
-import respx
 from textual.app import App, ComposeResult
 from textual.widgets import Label, ProgressBar
 
@@ -13,6 +12,7 @@ from pub_analyzer.main import PubAnalyzerApp
 from pub_analyzer.models.author import Author
 from pub_analyzer.widgets.body import MainContent
 from pub_analyzer.widgets.report.core import CreateAuthorReportWidget, ReportProgressWidget
+from tests import http_mock as respx
 from tests.data.author import AUTHOR
 
 if sys.platform == "win32":

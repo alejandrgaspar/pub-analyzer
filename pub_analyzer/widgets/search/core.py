@@ -2,7 +2,7 @@
 
 from enum import Enum
 
-import httpx
+import httpx2
 from pydantic import TypeAdapter
 from textual import on
 from textual.app import ComposeResult
@@ -47,7 +47,7 @@ class FinderWidget(Static):
 
     async def lookup(self, input: str) -> None:
         """Search in OpenAlex API."""
-        async with httpx.AsyncClient() as client:
+        async with httpx2.AsyncClient() as client:
             url = self.url.value + f"&q={input}"
             response = (await client.get(url)).json().get("results")
 

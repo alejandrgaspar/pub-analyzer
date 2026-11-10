@@ -6,7 +6,7 @@ from enum import Enum
 from time import time
 from typing import ClassVar
 
-import httpx
+import httpx2
 from pydantic import TypeAdapter, ValidationError
 from textual import on
 from textual.app import ComposeResult
@@ -36,7 +36,7 @@ from .source import SourcesReportPane
 from .work import WorkReportPane
 
 
-def build_report_error_message(exc: httpx.HTTPStatusError | httpx.TransportError) -> str:
+def build_report_error_message(exc: httpx2.HTTPStatusError | httpx2.TransportError) -> str:
     """Explain why a report could not be generated.
 
     Args:
@@ -45,7 +45,7 @@ def build_report_error_message(exc: httpx.HTTPStatusError | httpx.TransportError
     Returns:
         Message to show the user, never containing the API key.
     """
-    if isinstance(exc, httpx.TransportError):
+    if isinstance(exc, httpx2.TransportError):
         return f"The report could not be generated because the OpenAlex API could not be reached. {exc}"
 
     url = redact_api_key(exc.request.url)
@@ -174,7 +174,7 @@ class CreateReportWidget(Static):
             start = time()
             report_widget = await self.make_report()
             elapsed = time() - start
-        except (httpx.HTTPStatusError, httpx.TransportError) as exc:
+        except (httpx2.HTTPStatusError, httpx2.TransportError) as exc:
             self.query_one(ReportProgressWidget).display = False
             self.app.notify(
                 title="Error making report!",

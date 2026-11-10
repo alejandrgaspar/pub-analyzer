@@ -2,7 +2,7 @@
 
 from typing import Any
 
-import httpx
+import httpx2
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical
@@ -85,7 +85,7 @@ class AuthorSummaryWidget(SummaryWidget):
         author_id = get_author_id(self.author_result)
         url = f"https://api.openalex.org/authors/{author_id}"
 
-        async with httpx.AsyncClient() as client:
+        async with httpx2.AsyncClient() as client:
             results = (await client.get(url)).json()
             self.author = Author(**results)
 

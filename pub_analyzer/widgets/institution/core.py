@@ -2,7 +2,7 @@
 
 from typing import Any
 
-import httpx
+import httpx2
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical
@@ -85,7 +85,7 @@ class InstitutionSummaryWidget(SummaryWidget):
         institution_id = get_institution_id(self.institution_result)
         url = f"https://api.openalex.org/institutions/{institution_id}"
 
-        async with httpx.AsyncClient() as client:
+        async with httpx2.AsyncClient() as client:
             results = (await client.get(url)).json()
             self.institution = Institution(**results)
 

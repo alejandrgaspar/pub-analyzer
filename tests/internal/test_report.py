@@ -2,9 +2,8 @@
 
 from typing import Any
 
-import httpx
+import httpx2 as httpx
 import pytest
-import respx
 from pydantic import HttpUrl
 
 from pub_analyzer.internal import identifier
@@ -12,6 +11,7 @@ from pub_analyzer.internal.report import builder
 from pub_analyzer.internal.report.progress import ReportProgress, ReportStage
 from pub_analyzer.models.author import Author, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionResult, InstitutionType
+from tests import http_mock as respx
 from tests.data.author import AUTHOR
 from tests.data.institution import INSTITUTION
 from tests.data.source import SOURCE
