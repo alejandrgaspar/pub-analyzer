@@ -7,6 +7,7 @@ import pytest
 from textual.pilot import Pilot
 from textual.widgets import Label, ProgressBar
 
+from pub_analyzer.internal.config import config_path
 from pub_analyzer.internal.openalex.client import API_KEY_ENV_VAR
 from pub_analyzer.main import PubAnalyzerApp
 from pub_analyzer.widgets.body import MainContent
@@ -165,6 +166,33 @@ async def test_a_rejected_request_explains_the_error(
     assert notification["severity"] == "error"
     assert API_KEY_ENV_VAR in notification["message"]
     assert "test-secret-key" not in notification["message"]
+
+
+@pytest.mark.asyncio
+async def test_a_broken_config_file_explains_the_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    """An unreadable configuration file is reported, without crashing or calling OpenAlex."""
+    config_path().parent.mkdir(parents=True)
+    config_path().write_text("api_key = \n")
+    creator = CreateAuthorReportWidget(author=AUTHOR_OBJECT)
+    app = PubAnalyzerApp()
+    notify = spy_on_notifications(app, monkeypatch)
+
+    with http_mock.mock(assert_all_called=False) as openalex:
+        route = openalex.get(url__startswith=WORKS_URL).mock(side_effect=works_response)
+
+        async with app.run_test(size=(120, 40)) as pilot:
+            await start_building(pilot, creator)
+            await wait_for_workers(pilot)
+
+            assert not creator.query_one(ReportProgressWidget).display
+            assert not creator.query(ReportWidget)
+
+    assert route.call_count == 0
+    notify.assert_called_once()
+    notification = notify.call_args.kwargs
+    assert notification["title"] == "Error making report!"
+    assert notification["severity"] == "error"
+    assert str(config_path()) in notification["message"]
 
 
 @pytest.mark.asyncio

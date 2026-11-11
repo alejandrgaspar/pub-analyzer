@@ -3,7 +3,7 @@
 Thanks for giving us a chance :partying_face:. To get started, you need a minimum knowledge of the terminal to install and launch the application. Don't worry, it's actually very simple. If you think you need to review some concepts, we recommend that you read this [first steps guide](https://realpython.com/terminal-commands/){target=_blank} from Real Python.
 
 ## Requirements
-Pub Analyzer requires **Python 3.10 or later** (If you can choose, we always recommend the [newest version of Python](https://www.python.org/downloads/){target=_blank} available). If you use a linux distribution with a system-dependent version of Python like Ubuntu that currently uses Python 3.8, you can use [pyenv](https://github.com/pyenv/pyenv){target=_blank}.
+Pub Analyzer requires **Python 3.11 or later** (If you can choose, we always recommend the [newest version of Python](https://www.python.org/downloads/){target=_blank} available). If you use a linux distribution with a system-dependent version of Python like Ubuntu that currently uses Python 3.8, you can use [pyenv](https://github.com/pyenv/pyenv){target=_blank}.
 
 !!! warning "For Windows users: `The term 'pip' is not recognized as the name of a cmdlet, function...`"
     A large number of users have written to us that they cannot install pub-analyzer due to this error. The error occurs because the **Add Python to PATH** option was not selected during the Python installation process.
@@ -55,13 +55,26 @@ You should see the following:
 
 Pub Analyzer builds reports from the [OpenAlex](https://openalex.org){target=_blank} API, and **OpenAlex has required an API key on every call since February 2026**. Without one you get a small daily allowance that runs out before even a modest report finishes, so you need a key to use Pub Analyzer.
 
-Get a free key at [openalex.org/settings/api](https://openalex.org/settings/api){target=_blank}, then set the `PUB_ANALYZER_API_KEY` environment variable:
+Get a free key at [openalex.org/settings/api](https://openalex.org/settings/api){target=_blank}, then save it in the Pub Analyzer configuration file:
+
+```toml
+api_key = "your-key"
+```
+
+The file lives at:
+
+| Platform      | Path                                          |
+| ------------- | --------------------------------------------- |
+| Linux & macOS | `~/.config/pub-analyzer/config.toml`          |
+| Windows       | `%APPDATA%\pub-analyzer\config.toml`          |
+
+On Linux and macOS, `$XDG_CONFIG_HOME/pub-analyzer/config.toml` is used instead when `XDG_CONFIG_HOME` is set. The file is read every time a report is built, so there is no need to restart the app after editing it.
+
+Alternatively, set the `PUB_ANALYZER_API_KEY` environment variable, which takes precedence over the configuration file:
 
 ```bash
 export PUB_ANALYZER_API_KEY="your-key"
 ```
-
-To avoid setting it on every session, add that line to your shell profile (`~/.bashrc`, `~/.zshrc`, or the equivalent).
 
 !!! Warning "Keep your key private"
     The key is sent to OpenAlex as a query parameter. Pub Analyzer never writes it to its logs, but treat it like a password: do not commit it, and do not paste it into bug reports.

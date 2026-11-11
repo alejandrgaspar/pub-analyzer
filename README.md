@@ -39,7 +39,7 @@ Researchers are generally required to submit scientific production reports when 
 
 ## Requirements
 
-Pub Analyzer requires **Python 3.10 or later** and can run on Linux, macOS, and Windows.
+Pub Analyzer requires **Python 3.11 or later** and can run on Linux, macOS, and Windows.
 
 ## Installation
 

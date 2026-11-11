@@ -31,11 +31,13 @@ def vcr_config() -> dict[str, Any]:
 
 
 @pytest.fixture(autouse=True)
-def _unset_api_key(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch) -> None:
+def _unset_api_key(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pytest.TempPathFactory) -> None:
     """Keep a developer's own API key out of the tests.
 
-    The client falls back to the environment when no key is passed explicitly, so a key
-    set in the shell would otherwise change what the tests observe.
+    The client falls back to the environment and the configuration file when no key is
+    passed explicitly, so a key set in the shell or in `~/.config/pub-analyzer/config.toml`
+    would otherwise change what the tests observe. The configuration directory is pointed
+    at an empty temporary directory, where tests may write a file of their own.
 
     Recording is the exception: OpenAlex refuses unauthenticated calls, so `make
     test-record` needs the real key to reach the API. The `vcr_config` filter above is
@@ -45,3 +47,7 @@ def _unset_api_key(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPat
         return
 
     monkeypatch.delenv(API_KEY_ENV_VAR, raising=False)
+
+    config_home = tmp_path_factory.mktemp("config")
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(config_home))
+    monkeypatch.setenv("APPDATA", str(config_home))

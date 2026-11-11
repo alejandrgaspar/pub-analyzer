@@ -7,10 +7,10 @@ anything about the interface displaying it.
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 
-class ReportStage(str, Enum):
+class ReportStage(StrEnum):
     """Step of the report being worked on."""
 
     works = "works"

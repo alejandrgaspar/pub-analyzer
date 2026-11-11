@@ -3,6 +3,7 @@
 import httpx2 as httpx
 import pytest
 
+from pub_analyzer.internal.config import config_path
 from pub_analyzer.internal.openalex.client import API_KEY_ENV_VAR
 from pub_analyzer.widgets.report.core import build_report_error_message
 
@@ -19,9 +20,10 @@ def status_error(status_code: int) -> httpx.HTTPStatusError:
     [httpx.codes.UNAUTHORIZED, httpx.codes.FORBIDDEN, httpx.codes.CONFLICT, httpx.codes.TOO_MANY_REQUESTS],
 )
 def test_authentication_failures_point_at_the_api_key(status_code: int) -> None:
-    """A rejected request tells the user which variable to set."""
+    """A rejected request tells the user where to put the key."""
     message = build_report_error_message(status_error(status_code))
 
+    assert str(config_path()) in message
     assert API_KEY_ENV_VAR in message
     assert "openalex.org/settings/api" in message
 

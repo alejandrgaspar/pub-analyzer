@@ -1,6 +1,6 @@
 """Institutions models from OpenAlex API Schema definition."""
 
-from enum import Enum
+from enum import StrEnum
 from typing import TypeAlias
 
 from pydantic import BaseModel, Field, HttpUrl
@@ -22,7 +22,7 @@ class InstitutionIDs(BaseModel):
     wikidata: HttpUrl | None = None
 
 
-class InstitutionType(str, Enum):
+class InstitutionType(StrEnum):
     """The institution's primary type, using the ROR "type" controlled vocabulary."""
 
     Education = "education"
@@ -66,7 +66,7 @@ class InstitutionGeo(BaseModel):
     longitude: float
 
 
-class InstitutionRoleType(str, Enum):
+class InstitutionRoleType(StrEnum):
     """Possible institution roles."""
 
     funder = "funder"

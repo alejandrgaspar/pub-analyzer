@@ -16,6 +16,7 @@ from textual.reactive import reactive
 from textual.widget import Widget
 from textual.widgets import Button, Label, ProgressBar, Static, TabbedContent, TabPane
 
+from pub_analyzer.internal.config import ConfigError, config_path
 from pub_analyzer.internal.openalex.client import (
     API_KEY_ENV_VAR,
     API_KEY_SETTINGS_URL,
@@ -54,8 +55,8 @@ def build_report_error_message(exc: httpx2.HTTPStatusError | httpx2.TransportErr
     if exc.response.status_code in AUTHENTICATION_STATUS_CODES:
         return (
             "OpenAlex rejected the request. This usually means the API key is missing, invalid,"
-            f" or out of credits for today. Set {API_KEY_ENV_VAR} to a key from {API_KEY_SETTINGS_URL}"
-            f" and try again. {status_error}"
+            f" or out of credits for today. Get a key from {API_KEY_SETTINGS_URL}, set it as `api_key`"
+            f" in {config_path()} or in the {API_KEY_ENV_VAR} environment variable, and try again. {status_error}"
         )
 
     return f"The report could not be generated due to a problem with the OpenAlex API. {status_error}"
@@ -182,6 +183,10 @@ class CreateReportWidget(Static):
                 severity="error",
                 timeout=60.0,
             )
+            return None
+        except ConfigError as exc:
+            self.query_one(ReportProgressWidget).display = False
+            self.app.notify(title="Error making report!", message=str(exc), severity="error", timeout=60.0)
             return None
 
         self.app.notify(

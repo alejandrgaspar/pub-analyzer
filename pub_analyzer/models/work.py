@@ -1,6 +1,6 @@
 """Works models from OpenAlex API Schema definition."""
 
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from pydantic import BaseModel, HttpUrl, field_validator
@@ -20,7 +20,7 @@ class WorkIDs(BaseModel):
     pmcid: str | None = None
 
 
-class WorkDrivenVersion(str, Enum):
+class WorkDrivenVersion(StrEnum):
     """The version of the work, based on the Driver Guidelines versioning scheme."""
 
     submitted = "submittedVersion"
@@ -39,7 +39,7 @@ class Location(BaseModel):
     source: DehydratedSource | None = None
 
 
-class OpenAccessStatus(str, Enum):
+class OpenAccessStatus(StrEnum):
     """The Open Access (OA) status of this work."""
 
     diamond = "diamond"

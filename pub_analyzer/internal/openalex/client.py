@@ -2,7 +2,6 @@
 
 import asyncio
 import logging
-import os
 import random
 from importlib.metadata import PackageNotFoundError, version
 from typing import Any
@@ -10,6 +9,7 @@ from urllib.parse import quote
 
 import httpx2
 
+from pub_analyzer.internal.config import ENV_PREFIX, load_settings
 from pub_analyzer.internal.limiter import RateLimiter
 from pub_analyzer.internal.openalex.parsing import get_valid_works, validate_works
 from pub_analyzer.models.source import Source
@@ -58,8 +58,8 @@ AUTHENTICATION_STATUS_CODES = frozenset(
 )
 """Statuses OpenAlex answers with when a key is missing, rejected, or out of credits."""
 
-API_KEY_ENV_VAR = "PUB_ANALYZER_API_KEY"
-"""Environment variable holding the OpenAlex API key."""
+API_KEY_ENV_VAR = f"{ENV_PREFIX}API_KEY"
+"""Environment variable holding the OpenAlex API key, taking precedence over the config file."""
 
 API_KEY_PARAM = "api_key"
 """Query parameter carrying the API key, the only authentication OpenAlex accepts."""
@@ -71,19 +71,20 @@ PROJECT_URL = "https://pub-analyzer.com"
 
 
 def get_api_key() -> str | None:
-    """Read the OpenAlex API key from the environment.
+    """Read the OpenAlex API key from the environment or the configuration file.
 
     Returns:
         The API key, or `None` when the user has not configured one.
+
+    Raises:
+        ConfigError: The configuration file exists but cannot be used.
 
     Info:
         OpenAlex has required a key on every call since February 2026. Without one a
         handful of requests succeed before the API starts refusing them, which is not
         enough to build even a small report.
     """
-    api_key = os.environ.get(API_KEY_ENV_VAR, "").strip()
-
-    return api_key or None
+    return load_settings().api_key
 
 
 def redact_api_key(url: object) -> str:

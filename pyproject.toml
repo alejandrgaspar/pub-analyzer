@@ -5,7 +5,7 @@ description = "A text user interface, written in python, which automates the gen
 readme = "README.md"
 license = "MIT"
 
-requires-python = ">=3.10,<4.0"
+requires-python = ">=3.11,<4.0"
 
 authors = [{ name = "Alejandro Gaspar", email = "alejandro@gaspar.land" }]
 maintainers = [{ name = "Alejandro Gaspar", email = "alejandro@gaspar.land" }]
@@ -19,7 +19,6 @@ classifiers = [
     "Operating System :: Microsoft :: Windows :: Windows 10",
     "Operating System :: Microsoft :: Windows :: Windows 11",
     "Operating System :: POSIX :: Linux",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -31,6 +30,7 @@ dependencies = [
     "textual==8.2.8",
     "httpx2[http2]==2.14.0",
     "pydantic==2.12.5",
+    "pydantic-settings==2.16.2",
     "typst==0.13.2",
 ]
 
@@ -92,7 +92,7 @@ strict = true
 
 [tool.ruff]
 required-version = ">=0.3.4"
-target-version = "py310"
+target-version = "py311"
 line-length = 140
 
 [tool.ruff.lint]

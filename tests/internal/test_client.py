@@ -6,6 +6,7 @@ from typing import Any
 import httpx2 as httpx
 import pytest
 
+from pub_analyzer.internal.config import config_path
 from pub_analyzer.internal.limiter import RateLimiter
 from pub_analyzer.internal.openalex import client as openalex_client
 from pub_analyzer.internal.openalex.client import API_KEY_ENV_VAR, OpenAlexClient
@@ -49,6 +50,22 @@ def test_get_api_key_ignores_blank_values(monkeypatch: pytest.MonkeyPatch, value
     monkeypatch.setenv(API_KEY_ENV_VAR, value)
 
     assert openalex_client.get_api_key() is None
+
+
+def test_get_api_key_reads_config_file() -> None:
+    """Without the variable, the key comes from the configuration file."""
+    config_path().parent.mkdir(parents=True)
+    config_path().write_text('api_key = "file-key"\n')
+
+    assert openalex_client.get_api_key() == "file-key"
+
+
+def test_client_uses_the_configured_key_when_none_is_given() -> None:
+    """A client built without an explicit key picks up the configured one."""
+    config_path().parent.mkdir(parents=True)
+    config_path().write_text('api_key = "file-key"\n')
+
+    assert OpenAlexClient(client=httpx.AsyncClient()).api_key == "file-key"
 
 
 def test_get_api_key_unset(monkeypatch: pytest.MonkeyPatch) -> None:
