@@ -11,6 +11,11 @@ $primary-color-highlight: #dc2626;
     transition: background 500ms in_out_cubic, color 500ms in_out_cubic;
 }
 
+/* Textual tints focused widgets; focus is shown with borders and colors instead. */
+*:focus {
+    background-tint: transparent;
+}
+
 Body {
     layout: horizontal;
     height: 1fr;
@@ -28,6 +33,10 @@ Footer {
             text-style: bold;
             color: white;
             background: $primary-color-accent;
+        }
+
+        .footer-key--description {
+            color: white;
         }
 
         &:hover {
@@ -51,8 +60,10 @@ LoadingIndicator.-textual-loading-indicator {
 
 .bar--bar {
     color: $primary-color-accent;
+    background: $foreground 10%;
 }
 
 .bar--indeterminate {
     color: $primary-color-accent;
+    background: $foreground 10%;
 }

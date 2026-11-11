@@ -4,10 +4,6 @@ $bg-secondary-color: #e5e7eb;
 $bg-secondary-color-accent: #d1d5db;
 $text-primary-color: black;
 
-$bg-main-color-darken: #1e293b;
-$bg-secondary-color-darken: #0f172a;
-$text-primary-color-darken: black;
-
 $primary-color: #b91c1c;
 $primary-color-accent: #991b1b;
 $primary-color-highlight: #dc2626;
@@ -32,6 +28,9 @@ TextEditor {
 
         .text-area--cursor {
             background: $primary-color;
+        }
+        .text-area--gutter {
+            color: $text 40%;
         }
         .text-area--cursor-gutter {
             color: $bg-main-color;

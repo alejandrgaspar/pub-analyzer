@@ -1,5 +1,6 @@
 """Strict HTTPX2 request routing for offline tests."""
 
+import asyncio
 from collections.abc import Callable, Iterable
 from types import TracebackType
 from typing import cast
@@ -67,13 +68,55 @@ class Route:
         return result
 
 
+class Gate:
+    """Holds back the responses to matching requests until it is opened.
+
+    This lets a test look at the app while a request is still in flight, and control which
+    of two concurrent requests finishes first.
+    """
+
+    def __init__(self, matches: Callable[[httpx.Request], bool]) -> None:
+        self.matches = matches
+        self._reached = asyncio.Event()
+        self._cancelled = asyncio.Event()
+        self._opened = asyncio.Event()
+
+    def open(self) -> None:
+        """Let waiting and future matching requests through."""
+        self._opened.set()
+
+    async def reached(self) -> None:
+        """Wait up to 10 seconds for a matching request to be held at the gate."""
+        await asyncio.wait_for(self._reached.wait(), timeout=10)
+
+    async def cancelled(self) -> None:
+        """Wait up to 10 seconds for the app to cancel a request held at the gate."""
+        await asyncio.wait_for(self._cancelled.wait(), timeout=10)
+
+    async def hold(self) -> None:
+        """Hold a matching request until the gate opens, noting if the app cancels it first."""
+        self._reached.set()
+        try:
+            await asyncio.wait_for(self._opened.wait(), timeout=10)
+        except asyncio.CancelledError:
+            self._cancelled.set()
+            raise
+
+
 class MockRouter:
     """Intercept all async HTTP requests and reject unexpected or unused routes."""
 
     def __init__(self, *, assert_all_called: bool = True) -> None:
         self.assert_all_called = assert_all_called
         self.routes: list[Route] = []
+        self.gates: list[Gate] = []
         self._patch = patch.object(httpx.AsyncHTTPTransport, "handle_async_request", self._handle)
+
+    def hold(self, matches: Callable[[httpx.Request], bool]) -> Gate:
+        """Hold back the responses to requests for which `matches` is true, until the gate opens."""
+        gate = Gate(matches)
+        self.gates.append(gate)
+        return gate
 
     def get(self, url: str | None = None, *, url__startswith: str | None = None) -> Route:
         """Register a GET route with an exact URL or URL prefix."""
@@ -83,6 +126,13 @@ class MockRouter:
         return route
 
     async def _handle(self, request: httpx.Request) -> httpx.Response:
+        response = self._route(request)
+        for gate in self.gates:
+            if gate.matches(request):
+                await gate.hold()
+        return response
+
+    def _route(self, request: httpx.Request) -> httpx.Response:
         for route in self.routes:
             url = str(request.url)
             if request.method == "GET" and (url.startswith(route.url) if route.prefix else url == route.url):

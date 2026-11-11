@@ -6,15 +6,35 @@ import webbrowser
 from typing import ClassVar
 
 from textual import log
-from textual._path import CSSPathType
 from textual.app import App, ComposeResult
-from textual.binding import Binding, BindingType
 from textual.dom import DOMNode
 from textual.logging import TextualHandler
-from textual.reactive import Reactive
+from textual.theme import Theme
 from textual.widgets import Footer
 
 from pub_analyzer.widgets.body import Body
+
+PUB_ANALYZER_THEME = Theme(
+    name="pub-analyzer",
+    primary="#004578",
+    secondary="#FEA62B",
+    accent="#0178D4",
+    warning="#FEA62B",
+    error="#B93C5B",
+    success="#4EBF71",
+    foreground="#1F1F1F",
+    background="#EFEFEF",
+    surface="#F5F5F5",
+    panel="#DCE3E8",
+    dark=False,
+    variables={
+        "boost": "#0000000A",
+        "scrollbar-background": "#C7CDD2",
+        "scrollbar-background-hover": "#B2B9BE",
+        "scrollbar-background-active": "#9EA4A9",
+        "scrollbar-corner-color": "#C7CDD2",
+    },
+)
 
 
 class PubAnalyzerApp(App[DOMNode]):
@@ -23,7 +43,7 @@ class PubAnalyzerApp(App[DOMNode]):
     TITLE = "Pub Analyzer"
     ENABLE_COMMAND_PALETTE = False
 
-    CSS_PATH: ClassVar[CSSPathType | None] = [
+    CSS_PATH: ClassVar[list[str]] = [
         "css/body.tcss",
         "css/buttons.tcss",
         "css/checkbox.tcss",
@@ -37,20 +57,16 @@ class PubAnalyzerApp(App[DOMNode]):
         "css/tabs.tcss",
         "css/tree.tcss",
     ]
-    BINDINGS: ClassVar[list[BindingType]] = [
-        Binding(key="ctrl+d", action="toggle_dark", description="Dark mode"),
-    ]
 
-    dark: Reactive[bool] = Reactive(False)
+    def __init__(self) -> None:
+        super().__init__()
+        self.register_theme(PUB_ANALYZER_THEME)
+        self.theme = PUB_ANALYZER_THEME.name
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
         yield Body()
         yield Footer(show_command_palette=False)
-
-    def action_toggle_dark(self) -> None:
-        """Toggle dark mode."""
-        self.dark = not self.dark
 
     def action_save_screenshot(self) -> None:
         """Take Screenshot."""

@@ -1,5 +1,6 @@
 """Test Search Widgets."""
 
+import asyncio
 import sys
 
 import pytest
@@ -58,10 +59,11 @@ async def test_author_result_complete_info() -> None:
 
         assert str(result_widget.query_one(Button).label) == AUTHOR_RESULT_OBJECT.display_name
 
-        assert str(AUTHOR_RESULT_OBJECT.cited_by_count) in str(result_widget.query_one(".cited-by-count", Label).renderable)
-        assert str(AUTHOR_RESULT_OBJECT.works_count) in str(result_widget.query_one(".works-count", Label).renderable)
+        assert str(AUTHOR_RESULT_OBJECT.cited_by_count) in str(result_widget.query_one(".cited-by-count", Label).render())
+        assert str(AUTHOR_RESULT_OBJECT.works_count) in str(result_widget.query_one(".works-count", Label).render())
 
-        assert str(AUTHOR_RESULT_OBJECT.hint or "") in str(result_widget.query_one(".text-hint", Label).renderable)
+        assert AUTHOR_RESULT_OBJECT.hint
+        assert str(result_widget.query_one(".text-hint", Label).render()) == AUTHOR_RESULT_OBJECT.hint
 
 
 @pytest.mark.asyncio
@@ -81,10 +83,11 @@ async def test_institution_result_complete_info() -> None:
 
         assert str(result_widget.query_one(Button).label) == INSTITUTION_RESULT_OBJECT.display_name
 
-        assert str(INSTITUTION_RESULT_OBJECT.cited_by_count) in str(result_widget.query_one(".cited-by-count", Label).renderable)
-        assert str(INSTITUTION_RESULT_OBJECT.works_count) in str(result_widget.query_one(".works-count", Label).renderable)
+        assert str(INSTITUTION_RESULT_OBJECT.cited_by_count) in str(result_widget.query_one(".cited-by-count", Label).render())
+        assert str(INSTITUTION_RESULT_OBJECT.works_count) in str(result_widget.query_one(".works-count", Label).render())
 
-        assert str(INSTITUTION_RESULT_OBJECT.hint or "") in str(result_widget.query_one(".text-hint", Label).renderable)
+        assert INSTITUTION_RESULT_OBJECT.hint
+        assert str(result_widget.query_one(".text-hint", Label).render()) == INSTITUTION_RESULT_OBJECT.hint
 
 
 @pytest.mark.asyncio
@@ -106,11 +109,13 @@ async def test_author_result_button_redirect() -> None:
 
         # Check title update.
         title = pilot.app.query_one("#page-title", Label)
-        assert str(title.renderable) == AUTHOR_RESULT_OBJECT.display_name
+        assert str(title.render()) == AUTHOR_RESULT_OBJECT.display_name
 
         # Check main content update.
         main_content = pilot.app.query_one(MainContent)
-        main_content.get_child_by_type(AuthorSummaryWidget)
+        summary = main_content.get_child_by_type(AuthorSummaryWidget)
+        await asyncio.wait_for(pilot.app.workers.wait_for_complete(), timeout=10)
+        assert not summary.loading
 
 
 @pytest.mark.asyncio
@@ -132,8 +137,10 @@ async def test_institution_result_button_redirect() -> None:
 
         # Check title update.
         title = pilot.app.query_one("#page-title", Label)
-        assert str(title.renderable) == INSTITUTION_RESULT_OBJECT.display_name
+        assert str(title.render()) == INSTITUTION_RESULT_OBJECT.display_name
 
         # Check main content update.
         main_content = pilot.app.query_one(MainContent)
-        main_content.get_child_by_type(InstitutionSummaryWidget)
+        summary = main_content.get_child_by_type(InstitutionSummaryWidget)
+        await asyncio.wait_for(pilot.app.workers.wait_for_complete(), timeout=10)
+        assert not summary.loading

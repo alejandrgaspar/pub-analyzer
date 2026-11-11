@@ -24,21 +24,41 @@ class Select(TextualSelect[SelectType]):
         height: 3;
     }
 
+    Select > SelectCurrent {
+        border: tall transparent;
+        background: $boost;
+        color: $text;
+
+        Static#label {
+            color: $text-disabled;
+        }
+
+        &.-has-value Static#label {
+            color: $text;
+        }
+
+        .arrow {
+            color: $text-muted;
+        }
+    }
+
     Select:focus > SelectCurrent {
         border: tall $primary-color-accent;
+        background-tint: transparent;
     }
 
     Select.-expanded > SelectCurrent {
         border: tall $primary-color-accent;
     }
 
-    SelectOverlay {
-        border: tall $bg-secondary-color;
+    Select > SelectOverlay {
+        border: tall $background;
         background: $bg-secondary-color;
+        color: $text;
     }
 
-    SelectOverlay:focus {
-        border: tall $bg-secondary-color;
+    Select > SelectOverlay:focus {
+        border: tall $background;
     }
 
     Select OptionList {

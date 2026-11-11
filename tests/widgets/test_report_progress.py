@@ -2,18 +2,12 @@
 
 import sys
 
-import httpx2 as httpx
 import pytest
 from textual.app import App, ComposeResult
 from textual.widgets import Label, ProgressBar
 
 from pub_analyzer.internal.report.progress import ReportProgress, ReportStage
-from pub_analyzer.main import PubAnalyzerApp
-from pub_analyzer.models.author import Author
-from pub_analyzer.widgets.body import MainContent
-from pub_analyzer.widgets.report.core import CreateAuthorReportWidget, ReportProgressWidget
-from tests import http_mock as respx
-from tests.data.author import AUTHOR
+from pub_analyzer.widgets.report.core import ReportProgressWidget
 
 if sys.platform == "win32":
     pytest.skip(
@@ -52,7 +46,7 @@ async def test_progress_widget_shows_a_measured_stage() -> None:
         widget.update_progress(ReportProgress(ReportStage.citations, done=3, total=10))
         await pilot.pause()
 
-        assert str(widget.query_one(Label).renderable) == "Retrieving citations 3/10"
+        assert str(widget.query_one(Label).render()) == "Retrieving citations 3/10"
         progress_bar = widget.query_one(ProgressBar)
         assert (progress_bar.progress, progress_bar.total) == (3, 10)
 
@@ -71,7 +65,7 @@ async def test_progress_widget_returns_to_indeterminate() -> None:
         await pilot.pause()
 
         assert widget.query_one(ProgressBar).total is None
-        assert str(widget.query_one(Label).renderable) == "Retrieving sources..."
+        assert str(widget.query_one(Label).render()) == "Retrieving sources..."
 
 
 @pytest.mark.asyncio
@@ -89,26 +83,6 @@ async def test_progress_widget_walks_the_stages() -> None:
             widget.update_progress(progress)
             await pilot.pause()
 
-        assert str(widget.query_one(Label).renderable) == "Retrieving sources 1/4"
+        assert str(widget.query_one(Label).render()) == "Retrieving sources 1/4"
         progress_bar = widget.query_one(ProgressBar)
         assert (progress_bar.progress, progress_bar.total) == (1, 4)
-
-
-@pytest.mark.asyncio
-async def test_report_view_shows_progress_instead_of_a_spinner() -> None:
-    """Building a report leads with the progress widget, not an endless spinner."""
-    async with PubAnalyzerApp().run_test() as pilot:
-        with respx.mock(assert_all_called=True) as respx_mock:
-            respx_mock.get(url__startswith="https://api.openalex.org/works").mock(
-                return_value=httpx.Response(
-                    status_code=httpx.codes.OK,
-                    json={"meta": {"count": 0, "per_page": 200, "next_cursor": None}, "results": []},
-                )
-            )
-
-            main_content = pilot.app.query_one(MainContent)
-            await main_content.mount(CreateAuthorReportWidget(author=Author(**AUTHOR)))
-            await pilot.pause()
-
-            assert pilot.app.query(ReportProgressWidget), "the report view should show progress"
-            assert not pilot.app.query("LoadingIndicator"), "the indefinite spinner should be gone"

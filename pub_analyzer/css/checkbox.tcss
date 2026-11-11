@@ -2,14 +2,22 @@
 $primary-color-accent: #991b1b;
 
 $bg-main-color: white;
-$bg-main-color-darken: #1e293b;
+$text-primary-color: black;
+$toggle-off-color: #1e293b;
 
 ToggleButton {
     background: transparent;
+    border: tall transparent;
 }
 
 ToggleButton:focus {
     border: tall transparent;
+}
+
+ToggleButton:focus > .toggle--label {
+    color: $text-primary-color;
+    background: transparent;
+    text-style: underline;
 }
 
 ToggleButton:hover {
@@ -21,7 +29,7 @@ ToggleButton:hover {
 ToggleButton > .toggle--button {
     color: $bg-main-color;
     text-style: bold;
-    background: $bg-main-color-darken 25%;
+    background: $toggle-off-color 25%;
 }
 
 ToggleButton.-on > .toggle--button {

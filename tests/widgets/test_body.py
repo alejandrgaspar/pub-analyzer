@@ -24,4 +24,4 @@ async def test_main_content_update_title() -> None:
         new_title = "New Title"
         main_content.update_title(title=new_title)
 
-        assert str(pilot.app.query_one("#page-title", Label).renderable) == new_title
+        assert str(pilot.app.query_one("#page-title", Label).render()) == new_title

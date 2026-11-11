@@ -3,16 +3,46 @@ $primary-color: #b91c1c;
 $primary-color-accent: #991b1b;
 $primary-color-highlight: #dc2626;
 
+/* Tabs */
+Tabs {
+    height: 3;
 
-/* Tab */
+    #tabs-list {
+        min-height: 2;
+    }
+}
+
 Tabs:focus .underline--bar {
     background: black 20%;
 }
 
-.-dark-mode Tabs:focus .underline--bar {
-    background: black 30%;
+/* Keep the focused tab plain; the darker underline already shows focus. */
+Tabs:focus .-active {
+    text-style: bold;
+    color: $text;
+    background: transparent;
 }
 
 Tabs Underline > .underline--bar {
     color: $primary-color;
+}
+
+/* Tab */
+Tab {
+    height: 2;
+    padding: 1 1 0 2;
+    color: $text-disabled;
+
+    &:hover {
+        text-style: bold;
+    }
+
+    &.-active {
+        text-style: bold;
+        color: $text;
+    }
+}
+
+TabPane {
+    padding: 1 2;
 }

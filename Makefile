@@ -22,7 +22,7 @@ test:
 	$(run) pytest -vv --block-network
 
 test-record:
-	$(run) pytest --record-mode=once
+	$(run) pytest --record-mode=once -n 0
 
 coverage:
 	$(run) pytest --block-network --cov --cov-report=term-missing

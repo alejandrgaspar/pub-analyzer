@@ -7,9 +7,13 @@ OpenAlex payload around. Use them for logic tests.
 
 from typing import Any
 
-from pub_analyzer.models.author import DehydratedAuthor
+from pub_analyzer.models.author import Author, DehydratedAuthor
+from pub_analyzer.models.institution import Institution
+from pub_analyzer.models.report import AuthorReport, CitationSummary, InstitutionReport, OpenAccessSummary, SourcesSummary, WorkReport
 from pub_analyzer.models.source import DehydratedSource
 from pub_analyzer.models.work import Authorship, Location, OpenAccessStatus, Work
+from tests.data.author import AUTHOR
+from tests.data.institution import INSTITUTION
 
 _WORK_COUNTER = iter(range(1, 1_000_000))
 
@@ -122,3 +126,34 @@ def make_work(
     fields.update(overrides)
 
     return Work(**fields)
+
+
+def make_author_report() -> AuthorReport:
+    """Build a small author report, without fetching anything.
+
+    It has a single work with a non-ASCII title (`Café chemistry`) and an abstract, so it can
+    be exported, loaded and edited.
+
+    Returns:
+        AuthorReport instance.
+    """
+    work = make_work("W123", title="Café chemistry")
+    work.abstract = "Original abstract"
+
+    return AuthorReport(
+        author=Author(**AUTHOR),
+        works=[WorkReport(work=work, cited_by=[], citation_summary=CitationSummary())],
+        citation_summary=CitationSummary(),
+        open_access_summary=OpenAccessSummary(closed=1),
+        works_type_summary=[],
+        sources_summary=SourcesSummary(sources=[]),
+    )
+
+
+def make_institution_report() -> InstitutionReport:
+    """Build the same report as `make_author_report`, for an institution.
+
+    Returns:
+        InstitutionReport instance.
+    """
+    return InstitutionReport(institution=Institution(**INSTITUTION), **make_author_report().model_dump(exclude={"author"}))

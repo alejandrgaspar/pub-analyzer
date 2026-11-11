@@ -13,7 +13,7 @@ from textual.message import Message
 from textual.reactive import reactive
 from textual.widget import Widget
 from textual.widgets import Button, DirectoryTree, Label, Static, Tree
-from textual.widgets._directory_tree import DirEntry
+from textual.widgets.directory_tree import DirEntry
 
 from .modal import Modal
 
@@ -62,16 +62,11 @@ class PathSelectorModal(Modal[Path | None]):
 
     DEFAULT_CSS = """
     $bg-main-color: white;
-    $bg-secondary-color: #e5e7eb;
 
     PathSelectorModal FilteredDirectoryTree {
         background: $bg-main-color;
         width: 100%;
         margin: 0 2;
-    }
-
-    .-dark-mode PathSelectorModal FilteredDirectoryTree {
-        background: $bg-secondary-color;
     }
 
     PathSelectorModal .button-container {

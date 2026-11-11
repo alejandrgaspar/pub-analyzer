@@ -3,6 +3,29 @@ $primary-color: #b91c1c;
 $primary-color-accent: #991b1b;
 $primary-color-highlight: #dc2626;
 
+/* Default variant (variant classes below override it) */
+Button {
+    background: $panel;
+    color: $text;
+    border-top: tall $panel-lighten-2;
+    border-bottom: tall $panel-darken-3;
+
+    &:hover {
+        background: $panel-darken-2;
+        border-top: tall $panel;
+    }
+
+    &.-active {
+        background: $panel;
+        border-top: tall $panel-darken-2;
+        border-bottom: tall $panel-lighten-2;
+    }
+
+    &:disabled {
+        text-opacity: 100%;
+    }
+}
+
 /* Primary variant */
 Button.-primary {
     background: $primary-color;

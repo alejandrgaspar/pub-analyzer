@@ -3,10 +3,6 @@ $bg-main-color: white;
 $bg-secondary-color: #e5e7eb;
 $text-primary-color: black;
 
-$bg-main-color-darken: #1e293b;
-$bg-secondary-color-darken: #0f172a;
-$text-primary-color-darken: white;
-
 /* SideBar CSS */
 SideBar {
     dock: left;
@@ -48,19 +44,6 @@ SideBar {
     }
 }
 
-.-dark-mode SideBar {
-    background: $bg-secondary-color-darken;
-    color: $text-primary-color-darken;
-
-    #sidebar-title {
-        border-bottom: heavy $text-primary-color-darken;
-    }
-
-    #module-version-label {
-        color: $text-primary-color-darken 25%;
-    }
-}
-
 /* Main Content CSS */
 MainContent {
     background: $bg-main-color;
@@ -74,14 +57,5 @@ MainContent {
         text-style: bold;
         border-bottom: heavy $text-primary-color;
         width: 100%
-    }
-}
-
-.-dark-mode MainContent {
-    background: $bg-main-color-darken;
-    color: $text-primary-color-darken;
-
-    .title {
-        border-bottom: heavy $text-primary-color-darken;
     }
 }

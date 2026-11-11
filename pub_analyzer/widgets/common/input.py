@@ -2,6 +2,7 @@
 
 import re
 from collections.abc import Iterable
+from typing import Any
 
 from rich.highlighter import Highlighter
 from textual import on
@@ -21,6 +22,8 @@ class Input(TextualInput):
     $primary-color-highlight: #dc2626;
 
     Input {
+        background: $boost;
+        color: $text;
         border: tall $background;
     }
 
@@ -34,6 +37,10 @@ class Input(TextualInput):
         border: tall orange 60%;
     }
     """
+
+    def __init__(self, *args: Any, select_on_focus: bool = False, **kwargs: Any) -> None:
+        # Unlike Textual's default, focusing keeps the cursor instead of selecting all the text.
+        super().__init__(*args, select_on_focus=select_on_focus, **kwargs)
 
     @on(Key)
     def exit_focus(self, event: Key) -> None:

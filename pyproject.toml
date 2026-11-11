@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "textual==0.85.2",
+    "textual==8.2.8",
     "httpx2[http2]==2.14.0",
     "pydantic==2.12.5",
     "typst==0.13.2",
@@ -48,7 +48,7 @@ pub-analyzer = "pub_analyzer.main:run"
 
 [dependency-groups]
 dev = [
-    "textual-dev==1.5.1",
+    "textual-dev==1.8.0",
     "prek==0.4.3",
     "ty==0.0.65",
     "ruff==0.15.18",
@@ -57,6 +57,7 @@ dev = [
     "vcrpy==8.5.0",
     "pytest-recording==0.13.4",
     "pytest-cov==7.0.0",
+    "pytest-xdist==3.8.0",
 ]
 
 [project.optional-dependencies]
@@ -71,6 +72,9 @@ docs = [
 [tool.uv.build-backend]
 module-name = "pub_analyzer"
 module-root = ""
+
+[tool.pytest.ini_options]
+addopts = "-n auto"
 
 [tool.coverage.run]
 source = ["pub_analyzer"]

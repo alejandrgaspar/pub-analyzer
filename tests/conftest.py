@@ -1,10 +1,16 @@
 """Shared pytest configuration."""
 
+import os
 from typing import Any
 
 import pytest
 
 from pub_analyzer.internal.openalex.client import API_KEY_ENV_VAR, API_KEY_PARAM
+
+# Textual's test pilot waits for running animations on every pause, click and key press,
+# and the app's CSS animates every color change for 500ms. Textual reads this when it
+# is first imported, so it must be set before any test module imports it.
+os.environ["TEXTUAL_ANIMATIONS"] = "none"
 
 
 @pytest.fixture
