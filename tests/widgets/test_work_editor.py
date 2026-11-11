@@ -8,29 +8,7 @@ from pub_analyzer.widgets.common import ReactiveLabel
 from pub_analyzer.widgets.report.editor import TextEditor
 from pub_analyzer.widgets.report.work import WorkModal, WorksTable
 from tests.data.builders import make_author_report
-from tests.widgets.helpers import WidgetApp, wait_until
-
-
-async def open_work_details(pilot: Pilot, table: WorksTable) -> WorkModal:
-    """Click the first work's title in the works table, and return the details dialog it opens.
-
-    The works table is a Rich table rendered as text, so its links are not widgets. To click
-    one, look for the screen cell that carries its click action.
-    """
-    await pilot.pause()
-    region = table.query_one(WorksTable._WorksTableRenderer).region
-
-    for y in range(region.y, region.bottom):
-        for x in range(region.x, region.right):
-            if pilot.app.screen.get_style_at(x, y).meta.get("@click") == ("open_work_details", (0,)):
-                assert await pilot.click(offset=(x, y))
-                await wait_until(pilot, lambda: isinstance(pilot.app.screen, WorkModal))
-
-                details = pilot.app.screen
-                assert isinstance(details, WorkModal)
-                return details
-
-    pytest.fail("The first work has no clickable title")
+from tests.widgets.helpers import WidgetApp, open_work_details, wait_until
 
 
 async def open_editor(pilot: Pilot, details: WorkModal) -> TextArea:

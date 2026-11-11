@@ -17,6 +17,7 @@ from textual.widgets.tree import TreeNode
 
 from pub_analyzer import main
 from pub_analyzer.widgets.common.filesystem import FileSystemSelector, FilteredDirectoryTree, PathSelectedBox, PathSelectorModal
+from pub_analyzer.widgets.report.work import WorkModal, WorksTable
 
 CSS_DIR = Path(main.__file__).parent / "css"
 
@@ -97,6 +98,33 @@ async def open_file_picker(pilot: Pilot) -> tuple[PathSelectorModal, FilteredDir
     await wait_until(pilot, lambda: bool(tree.root.children))
 
     return picker, tree
+
+
+async def open_work_details(pilot: Pilot, table: WorksTable, idx: int = 0) -> WorkModal:
+    """Click a work's number in the works table, and return the details dialog it opens.
+
+    The works table is a Rich table rendered as text, so its links are not widgets. To click
+    one, look for the screen cell that carries its click action.
+
+    Args:
+        pilot: Pilot of the app showing the table.
+        table: Works table, showing the page the work is on.
+        idx: Position of the work in the report.
+    """
+    await pilot.pause()
+    region = table.query_one(WorksTable._WorksTableRenderer).region.intersection(pilot.app.screen.region)
+
+    for y in range(region.y, region.bottom):
+        for x in range(region.x, region.right):
+            if pilot.app.screen.get_style_at(x, y).meta.get("@click") == ("open_work_details", (idx,)):
+                assert await pilot.click(offset=(x, y))
+                await wait_until(pilot, lambda: isinstance(pilot.app.screen, WorkModal))
+
+                details = pilot.app.screen
+                assert isinstance(details, WorkModal)
+                return details
+
+    pytest.fail(f"Work {idx} has no clickable number on screen")
 
 
 def node_path(node: TreeNode[DirEntry] | None) -> Path:

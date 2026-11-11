@@ -2,6 +2,7 @@
 
 import pathlib
 import re
+from typing import ClassVar
 from urllib.parse import quote, urlparse
 
 import httpx2
@@ -16,7 +17,7 @@ from textual.widgets import Button, Label, Static, TabbedContent, TabPane
 from pub_analyzer.models.author import Author
 from pub_analyzer.models.report import AuthorReport, CitationReport, CitationType, InstitutionReport, WorkReport
 from pub_analyzer.models.work import Location
-from pub_analyzer.widgets.common import FileSystemSelector, Input, Modal, ReactiveLabel, Select
+from pub_analyzer.widgets.common import FileSystemSelector, Input, Modal, PaginatedTable, ReactiveLabel, Select
 from pub_analyzer.widgets.report.cards import (
     AuthorshipCard,
     CitationMetricsCard,
@@ -70,7 +71,7 @@ class CitedByTable(Static):
             citation_type = f"[#909d63]{ct_value.name}[/]" if ct_value is CitationType.TypeA else f"[#bc5653]{ct_value.name}[/]"
 
             doi = work.ids.doi
-            doi_url = f"""[@click=app.open_link('{quote(str(doi))}')]DOI[/]""" if doi else "-"
+            doi_url = f"""[@click=app.open_link('{quote(str(doi))}')][u]DOI[/u][/]""" if doi else "-"
 
             citations_table.add_row(
                 str(idx),
@@ -82,7 +83,11 @@ class CitedByTable(Static):
                 str(work.cited_by_count),
             )
 
-        yield Static(citations_table, classes="citations-table")
+        # Highlighting a link on hover renders the whole table again, which stalls long tables.
+        # This also drops the CSS link style, so the links are underlined in their markup.
+        table = Static(citations_table, classes="citations-table")
+        table.auto_links = False
+        yield table
 
 
 class DownloadPane(VerticalScroll):
@@ -286,20 +291,33 @@ class WorkModal(Modal[None]):
                         yield DownloadPane(work_report=self.work_report, locations=self.locations_with_pdf_available)
 
 
-class WorksTable(Static):
-    """Table with all works produced by an author."""
+class WorksTable(PaginatedTable):
+    """Table with all works produced by an author, a page at a time."""
 
     DEFAULT_CSS = """
     WorksTable {
-        height: auto;
         margin: 1 0 0 0;
     }
     """
 
+    ROWS_NAME: ClassVar[str] = "Works"
+
     def __init__(self, report: AuthorReport | InstitutionReport, show_empty_works: bool = True) -> None:
         self.report = report
         self.show_empty_works = show_empty_works
+        self.work_indexes = [idx for idx, work_report in enumerate(report.works) if show_empty_works or len(work_report.cited_by) > 0]
+        """Positions in the report of the works the table lists, across all pages."""
         super().__init__()
+
+    @property
+    def row_count(self) -> int:
+        """Number of works the table lists, across all pages."""
+        return len(self.work_indexes)
+
+    @property
+    def page_work_indexes(self) -> list[int]:
+        """Positions in the report of the works on the page shown."""
+        return self.work_indexes[self.page_rows.start : self.page_rows.stop]
 
     class _WorksTableRenderer(Static):
         """Virtual Static Widget to handle table actions calls."""
@@ -316,8 +334,12 @@ class WorksTable(Static):
                 case InstitutionReport():
                     self.app.push_screen(WorkModal(work_report=self.report.works[idx], author=None))
 
-    def compose(self) -> ComposeResult:
-        """Generate Table."""
+    def make_table_widget(self, table: Table) -> Static:
+        """Show the table in a widget that opens the details of the works it links to."""
+        return self._WorksTableRenderer(table, report=self.report)
+
+    def build_table(self) -> Table:
+        """Build the table of the works on the page shown."""
         if self.report.works:
             first_pub_year = next((w.work.publication_year for w in self.report.works if w.work.publication_year is not None), "-")
             last_pub_year = next((w.work.publication_year for w in reversed(self.report.works) if w.work.publication_year is not None), "-")
@@ -333,17 +355,16 @@ class WorksTable(Static):
         work_table.add_column("Publication Date")
         work_table.add_column("Cited by count")
 
-        for idx, work_report in enumerate(self.report.works):
+        for idx in self.page_work_indexes:
+            work_report = self.report.works[idx]
             work = work_report.work
-            if not self.show_empty_works and len(work_report.cited_by) < 1:
-                continue
 
             doi = work.ids.doi
-            doi_url = f"""[@click=app.open_link("{quote(str(doi))}")]DOI[/]""" if doi else "-"
+            doi_url = f"""[@click=app.open_link("{quote(str(doi))}")][u]DOI[/u][/]""" if doi else "-"
             publication_date = work.publication_date if work.publication_date else "-"
 
             work_table.add_row(
-                str(f"""[@click=open_work_details({idx})]{idx}[/]"""),
+                str(f"""[@click=open_work_details({idx})][u]{idx}[/u][/]"""),
                 Text(work.title, overflow="ellipsis"),
                 Text(work.type),
                 Text.from_markup(doi_url, overflow="ellipsis"),
@@ -351,7 +372,7 @@ class WorksTable(Static):
                 str(len(work_report.cited_by)),
             )
 
-        yield self._WorksTableRenderer(work_table, report=self.report)
+        return work_table
 
 
 class WorkReportPane(VerticalScroll):

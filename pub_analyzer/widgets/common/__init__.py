@@ -6,6 +6,7 @@ from .input import DateInput, Input
 from .label import ReactiveLabel
 from .modal import Modal
 from .selector import Select
+from .table import PaginatedTable
 
 __all__ = [
     "Card",
@@ -13,6 +14,7 @@ __all__ = [
     "FileSystemSelector",
     "Input",
     "Modal",
+    "PaginatedTable",
     "ReactiveLabel",
     "Select",
 ]

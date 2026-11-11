@@ -1,33 +1,40 @@
 """Sources Report Widgets."""
 
+from typing import ClassVar
 from urllib.parse import quote
 
 from rich.table import Table
 from rich.text import Text
 from textual.app import ComposeResult
 from textual.containers import VerticalScroll
-from textual.widgets import Static
 
 from pub_analyzer.models.report import AuthorReport, InstitutionReport
 from pub_analyzer.models.source import Source
+from pub_analyzer.widgets.common import PaginatedTable
 
 
-class SourcesTable(Static):
-    """All Sources from an author in a table."""
+class SourcesTable(PaginatedTable):
+    """All Sources from an author in a table, a page at a time."""
 
     DEFAULT_CSS = """
-    SourcesTable .sources-table {
-        height: auto;
+    SourcesTable {
         margin: 1 0 0 0;
     }
     """
+
+    ROWS_NAME: ClassVar[str] = "Sources"
 
     def __init__(self, sources_list: list[Source]) -> None:
         self.sources_list = sources_list
         super().__init__()
 
-    def compose(self) -> ComposeResult:
-        """Compose Table."""
+    @property
+    def row_count(self) -> int:
+        """Number of sources, across all pages."""
+        return len(self.sources_list)
+
+    def build_table(self) -> Table:
+        """Build the table of the sources on the page shown."""
         sources_table = Table(title="Sources", expand=True, show_lines=True)
 
         # Define Columns
@@ -40,7 +47,8 @@ class SourcesTable(Static):
         sources_table.add_column("h-index")
         sources_table.add_column("Is OA")
 
-        for idx, source in enumerate(self.sources_list):
+        for idx in self.page_rows:
+            source = self.sources_list[idx]
             if source.host_organization_name:
                 host_organization = (
                     f"""[@click=app.open_link('{quote(str(source.host_organization))}')][u]{source.host_organization_name}[/u][/]"""
@@ -67,7 +75,7 @@ class SourcesTable(Static):
                 Text.from_markup(is_open_access),
             )
 
-        yield Static(sources_table, classes="sources-table")
+        return sources_table
 
 
 class SourcesReportPane(VerticalScroll):

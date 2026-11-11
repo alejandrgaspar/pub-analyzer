@@ -10,10 +10,11 @@ from typing import Any
 from pub_analyzer.models.author import Author, DehydratedAuthor
 from pub_analyzer.models.institution import Institution
 from pub_analyzer.models.report import AuthorReport, CitationSummary, InstitutionReport, OpenAccessSummary, SourcesSummary, WorkReport
-from pub_analyzer.models.source import DehydratedSource
+from pub_analyzer.models.source import DehydratedSource, Source
 from pub_analyzer.models.work import Authorship, Location, OpenAccessStatus, Work
 from tests.data.author import AUTHOR
 from tests.data.institution import INSTITUTION
+from tests.data.source import SOURCE
 
 _WORK_COUNTER = iter(range(1, 1_000_000))
 
@@ -51,6 +52,20 @@ def make_source(source_id: str, display_name: str = "Source") -> DehydratedSourc
         host_organization=None,
         type="journal",
     )
+
+
+def make_report_source(source_id: str, display_name: str = "Source") -> Source:
+    """Build a Source with its metrics, as listed in a report's sources summary.
+
+    Args:
+        source_id: OpenAlex key, e.g. `"S123"`.
+        display_name: Optional display name.
+
+    Returns:
+        Source instance.
+    """
+    fields: dict[str, Any] = {**SOURCE, "id": f"https://openalex.org/{source_id}", "display_name": display_name}
+    return Source(**fields)
 
 
 def make_location(source: DehydratedSource | None = None) -> Location:
