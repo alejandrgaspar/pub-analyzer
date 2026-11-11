@@ -32,6 +32,7 @@ dependencies = [
     "pydantic==2.12.5",
     "pydantic-settings==2.16.2",
     "typst==0.13.2",
+    "tomli-w==1.2.0",
 ]
 
 [project.urls]

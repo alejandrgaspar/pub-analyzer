@@ -2,12 +2,13 @@
 
 import os
 import sys
+import tomllib
 from pathlib import Path
 
 import pytest
 
 from pub_analyzer.internal import config
-from pub_analyzer.internal.config import ConfigError, config_path, load_settings
+from pub_analyzer.internal.config import ConfigError, config_path, load_settings, read_stored_api_key, save_api_key
 from pub_analyzer.internal.openalex.client import API_KEY_ENV_VAR
 
 
@@ -142,3 +143,113 @@ def test_unreadable_file_raises_config_error() -> None:
             load_settings()
     finally:
         path.chmod(0o600)
+
+
+# --- Saving ---------------------------------------------------------------------------
+
+
+def test_saved_api_key_is_loaded() -> None:
+    """A saved key is picked up by the next load, creating the directory if needed."""
+    assert not config_path().parent.exists()
+
+    path = save_api_key("saved-key")
+
+    assert path == config_path()
+    assert load_settings().api_key == "saved-key"
+    assert read_stored_api_key() == "saved-key"
+
+
+def test_saved_api_key_is_stripped() -> None:
+    """Whitespace pasted along with the key is not saved."""
+    save_api_key("  saved-key\n")
+
+    assert tomllib.loads(config_path().read_text()) == {"api_key": "saved-key"}
+
+
+@pytest.mark.parametrize("value", [None, "", "   "], ids=["none", "empty", "blank"])
+def test_saving_an_empty_key_removes_it(value: str | None) -> None:
+    """Saving nothing removes the key, rather than writing an empty one."""
+    write_config('api_key = "old-key"\nsomething_new = 1\n')
+
+    save_api_key(value)
+
+    assert tomllib.loads(config_path().read_text()) == {"something_new": 1}
+    assert read_stored_api_key() is None
+
+
+def test_saving_keeps_other_settings() -> None:
+    """Settings this version does not know about survive a save."""
+    write_config('api_key = "old-key"\nsomething_new = 1\n\n[table]\nnested = "value"\n')
+
+    save_api_key("new-key")
+
+    assert tomllib.loads(config_path().read_text()) == {"api_key": "new-key", "something_new": 1, "table": {"nested": "value"}}
+
+
+def test_saving_refuses_to_overwrite_an_invalid_file() -> None:
+    """A file the user broke by hand is left for them to fix, rather than replaced."""
+    path = write_config("api_key = \n")
+
+    with pytest.raises(ConfigError, match="not valid TOML"):
+        save_api_key("new-key")
+
+    assert path.read_text() == "api_key = \n"
+
+
+def test_saving_leaves_no_temporary_files() -> None:
+    """Only the configuration file remains in its directory."""
+    save_api_key("first-key")
+    save_api_key("second-key")
+
+    assert list(config_path().parent.iterdir()) == [config_path()]
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="POSIX permissions")
+def test_saved_file_is_private() -> None:
+    """The file holds a secret, so only its owner may read it."""
+    write_config('api_key = "old-key"\n').chmod(0o644)
+
+    save_api_key("new-key")
+
+    assert config_path().stat().st_mode & 0o777 == 0o600
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Symlinks need extra privileges on Windows")
+def test_saving_writes_through_a_symlink(tmp_path: Path) -> None:
+    """A config file linked from a dotfiles repository stays a link."""
+    target = tmp_path / "dotfiles" / "config.toml"
+    target.parent.mkdir()
+    target.write_text('api_key = "old-key"\n')
+    config_path().parent.mkdir(parents=True)
+    config_path().symlink_to(target)
+
+    save_api_key("new-key")
+
+    assert config_path().is_symlink()
+    assert tomllib.loads(target.read_text()) == {"api_key": "new-key"}
+
+
+@pytest.mark.skipif(sys.platform == "win32" or os.geteuid() == 0, reason="POSIX permissions, which root ignores")
+def test_unwritable_directory_raises_config_error() -> None:
+    """A directory the user cannot write to is reported instead of crashing."""
+    config_path().parent.mkdir(parents=True)
+    config_path().parent.chmod(0o500)
+
+    try:
+        with pytest.raises(ConfigError, match="could not be written"):
+            save_api_key("new-key")
+    finally:
+        config_path().parent.chmod(0o700)
+
+
+def test_stored_api_key_ignores_the_environment(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The dialog shows what the file holds, not the variable overriding it."""
+    write_config('api_key = "file-key"\n')
+    monkeypatch.setenv(API_KEY_ENV_VAR, "env-key")
+
+    assert read_stored_api_key() == "file-key"
+
+
+def test_stored_api_key_without_a_file() -> None:
+    """No file, no key."""
+    assert read_stored_api_key() is None

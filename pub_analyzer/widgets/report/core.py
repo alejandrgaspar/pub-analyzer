@@ -55,8 +55,9 @@ def build_report_error_message(exc: httpx2.HTTPStatusError | httpx2.TransportErr
     if exc.response.status_code in AUTHENTICATION_STATUS_CODES:
         return (
             "OpenAlex rejected the request. This usually means the API key is missing, invalid,"
-            f" or out of credits for today. Get a key from {API_KEY_SETTINGS_URL}, set it as `api_key`"
-            f" in {config_path()} or in the {API_KEY_ENV_VAR} environment variable, and try again. {status_error}"
+            f" or out of credits for today. Get a key from {API_KEY_SETTINGS_URL}, save it with the API key button"
+            f" at the bottom of the sidebar (it is stored in {config_path()}) or set the {API_KEY_ENV_VAR} environment"
+            f" variable, and try again. {status_error}"
         )
 
     return f"The report could not be generated due to a problem with the OpenAlex API. {status_error}"

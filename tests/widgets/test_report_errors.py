@@ -23,6 +23,7 @@ def test_authentication_failures_point_at_the_api_key(status_code: int) -> None:
     """A rejected request tells the user where to put the key."""
     message = build_report_error_message(status_error(status_code))
 
+    assert "API key button" in message
     assert str(config_path()) in message
     assert API_KEY_ENV_VAR in message
     assert "openalex.org/settings/api" in message

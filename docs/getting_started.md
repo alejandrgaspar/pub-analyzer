@@ -55,7 +55,9 @@ You should see the following:
 
 Pub Analyzer builds reports from the [OpenAlex](https://openalex.org){target=_blank} API, and **OpenAlex has required an API key on every call since February 2026**. Without one you get a small daily allowance that runs out before even a modest report finishes, so you need a key to use Pub Analyzer.
 
-Get a free key at [openalex.org/settings/api](https://openalex.org/settings/api){target=_blank}, then save it in the Pub Analyzer configuration file:
+Get a free key at [openalex.org/settings/api](https://openalex.org/settings/api){target=_blank}, then click the **API key** button at the bottom of the sidebar, paste the key and press **Save**.
+
+The key is saved in the Pub Analyzer configuration file, which you can also edit by hand:
 
 ```toml
 api_key = "your-key"

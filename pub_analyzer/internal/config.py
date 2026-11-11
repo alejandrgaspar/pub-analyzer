@@ -17,9 +17,12 @@ Example:
 
 import os
 import sys
+import tempfile
 import tomllib
 from pathlib import Path
+from typing import Any
 
+import tomli_w
 from pydantic import ValidationError, field_validator
 from pydantic_settings import BaseSettings, PydanticBaseSettingsSource, SettingsConfigDict, TomlConfigSettingsSource
 
@@ -113,11 +116,116 @@ def load_settings() -> Settings:
 
     try:
         return Settings()
-    except OSError as exc:
-        raise ConfigError(f"The configuration file {path} could not be read: {exc.strerror}") from exc
-    except tomllib.TOMLDecodeError as exc:
-        raise ConfigError(f"The configuration file {path} is not valid TOML: {exc}") from exc
+    except (OSError, tomllib.TOMLDecodeError) as exc:
+        raise _read_error(path, exc) from exc
     except ValidationError as exc:
         # Built from the error locations only: the offending value may be a secret.
         problems = "; ".join(f"{'.'.join(map(str, error['loc']))}: {error['msg']}" for error in exc.errors())
         raise ConfigError(f"The configuration file {path} has invalid values. {problems}") from exc
+
+
+def read_stored_api_key() -> str | None:
+    """Read the API key saved in the configuration file, ignoring the environment.
+
+    Returns:
+        The saved key, or `None` when the file does not exist or holds no key.
+
+    Raises:
+        ConfigError: The configuration file exists but cannot be read or is not valid TOML.
+    """
+    api_key = _read_config_file(config_path()).get("api_key")
+    if not isinstance(api_key, str):
+        return None
+
+    return api_key.strip() or None
+
+
+def save_api_key(api_key: str | None) -> Path:
+    """Save the API key in the configuration file, keeping every other setting in it.
+
+    Args:
+        api_key: Key to save. An empty or `None` key removes it from the file instead.
+
+    Returns:
+        Path of the configuration file.
+
+    Raises:
+        ConfigError: The existing file cannot be read or is not valid TOML, in which case
+            it is left untouched, or the new file cannot be written.
+
+    Info:
+        Like any TOML writer, this drops the comments of a hand edited file.
+    """
+    path = config_path()
+    settings = _read_config_file(path)
+
+    api_key = (api_key or "").strip()
+    if api_key:
+        settings["api_key"] = api_key
+    else:
+        settings.pop("api_key", None)
+
+    _write_config_file(path, settings)
+
+    return path
+
+
+def _read_error(path: Path, exc: OSError | tomllib.TOMLDecodeError) -> ConfigError:
+    """Explain why the configuration file could not be read."""
+    if isinstance(exc, OSError):
+        return ConfigError(f"The configuration file {path} could not be read: {exc.strerror}")
+
+    return ConfigError(f"The configuration file {path} is not valid TOML: {exc}")
+
+
+def _read_config_file(path: Path) -> dict[str, Any]:
+    """Read the configuration file as written, without the environment or any default.
+
+    Args:
+        path: Configuration file.
+
+    Returns:
+        Its settings, or none at all when the file does not exist.
+
+    Raises:
+        ConfigError: The file exists but cannot be read or is not valid TOML.
+    """
+    try:
+        with path.open("rb") as file:
+            return tomllib.load(file)
+    except FileNotFoundError:
+        return {}
+    except (OSError, tomllib.TOMLDecodeError) as exc:
+        raise _read_error(path, exc) from exc
+
+
+def _write_config_file(path: Path, settings: dict[str, Any]) -> None:
+    """Replace the configuration file with the given settings.
+
+    Args:
+        path: Configuration file, created along with its directory when missing.
+        settings: Every setting the file holds.
+
+    Raises:
+        ConfigError: The file cannot be written.
+
+    Info:
+        The settings are written to a temporary file which then replaces the old one, so a
+        crash never leaves a half written file. That file is readable by its owner only,
+        since it holds the API key. A symlinked file, as dotfile managers create, is
+        written through rather than replaced by a regular file.
+    """
+    target = path.resolve()
+
+    try:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        fd, temp_name = tempfile.mkstemp(dir=target.parent, prefix=f".{target.name}.", suffix=".tmp")
+        try:
+            with os.fdopen(fd, "wb") as file:
+                tomli_w.dump(settings, file)
+            os.replace(temp_name, target)
+        except BaseException:
+            Path(temp_name).unlink(missing_ok=True)
+            raise
+    except OSError as exc:
+        raise ConfigError(f"The configuration file {path} could not be written: {exc.strerror}") from exc

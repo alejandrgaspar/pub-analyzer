@@ -1,6 +1,7 @@
 /* COLORS */
 $bg-main-color: white;
 $bg-secondary-color: #e5e7eb;
+$bg-secondary-color-accent: #d1d5db;
 $text-primary-color: black;
 
 /* SideBar CSS */
@@ -41,6 +42,23 @@ SideBar {
         color: $text-primary-color 25%;
         text-align: center;
         width: 100%;
+    }
+}
+
+#api-key-sidebar-button {
+    width: 100%;
+    min-width: 0;
+    height: 1;
+    margin-bottom: 1;
+
+    border: none;
+    background: $bg-secondary-color-accent;
+    color: $text-primary-color 60%;
+    text-align: center;
+
+    &:hover {
+        background: $text-primary-color 20%;
+        color: $text-primary-color;
     }
 }
 
