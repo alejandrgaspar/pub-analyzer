@@ -36,6 +36,8 @@ CreateReportWidget {
 
 /* Load Report */
 LoadReportWidget {
+    /* Fill the page, so the loading indicator covering it is centered in the page. */
+    height: 1fr;
     margin: 1 1 0 1;
 }
 

@@ -1,6 +1,7 @@
 """Test loading a saved report from a file."""
 
 import gc
+import threading
 import weakref
 from collections.abc import Callable
 from pathlib import Path
@@ -62,6 +63,32 @@ async def load_author_report(pilot: Pilot, path: Path) -> weakref.ref[AuthorRepo
     await wait_until(pilot, lambda: bool(pilot.app.query(AuthorReportWidget)))
 
     return weakref.ref(pilot.app.query(AuthorReportWidget).first().report)
+
+
+def block_parsing(monkeypatch: pytest.MonkeyPatch) -> tuple[threading.Event, threading.Event, threading.Event]:
+    """Make reports wait to be parsed until released.
+
+    Returns:
+        Events set when parsing starts and when it ends, and the event that releases it.
+    """
+    started, ended, release = threading.Event(), threading.Event(), threading.Event()
+
+    class BlockingTypeAdapter:
+        """Parse like `TypeAdapter`, once released."""
+
+        def __init__(self, report_type: type) -> None:
+            self.adapter = TypeAdapter(report_type)
+
+        def validate_json(self, data: bytes) -> Any:
+            started.set()
+            release.wait(timeout=5)
+            try:
+                return self.adapter.validate_json(data)
+            finally:
+                ended.set()
+
+    monkeypatch.setattr(core, "TypeAdapter", BlockingTypeAdapter)
+    return started, ended, release
 
 
 def works_listed(pilot: Pilot) -> list[int]:
@@ -148,8 +175,9 @@ async def test_invalid_report_shows_an_error_and_can_be_retried(home: Path, monk
         assert notify.call_args.kwargs["title"] == "Error loading report!"
         assert notify.call_args.kwargs["severity"] == "error"
 
-        # Nothing else changes.
+        # Nothing else changes, and the loader stops showing it is loading.
         assert app.query_one(LoadReportWidget) is loader
+        assert not loader.loading
         assert not app.query(ReportWidget)
         assert page_title(app) == "Load report"
         assert loader.query_one(FileSystemSelector).path_selected == path
@@ -267,3 +295,49 @@ def test_paused_gc_leaves_the_collector_off_if_it_was_off() -> None:
         assert not gc.isenabled()
     finally:
         gc.enable()
+
+
+@pytest.mark.asyncio
+async def test_app_keeps_responding_while_a_report_loads(home: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Reports are parsed in a thread, so the app keeps responding and shows the report is loading."""
+    started, _, release = block_parsing(monkeypatch)
+    path = home / "report.json"
+    path.write_text(make_author_report().model_dump_json(by_alias=True), encoding="utf-8")
+
+    async with PubAnalyzerApp().run_test(size=(140, 60)) as pilot:
+        loader = await open_loader(pilot)
+        await choose_file(pilot, path)
+        await click_when_ready(pilot, loader.query_one("#load-report-button", Button))
+
+        # Waiting runs the app, so this only returns if the app runs while the report is parsed.
+        await wait_until(pilot, started.is_set)
+        assert loader.loading
+        assert not pilot.app.query(ReportWidget)
+
+        release.set()
+        await wait_until(pilot, lambda: bool(pilot.app.query(AuthorReportWidget)))
+
+
+@pytest.mark.asyncio
+async def test_going_elsewhere_while_a_report_loads_discards_it(home: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Going to another page while a report loads stays there, and the report is not shown once read."""
+    started, ended, release = block_parsing(monkeypatch)
+    path = home / "report.json"
+    path.write_text(make_author_report().model_dump_json(by_alias=True), encoding="utf-8")
+
+    async with PubAnalyzerApp().run_test(size=(140, 60)) as pilot:
+        loader = await open_loader(pilot)
+        await choose_file(pilot, path)
+        await click_when_ready(pilot, loader.query_one("#load-report-button", Button))
+        await wait_until(pilot, started.is_set)
+        del loader
+
+        assert await pilot.click("#search-sidebar-button")
+        await wait_until(pilot, lambda: not pilot.app.query(LoadReportWidget))
+
+        release.set()
+        await wait_until(pilot, ended.is_set)
+        await pilot.pause(0.2)
+
+        assert page_title(pilot.app) == "Search"
+        assert not pilot.app.query(ReportWidget)

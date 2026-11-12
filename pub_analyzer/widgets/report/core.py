@@ -11,10 +11,11 @@ from typing import ClassVar
 
 import httpx2
 from pydantic import TypeAdapter, ValidationError
-from textual import on
+from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding, BindingType
 from textual.containers import Container, Horizontal, Vertical
+from textual.message import Message
 from textual.reactive import reactive
 from textual.widget import Widget
 from textual.widgets import Button, Label, ProgressBar, Static, TabbedContent, TabPane
@@ -292,6 +293,10 @@ class CreateInstitutionReportWidget(CreateReportWidget):
         return InstitutionReportWidget(report=report)
 
 
+READ_REPORT_GROUP = "read-report"
+"""Group of the workers reading a report from disk."""
+
+
 @contextmanager
 def paused_gc() -> Iterator[None]:
     """Pause the garbage collector while creating many objects at once, like when loading a report.
@@ -325,6 +330,16 @@ class LoadReportWidget(Static):
     class EntityTypeSelector(Select[EntityType]):
         """Entity type Selector."""
 
+    class ReportRead(Message, bubble=False):
+        """A report was read from disk."""
+
+        def __init__(self, report: AuthorReport | InstitutionReport) -> None:
+            self.report = report
+            super().__init__()
+
+    class ReportInvalid(Message, bubble=False):
+        """The file read does not hold a report of the type chosen."""
+
     def __init__(self, entity_handler: EntityType = EntityType.AUTHOR) -> None:
         self.entity_handler = entity_handler
         super().__init__()
@@ -338,43 +353,67 @@ class LoadReportWidget(Static):
             self.query_one(Button).disabled = True
 
     @on(Button.Pressed, "#load-report-button")
-    async def load_report(self) -> None:
-        """Load Report."""
-        from pub_analyzer.widgets.body import MainContent
-
+    def load_report(self) -> None:
+        """Load the report chosen, showing that it is loading meanwhile."""
         file_path = self.query_one(FileSystemSelector).path_selected
         if not file_path:
             return
 
-        # Pydantic parses the file's bytes directly. Decoded to `str`, they can take up to four times
-        # the size of the file. Read inline, they are freed once parsed, before the report is shown.
-        main_content = self.app.query_one(MainContent)
+        self.loading = True
+        self.read_report(file_path, self.entity_handler.value)
+
+    @work(thread=True, exclusive=True, group=READ_REPORT_GROUP)
+    def read_report(self, file_path: pathlib.Path, report_type: type[AuthorReport] | type[InstitutionReport]) -> None:
+        """Read a report in a thread, so the app keeps responding while it is parsed.
+
+        Pydantic parses the file's bytes directly. Decoded to `str`, they can take up to four times
+        the size of the file. Read inline, they are freed once parsed, before the report is shown.
+
+        The report, or the error, is sent in a message rather than kept as the worker's result.
+        Textual leaves the last worker of each thread referenced from that thread, so a result
+        kept there would stay in memory after the report is closed.
+
+        Info:
+            Pydantic still holds the GIL, so the app stops responding, while it parses the JSON at
+            the start and while it frees it at the end. For a 750 MB report, that's about a second
+            and a half each time.
+        """
         try:
-            match self.entity_handler:
-                case self.EntityType.AUTHOR:
-                    with paused_gc():
-                        author_report: AuthorReport = TypeAdapter(AuthorReport).validate_json(file_path.read_bytes())
-                    author_report_widget = AuthorReportWidget(report=author_report)
-                    await main_content.query("*").exclude("#page-title").remove()
-
-                    await main_content.mount(author_report_widget)
-                    main_content.update_title(title=author_report.author.display_name)
-
-                case self.EntityType.INSTITUTION:
-                    with paused_gc():
-                        institution_report: InstitutionReport = TypeAdapter(InstitutionReport).validate_json(file_path.read_bytes())
-                    institution_report_widget = InstitutionReportWidget(report=institution_report)
-                    await main_content.query("*").exclude("#page-title").remove()
-
-                    await main_content.mount(institution_report_widget)
-                    main_content.update_title(title=institution_report.institution.display_name)
+            with paused_gc():
+                report = TypeAdapter(report_type).validate_json(file_path.read_bytes())
         except ValidationError:
-            self.app.notify(
-                title="Error loading report!",
-                message="The report does not have the correct structure. This may be because it is an old version or because it is not of the specified type.",  # noqa: E501
-                severity="error",
-                timeout=10.0,
-            )
+            self.post_message(self.ReportInvalid())
+        else:
+            self.post_message(self.ReportRead(report))
+
+    @on(ReportInvalid)
+    def explain_invalid_report(self) -> None:
+        """Explain that the file chosen does not hold a report of the type chosen."""
+        self.loading = False
+        self.app.notify(
+            title="Error loading report!",
+            message="The report does not have the correct structure. This may be because it is an old version or because it is not of the specified type.",  # noqa: E501
+            severity="error",
+            timeout=10.0,
+        )
+
+    @on(ReportRead)
+    async def show_report(self, message: ReportRead) -> None:
+        """Replace the Load report page with the report read."""
+        from pub_analyzer.widgets.body import MainContent
+
+        report = message.report
+        if isinstance(report, AuthorReport):
+            report_widget: ReportWidget = AuthorReportWidget(report=report)
+            title = report.author.display_name
+        else:
+            report_widget = InstitutionReportWidget(report=report)
+            title = report.institution.display_name
+
+        main_content = self.app.query_one(MainContent)
+        await main_content.query("*").exclude("#page-title").remove()
+        await main_content.mount(report_widget)
+        main_content.update_title(title=title)
 
     @on(Select.Changed)
     async def on_select_entity(self, event: Select.Changed) -> None:
