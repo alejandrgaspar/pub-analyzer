@@ -4,7 +4,6 @@ from typing import Any
 
 import httpx2 as httpx
 import pytest
-from pydantic import HttpUrl
 
 from pub_analyzer.internal import identifier
 from pub_analyzer.internal.report import builder
@@ -20,13 +19,13 @@ from tests.data.work import WORK
 
 def _dehydrated_author(author_id: str) -> DehydratedAuthor:
     """Build a DehydratedAuthor from a bare OpenAlex key."""
-    return DehydratedAuthor(id=HttpUrl(f"https://openalex.org/{author_id}"))
+    return DehydratedAuthor(id=f"https://openalex.org/{author_id}")
 
 
 def _dehydrated_institution(institution_id: str) -> DehydratedInstitution:
     """Build a DehydratedInstitution from a bare OpenAlex key."""
     return DehydratedInstitution(
-        id=HttpUrl(f"https://openalex.org/{institution_id}"),
+        id=f"https://openalex.org/{institution_id}",
         ror="",
         display_name="",
         country_code="",
@@ -168,7 +167,7 @@ async def test_make_author_report_end_to_end() -> None:
     assert report.citation_summary.type_a_count == 1
     assert report.citation_summary.type_b_count == 0
 
-    assert [source.id for source in report.sources_summary.sources] == [HttpUrl(f"https://openalex.org/{SOURCE_KEY}")]
+    assert [source.id for source in report.sources_summary.sources] == [f"https://openalex.org/{SOURCE_KEY}"]
     assert [counts.model_dump() for counts in report.author.counts_by_year] == [
         {"year": 2020, "works_count": 1, "cited_by_count": 0},
         {"year": 2022, "works_count": 0, "cited_by_count": 1},

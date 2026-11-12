@@ -390,15 +390,21 @@ class WorkReportPane(VerticalScroll):
         self.report = report
         super().__init__()
 
-    async def toggle_empty_works(self) -> None:
-        """Hide/show works if cites are cero."""
-        report_works_status: bool = self.app.query_one("ReportWidget").show_empty_works  # type: ignore
-        table_works_status = self.query_one(WorksTable).show_empty_works
+    async def toggle_empty_works(self, show_empty_works: bool) -> None:
+        """Show or hide the works without citations.
 
-        if self.report.works and (report_works_status != table_works_status):
+        Args:
+            show_empty_works: Whether to list the works without citations.
+
+        Info:
+            The report widget passes the value, instead of this pane finding it with `app.query_one`.
+            Textual caches the last 1,024 widgets `app.query_one` finds, so that lookup kept closed
+            reports in memory.
+        """
+        if self.report.works and show_empty_works != self.query_one(WorksTable).show_empty_works:
             self.loading = True
             await self.query_one(WorksTable).remove()
-            await self.mount(WorksTable(report=self.report, show_empty_works=report_works_status))
+            await self.mount(WorksTable(report=self.report, show_empty_works=show_empty_works))
             self.loading = False
 
     def compose(self) -> ComposeResult:

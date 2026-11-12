@@ -33,3 +33,16 @@ def test_get_work_id() -> None:
 def test_get_source_id(model_input: Source | DehydratedSource) -> None:
     """Test get_institution_id function."""
     assert get_source_id(model_input) == SOURCE_OPEN_ALEX_ID
+
+
+@pytest.mark.parametrize(
+    ["openalex_id", "key"],
+    [
+        pytest.param("https://openalex.org/A5015201707", "A5015201707", id="key"),
+        pytest.param("https://openalex.org/", "", id="empty-path"),
+        pytest.param("https://openalex.org", "", id="no-path"),
+    ],
+)
+def test_key_is_the_last_segment_of_the_path(openalex_id: str, key: str) -> None:
+    """The key is the last segment of the path of the ID, and an ID without a path has none."""
+    assert get_author_id(DehydratedAuthor(id=openalex_id)) == key

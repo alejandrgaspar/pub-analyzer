@@ -3,9 +3,9 @@
 from enum import StrEnum
 from typing import TypeAlias
 
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 
-InstitutionOpenAlexID: TypeAlias = HttpUrl
+InstitutionOpenAlexID: TypeAlias = str
 """OpenAlex ID for Institution Objects with the format `https://openalex.org/I000000000`"""
 
 InstitutionOpenAlexKey: TypeAlias = str
@@ -17,9 +17,9 @@ class InstitutionIDs(BaseModel):
 
     openalex: InstitutionOpenAlexID
     grid: str | None = None
-    ror: HttpUrl | None = None
-    wikipedia: HttpUrl | None = None
-    wikidata: HttpUrl | None = None
+    ror: str | None = None
+    wikipedia: str | None = None
+    wikidata: str | None = None
 
 
 class InstitutionType(StrEnum):
@@ -78,7 +78,7 @@ class InstitutionRole(BaseModel):
     """Institution role."""
 
     role: InstitutionRoleType
-    id: HttpUrl
+    id: str
     works_count: int
 
 
@@ -97,8 +97,8 @@ class Institution(BaseModel):
     display_name: str
     country_code: str | None = None
     type: InstitutionType
-    homepage_url: HttpUrl | None = None
-    image_url: HttpUrl | None = None
+    homepage_url: str | None = None
+    image_url: str | None = None
 
     display_name_acronyms: list[str]
     international: International

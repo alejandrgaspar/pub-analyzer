@@ -1,21 +1,21 @@
 """Topics models from OpenAlex API Schema definition."""
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 
 
 class TopicIDs(BaseModel):
     """External identifiers for a Topic."""
 
-    openalex: HttpUrl
+    openalex: str
     """The OpenAlex ID for this Topic."""
-    wikipedia: HttpUrl | None = None
+    wikipedia: str | None = None
     """This topic's Wikipedia page URL."""
 
 
 class TopicLevel(BaseModel):
     """Topic level information."""
 
-    id: HttpUrl
+    id: str
     """ID for the topic level. For more info, consult the
        [OpenAlex topic mapping table](https://docs.google.com/spreadsheets/d/1v-MAq64x4YjhO7RWcB-yrKV5D_2vOOsxl4u6GBKEXY8/){target=_blank}.
     """
@@ -26,7 +26,7 @@ class TopicLevel(BaseModel):
 class DehydratedTopic(BaseModel):
     """Stripped-down Topic Model."""
 
-    id: HttpUrl
+    id: str
     """The OpenAlex ID for this Topic."""
     display_name: str
     """The English-language label of the topic."""

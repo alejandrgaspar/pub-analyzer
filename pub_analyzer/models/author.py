@@ -2,11 +2,11 @@
 
 from typing import TypeAlias
 
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 
 from pub_analyzer.models.institution import DehydratedInstitution
 
-AuthorOpenAlexID: TypeAlias = HttpUrl
+AuthorOpenAlexID: TypeAlias = str
 """OpenAlex ID for Author Objects with the format `https://openalex.org/A000000000`"""
 
 AuthorOpenAlexKey: TypeAlias = str
@@ -17,10 +17,10 @@ class AuthorIDs(BaseModel):
     """IDs from an Author."""
 
     openalex: AuthorOpenAlexID
-    orcid: HttpUrl | None = None
-    scopus: HttpUrl | None = None
-    twitter: HttpUrl | None = None
-    wikipedia: HttpUrl | None = None
+    orcid: str | None = None
+    scopus: str | None = None
+    twitter: str | None = None
+    wikipedia: str | None = None
 
 
 class AuthorYearCount(BaseModel):
@@ -72,7 +72,7 @@ class DehydratedAuthor(BaseModel):
 
     id: AuthorOpenAlexID
     display_name: str | None = None
-    orcid: HttpUrl | None = None
+    orcid: str | None = None
 
 
 class AuthorResult(BaseModel):

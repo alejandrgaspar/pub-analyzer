@@ -1,7 +1,6 @@
 """Test report aggregation from pub_analyzer/internal/report/aggregate.py."""
 
 import pytest
-from pydantic import HttpUrl
 
 from pub_analyzer.internal.report import aggregate
 from pub_analyzer.models.author import DehydratedAuthor
@@ -15,9 +14,9 @@ from tests.data.source import SOURCE
 def test_get_authors_list() -> None:
     """Test get_authors_list function."""
     authorships = [
-        Authorship(author_position="first", author=DehydratedAuthor(id=HttpUrl("https://openalex.org/A4356032281"))),
-        Authorship(author_position="middle", author=DehydratedAuthor(id=HttpUrl("https://openalex.org/A2642025319"))),
-        Authorship(author_position="last", author=DehydratedAuthor(id=HttpUrl("https://openalex.org/A4356881717"))),
+        Authorship(author_position="first", author=DehydratedAuthor(id="https://openalex.org/A4356032281")),
+        Authorship(author_position="middle", author=DehydratedAuthor(id="https://openalex.org/A2642025319")),
+        Authorship(author_position="last", author=DehydratedAuthor(id="https://openalex.org/A4356881717")),
     ]
 
     assert aggregate.get_authors_list(authorships=authorships) == ["A4356032281", "A2642025319", "A4356881717"]

@@ -388,7 +388,7 @@ async def test_get_works_raises_on_error_status_of_later_page() -> None:
 @pytest.mark.parametrize(
     ["homepage_url", "expected_homepage_url"],
     [
-        pytest.param("https://example.org", "https://example.org/", id="valid-url-kept"),
+        pytest.param("https://example.org", "https://example.org", id="valid-url-kept"),
         pytest.param("www.example.org", None, id="schemeless-url-discarded"),
         pytest.param(None, None, id="missing-url"),
     ],

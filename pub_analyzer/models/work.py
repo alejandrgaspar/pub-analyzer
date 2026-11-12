@@ -3,7 +3,7 @@
 from enum import StrEnum
 from typing import Any
 
-from pydantic import BaseModel, HttpUrl, field_validator
+from pydantic import BaseModel, field_validator
 
 from .author import DehydratedAuthor
 from .concept import DehydratedConcept
@@ -14,8 +14,8 @@ from .topic import DehydratedTopic
 class WorkIDs(BaseModel):
     """IDs from a Work."""
 
-    openalex: HttpUrl
-    doi: HttpUrl | None = None
+    openalex: str
+    doi: str | None = None
     pmid: str | None = None
     pmcid: str | None = None
 
@@ -78,7 +78,7 @@ class ArticleProcessingCharge(BaseModel):
 class Grant(BaseModel):
     """Grant Model Object from OpenAlex API definition."""
 
-    funder: HttpUrl
+    funder: str
     funder_display_name: str
     award_id: str | None = None
 
@@ -86,10 +86,10 @@ class Grant(BaseModel):
 class Award(BaseModel):
     """Award work details."""
 
-    id: HttpUrl
+    id: str
     display_name: str | None = None
     funder_award_id: str | None = None
-    funder_id: HttpUrl
+    funder_id: str
     funder_display_name: str
     doi: str | None = None
 
@@ -97,7 +97,7 @@ class Award(BaseModel):
 class Keyword(BaseModel):
     """Keyword extracted from the work's title and confidence score."""
 
-    id: HttpUrl
+    id: str
     display_name: str
     score: float
 
@@ -105,7 +105,7 @@ class Keyword(BaseModel):
 class Work(BaseModel):
     """Work Model Object from OpenAlex API definition."""
 
-    id: HttpUrl
+    id: str
     ids: WorkIDs
 
     title: str
@@ -132,7 +132,7 @@ class Work(BaseModel):
     concepts: list[DehydratedConcept]
     topics: list[DehydratedTopic]
 
-    referenced_works: list[HttpUrl]
+    referenced_works: list[str]
 
     apc_list: ArticleProcessingCharge | None = None
     """The price as listed by the journal's publisher."""

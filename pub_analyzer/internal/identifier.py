@@ -1,9 +1,20 @@
 """Functions to extract OpenAlex IDs from Models."""
 
+from urllib.parse import urlsplit
+
 from pub_analyzer.models.author import Author, AuthorOpenAlexKey, AuthorResult, DehydratedAuthor
 from pub_analyzer.models.institution import DehydratedInstitution, Institution, InstitutionOpenAlexKey, InstitutionResult
 from pub_analyzer.models.source import DehydratedSource, Source
 from pub_analyzer.models.work import Work
+
+
+def _get_key(openalex_id: str) -> str:
+    """Extract the key, like `A000000000`, from an OpenAlex ID, like `https://openalex.org/A000000000`.
+
+    Returns:
+        Last segment of the path of the ID, or an empty string if it has no path.
+    """
+    return urlsplit(openalex_id).path.rpartition("/")[2]
 
 
 def get_author_id(author: Author | AuthorResult | DehydratedAuthor) -> AuthorOpenAlexKey:
@@ -25,10 +36,7 @@ def get_author_id(author: Author | AuthorResult | DehydratedAuthor) -> AuthorOpe
         # 'A000000000'
         ```
     """
-    if author.id.path:
-        return author.id.path.rpartition("/")[2]
-    else:
-        return ""
+    return _get_key(author.id)
 
 
 def get_institution_id(institution: Institution | InstitutionResult | DehydratedInstitution) -> InstitutionOpenAlexKey:
@@ -50,10 +58,7 @@ def get_institution_id(institution: Institution | InstitutionResult | Dehydrated
         # 'I000000000'
         ```
     """
-    if institution.id.path:
-        return institution.id.path.rpartition("/")[2]
-    else:
-        return ""
+    return _get_key(institution.id)
 
 
 def get_work_id(work: Work) -> str:
@@ -75,10 +80,7 @@ def get_work_id(work: Work) -> str:
         # 'W000000000'
         ```
     """
-    if work.id.path:
-        return work.id.path.rpartition("/")[2]
-    else:
-        return ""
+    return _get_key(work.id)
 
 
 def get_source_id(source: DehydratedSource | Source) -> str:
@@ -100,7 +102,4 @@ def get_source_id(source: DehydratedSource | Source) -> str:
         # 'S000000000'
         ```
     """
-    if source.id.path:
-        return source.id.path.rpartition("/")[2]
-    else:
-        return ""
+    return _get_key(source.id)

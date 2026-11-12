@@ -1,6 +1,6 @@
 """Sources models from OpenAlex API Schema definition."""
 
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 
 
 class SourceSummaryStats(BaseModel):
@@ -28,7 +28,7 @@ class SourceYearCount(BaseModel):
 class DehydratedSource(BaseModel):
     """Stripped-down Source Model."""
 
-    id: HttpUrl
+    id: str
     """The OpenAlex ID for this source."""
     display_name: str
     """The name of the source."""
@@ -64,7 +64,7 @@ class DehydratedSource(BaseModel):
 class Source(DehydratedSource):
     """Where works are hosted."""
 
-    homepage_url: HttpUrl | None = None
+    homepage_url: str | None = None
     """The homepage for this source's website."""
 
     is_in_doaj: bool

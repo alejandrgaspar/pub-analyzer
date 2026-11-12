@@ -1,7 +1,10 @@
 """Main Report widgets."""
 
 import datetime
+import gc
 import pathlib
+from collections.abc import Iterator
+from contextlib import contextmanager
 from enum import Enum
 from time import time
 from typing import ClassVar
@@ -75,7 +78,7 @@ class ReportWidget(Static):
     async def action_toggle_works(self) -> None:
         """Toggle show empty works attribute."""
         self.show_empty_works = not self.show_empty_works
-        await self.query_one(WorkReportPane).toggle_empty_works()
+        await self.query_one(WorkReportPane).toggle_empty_works(self.show_empty_works)
 
 
 class AuthorReportWidget(ReportWidget):
@@ -289,6 +292,27 @@ class CreateInstitutionReportWidget(CreateReportWidget):
         return InstitutionReportWidget(report=report)
 
 
+@contextmanager
+def paused_gc() -> Iterator[None]:
+    """Pause the garbage collector while creating many objects at once, like when loading a report.
+
+    The collector runs after every few thousand new objects, and its runs regularly go over all
+    the objects alive, so loading the millions of objects of a big report spent most of its time
+    in them.
+
+    Info:
+        Objects not in reference cycles are freed without the collector, so pausing it only
+        delays freeing cycles until it resumes. It stays off if it was off already.
+    """
+    was_enabled = gc.isenabled()
+    gc.disable()
+    try:
+        yield
+    finally:
+        if was_enabled:
+            gc.enable()
+
+
 class LoadReportWidget(Static):
     """Widget report wrapper to load data from disk."""
 
@@ -322,14 +346,14 @@ class LoadReportWidget(Static):
         if not file_path:
             return
 
-        with open(file_path, encoding="utf-8") as file:
-            data = file.read()
-
+        # Pydantic parses the file's bytes directly. Decoded to `str`, they can take up to four times
+        # the size of the file. Read inline, they are freed once parsed, before the report is shown.
         main_content = self.app.query_one(MainContent)
         try:
             match self.entity_handler:
                 case self.EntityType.AUTHOR:
-                    author_report: AuthorReport = TypeAdapter(AuthorReport).validate_json(data)
+                    with paused_gc():
+                        author_report: AuthorReport = TypeAdapter(AuthorReport).validate_json(file_path.read_bytes())
                     author_report_widget = AuthorReportWidget(report=author_report)
                     await main_content.query("*").exclude("#page-title").remove()
 
@@ -337,7 +361,8 @@ class LoadReportWidget(Static):
                     main_content.update_title(title=author_report.author.display_name)
 
                 case self.EntityType.INSTITUTION:
-                    institution_report: InstitutionReport = TypeAdapter(InstitutionReport).validate_json(data)
+                    with paused_gc():
+                        institution_report: InstitutionReport = TypeAdapter(InstitutionReport).validate_json(file_path.read_bytes())
                     institution_report_widget = InstitutionReportWidget(report=institution_report)
                     await main_content.query("*").exclude("#page-title").remove()
 

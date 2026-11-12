@@ -1,18 +1,24 @@
 """Test loading a saved report from a file."""
 
+import gc
+import weakref
 from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import pytest
+from pydantic import TypeAdapter
 from textual.pilot import Pilot
-from textual.widgets import Button, TabbedContent
+from textual.widgets import Button, Tab, TabbedContent
 
 from pub_analyzer.main import PubAnalyzerApp
-from pub_analyzer.models.report import AuthorReport, InstitutionReport
+from pub_analyzer.models.report import AuthorReport, CitationReport, CitationSummary, CitationType, InstitutionReport, WorkReport
 from pub_analyzer.widgets.common import FileSystemSelector
-from pub_analyzer.widgets.report.core import AuthorReportWidget, InstitutionReportWidget, LoadReportWidget, ReportWidget
+from pub_analyzer.widgets.report import core
+from pub_analyzer.widgets.report.core import AuthorReportWidget, InstitutionReportWidget, LoadReportWidget, ReportWidget, paused_gc
+from pub_analyzer.widgets.report.work import WorksTable
 from tests.data.author import AUTHOR
-from tests.data.builders import make_author_report, make_institution_report
+from tests.data.builders import make_author_report, make_institution_report, make_work
 from tests.data.institution import INSTITUTION
 from tests.widgets.helpers import click_when_ready, node_path, open_file_picker, page_title, spy_on_notifications, wait_until
 
@@ -42,6 +48,31 @@ async def choose_file(pilot: Pilot, path: Path) -> None:
     await pilot.press("home", "down", "enter")
     assert await pilot.click("#done-button")
     await pilot.pause()
+
+
+async def load_author_report(pilot: Pilot, path: Path) -> weakref.ref[AuthorReport]:
+    """Load the author report at `path`, which must be the only JSON file in the home directory.
+
+    Returns:
+        Weak reference to the report shown, to tell whether it is freed.
+    """
+    loader = await open_loader(pilot)
+    await choose_file(pilot, path)
+    await click_when_ready(pilot, loader.query_one("#load-report-button", Button))
+    await wait_until(pilot, lambda: bool(pilot.app.query(AuthorReportWidget)))
+
+    return weakref.ref(pilot.app.query(AuthorReportWidget).first().report)
+
+
+def works_listed(pilot: Pilot) -> list[int]:
+    """Return how many works each works table lists."""
+    return [table.row_count for table in pilot.app.query(WorksTable)]
+
+
+async def hide_empty_works(pilot: Pilot) -> None:
+    """Open the Works tab and press ctrl+y, which hides the works without citations."""
+    assert await pilot.click(next(tab for tab in pilot.app.query(Tab) if str(tab.label) == "Works"))
+    await pilot.press("ctrl+y")
 
 
 @pytest.mark.asyncio
@@ -133,3 +164,106 @@ async def test_invalid_report_shows_an_error_and_can_be_retried(home: Path, monk
         assert page_title(app) == report.author.display_name
 
     notify.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_report_that_is_not_utf8_shows_an_error(home: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A report saved in another encoding, here Latin-1, is rejected like any other invalid report."""
+    path = home / "report.json"
+    path.write_bytes(make_author_report().model_dump_json(by_alias=True).encode("latin-1"))
+
+    app = PubAnalyzerApp()
+    notify = spy_on_notifications(app, monkeypatch)
+
+    async with app.run_test(size=(140, 60)) as pilot:
+        loader = await open_loader(pilot)
+        await choose_file(pilot, path)
+        await click_when_ready(pilot, loader.query_one("#load-report-button", Button))
+        await wait_until(pilot, lambda: notify.called)
+
+        assert notify.call_args.kwargs["title"] == "Error loading report!"
+        assert app.query_one(LoadReportWidget) is loader
+        assert not app.query(ReportWidget)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "toggle_empty_works",
+    [pytest.param(False, id="shown"), pytest.param(True, id="after-toggling-empty-works")],
+)
+async def test_closing_a_report_frees_it(toggle_empty_works: bool, home: Path) -> None:
+    """Going to another page frees the report shown, whatever was done with it.
+
+    Reports can take gigabytes of memory, so any reference left behind, like one in the cache
+    Textual keeps of what `app.query_one` finds, adds up with each report loaded.
+    """
+    report = make_author_report()
+    report.works.append(
+        WorkReport(
+            work=make_work("W2", title="Cited work"),
+            cited_by=[CitationReport(work=make_work("W3"), citation_type=CitationType.TypeA)],
+            citation_summary=CitationSummary(type_a_count=1),
+        )
+    )
+    path = home / "report.json"
+    path.write_text(report.model_dump_json(by_alias=True), encoding="utf-8")
+
+    async with PubAnalyzerApp().run_test(size=(140, 60)) as pilot:
+        loaded = await load_author_report(pilot, path)
+
+        if toggle_empty_works:
+            assert works_listed(pilot) == [2]
+            await hide_empty_works(pilot)
+            await wait_until(pilot, lambda: works_listed(pilot) == [1])
+
+        assert await pilot.click("#search-sidebar-button")
+        await wait_until(pilot, lambda: not pilot.app.query(ReportWidget))
+        gc.collect()
+
+        assert loaded() is None
+
+
+@pytest.mark.asyncio
+async def test_loading_pauses_the_garbage_collector(home: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """The report is parsed with the garbage collector paused, and it resumes afterwards."""
+    gc_enabled_while_parsing: list[bool] = []
+
+    class SpyTypeAdapter:
+        """Parse like `TypeAdapter`, recording whether the garbage collector is on."""
+
+        def __init__(self, report_type: type) -> None:
+            self.adapter = TypeAdapter(report_type)
+
+        def validate_json(self, data: bytes) -> Any:
+            gc_enabled_while_parsing.append(gc.isenabled())
+            return self.adapter.validate_json(data)
+
+    monkeypatch.setattr(core, "TypeAdapter", SpyTypeAdapter)
+    path = home / "report.json"
+    path.write_text(make_author_report().model_dump_json(by_alias=True), encoding="utf-8")
+
+    async with PubAnalyzerApp().run_test(size=(140, 60)) as pilot:
+        await load_author_report(pilot, path)
+
+    assert gc_enabled_while_parsing == [False]
+    assert gc.isenabled()
+
+
+def test_paused_gc_resumes_the_collector_after_errors() -> None:
+    """The collector resumes when what ran while it was paused fails, like parsing an invalid report."""
+    with pytest.raises(ValueError), paused_gc():
+        assert not gc.isenabled()
+        raise ValueError
+
+    assert gc.isenabled()
+
+
+def test_paused_gc_leaves_the_collector_off_if_it_was_off() -> None:
+    """Pausing the collector does not turn it on when it was off before."""
+    gc.disable()
+    try:
+        with paused_gc():
+            pass
+        assert not gc.isenabled()
+    finally:
+        gc.enable()
