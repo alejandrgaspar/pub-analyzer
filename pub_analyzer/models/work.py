@@ -6,7 +6,6 @@ from typing import Any
 from pydantic import BaseModel, field_validator
 
 from .author import DehydratedAuthor
-from .concept import DehydratedConcept
 from .source import DehydratedSource
 from .topic import DehydratedTopic
 
@@ -102,8 +101,13 @@ class Keyword(BaseModel):
     score: float
 
 
-class Work(BaseModel):
-    """Work Model Object from OpenAlex API definition."""
+class CitingWork(BaseModel):
+    """Work citing one of a report, with only the fields reports keep for it.
+
+    Reports hold many more citing works than works, so citing works leave out the lists that
+    only the works of the report need, which take most of the memory of big reports.
+    [Work][pub_analyzer.models.work.Work] adds them.
+    """
 
     id: str
     ids: WorkIDs
@@ -117,7 +121,6 @@ class Work(BaseModel):
 
     primary_location: Location | None = None
     best_oa_location: Location | None = None
-    locations: list[Location]
 
     open_access: WorkAccessInfo
     authorships: list[Authorship]
@@ -128,21 +131,11 @@ class Work(BaseModel):
     """
 
     awards: list[Award]
-    keywords: list[Keyword]
-    concepts: list[DehydratedConcept]
-    topics: list[DehydratedTopic]
-
-    referenced_works: list[str]
 
     apc_list: ArticleProcessingCharge | None = None
     """The price as listed by the journal's publisher."""
     apc_paid: ArticleProcessingCharge | None = None
     """APC actually paid by authors."""
-
-    @field_validator("locations", mode="before")
-    def valid_locations(cls, locations: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        """Skip locations that do not contain enough data."""
-        return [location for location in locations if location["landing_page_url"] is not None]
 
     @field_validator("primary_location", "best_oa_location", mode="before")
     def valid_location(cls, location: dict[str, Any]) -> dict[str, Any] | None:
@@ -156,3 +149,18 @@ class Work(BaseModel):
     def valid_authorships(cls, authorships: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Skip authorship's that do not contain enough data."""
         return [authorship for authorship in authorships if authorship["author"].get("id") is not None]
+
+
+class Work(CitingWork):
+    """Work Model Object from OpenAlex API definition."""
+
+    locations: list[Location]
+    keywords: list[Keyword]
+    topics: list[DehydratedTopic]
+
+    referenced_works: list[str]
+
+    @field_validator("locations", mode="before")
+    def valid_locations(cls, locations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Skip locations that do not contain enough data."""
+        return [location for location in locations if location["landing_page_url"] is not None]

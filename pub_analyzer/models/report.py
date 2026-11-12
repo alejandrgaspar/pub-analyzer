@@ -2,12 +2,12 @@
 
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 from .author import Author
 from .institution import Institution
 from .source import Source
-from .work import OpenAccessStatus, Work
+from .work import CitingWork, OpenAccessStatus, Work
 
 
 class CitationType(Enum):
@@ -20,8 +20,20 @@ class CitationType(Enum):
 class CitationReport(BaseModel):
     """Cited by Works with stats."""
 
-    work: Work
+    work: CitingWork
     citation_type: CitationType
+
+    @field_validator("work")
+    @classmethod
+    def keep_citing_work_fields(cls, work: CitingWork) -> CitingWork:
+        """Keep only the fields of a citing work, when given a whole [Work][pub_analyzer.models.work.Work].
+
+        Its fields were validated as part of the work, so they are not validated again.
+        """
+        if type(work) is CitingWork:
+            return work
+
+        return CitingWork.model_construct(**{field: getattr(work, field) for field in CitingWork.model_fields})
 
 
 class CitationSummary(BaseModel):

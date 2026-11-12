@@ -29,7 +29,6 @@ from pub_analyzer.widgets.report.cards import (
 from pub_analyzer.widgets.report.editor import EditWidget
 from pub_analyzer.widgets.report.grants import AwardsTable
 
-from .concept import ConceptsTable
 from .locations import LocationsTable
 from .topic import TopicsTable
 
@@ -260,12 +259,6 @@ class WorkModal(Modal[None]):
                         yield CitedByTable(citations_list=self.work_report.cited_by)
                     else:
                         yield Label("No works found.")
-                # Concepts Table
-                with TabPane("Concepts"):
-                    if len(self.work_report.work.concepts):
-                        yield ConceptsTable(self.work_report.work.concepts)
-                    else:
-                        yield Label("No Concepts found.")
                 # Awards Table
                 with TabPane("Awards"):
                     if len(self.work_report.work.awards):

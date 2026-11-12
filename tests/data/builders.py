@@ -134,7 +134,6 @@ def make_work(
         "cited_by_count": cited_by_count,
         "awards": [],
         "keywords": [],
-        "concepts": [],
         "topics": [],
         "referenced_works": [],
     }

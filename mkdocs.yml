@@ -107,7 +107,6 @@ nav:
           - "api/internal/report.md"
       - Models:
           - "api/models/author.md"
-          - "api/models/concept.md"
           - "api/models/institution.md"
           - "api/models/report.md"
           - "api/models/source.md"

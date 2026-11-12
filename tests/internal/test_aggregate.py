@@ -6,7 +6,7 @@ from pub_analyzer.internal.report import aggregate
 from pub_analyzer.models.author import DehydratedAuthor
 from pub_analyzer.models.report import CitationType
 from pub_analyzer.models.source import Source
-from pub_analyzer.models.work import Authorship, OpenAccessStatus
+from pub_analyzer.models.work import Authorship, CitingWork, OpenAccessStatus
 from tests.data.builders import make_location, make_work
 from tests.data.source import SOURCE
 
@@ -61,6 +61,7 @@ def test_build_work_report_classifies_citations() -> None:
     assert work_report.citation_summary.type_a_count == 2
     assert work_report.citation_summary.type_b_count == 1
     assert work_report.work.id == work.id
+    assert [type(citation.work) for citation in work_report.cited_by] == [CitingWork] * 3
 
 
 def test_build_work_report_without_citations() -> None:
